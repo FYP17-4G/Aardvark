@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Transpose {
-    private static String ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyz01234567890";
 
     public static void main(String[] args) {
         List<List <Character>> grid = new ArrayList<>();
@@ -81,11 +80,6 @@ public class Transpose {
         //sort key by value of key.first
         key.sort(Comparator.comparingInt(lhs -> lhs.first));
 
-//        for (mPair k: key) {
-//            System.out.println("k.first = " + k.first);
-//            System.out.println("k.second = " + k.second);
-//        }
-
         //swap rows
         int temp;
         for (mPair k : key) {
@@ -113,8 +107,6 @@ public class Transpose {
 
             output.add(newRow);
         }
-
-//        System.out.println(output);
 
         return output;
     }
@@ -154,6 +146,7 @@ public class Transpose {
     }
 
     private static Character randomAlphaNumeric () {
+        String ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyz01234567890";
         Integer random = (int) (Math.random() * (ALPHANUMERIC.length()));
         return ALPHANUMERIC.charAt(random);
     }
