@@ -1,20 +1,18 @@
+import mUtil.Utility;
 import mUtil.mPair;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Transpose {
     private static String ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyz01234567890";
 
     public static void main(String[] args) {
         List<List <Character>> grid = new ArrayList<>();
-        String preKey = removeDuplicates("kesiceincieny");
+        String preKey = removeDuplicates("kesiceincieny"); //replace with getString()
         List <mPair <Character, Integer>> key = new ArrayList<>();
 
         for (int i = 0; i < preKey.length(); ++i) {
@@ -27,34 +25,98 @@ public class Transpose {
         System.out.println("plaintext = " + plaintext);
 
         plaintext = process(plaintext, key.size());
-        grid = encrypt(plaintext, key);
+
+        Utility.line('~', 30, "String");
+        grid = encrypt(plaintext, key, grid);
+
+        StringBuilder output = new StringBuilder();
+        for (List <Character> tRow: grid) {
+            for (Character ch: tRow) {
+                output.append(ch);
+            }
+        }
+
+        System.out.println("output = " + output + "\n");
+
+        Utility.line('~', 30, "Grid");
         for (List<Character> row: grid) {
             System.out.println(row);
         }
+
     }
 
     private static List<List<Character>> encrypt (String plaintext,
-                           List <mPair <Character, Integer>> key) {
+                                   List <mPair <Character, Integer>> key,
+                                   List<List <Character>> cipher) {
         int maxCols = key.size();
-        List<List <Character>> cipher = new ArrayList<>();
-        System.out.println("maxCols = " + maxCols);
         int right = 0;
 
+        //populate grid
         List<Character> row = new ArrayList<>(maxCols);
         for (Character c: plaintext.toCharArray()) {
             row.add(c);
             ++right;
 
             if (right == maxCols) {
-                System.out.println(row);
+//                System.out.println(row);
                 cipher.add(row);
                 right = 0;
                 row = new ArrayList<>(maxCols);
             }
         }
 
-//        System.out.println("cipher.size() = " + cipher.size());
-        return cipher;
+        //Mix columns
+       cipher = mixColumns(cipher, key);
+
+        //flip and output
+        return flip(cipher);
+    }
+
+    private static List<List<Character>> mixColumns (List<List<Character>> input,
+                                                     List <mPair <Character, Integer>> key) {
+        //rotate table 90 anti-clockwise
+        List<List<Character>> tempOut = flip(input);
+        List<List<Character>> output = new ArrayList<>(tempOut.size());
+
+        //sort key by value of key.first
+        key.sort(Comparator.comparingInt(lhs -> lhs.first));
+
+//        for (mPair k: key) {
+//            System.out.println("k.first = " + k.first);
+//            System.out.println("k.second = " + k.second);
+//        }
+
+        //swap rows
+        int temp;
+        for (mPair k : key) {
+            temp = (int)k.second;
+//            System.out.println(key.get(i).second);
+            output.add(tempOut.get(temp));
+        }
+
+        //rotate table 90 clockwise
+        return flip(output);
+    }
+
+    private static List<List<Character>> flip(List<List<Character>> input) {
+        List<List<Character>> output = new ArrayList<>();
+        List<Character> newRow;
+
+        int maxCols = input.get(0).size();
+
+        for (int i = 0; i < maxCols; ++i) {
+            newRow = new ArrayList<>();
+
+            for (List<Character> row : input) {
+                newRow.add(row.get(i));
+            }
+
+            output.add(newRow);
+        }
+
+//        System.out.println(output);
+
+        return output;
     }
 
     private static String removeDuplicates (String in) {
