@@ -1,0 +1,10 @@
+7 December 2017
+---------------
+# The front page works as intended. Need polishing
+# onTouch listener works as intended, bg colour changed on click
+# Display test feedback message (Snackbar) works, and System.out.println as well, just don't forget to delete these lines (see TODO list)
+# Each recycler element is assigned a unique ID and title, use this as composite key later to fetch relevant data
+
+# Work out how to add new project directory on (+) icon click (see TODO list)
+# Do the individual project view activity, display relevant title and id in the page, just hardcode the rest
+# Figure out how to use the navigation menu
