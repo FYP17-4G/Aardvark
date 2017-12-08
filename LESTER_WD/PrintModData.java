@@ -69,19 +69,21 @@ public class PrintModData {
         //So total there will be dataLength/noOfChar blocks of data
         for(int k = 0; k < this.modifiedData.length()/(noOfChar*inBlocksOf); k++){
 
-            System.out.println("test");
+            System.out.println("Row: " + (k+1));//TEST
 
             //Print how many blocks at once
             for(int j = 0; j < inBlocksOf; j++) {
-                System.out.print("blocks of");
+                System.out.print("Block: " + (j+1) + "[");//TEST
 
                 //Print noOfChar at once
                 for (int i = 0; i < noOfChar; i++) {
-                    System.out.print("data ");
+                    System.out.print("Char " + (i+1));//TEST
                     System.out.print(this.modifiedData.subSequence(startIndex, noOfChar) + " ");
-                    System.out.print("yo");
+                    System.out.print("yo");//TEST
                     startIndex = noOfChar;
                 }
+
+                System.out.print("]");
             }
 
             //Newline to split rows
