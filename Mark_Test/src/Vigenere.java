@@ -44,12 +44,19 @@ public class Vigenere {
         key = key.replaceAll("[^a-zA-Z0-9]", "");
         StringBuilder out = new StringBuilder();
         int position = 0;
+
         for (Character c: plaintext.toCharArray()) {
-            if (position > (key.length() - 1)) {
+//            System.out.println("key.charAt(position) = " + key.charAt(position));
+
+            if (position >= (key.length())) {
                 position = 0;
             }
-            
-            out.append(encryptOne(c, key.charAt(position++)));
+
+            if (Character.isAlphabetic(c)) {
+                out.append(encryptOne(c, key.charAt(position++)));
+            } else {
+                out.append(c);
+            }
         }
 
         return out.toString();
@@ -60,11 +67,15 @@ public class Vigenere {
         StringBuilder out = new StringBuilder();
         int position = 0;
         for (Character c: ciphertext.toCharArray()) {
-            if (position > (key.length() - 1)) {
+            if (position >= (key.length())) {
                 position = 0;
             }
 
-            out.append(decryptOne(c, key.charAt(position++)));
+            if (Character.isAlphabetic(c)) {
+                out.append(decryptOne(c, key.charAt(position++)));
+            } else {
+                out.append(c);
+            }
         }
 
         return out.toString();
