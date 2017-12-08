@@ -32,7 +32,6 @@ public class PrintModData {
         int inBlocksOf = scanner.nextInt();
 
         printModData.print(noOfChar, inBlocksOf);
-
     }
 
     //Default Constructor
@@ -62,38 +61,66 @@ public class PrintModData {
     }
 
     //Function to print modifiedData with row/column specifications
-    public void print(int noOfChar, int inBlocksOf){
+    private void print (int noOfChar, int inBlocksOf) {
+        String data = this.modifiedData;
+        //Removes all characters other than A-Za-z0-9
+        data = data.replaceAll("[^A-Za-z0-9]", "");
+        int charCounter = 0;
+        int blockCounter = 0;
 
-        int startIndex = 0;
+        //Loop the modifiedData and print character by character
+        for (Character c: data.toCharArray()) {
+            System.out.print(c);
+            ++charCounter;
 
-        //So total there will be dataLength/noOfChar blocks of data
-        for(int k = 0; k < this.modifiedData.length()/(noOfChar*inBlocksOf); k++){
-
-//            System.out.println("Row: " + (k+1));//TEST
-
-            //Print how many blocks at once
-            for(int j = 0; j < inBlocksOf; j++) {
-//                System.out.print("Block: " + (j+1) + "[");//TEST
-
-                //Print noOfChar at once
-                for (int i = 0; i < noOfChar; i++) {
-//                    System.out.print("Char " + (i+1));//TEST
-                    System.out.print(this.modifiedData.subSequence(startIndex, startIndex+noOfChar) + " ");
-//                    System.out.print("yo");//TEST
-                    startIndex = startIndex + noOfChar;
-                }
-
-//                System.out.print("]");
+            //If charCounter hits noOfChar, reset it
+            if (charCounter >= noOfChar) {
+                System.out.print(" ");
+                charCounter = 0;
+                ++blockCounter;
             }
 
-            //Newline to split rows
-            System.out.println("\n");
+            //If blockCounter hits inBlocksOf, reset it
+            if (blockCounter >= inBlocksOf) {
+                //Moves to new row
+                System.out.println();
+                blockCounter = 0;
+            }
         }
-
-
-
-
     }
+
+//    public void print(int noOfChar, int inBlocksOf){
+//
+//        int startIndex = 0;
+//
+//        //So total there will be dataLength/noOfChar blocks of data
+//        for(int k = 0; k < this.modifiedData.length()/(noOfChar*inBlocksOf); k++){
+//
+////            System.out.println("Row: " + (k+1));//TEST
+//
+//            //Print how many blocks at once
+//            for(int j = 0; j < inBlocksOf; j++) {
+////                System.out.print("Block: " + (j+1) + "[");//TEST
+//
+//                //Print noOfChar at once
+//                for (int i = 0; i < noOfChar; i++) {
+////                    System.out.print("Char " + (i+1));//TEST
+//                    System.out.print(this.modifiedData.subSequence(startIndex, startIndex+noOfChar) + " ");
+////                    System.out.print("yo");//TEST
+//                    startIndex = startIndex + noOfChar;
+//                }
+//
+////                System.out.print("]");
+//            }
+//
+//            //Newline to split rows
+//            System.out.println("\n");
+//        }
+//
+//
+//
+//
+//    }
 
 //    //Breaks the modifiedData inBlocks of noOfChars
 //            for(int i = 0; i < inBlocksOf; i++){
