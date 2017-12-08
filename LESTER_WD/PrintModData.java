@@ -4,48 +4,46 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class SubstituteChar {
+public class PrintModData {
 
     //Private variables
     private String originalData; //Preserve original data
     private String modifiedData; //Modification data
 
-    //To test functionality
+    //For testing purposes
     public static void main(String[] args) {
-
         //Get user to input the data file name
-        System.out.print("Enter the input file name: ");
+//        System.out.print("Enter the input file name: ");
         Scanner scanner = new Scanner(System.in);
-        String fileName = scanner.nextLine();
-        //scanner.close();
+//        String fileName = scanner.nextLine();
 
-        //Invoke the constructor with the file name
-        SubstituteChar subChar = new SubstituteChar(fileName);
-        System.out.println(subChar.originalData);//TEST
-        //Define a modifiedData for modification, so as to preserve the original data
-        subChar.setModifiedData(subChar.originalData);
+        //Invoke the constructor with filename
+        PrintModData printModData = new PrintModData("HELLO.TXT");
 
+        //Define a modifiedData for modification purposes, to preserve original data
+        printModData.setModifiedData(printModData.originalData);
+        //Print a normal modified string
+        printModData.print();
 
-        while(true){
-            subChar.substitute();
-            subChar.print();
-        }
+        //Print a customized modified string
+        System.out.print("Enter number of characters: ");
+        int noOfChar = scanner.nextInt();
+        System.out.print("Enter period: ");
+        int inBlocksOf = scanner.nextInt();
+
+        printModData.print(noOfChar, inBlocksOf);
 
     }
 
     //Default Constructor
-    public SubstituteChar(){
+    public PrintModData(){
 
     }
-    //Secondary constructor
-    public SubstituteChar(String fileName){
+
+    //Secondary Constructor
+    public PrintModData(String fileName){
         //When the object is created, original data will be initialized
         setOriginalData(readFile(fileName));
-    }
-
-    //Function to print modifiedData
-    public void print(){
-        System.out.println(this.modifiedData);
     }
 
     //Function to set originalData
@@ -58,25 +56,48 @@ public class SubstituteChar {
         this.modifiedData = data;
     }
 
-    //Function to substitute character
-    public void substitute(){
+    //Function to print modifiedData
+    public void print(){
+        System.out.println(this.modifiedData);
+    }
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter character to be replaced: ");
-        //Grab the first character of the input, assuming there's no input validation
-        char ch1 = scanner.next().charAt(0);
-        //Grab the first character of the input, assuming there's no input validation
-        System.out.print("Enter character to replace with: ");
-        char ch2 = scanner.next().charAt(0);
+    //Function to print modifiedData with row/column specifications
+    public void print(int noOfChar, int inBlocksOf){
 
-        //Convert everything to lowercase
-        modifiedData.toLowerCase();
-        ch1 = Character.toLowerCase(ch1);
-        ch2 = Character.toLowerCase(ch2);
+        int startIndex = 0;
 
-        setModifiedData(modifiedData.replace(ch1, ch2));
+        //So total there will be dataLength/noOfChar blocks of data
+        for(int k = 0; k < this.modifiedData.length()/(noOfChar*inBlocksOf); k++){
+
+            System.out.println("test");
+
+            //Print how many blocks at once
+            for(int j = 0; j < inBlocksOf; j++) {
+                System.out.print("blocks of");
+
+                //Print noOfChar at once
+                for (int i = 0; i < noOfChar; i++) {
+                    System.out.print("data ");
+                    System.out.print(this.modifiedData.subSequence(startIndex, noOfChar) + " ");
+                    System.out.print("yo");
+                    startIndex = noOfChar;
+                }
+            }
+
+            //Newline to split rows
+            System.out.println("\n");
+        }
+
+
+
 
     }
+
+//    //Breaks the modifiedData inBlocks of noOfChars
+//            for(int i = 0; i < inBlocksOf; i++){
+//        System.out.println(this.modifiedData.subSequence(0, noOfChar) + " ");
+//    }
+//            System.out.println("\n");
 
     //Function to read in a file
     public static String readFile(String fileName){
