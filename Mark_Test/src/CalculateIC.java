@@ -30,7 +30,7 @@ public class CalculateIC {
             int counter = 1;
             for (Double ic: ICs) {
                 if (ICs.size() > 1)
-                    System.out.println("IC " + counter++ + " = " + ic);
+                    System.out.println("IC = " + ic);
                 else
                     System.out.println("IC " + counter++ + " = " + ic);
             }
@@ -56,7 +56,7 @@ public class CalculateIC {
     private static double getIC (String data) {
         int[] counts = new int[26];
         Arrays.fill(counts, 0);
-        
+
         int index, totalChars = 0;
         double numer = 0.0, denom;
         data = data.toLowerCase();
