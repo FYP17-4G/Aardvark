@@ -12,7 +12,6 @@ public final class Utility {
         System.out.print(prompt + ": ");
 
         String o = sc.nextLine();
-        sc.close();
         return o;
     }
     public static Integer getInt(String prompt, int max) {
@@ -36,7 +35,6 @@ public final class Utility {
                 success = false;
         } while (!success);
 
-        sc.close();
         return input;
     }
     public static Double getDouble(String prompt) {
@@ -64,13 +62,12 @@ public final class Utility {
     }
 
     //display a menu, returns a userChoice
-    public static Integer menuOption (String prompt, String[] options, String menuName) {
+    public static Integer simpleMenu (String prompt, String[] options, String menuName) {
         line ('~', 30, menuName);
         for (int i = 1; i <= options.length; ++i) {
             System.out.println(i + ") " + options[i - 1]);
         }
 
-        sc.close();
         return getInt("Select an option: ", options.length);
     }
 
