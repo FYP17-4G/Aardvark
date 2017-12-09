@@ -7,67 +7,65 @@ public class Transpose
     {
     }
 
-//the padding will be deleted later during decryption  !!!!!!
 private String padding(String s, String key)
   {
     String a = s;
 
     while((a.length() % key.length()) != 0)
-      {
-        a += paddingCharacter; //add padding
-      }
+      {a += paddingCharacter;} //add padding
 
     return a;
   }
 
 public String encypher(String pText, String key)
   {
+    //Call padding function to match with the length of the key
     pText = padding(pText, key);
 
     String cipherText = new String();
 
-    int keyLength = key.length();
-    int plainLength = pText.length();
+    int keyLen = key.length();
+    int plainLen = pText.length();
 
-    for(int i = 0; i < plainLength; i += keyLength) // i = ptext pointer, j = key pointer
+    for(int i = 0; i < plainLen; i += keyLen) // i = ptext pointer, j = key pointer
       {
-        String subCipher = pText.substring(i, i + keyLength);
+        String subStr = pText.substring(i, i + keyLen);
 
-        for(int j = 0; j < keyLength; j++)
+        for(int j = 0; j < keyLen; j++)
           {
             int idx = Character.getNumericValue(key.charAt(j));
-            cipherText += subCipher.charAt(idx - 1);
+            cipherText += subStr.charAt(idx - 1);
           }
       }
 
     return cipherText;
   }
 
-//TODO (22)  do the decypher
-//THE OUTPUT IS STILL NOT CORRECT!!!
+//Do the decypher
 public String decipher(String cText, String key)
   {
-    String decipheredText = cText;
+    String dText = new  String();
 
     int cipherLen = cText.length();
     int keyLen = key.length();
 
     for(int i = 0; i < cipherLen; i+= keyLen)
       {
-        String subCipher = cText.substring(i, i + keyLen);
+        String subStr = cText.substring(i, i + keyLen);
+        char[] chars = subStr.toCharArray();
 
         for(int j = 0; j < keyLen; j++)
           {
-            int idx = Character.getNumericValue(key.charAt(j));
-            char c = cText.charAt(j);
-
-            char[] chars = decipheredText.toCharArray();
-            chars[idx - 1] = c;
-            decipheredText = new String(chars);
+            int idx = Character.getNumericValue(key.charAt(j));//get numeric value in the key of specified index
+            chars[idx - 1] = cText.charAt(i + j);
           }
+        subStr = new String(chars);
+        dText += subStr;
       }
+  //REMOVE THE PADDING BEFORE RETURNING
+  dText = dText.replaceAll("\\*", "");
 
-  return decipheredText;
+  return dText;
   }
 }
 
