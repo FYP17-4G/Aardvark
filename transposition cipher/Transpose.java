@@ -47,7 +47,7 @@ public String encypher(String pText, String key)
 //THE OUTPUT IS STILL NOT CORRECT!!!
 public String decipher(String cText, String key)
   {
-    String dText = new  String();
+    String decipheredText = cText;
 
     int cipherLen = cText.length();
     int keyLen = key.length();
@@ -55,20 +55,19 @@ public String decipher(String cText, String key)
     for(int i = 0; i < cipherLen; i+= keyLen)
       {
         String subCipher = cText.substring(i, i + keyLen);
-        char[] chars = subCipher.toCharArray();
 
         for(int j = 0; j < keyLen; j++)
           {
-            int idx = Character.getNumericValue(key.charAt(j));//get numeric value in the key
-            chars[idx - 1] = cText.charAt(i + j);
-          }
-        subCipher = new String(chars);
-        dText += subCipher;
-      }
-  //TODO(33) REMOVE THE PADDING BEFORE RETURNING WHY THE HELL DOESNT IT WORK
-  dText = dText.replaceAll("\\*", "");
+            int idx = Character.getNumericValue(key.charAt(j));
+            char c = cText.charAt(j);
 
-  return dText;
+            char[] chars = decipheredText.toCharArray();
+            chars[idx - 1] = c;
+            decipheredText = new String(chars);
+          }
+      }
+
+  return decipheredText;
   }
 }
 
