@@ -24,26 +24,30 @@ public class Krypto {
 
             switch (params[0]) {
                 case "i": {
-                    int period;
-                    try {
-                        if (params.length < 2) throw new NumberFormatException();
-                        period = Integer.parseInt(params[1]);
-                    } catch (NumberFormatException ne) {
-                        period = 1;
-                    }
-                    
-                    ArrayList<Double> ICs = getIC(period, ORIGINAL_DATA);
-
-                    int counter = 1;
-                    for (Double ic: ICs) {
-                        if (ICs.size() > 1)
-                            System.out.println("IC = " + ic);
-                        else
-                            System.out.println("IC " + counter++ + " = " + ic);
-                    }
+                    indexOfCoincidence(params);
                 }
             }
         } while (!response.equals ("q"));
+    }
+
+    private static void indexOfCoincidence (String[] params) {
+        int period;
+        try {
+            if (params.length < 2) throw new NumberFormatException();
+            period = Integer.parseInt(params[1]);
+        } catch (NumberFormatException ne) {
+            period = 1;
+        }
+
+        ArrayList<Double> ICs = getIC(period, ORIGINAL_DATA);
+
+        int counter = 1;
+        for (Double ic: ICs) {
+            if (ICs.size() > 1)
+                System.out.println("IC = " + ic);
+            else
+                System.out.println("IC " + (counter++) + " = " + ic);
+        }
     }
 
     //get IC for a bunch of data, reading from every nth letter.
