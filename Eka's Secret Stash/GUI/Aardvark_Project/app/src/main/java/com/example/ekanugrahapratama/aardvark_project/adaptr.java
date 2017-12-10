@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.graphics.Color;
+import android.content.Intent;
 
 /*
 * NOTE:
@@ -68,11 +69,18 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
             private String title;
             private int idx; //entry index in the recycler component
 
+            //this will get the context from the caller of this class (in this case is the main activity)
+            //this way we can start a new activity which is connected to the caller via the Manifest
+            Context context;
+
+
             //@constructor
             public viewHolder(View itemView)
                 {
                     super(itemView);
                     itemContent = (TextView)itemView.findViewById(R.id.listContent); //the ID of the element can be found in front_page_item_content
+
+                    context = itemView.getContext();
 
                     itemView.setOnTouchListener(adapterTouchListener);
                 }
@@ -100,19 +108,31 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
 
                             //TODO(98) Change background color on click, revert color back on release (see the conditional statement after this one)
                             view.setBackgroundColor(Color.GRAY);
+                        }
+                    else if(event.getAction() == MotionEvent.ACTION_UP)
+                        {
+                            view.setBackgroundColor(Color.WHITE);
 
                             //TODO(99) Delete these 2 lines later
                             //displays snackbar popup for confirmation, DELETE THESE 2 lines later!!
                             Snackbar.make(view, "you clicked "+title+"(ID: "+id+")", Snackbar.LENGTH_LONG).show();
                             System.out.println("THIS MEANS BUTTON CLICK IS WORKING >>>> " + title);
-                        }
-                    else if(event.getAction() == MotionEvent.ACTION_UP)
-                        {
-                            view.setBackgroundColor(Color.WHITE);
+
+                            //TODO(100) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
+                            launchProjectView(id+title);
+
                         }
 
                 return true;
                 }
             };
+
+            private void launchProjectView(String newActivityParams)//put the passed value as parameter
+                {
+                    //start a new activity, and passes some variables >>> H(project ID | project Title)
+                    Intent intent = new Intent(context, projectView.class);
+                    intent.putExtra("project_view_params", newActivityParams);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
+                    context.startActivity(intent);
+                }
         }
 }

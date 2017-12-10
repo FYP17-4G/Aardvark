@@ -19,7 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".projectView"></activity>
+        <activity android:name=".projectView"
+            android:label="@string/projectView_name"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ekanugrahapratama.aardvark_project.MainActivity">
+            </meta-data>
+
+        </activity>
     </application>
 
 </manifest>

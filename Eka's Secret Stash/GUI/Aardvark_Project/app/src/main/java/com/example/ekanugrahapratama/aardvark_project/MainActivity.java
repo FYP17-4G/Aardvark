@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity
     private adaptr adapter;
     private RecyclerView list; //the 'array' of project list
 
+
+
+
+    //TODO(999) FIGURE OUT HOW TO USE SHIFT CIPHER
+
     //TODO(0)Replace String data type of this array list to a struct like class containing ID:int and title:String
     private ArrayList<frontPageIdentifier> projectTitle = new ArrayList();
 

@@ -1,6 +1,8 @@
 //THIS IS THE CORE FUNCTION FOR KRYPTO
 //Shift \ Caesar Cipher
 
+//the class takes in args[0] -e to encrypt and -d to decrypt
+
 package com.example.ekanugrahapratama.aardvark_project;
 
 import java.io.*;
@@ -45,8 +47,12 @@ public class ShiftCipher {
 //        System.out.println("output = " + output);
     }*/
 
+    public ShiftCipher()
+        {}
+
     //encrypt / decrypt
-    public static void shift (String fIn, String fOut,  Integer offset) {
+    public void Shift (String fIn, String fOut,  Integer offset)
+    {
         File input = new File(fIn);
         File output = new File(fOut);
         BufferedReader reader;
