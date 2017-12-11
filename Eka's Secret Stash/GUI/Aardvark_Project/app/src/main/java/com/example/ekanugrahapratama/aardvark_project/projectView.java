@@ -14,9 +14,9 @@ public class projectView extends AppCompatActivity {
 
         //ACCESS THE PASSED PARAMETERS FROM adaptr.java
         //COUT IT AS A TEST
-        String passedValue = getIntent().getStringExtra("project_view_params");
-        System.out.println("Passed Value: " + passedValue);
-        TextView tv = (TextView) findViewById(R.id.textViewTest);
-        tv.setText(passedValue);
+        //String passedValue = getIntent().getStringExtra("project_view_params");
+        //System.out.println("Passed Value: " + passedValue);
+        //TextView tv = (TextView) findViewById(R.id.textViewTest);
+        //tv.setText(passedValue);
     }
 }
