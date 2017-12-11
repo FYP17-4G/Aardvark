@@ -122,6 +122,10 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                             launchProjectView(id+title);
 
                         }
+                    else
+                        {
+                            view.setBackgroundColor(Color.WHITE);
+                        }
 
                 return true;
                 }

@@ -3,6 +3,7 @@ package com.example.ekanugrahapratama.aardvark_project;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import java.io.BufferedReader;
 
 public class projectView extends AppCompatActivity {
 
@@ -18,5 +19,8 @@ public class projectView extends AppCompatActivity {
         //System.out.println("Passed Value: " + passedValue);
         //TextView tv = (TextView) findViewById(R.id.textViewTest);
         //tv.setText(passedValue);
+
+        //TODO(111) get content from HARDCODED text file, dont forget to change this when the database is up
+
     }
 }

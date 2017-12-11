@@ -1,9 +1,12 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.InputType;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,14 +17,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
+import android.content.res.AssetManager;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-
-import android.content.res.AssetManager;
 import java.io.BufferedReader;
-
+import java.io.BufferedWriter;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     private adaptr adapter;
     private RecyclerView list; //the 'array' of project list
 
+    //this is the text file where the project list contents are stored. The contents will be used by recycler view in the main menu
+    private String projectDirectoryFileName = "projectDirectory.txt";
 
 
 
@@ -46,26 +55,28 @@ public class MainActivity extends AppCompatActivity
         //RECYCLER HERE---------------------
         //fill in the projectTitle
         //TODO(1) Fill in the project title container with ID||Title from list.txt file
-        AssetManager assetManager = getAssets();//this will reference all data from reference
 
         BufferedReader fileIn;
 
+        //get the contents for the recycler view
         try
         {
-            //this opens the specified file in 'assets' folder.
-            fileIn = new BufferedReader(new InputStreamReader(getAssets().open("list.txt")));
+            FileInputStream fis = openFileInput(projectDirectoryFileName);
+            fileIn = new BufferedReader(new InputStreamReader(fis));
 
             String line;
-            String[] part;//use this variable when splitting 'line'
+            String[] substr;//use this variable when splitting 'line'
 
             while((line = fileIn.readLine()) != null)
             {
                 //process the line
-                part = line.split("\\|\\|");
+                substr = line.split("\\|\\|");
 
-                frontPageIdentifier fpi = new frontPageIdentifier(part[0], part[1]);
+                frontPageIdentifier fpi = new frontPageIdentifier(substr[0], substr[1]);
                 projectTitle.add(fpi);
             }
+
+            fileIn.close();
         }catch(IOException e){}
 
         //TODO(2) Use encryption to secure list.txt <<<<<<<<<<<<<< IMPORTANTER
@@ -93,8 +104,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                createNewProject();
             }
         });
 
@@ -164,4 +174,64 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void createNewProject()
+        {
+
+            //build popup dialogue
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Create new project");
+
+            //set up the input field
+            final EditText inputText = new EditText(this);
+            inputText.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(inputText);
+
+            //set up positive button
+            builder.setPositiveButton("Create", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    String newProjectTitle = inputText.getText().toString();
+                    writeToList(newProjectTitle);
+                    adapter.notifyDataSetChanged();//refresh the adapter
+                }
+            });
+
+            //set up negative button
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    dialogInterface.cancel();
+                }
+            });
+
+            builder.show();
+        }
+
+    private void writeToList(String newProjectTitle)
+        {
+            //add the new project into the arrayList
+            frontPageIdentifier newProject = new frontPageIdentifier(Integer.toString(new Random().nextInt(999)+1), newProjectTitle);
+            projectTitle.add(newProject);
+
+            //overwrite list.txt
+            BufferedWriter outputFile;
+
+            String newID = newProject.getID();
+            String newTitle = newProject.getTitle();
+
+            try
+                {
+                    FileOutputStream fos = openFileOutput(projectDirectoryFileName, MODE_APPEND);
+                    outputFile = new BufferedWriter(new OutputStreamWriter(fos));
+                    outputFile.write(newID + "||" + newTitle+"\n");
+                    outputFile.close();
+                }catch(IOException e)
+                    {}
+
+        }
 }
