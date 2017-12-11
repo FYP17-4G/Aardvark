@@ -1,0 +1,4 @@
+#Tue Dec 05 21:11:52 AEDT 2017
+base.0=/Users/ekanugrahapratama/Documents/Aardvark_Project/app/build/intermediates/transforms/dexMerger/debug/2
+path.0=classes.dex
+renamed.0=classes.dex

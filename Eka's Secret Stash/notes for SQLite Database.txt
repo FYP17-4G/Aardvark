@@ -1,0 +1,20 @@
+[Columns needed for SQLite database]
+
+//idk how many the size of var char is. ID is a product of H(Salt|Project Title). Where H is some hash function, and both Salt and Project Title can be obtained from "ProjectTitleList.txt"
+//"ProjectTitleList.txt" file is encrypted using a stream cipher.
+-> _ID VARCHAR(30) Not Null
+
+//cipherFile contains the .txt file name that contains the cipher text to be cracked for that specific ID.
+-> cipherFile VARCHAR(30) Not Null Default = ciphers/H(salt|_ID)+".txt"
+
+//Contains the "log" text file name that stores the record of what the user has done to the cipherFile (and may store the state of the cipher text before and after change)
+//determine the format of log.txt later
+-> logFile VARCHAR(30) Not Null Default = logfile/H(salt|_ID)+".txt"
+
+//Contains the filename of the user's notes
+-> UserNotesFile VARCHAR(30)
+
+//A flag to determine if the user marked the cipher text as broken or not
+-> Completed Boolean Not Null Default = False
+
+<....>
