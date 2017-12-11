@@ -3,7 +3,14 @@ package com.example.ekanugrahapratama.aardvark_project;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.graphics.Color;
 import android.content.Intent;
+import android.widget.ImageButton;
 
 /*
 * NOTE:
@@ -61,9 +69,11 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
             return projectTitle.size();
         }
 
+    //this is the item inside the recycler view
     class viewHolder extends RecyclerView.ViewHolder
         {
             TextView itemContent; //this displays the project title, TextView is an xml element
+            ImageButton deleteButton;
 
             private String id;
             private String title;
@@ -79,10 +89,12 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                 {
                     super(itemView);
                     itemContent = (TextView)itemView.findViewById(R.id.listContent); //the ID of the element can be found in front_page_item_content
+                    deleteButton = (ImageButton)itemView.findViewById(R.id.itemDelete);
 
                     context = itemView.getContext();
 
-                    itemView.setOnTouchListener(adapterTouchListener);
+                    itemContent.setOnTouchListener(adapterTouchListener);
+                    deleteButton.setOnClickListener(deleteButtonListener);
                 }
 
             //this function will be called by member of interface onBindViewHolder from recycler extension
@@ -95,6 +107,46 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                     this.title = projectTitle.get(idx).getTitle();
                     this.idx = idx;
                 }
+
+            private final View.OnClickListener deleteButtonListener = new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                    {
+                    //delete the associated item from list.txt
+                        String projectDirectoryFileName = "projectDirectory.txt";
+
+                        try
+                            {
+                                FileOutputStream fos = context.openFileOutput(projectDirectoryFileName, Context.MODE_PRIVATE);
+                                BufferedWriter output = new BufferedWriter(new OutputStreamWriter(fos));
+
+                                for(int i = 0; i < projectTitle.size(); i++)
+                                    {
+                                        String tempID = projectTitle.get(i).getID();
+                                        String tempTitle = projectTitle.get(i).getTitle();
+
+                                        String tmp = tempID + "||" + tempTitle;
+                                        if(tmp.equals(id + "||" + title))
+                                            {
+                                            projectTitle.remove(i);
+
+                                            //TODO(101) ONCE THE DATABASE IS UP, DELETE THE ASSOCIATED DATA OF THIS ITEM
+                                            //<...>
+                                            }
+                                        else
+                                            {
+                                                output.write(tempID + "||" + tempTitle + "\n");
+                                            }
+                                    }
+                                notifyDataSetChanged(); //refreshes recycler contents;
+
+                                output.close();
+                            }catch(IOException e)
+                                {}
+
+                    }
+            };
 
             private final View.OnTouchListener adapterTouchListener = new View.OnTouchListener()
             {
@@ -112,11 +164,6 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                     else if(event.getAction() == MotionEvent.ACTION_UP)
                         {
                             view.setBackgroundColor(Color.WHITE);
-
-                            //TODO(99) Delete these 2 lines later
-                            //displays snackbar popup for confirmation, DELETE THESE 2 lines later!!
-                            Snackbar.make(view, "you clicked "+title+"(ID: "+id+")", Snackbar.LENGTH_LONG).show();
-                            System.out.println("THIS MEANS BUTTON CLICK IS WORKING >>>> " + title);
 
                             //TODO(100) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
                             launchProjectView(id+title);

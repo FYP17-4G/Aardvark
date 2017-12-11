@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputType;
 import android.view.View;
@@ -18,17 +17,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
-import android.content.res.AssetManager;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -196,6 +194,9 @@ public class MainActivity extends AppCompatActivity
                     String newProjectTitle = inputText.getText().toString();
                     writeToList(newProjectTitle);
                     adapter.notifyDataSetChanged();//refresh the adapter
+
+                    //TODO(4) ONCE THE DATABASE IS UP, CREATE ASSOCIATED DATA OF THIS ITEM
+                    //<...>
                 }
             });
 

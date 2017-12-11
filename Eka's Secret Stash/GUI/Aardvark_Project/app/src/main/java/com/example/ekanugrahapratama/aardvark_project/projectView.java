@@ -7,6 +7,10 @@ import java.io.BufferedReader;
 
 public class projectView extends AppCompatActivity {
 
+    private String cipherText;
+
+    //and some parameters here
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -23,4 +27,7 @@ public class projectView extends AppCompatActivity {
         //TODO(111) get content from HARDCODED text file, dont forget to change this when the database is up
 
     }
+
+
+    //TODO(222) add functions for tools
 }
