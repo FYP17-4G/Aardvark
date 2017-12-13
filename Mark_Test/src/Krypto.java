@@ -9,14 +9,15 @@ import java.math.RoundingMode;
 import java.util.*;
 
 public class Krypto {
-    private static final Character[] OPTIONS = {'f', 'g','i', 'l', 'p', 'q', 's', 'S', 'T', 't', 'B', 'b', 'u', 'z', 'r', 'w'};
-    private static String ORIGINAL_DATA = "";
+    private static final Character[] OPTIONS = {'f', 'g','i', 'l', 'p', 'q',
+            's', 'S', 'T', 't', 'B', 'b', 'u', 'z', 'r', 'w'};
+
+    private static String ORIGINAL_DATA = readFile("plain.txt");
     private static String MODIFIED_DATA = "";
     public static void main(String[] args) {
         String response;
         String[] params;
 
-        ORIGINAL_DATA = readFile("plain.txt");
         MODIFIED_DATA = ORIGINAL_DATA;
         do {
             response = displayMenu();
