@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.graphics.Color;
 import android.content.Intent;
@@ -73,6 +74,7 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
     class viewHolder extends RecyclerView.ViewHolder
         {
             TextView itemContent; //this displays the project title, TextView is an xml element
+            FrameLayout itemContentFrame;
             ImageButton deleteButton;
 
             private String id;
@@ -89,11 +91,12 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                 {
                     super(itemView);
                     itemContent = (TextView)itemView.findViewById(R.id.listContent); //the ID of the element can be found in front_page_item_content
+                    itemContentFrame = (FrameLayout)itemView.findViewById(R.id.TitleFrame);
                     deleteButton = (ImageButton)itemView.findViewById(R.id.itemDelete);
 
                     context = itemView.getContext();
 
-                    itemContent.setOnTouchListener(adapterTouchListener);
+                    itemContentFrame.setOnTouchListener(adapterTouchListener);
                     deleteButton.setOnClickListener(deleteButtonListener);
                 }
 

@@ -28,6 +28,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
+                <TextView
+                    android:id="@+id/project_view_cipher_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
@@ -56,11 +60,32 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/button_tool1"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tool1" />
+                    android:layout_height="59dp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/caesarSpinner"
+                        android:layout_width="165dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/button_caesarShiftL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="SL" />
+
+                    <Button
+                        android:id="@+id/button_caesarShiftR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="SR" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/button_tool2"
@@ -80,6 +105,11 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/cipherICTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
