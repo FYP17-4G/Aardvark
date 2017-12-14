@@ -1,4 +1,3 @@
-import javax.lang.model.type.ArrayType;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,7 +20,7 @@ public class FreqGraph {
 //        String fileName = scanner.nextLine();
 
         //Invoke the constructor with filename
-        FreqGraph freqGraph = new FreqGraph("hello.TXT");
+        FreqGraph freqGraph = new FreqGraph("HELLO.TXT");
         freqGraph.calcFrequency(freqGraph.originalData);
 
         //Testing purpose
