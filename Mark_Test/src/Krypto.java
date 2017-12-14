@@ -12,7 +12,7 @@ public class Krypto {
     private static final Character[] OPTIONS = {'f', 'g','i', 'l', 'p', 'q',
             's', 'S', 'T', 't', 'B', 'b', 'u', 'z', 'r', 'w'};
 
-    private static String ORIGINAL_DATA = readFile("plain.txt");
+    private static String ORIGINAL_DATA = readFile("HELLO.txt");
     private static String MODIFIED_DATA = "";
     public static void main(String[] args) {
         String response;
@@ -24,15 +24,21 @@ public class Krypto {
             params = response.split(" ");
 
             switch (params[0]) {
+                case "f": {
+                    frequencyAnalysis(params);
+                    break;
+                }
+
+                case "g": {
+                    break;
+                }
+
                 case "i": {
                     indexOfCoincidence(params);
                     break;
                 }
 
-                case "f": {
-                    frequencyAnalysis(params);
-                    break;
-                }
+
             }
         } while (!response.equals ("q"));
     }
@@ -50,12 +56,18 @@ public class Krypto {
         ArrayList<Double> ICs = getIC(period, MODIFIED_DATA);
 
         int counter = 1;
+        Double average = 0.0;
         for (Double ic: ICs) {
-            if (ICs.size() > 1)
+            average += ic;
+
+            if (ICs.size() == 1)
                 System.out.println("IC = " + ic);
             else
                 System.out.println("IC " + (counter++) + " = " + ic);
         }
+
+        average = average / (ICs.size() * 1.0);
+        System.out.println("Average = " + average);
     }
 
     //print the required output for `f <seqLen> <n>`
