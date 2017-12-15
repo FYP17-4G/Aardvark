@@ -30,6 +30,7 @@ public class Krypto {
                 }
 
                 case "g": {
+                    displayGraph(params);
                     break;
                 }
 
@@ -140,6 +141,77 @@ public class Krypto {
         }
     }
 
+    private static void displayGraph (String[] params) {
+        String data = MODIFIED_DATA.toLowerCase().replaceAll("[^a-zA-Z]", "");
+        int distance = 0, period = 1;
+        Integer[] count = new Integer[26];
+        Arrays.fill(count, 0);
+
+        //There must be two parameters
+        if (params.length > 2) {
+            try {
+                distance = Integer.parseInt(params[1]);
+                period = Integer.parseInt(params[2]);
+            } catch (NumberFormatException _maxEntries_) {
+                distance = 0;
+                period = 1;
+            }
+        }
+
+        ArrayList<StringBuilder> sets = getEveryNthLetter(period, data);
+        System.out.println("sets.size() = " + sets.size());
+        for (Character c: sets.get(distance).toString().toCharArray()) {
+            int index = c - 'a';
+            ++count[index];
+        }
+
+        Character[][] graph = constructGraph(count);
+
+        for (Character[] c: graph) {
+            System.out.println(Arrays.toString(c));
+        }
+
+        System.out.println(Arrays.toString(count));
+
+        //System.out.println("count = " + Arrays.toString(count));
+    }
+
+    private static Character[][] constructGraph (Integer[] input) {
+        ArrayList<Integer> details = new ArrayList<>(Arrays.asList(input));
+        int height = details.get(getHighestIndex(details));
+        int width  = details.size();
+        int count  = 0;
+        Character[][] graph = new Character[height][width];
+
+        for (Character[] c: graph) {
+            Arrays.fill(c, ' ');
+        }
+
+        for (int i = 0; i < 26; ++i) {
+            //get the highest index
+            //go to the index in graph,
+            //start from the height - details.get(i), fill '*' in it
+            System.out.println("Filling for character: " + i);
+
+            int index = getHighestIndex(details);
+            int startFrom = height - details.get(index);
+            //fill in the '*'
+            for (int j = 0; j < height; ++j) {
+                char fill;
+                if (j < startFrom)
+                    fill = ' ';
+                else
+                    fill = '*';
+
+                graph[j][index] = fill;
+            }
+
+            details.remove(index);
+        }
+
+        return graph;
+    }
+
     private static Integer getHighestIndex (ArrayList<Integer> input) {
         int maxVal = 0, maxInd = 0;
 
@@ -156,7 +228,11 @@ public class Krypto {
         return maxInd;
     }
 
-    //get IC for a bunch of data, reading from every nth letter.
+    private static Integer getHighestIndex (ArrayList<Integer> input, int offset) {
+        Set
+    }
+
+    //get IC for a bunch of data, breaking the data into chunks every nth letter
     //data entered here is the whole set of data. the function will split the string accordingly.
     private static ArrayList<Double> getIC (Integer n, String data) {
         ArrayList<StringBuilder> splitStrings = getEveryNthLetter(n, data);
