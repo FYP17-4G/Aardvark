@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new adaptr(projectTitle);
         list.setAdapter(adapter);
-
         //---------------------
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

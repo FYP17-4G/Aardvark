@@ -1,16 +1,12 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.io.BufferedWriter;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -186,6 +182,7 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                     //start a new activity, and passes some variables >>> H(project ID | project Title)
                     Intent intent = new Intent(context, projectView.class);
                     intent.putExtra("project_view_params", newActivityParams);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
+                    intent.putExtra("project_view_title", title);
                     context.startActivity(intent);
                 }
         }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class CalculateIC {
 
-    public void CalculateIC()
+    public CalculateIC()
         {}
 
     //get IC for a bunch of data, reading from every nth letter.

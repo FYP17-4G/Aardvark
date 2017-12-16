@@ -13,21 +13,27 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".projectView"
+        <activity
+            android:name=".projectView"
             android:label="@string/projectView_name"
             android:parentActivityName=".MainActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ekanugrahapratama.aardvark_project.MainActivity">
-            </meta-data>
+                android:value="com.example.ekanugrahapratama.aardvark_project.MainActivity"></meta-data>
+        </activity>
+        <activity
+            android:name=".Splash_FullScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                    <!-- THIS INTENT FILTER DEFINES WHICH ACTIVITY FIRST LAUNCHED WHEN THE APP RUNS -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

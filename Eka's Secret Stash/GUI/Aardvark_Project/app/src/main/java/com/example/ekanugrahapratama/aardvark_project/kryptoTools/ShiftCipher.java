@@ -6,6 +6,9 @@ import java.io.*;
 
 public class ShiftCipher {public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
+    public ShiftCipher()
+    {}
+
     public static String encrypt(String plainText, int shiftKey)
     {
         plainText = plainText.toLowerCase();

@@ -20,23 +20,24 @@ import com.example.ekanugrahapratama.aardvark_project.kryptoTools.ShiftCipher;
 
 public class projectView extends AppCompatActivity {
 
+    private String projectTitle;
     private String cipherText = new String();
-    TextView cipherTextView;
+    private TextView cipherTextView;
 
     //Tools variables here
 
     //CAESAR CIPHER
-    Spinner caesarSpinner;
-    ShiftCipher caesarCipher = new ShiftCipher();
-    int shiftCipherBy = 0;
+    private Spinner caesarSpinner;
+    private ShiftCipher caesarCipher = new ShiftCipher();
+    private int shiftCipherBy = 0;
 
-    Button caesarShiftRight;
-    Button caesarShiftLeft;
+    private Button caesarShiftRight;
+    private Button caesarShiftLeft;
 
     //IC CALCULATION
-    CalculateIC ic;
-    TextView cipherICTV;
-    double cipherIC = 0;
+    private CalculateIC ic;
+    private TextView cipherICTV;
+    private double cipherIC = 0;
 
     //<...>
 
@@ -49,6 +50,8 @@ public class projectView extends AppCompatActivity {
         //ACCESS THE PASSED PARAMETERS FROM adaptr.java
 
         String projectUniqueID = getIntent().getStringExtra("project_view_unique_ID");
+        this.projectTitle = getIntent().getStringExtra("project_view_title");
+        setTitle(projectTitle);
 
         //SET UP TOOLS FOR THE PROJECT
         setCaesarTool();
