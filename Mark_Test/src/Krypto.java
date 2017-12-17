@@ -228,10 +228,6 @@ public class Krypto {
         return maxInd;
     }
 
-    private static Integer getHighestIndex (ArrayList<Integer> input, int offset) {
-        Set
-    }
-
     //get IC for a bunch of data, breaking the data into chunks every nth letter
     //data entered here is the whole set of data. the function will split the string accordingly.
     private static ArrayList<Double> getIC (Integer n, String data) {
