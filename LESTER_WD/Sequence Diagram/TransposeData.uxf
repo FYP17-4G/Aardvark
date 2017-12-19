@@ -2,10 +2,21 @@
 <diagram program="umlet" version="14.2">
   <zoom_level>10</zoom_level>
   <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>140</x>
+      <y>120</y>
+      <w>1010</w>
+      <h>630</h>
+    </coordinates>
+    <panel_attributes>TransposeData</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>200</x>
-      <y>60</y>
+      <x>320</x>
+      <y>160</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -15,8 +26,8 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>220</x>
-      <y>200</y>
+      <x>340</x>
+      <y>300</y>
       <w>20</w>
       <h>350</h>
     </coordinates>
@@ -26,8 +37,8 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>670</x>
-      <y>100</y>
+      <x>790</x>
+      <y>200</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -37,10 +48,10 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>740</x>
-      <y>220</y>
+      <x>860</x>
+      <y>320</y>
       <w>20</w>
-      <h>120</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -48,8 +59,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>120</y>
+      <x>340</x>
+      <y>220</y>
       <w>30</w>
       <h>100</h>
     </coordinates>
@@ -59,8 +70,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>120</y>
+      <x>860</x>
+      <y>220</y>
       <w>30</w>
       <h>120</h>
     </coordinates>
@@ -70,34 +81,21 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>230</x>
-      <y>210</y>
+      <x>350</x>
+      <y>310</y>
       <w>530</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-1. Clicks on write to undo button
+1. Clicks on transposition button
 fg=black</panel_attributes>
     <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
-      <y>250</y>
-      <w>310</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-1.1 Reverts to previous modification
-fg=black</panel_attributes>
-    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>220</x>
-      <y>540</y>
+      <x>340</x>
+      <y>640</y>
       <w>30</w>
       <h>130</h>
     </coordinates>
@@ -107,23 +105,51 @@ fg=black</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>330</y>
+      <x>860</x>
+      <y>480</y>
       <w>30</w>
-      <h>340</h>
+      <h>290</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;320.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;270.0</additional_attributes>
   </element>
   <element>
-    <id>UMLFrame</id>
+    <id>Relation</id>
     <coordinates>
-      <x>20</x>
-      <y>20</y>
-      <w>1080</w>
-      <h>630</h>
+      <x>350</x>
+      <y>340</y>
+      <w>530</w>
+      <h>40</h>
     </coordinates>
-    <panel_attributes>Undo Changes</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2. Enters key to be used
+fg=black</panel_attributes>
+    <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>870</x>
+      <y>370</y>
+      <w>260</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2.1.2 Performs transposition
+fg=black</panel_attributes>
+    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>450</y>
+      <w>530</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2.1.2 Prints out transposed data
+fg=black</panel_attributes>
+    <additional_attributes>10.0;20.0;510.0;20.0</additional_attributes>
   </element>
 </diagram>
