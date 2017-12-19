@@ -2,6 +2,17 @@
 <diagram program="umlet" version="14.2">
   <zoom_level>10</zoom_level>
   <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>1060</w>
+      <h>630</h>
+    </coordinates>
+    <panel_attributes>Reset Modifications</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
     <id>UMLActor</id>
     <coordinates>
       <x>200</x>
@@ -76,7 +87,7 @@
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-1. Clicks on write to undo button
+1. Clicks on reset button
 fg=black</panel_attributes>
     <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
@@ -85,11 +96,11 @@ fg=black</panel_attributes>
     <coordinates>
       <x>750</x>
       <y>250</y>
-      <w>310</w>
+      <w>250</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-1.1 Reverts to previous modification
+1.1 Reverts to original data
 fg=black</panel_attributes>
     <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
   </element>
@@ -114,16 +125,5 @@ fg=black</panel_attributes>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;320.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>20</x>
-      <y>20</y>
-      <w>1080</w>
-      <h>630</h>
-    </coordinates>
-    <panel_attributes>Undo Changes</panel_attributes>
-    <additional_attributes/>
   </element>
 </diagram>
