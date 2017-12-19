@@ -38,9 +38,9 @@
     <id>UMLGeneric</id>
     <coordinates>
       <x>850</x>
-      <y>320</y>
+      <y>210</y>
       <w>20</w>
-      <h>510</h>
+      <h>620</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes/>
@@ -84,10 +84,10 @@
       <x>850</x>
       <y>120</y>
       <w>30</w>
-      <h>220</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -115,21 +115,21 @@
     <id>Relation</id>
     <coordinates>
       <x>340</x>
-      <y>310</y>
+      <y>250</y>
       <w>530</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.1. checkInput(dir:String):bool</panel_attributes>
+2. Enters project name</panel_attributes>
     <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
       <x>190</x>
-      <y>390</y>
+      <y>380</y>
       <w>1180</w>
-      <h>460</h>
+      <h>470</h>
     </coordinates>
     <panel_attributes>alt
 --
@@ -167,22 +167,9 @@ bg=light_gray</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.1.2. checkExist(dir:String):bool
+2.1.2. Check if name already exists
 fg=blue</panel_attributes>
     <additional_attributes>370.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>860</x>
-      <y>450</y>
-      <w>390</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-2.1.3. exist := checkExist(dir:String):bool
-fg=blue</panel_attributes>
-    <additional_attributes>10.0;20.0;370.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -193,15 +180,15 @@ fg=blue</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.4. printErrorMessage(message:String):void
+2.4. Prints error message
 fg=blue</panel_attributes>
     <additional_attributes>10.0;20.0;510.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>220</x>
-      <y>490</y>
+      <x>210</x>
+      <y>470</y>
       <w>1130</w>
       <h>220</h>
     </coordinates>
@@ -220,50 +207,25 @@ fg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
-      <y>620</y>
-      <w>320</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-2.3.1. addNewProject(dir:String):bool
-fg=red</panel_attributes>
-    <additional_attributes>10.0;50.0;70.0;50.0;70.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>340</x>
       <y>200</y>
-      <w>190</w>
-      <h>70</h>
+      <w>530</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 1. Clicks '+' button</panel_attributes>
-    <additional_attributes>10.0;50.0;60.0;50.0;60.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>340</x>
-      <y>260</y>
-      <w>220</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-2. Enters project name</panel_attributes>
-    <additional_attributes>10.0;50.0;60.0;50.0;60.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>860</x>
-      <y>340</y>
-      <w>350</w>
+      <y>290</y>
+      <w>250</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.1.1. valid := checkInput(dir:String):bool
+2.1.1. valid:=checkInput
 fg=black</panel_attributes>
     <additional_attributes>10.0;40.0;80.0;40.0;80.0;10.0;10.0;10.0</additional_attributes>
   </element>
@@ -276,7 +238,7 @@ fg=black</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.2. printErrorMessage(message:String):void
+2.2. Prints error message
 fg=red</panel_attributes>
     <additional_attributes>10.0;20.0;510.0;20.0</additional_attributes>
   </element>
@@ -284,12 +246,12 @@ fg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>860</x>
-      <y>670</y>
+      <y>620</y>
       <w>390</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.3.2. addToDB(proj:Project):void
+2.3.1. Add to database
 fg=red</panel_attributes>
     <additional_attributes>370.0;20.0;10.0;20.0</additional_attributes>
   </element>
