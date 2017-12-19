@@ -1,5 +1,4 @@
 import com.Utility;
-import modules.ColumnarTransposition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,33 +11,128 @@ public class Krypto {
 
 
     public static void main(String[] args) {
-        ORIGINAL_DATA = Utility.readFile("res/abc.txt");
-        MODIFIED_DATA = Utility.processData(ORIGINAL_DATA);
-        StringBuilder ciphertext = new StringBuilder();
-        StringBuilder plaintext  = new StringBuilder();
+        init (Utility.readFile("res/plain.txt"));
+        displayOriginalString();
 
-        String data = MODIFIED_DATA.toLowerCase().replaceAll("[^a-zA-Z]", "");
+        substitute('f', 'x');
+        displayModifiedString();
+        displayModifiedString(5, 5);
 
-        List<List<Character>> encryption = new ArrayList<>();
-        String key = "party";
-        encryption = ColumnarTransposition.encrypt(data, key,  encryption);
-        for (List<Character> row: encryption) {
-            System.out.println(row);
-            for (Character c: row)
-                ciphertext.append(c);
+        int[] key = {1, 2, 3};
+        List<List<Integer>> keyPermutations = permute(key);
+
+        for (List<Integer> permutation: keyPermutations) {
+            System.out.println(permutation);
         }
 
-        Utility.line('~', 30);
+        System.out.println();
+        revert();
+        displayModifiedString();
+    }
 
-        List<List<Character>> decryption = new ArrayList<>();
-        decryption = ColumnarTransposition.decrypt(ciphertext.toString(), key,  decryption);
-        for (List<Character> row: decryption) {
-            System.out.println(row);
-            for (Character c: row)
-                plaintext.append(c);
+    private static void init (String originalInput) {
+        ORIGINAL_DATA = originalInput;
+
+        originalInput = originalInput.toLowerCase();
+        originalInput = originalInput.replaceAll("[^A-Za-z]", "");
+        MODIFIED_DATA = originalInput;
+    }
+
+    private static void substitute (Character oldChar, Character newChar) {
+        char[] original = ORIGINAL_DATA.toLowerCase()
+                .replaceAll("[^A-Za-z]", "").toCharArray();
+        char[] modified = MODIFIED_DATA.toCharArray();
+
+        for (int i = 0; i < modified.length; ++i) {
+            if (oldChar == modified[i] && modified[i] == original[i]) {
+                modified[i] = newChar;
+            }
         }
 
-        System.out.println("ciphertext = " + ciphertext.toString());
-        System.out.println("decrypted  = " + plaintext.toString());
+        MODIFIED_DATA = new String (modified);
+    }
+
+    //for all the display functions, we can just return a string if needed, instead of printing directly.
+    private static void displayOriginalString() {
+        System.out.println(ORIGINAL_DATA);
+        System.out.println();
+    }
+
+    private static void displayModifiedString () {
+        StringBuilder output = new StringBuilder();
+
+        int counter = 0;
+        for (Character c: ORIGINAL_DATA.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                output.append(' ');
+            } else if (Character.isUpperCase(c)) {
+                output.append(Character.toUpperCase(MODIFIED_DATA.charAt(counter)));
+                ++counter;
+            } else if (!Character.isAlphabetic(c)) {
+                output.append(c);
+            } else {
+                output.append(MODIFIED_DATA.charAt(counter));
+                ++counter;
+            }
+        }
+
+        System.out.println(output.toString());
+        System.out.println();
+    }
+
+    private static void displayModifiedString (int blockSize, int blocksPerLine) {
+        int charCounter = 0, blockCounter = 0;
+
+        for (Character c: MODIFIED_DATA.toCharArray()) {
+            System.out.print(c);
+            ++charCounter;
+            if (charCounter == blockSize) {
+                System.out.print(" ");
+                ++blockCounter;
+                charCounter = 0;
+            }
+
+            if (blockCounter == blocksPerLine) {
+                System.out.println();
+                blockCounter = 0;
+            }
+        }
+
+        System.out.println();
+    }
+
+    //go back to the original data, discard all changes.
+    private static void revert () {
+        String originalInput = ORIGINAL_DATA;
+
+        originalInput = originalInput.toLowerCase();
+        originalInput = originalInput.replaceAll("[^A-Za-z]", "");
+        MODIFIED_DATA = originalInput;
+    }
+
+    //for permuting the key. probably need to move it to the appropriate function.
+    private static List<List<Integer>> permute(int[] key) {
+        //use lists because they accept inserting stuff in the middle, unlike a normal array.
+        List<List<Integer>> permutations = new ArrayList<>();
+
+        // Add an empty list so that the middle for loop runs
+        permutations.add(new ArrayList<>());
+
+        for ( int i = 0; i < key.length; ++i) {
+            // create a temporary container to hold the new permutations
+            // while iterating over the old ones
+            List<List<Integer>> current = new ArrayList<>();
+
+            for ( List<Integer> permutation : permutations ) {
+                for ( int j = 0, n = permutation.size() + 1; j < n; ++j ) {
+                    List<Integer> temp = new ArrayList<>(permutation);
+                    temp.add(j, key[i]);
+                    current.add(temp);
+                }
+            }
+            permutations = new ArrayList<>(current);
+        }
+
+        return permutations;
     }
 }

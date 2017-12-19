@@ -16,7 +16,6 @@ public class ColumnarTransposition {
         return key;
     }
 
-
     public static List<List<Character>> encrypt (String plaintext, String preKey, List<List <Character>> cipher) {
         //convert the preKey string to a proper key
         List <mUtil.mPair<Character, Integer>> key = prepareKey(preKey);
@@ -24,7 +23,7 @@ public class ColumnarTransposition {
         int right = 0;
 
         StringBuilder sb = new StringBuilder(plaintext);
-        while ((plaintext.length() % key.size()) != 0) {
+        while ((sb.length() % key.size()) != 0) {
             sb.append(' ');
         }
         plaintext = sb.toString();
@@ -43,18 +42,6 @@ public class ColumnarTransposition {
                 row = new ArrayList<>();
             }
         }
-//        int colCounter = 0;
-//        List<Character> temp = new ArrayList<>();
-//        for (Character c: data.toCharArray()) {
-//            temp.add(c);
-//            ++colCounter;
-//
-//            if (colCounter >= columns) {
-//                colCounter = 0;
-//                output.add(temp);
-//                temp = new ArrayList<>();
-//            }
-//        }
 
         //Mix columns
        cipher = mixColumns(cipher, key);
@@ -64,15 +51,11 @@ public class ColumnarTransposition {
     }
 
     public static List<List<Character>> decrypt (String ciphertext, String preKey,
-                                                 List<List <Character>> decryption) {
-        //convert the preKey string to a proper key
+                                                 List<List <Character>> plain) {
         List <mUtil.mPair<Character, Integer>> key = prepareKey(preKey);
         int maxCols = key.size();
         int right = 0;
 
-        System.out.println("ciphertext = " + ciphertext);
-
-        //populate grid
         List<Character> row = new ArrayList<>();
         for (Character c: ciphertext.toCharArray()) {
             row.add(c);
@@ -80,14 +63,14 @@ public class ColumnarTransposition {
 
             if (right >= maxCols) {
                 right = 0;
-                decryption.add(row);
+                plain.add(row);
                 row = new ArrayList<>();
             }
         }
 
-        decryption = mixBack(decryption, key);
+        plain = mixBack(plain, key);
 
-        return flip(decryption);
+        return flip(plain);
     }
 
     private static List<List<Character>> mixColumns (List<List<Character>> input,
@@ -96,8 +79,18 @@ public class ColumnarTransposition {
         List<List<Character>> tempOut = flip(input);
         List<List<Character>> output = new ArrayList<>(tempOut.size());
 
+        for (mUtil.mPair <Character, Integer> k: key) {
+            System.out.print("k.first = " + k.first + ", ");
+            System.out.println("k.second = " + k.second);
+        }
+
         //sort key by value of key.first
         key.sort(Comparator.comparingInt(lhs -> lhs.first));
+
+        for (mUtil.mPair <Character, Integer> k: key) {
+            System.out.print("k.first = " + k.first + ", ");
+            System.out.println("k.second = " + k.second);
+        }
 
         //swap rows
         int temp;
@@ -116,6 +109,11 @@ public class ColumnarTransposition {
         //rotate table 90 anti-clockwise
         List<List<Character>> tempOut = flip(input);
         List<List<Character>> output = new ArrayList<>(tempOut.size());
+        
+        for (mUtil.mPair <Character, Integer> k: key) {
+            System.out.print("k.first = " + k.first + ", ");
+            System.out.println("k.second = " + k.second);
+        }
 
         //swap rows
         int temp;

@@ -1,9 +1,9 @@
 package modules;
 
 public class Substitute {
-    public static String ch (Character oldC, Character newC, String data) {
+    public static String ch (Character oldC, Character newC, String mData, String oData) {
         StringBuilder sb = new StringBuilder();
-        for (Character x: data.toCharArray()) {
+        for (Character x: mData.toCharArray()) {
             if (x == oldC)
                 sb.append(newC);
             else

@@ -8,7 +8,6 @@ import java.util.List;
 public class RectangularTransposition
 {
     private RectangularTransposition() {}
-
     //decryption, assume read left to right, top to bottom.
     public static List<List<Character>> encrypt(String data, Integer columns) {
         List<List <Character> > output = new ArrayList<>();
