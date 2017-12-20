@@ -1,4 +1,5 @@
 import com.Utility;
+import modules.RectangularTransposition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,24 +10,20 @@ public class Krypto {
     private static Integer MAX_REVERTS = 10;
     private static ArrayList<String> ACTION_QUEUE = new ArrayList<>(10);
 
-
+    // Do not directly modify ORIGINAL_DATA and MODIFIED_DATA.
+    // Use only outputs from the various functions.
+    // Initialize and set new ORIGINAL_DATA with the init function.
+    // It will automatically set the MODIFIED_DATA as well.
     public static void main(String[] args) {
         init (Utility.readFile("res/plain.txt"));
+//        init ("What does this all mean?");
+        Utility.line('-', 30, "Original Text");
         displayOriginalString();
 
-        substitute('f', 'x');
+        MODIFIED_DATA = RectangularTransposition.encrypt(MODIFIED_DATA, 3);
         displayModifiedString();
-        displayModifiedString(5, 5);
 
-        int[] key = {1, 2, 3};
-        List<List<Integer>> keyPermutations = permute(key);
-
-        for (List<Integer> permutation: keyPermutations) {
-            System.out.println(permutation);
-        }
-
-        System.out.println();
-        revert();
+        MODIFIED_DATA = RectangularTransposition.decrypt(MODIFIED_DATA, 3);
         displayModifiedString();
     }
 
@@ -111,7 +108,7 @@ public class Krypto {
     }
 
     //for permuting the key. probably need to move it to the appropriate function.
-    private static List<List<Integer>> permute(int[] key) {
+    private static List<List<Integer>> permute(Integer[] key) {
         //use lists because they accept inserting stuff in the middle, unlike a normal array.
         List<List<Integer>> permutations = new ArrayList<>();
 

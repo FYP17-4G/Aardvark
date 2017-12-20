@@ -1,3 +1,15 @@
+/*
+ * ---------
+ * Module Name: CalculateIC.java
+ * Calculates the Index of Coincidence (IC) of every period.
+ * i [<p>] in Krypto.exe
+ * ---------
+ * @params: p -> Period
+ * Returns either a single Double (if p is 1) OR
+ * an ArrayList<Double> (if p > 1)
+ * ---------
+ */
+
 package modules;
 
 import java.math.BigDecimal;
@@ -20,7 +32,7 @@ public class CalculateIC {
     }
 
     //get IC for a particular string of data
-    private static double getIC (String data) {
+    public static double getIC (String data) {
         int[] counts = new int[26];
         Arrays.fill(counts, 0);
 

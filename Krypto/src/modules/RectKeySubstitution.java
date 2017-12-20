@@ -6,18 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RectKeySubstitution {
-    public static void encrypt (String plaintext, String key) {
+    public static String encrypt (String plaintext, String key) {
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         String otp;
         key = key.replaceAll("[^A-Za-z]", "");
         key = removeDuplicates(key.toLowerCase());
-
-        StringBuilder sb = new StringBuilder(alphabet);
-
-        while ((sb.length() % key.length()) != 0)
-            sb.append(Utility.randomAlphaNumeric());
-
-        alphabet = sb.toString();
 
         System.out.println("key = " + key);
 
@@ -37,7 +30,7 @@ public class RectKeySubstitution {
                 ++counter;
             }
 
-            if (counter >= key.length()) {
+            if (counter >= key.length() || c == alphabet.charAt(alphabet.length() - 1)) {
                 rectangle.add(row);
                 counter = 0;
 
@@ -45,23 +38,30 @@ public class RectKeySubstitution {
             }
         }
 
-        sb = new StringBuilder();
-        ArrayList<Character> subs = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+//        ArrayList<Character> subs = new ArrayList<>();
+        rectangle = flip(rectangle);
         for (List<Character> x: rectangle) {
             for (Character y: x) {
                 sb.append(y);
-                subs.add(y);
+//                subs.add(y);
             }
         }
 
         otp = sb.toString();
+        System.out.println("otp = " + otp);
 
+        sb = new StringBuilder();
+        Character cipherChar;
         for (Character c: plaintext.toCharArray()) {
-
+            cipherChar = otp.charAt(Utility.getIndex(c));
+            sb.append(cipherChar);
         }
+
+        return sb.toString();
     }
 
-    public static boolean contains (Character c, String str) {
+    private static boolean contains (Character c, String str) {
         for (Character x: str.toCharArray()) {
             if (c == x)
                 return true;
@@ -84,5 +84,25 @@ public class RectKeySubstitution {
         }
 
         return out.toString();
+    }
+
+    private static List<List<Character>> flip(List<List<Character>> input) {
+        List<List<Character>> output = new ArrayList<>();
+        List<Character> newRow;
+
+        int maxCols = input.get(0).size();
+
+        for (int i = 0; i < maxCols; ++i) {
+            newRow = new ArrayList<>();
+
+            for (List<Character> row : input) {
+                if (i < row.size())
+                    newRow.add(row.get(i));
+            }
+
+            output.add(newRow);
+        }
+
+        return output;
     }
 }

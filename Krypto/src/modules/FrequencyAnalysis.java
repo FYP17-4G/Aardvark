@@ -1,10 +1,24 @@
+/*
+ * ---------
+ * Module Name: FrequencyAnalysis.java
+ * Displays the <maxEntries> most frequently occurring sequences of length <sequenceLength>
+ * f [<sequenceLength> <n>] in Krypto.exe
+ * ---------
+ * @params: data            -> input
+ *          sequenceLength  -> length of sequence to check for
+ *          maxEntries      -> max number of entries to display
+ * Does not return anything; prints directly.
+ * Can probably make it return something if necessary.
+ * ---------
+ */
+
 package modules;
 
 import com.Utility;
 import java.util.*;
 
 public class FrequencyAnalysis {
-    public static void getFrequency (String data, Integer sequenceLength, Integer maxEntries ) {
+    public static void frequencyAnalysis (String data, Integer sequenceLength, Integer maxEntries ) {
         String checkSequence, currentSequence;
         Set<String> sequenceSet = new HashSet<>();
 

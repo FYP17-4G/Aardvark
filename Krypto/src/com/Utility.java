@@ -151,6 +151,10 @@ public class Utility {
         System.out.println(name + " successfully created!");
     }
 
+    public static Integer getIndex (Character ch) {
+        return Character.toLowerCase(ch) - 'a';
+    }
+
     public static Character randomAlphaNumeric () {
         String ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyz01234567890";
         Integer random = (int) (Math.random() * (ALPHANUMERIC.length()));
