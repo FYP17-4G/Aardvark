@@ -4,16 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.Window;
-import android.widget.FrameLayout;
 import android.view.WindowManager;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class Splash_FullScreen extends AppCompatActivity
+public class GUI_Splash_FullScreen extends AppCompatActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,9 +35,9 @@ public class Splash_FullScreen extends AppCompatActivity
             @Override
             public void run()
             {
-                Intent mainIntent = new Intent(Splash_FullScreen.this, MainActivity.class);
-                Splash_FullScreen.this.startActivity(mainIntent);
-                Splash_FullScreen.this.finish();
+                Intent mainIntent = new Intent(GUI_Splash_FullScreen.this, GUI_MainActivity.class);
+                GUI_Splash_FullScreen.this.startActivity(mainIntent);
+                GUI_Splash_FullScreen.this.finish();
             }
         }, DELAY_TIME);
     }

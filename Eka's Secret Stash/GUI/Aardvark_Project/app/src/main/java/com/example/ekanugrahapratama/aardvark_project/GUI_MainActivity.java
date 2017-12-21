@@ -1,11 +1,9 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.InputType;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.RecyclerView;
-import android.widget.EditText;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -28,22 +25,19 @@ import java.io.BufferedWriter;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
+public class GUI_MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private App_Framework framework = new App_Framework(this);
 
-    private adaptr adapter;
+    private GUI_adaptr adapter;
     private RecyclerView list; //the 'array' of project list
 
     //this is the text file where the project list contents are stored. The contents will be used by recycler view in the main menu
     private String projectDirectoryFileName = "projectDirectory.txt";
 
-
-
-    //TODO(999) FIGURE OUT HOW TO USE SHIFT CIPHER
-
-    //TODO(0)Replace String data type of this array list to a struct like class containing ID:int and title:String
-    private ArrayList<frontPageIdentifier> projectTitle = new ArrayList();
+    //front page identifier = struct like class for the adapter to simplify the data reading
+    private ArrayList<GUI_frontPageIdentifier> projectTitle = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +59,13 @@ public class MainActivity extends AppCompatActivity
             String line;
             String[] substr;//use this variable when splitting 'line'
 
+
             while((line = fileIn.readLine()) != null)
             {
                 //process the line
                 substr = line.split("\\|\\|");
 
-                frontPageIdentifier fpi = new frontPageIdentifier(substr[0], substr[1]);
+                GUI_frontPageIdentifier fpi = new GUI_frontPageIdentifier(substr[0], substr[1]);
                 projectTitle.add(fpi);
             }
 
@@ -79,22 +74,22 @@ public class MainActivity extends AppCompatActivity
 
         //TODO(2) Use encryption to secure list.txt <<<<<<<<<<<<<< IMPORTANTER
 
-        //the rest
 
+
+        //the rest
         list = (RecyclerView) findViewById(R.id.rv_numbers);
         LinearLayoutManager layout = new LinearLayoutManager(this);
         list.setLayoutManager(layout);
 
         list.setHasFixedSize(true);
 
-        adapter = new adaptr(projectTitle);
+        adapter = new GUI_adaptr(projectTitle);
         list.setAdapter(adapter);
         //---------------------
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //TODO(3) Do something with floating action button => Add new entry into projectTitle arrayList, rewrite list.txt, and refresh (re fetch data from list.txt)
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
@@ -174,48 +169,29 @@ public class MainActivity extends AppCompatActivity
 
     private void createNewProject()
         {
+           DialogInterface.OnClickListener ocl = new DialogInterface.OnClickListener()
+           {
+               @Override
+               public void onClick(DialogInterface dialogInterface, int i)
+               {
+                   String newProjectTitle = framework.popup_getInput();
+                   writeToList(newProjectTitle);
+                   adapter.notifyDataSetChanged();//refresh the adapter
 
-            //build popup dialogue
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Create new project");
+                   //TODO(3) ONCE THE DATABASE IS UP, CREATE ASSOCIATED DATA OF THIS ITEM
+                   //<...>
+               }
 
-            //set up the input field
-            final EditText inputText = new EditText(this);
-            inputText.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(inputText);
+           };
 
-            //set up positive button
-            builder.setPositiveButton("Create", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
-                    String newProjectTitle = inputText.getText().toString();
-                    writeToList(newProjectTitle);
-                    adapter.notifyDataSetChanged();//refresh the adapter
-
-                    //TODO(4) ONCE THE DATABASE IS UP, CREATE ASSOCIATED DATA OF THIS ITEM
-                    //<...>
-                }
-            });
-
-            //set up negative button
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
-                    dialogInterface.cancel();
-                }
-            });
-
-            builder.show();
+           framework.popup_show("Create new Project", "New Project Title", ocl);
         }
 
+    //FILE STORAGE WILL BE HANDLED INTERNALLY BY ANDROID
     private void writeToList(String newProjectTitle)
         {
             //add the new project into the arrayList
-            frontPageIdentifier newProject = new frontPageIdentifier(Integer.toString(new Random().nextInt(999)+1), newProjectTitle);
+            GUI_frontPageIdentifier newProject = new GUI_frontPageIdentifier(Integer.toString(new Random().nextInt(999)+1), newProjectTitle);
             projectTitle.add(newProject);
 
             //overwrite list.txt
@@ -234,4 +210,7 @@ public class MainActivity extends AppCompatActivity
                     {}
 
         }
+
+    private void writeToDB()
+        {}
 }

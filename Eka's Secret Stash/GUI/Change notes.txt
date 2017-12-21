@@ -1,0 +1,25 @@
+[Android Application Change Notes]
+
+20 December 2017
+Changes:
+
++ Added some empty functions for Crypto functions:
+	(hint: look for keyword "TODO(***)")
+	- Transposition functions
+	- Substitution functions
+	- Shift functions
+	- Cipher Frequency calculation functions
++ Refractored source files for easier naming conventions
++ Added folder "KryptoTools" for Krypto related .java files
+
+21 December 2017
+Changes:
+
++ [GUI]Added Graph interface
+	- Downloaded GraphView library online
+	link: http://www.android-graphview.org/download-getting-started/
+	setup instruction: https://www.youtube.com/watch?v=zbTvJZX0UDk
+	- The graph displays 2 lines, one for cipher text, one for cipher text of period N
+
++ [GUI]Changed "Spinner" widget for Shift cipher to "Seek bar" widget
++ Added interface to set IC period:

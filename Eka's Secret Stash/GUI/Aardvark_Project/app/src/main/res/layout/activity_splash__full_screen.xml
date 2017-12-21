@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context="com.example.ekanugrahapratama.aardvark_project.Splash_FullScreen">
+    tools:context="com.example.ekanugrahapratama.aardvark_project.GUI_Splash_FullScreen">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,

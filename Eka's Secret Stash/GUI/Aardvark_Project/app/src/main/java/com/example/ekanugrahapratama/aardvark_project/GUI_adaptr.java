@@ -30,11 +30,11 @@ import android.widget.ImageButton;
 *   - getItemCount
 * */
 
-public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
+public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 {
-    ArrayList<frontPageIdentifier> projectTitle;
+    ArrayList<GUI_frontPageIdentifier> projectTitle;
 
-    public adaptr(ArrayList<frontPageIdentifier> n)
+    public GUI_adaptr(ArrayList<GUI_frontPageIdentifier> n)
         {
             this.projectTitle = n;
         }
@@ -47,7 +47,6 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
             LayoutInflater inflater = LayoutInflater.from(context);
             boolean shouldAttachToParentImmediately = false;
 
-            //TODO(97) Figure out how the hell inflater works
             View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
             viewHolder viewHolder = new viewHolder(view);
 
@@ -130,7 +129,7 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                                             {
                                             projectTitle.remove(i);
 
-                                            //TODO(101) ONCE THE DATABASE IS UP, DELETE THE ASSOCIATED DATA OF THIS ITEM
+                                            //TODO(1) ONCE THE DATABASE IS UP, DELETE THE ASSOCIATED DATA OF THIS ITEM
                                             //<...>
                                             }
                                         else
@@ -157,14 +156,14 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
                             // Do Stuff
                             //use componentID and component Title as composite later to identify relevant data
 
-                            //TODO(98) Change background color on click, revert color back on release (see the conditional statement after this one)
+                            //TODO(2) Change background color on click, revert color back on release (see the conditional statement after this one)
                             view.setBackgroundColor(Color.GRAY);
                         }
                     else if(event.getAction() == MotionEvent.ACTION_UP)
                         {
                             view.setBackgroundColor(Color.WHITE);
 
-                            //TODO(100) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
+                            //TODO(3) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
                             launchProjectView(id+title);
 
                         }
@@ -180,7 +179,7 @@ public class adaptr extends RecyclerView.Adapter<adaptr.viewHolder>
             private void launchProjectView(String newActivityParams)//put the passed value as parameter
                 {
                     //start a new activity, and passes some variables >>> H(project ID | project Title)
-                    Intent intent = new Intent(context, projectView.class);
+                    Intent intent = new Intent(context, GUI_projectView.class);
                     intent.putExtra("project_view_params", newActivityParams);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
                     intent.putExtra("project_view_title", title);
                     context.startActivity(intent);
