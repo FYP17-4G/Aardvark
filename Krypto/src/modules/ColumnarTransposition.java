@@ -56,6 +56,10 @@ public class ColumnarTransposition {
         int maxCols = key.size();
         int right = 0;
 
+        //old position <- this will not be sorted.  (key will be received in this format)
+        //new position <- this will be sorted.      (sort the key but remember the old positions)
+        //we want to shuffle from the new position to the old position
+
         List<Character> row = new ArrayList<>();
         for (Character c: ciphertext.toCharArray()) {
             row.add(c);
@@ -119,7 +123,6 @@ public class ColumnarTransposition {
         int temp;
         for (mUtil.mPair k : key) {
             temp = (int)k.second;
-//            System.out.println(key.get(i).second);
             output.add(tempOut.get(temp));
         }
 
