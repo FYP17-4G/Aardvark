@@ -1,0 +1,4 @@
+#Fri Dec 22 02:30:55 AEDT 2017
+base.0=/Users/ekanugrahapratama/Documents/Aardvark_Project/app/build/intermediates/transforms/dex/release/0
+path.0=classes.dex
+renamed.0=classes.dex
