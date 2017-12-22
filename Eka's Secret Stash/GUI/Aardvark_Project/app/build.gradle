@@ -4,11 +4,12 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.ekanugrahapratama.aardvark_project"
-        minSdkVersion 25
-        targetSdkVersion 26
+        minSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        setProperty("archivesBaseName", "Aardvark-$versionName")
     }
     buildTypes {
         release {

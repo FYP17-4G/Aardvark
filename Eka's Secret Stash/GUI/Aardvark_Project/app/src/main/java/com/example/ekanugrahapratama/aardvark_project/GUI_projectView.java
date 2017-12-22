@@ -253,12 +253,12 @@ public class GUI_projectView extends AppCompatActivity {
 
     private void doShiftLeft()
     {
-        //TODO(***) Do Shift DECRYPTION here, assign result to variable "cipherText"
+        //TODO(***) Do Shift DECRYPTION here, assign result to variable "cipherText", get key value from variable "shiftCipherBy"
     }
 
     private void doShiftRight()
     {
-        //TODO(***) Do Shift ENCRYPTION here, assign result to variable "ciphertext"
+        //TODO(***) Do Shift ENCRYPTION here, assign result to variable "ciphertext", get key value from variable "shiftCipherBy"
     }
 
     private void setSubstitutionTool()

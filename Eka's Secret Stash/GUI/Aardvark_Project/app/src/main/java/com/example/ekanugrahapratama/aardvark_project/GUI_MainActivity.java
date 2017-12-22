@@ -4,16 +4,17 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.RecyclerView;
+import android.content.Intent;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,10 +38,11 @@ public class GUI_MainActivity extends AppCompatActivity
     private String projectDirectoryFileName = "projectDirectory.txt";
 
     //front page identifier = struct like class for the adapter to simplify the data reading
-    private ArrayList<GUI_frontPageIdentifier> projectTitle = new ArrayList();
+    private ArrayList<frontPageIdentifier> projectTitle = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,7 +67,7 @@ public class GUI_MainActivity extends AppCompatActivity
                 //process the line
                 substr = line.split("\\|\\|");
 
-                GUI_frontPageIdentifier fpi = new GUI_frontPageIdentifier(substr[0], substr[1]);
+                frontPageIdentifier fpi = new frontPageIdentifier(substr[0], substr[1]);
                 projectTitle.add(fpi);
             }
 
@@ -148,23 +150,39 @@ public class GUI_MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_encryption_decryption)
+        {
+            launchEncryptionDecryptionActivity();
+        }
+        else if (id == R.id.nav_about_us)
+        {
+            launchAboutUsActivity();
+        }
+        else if (id == R.id.nav_settings)
+        {
+            launchSettingsActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void launchEncryptionDecryptionActivity()
+    {
+        Intent intent = new Intent(this, GUI_EncryptionDecryption.class);
+        startActivity(intent);
+    }
+
+    private void launchAboutUsActivity()
+    {
+        //TODO(me) GUI for about us activity
+        /**Just create empty activity with a paragraph of text and some contact info*/
+    }
+    private void launchSettingsActivity()
+    {
+        //TODO(me) GUI for settings activity
+        /**For settings, use "Settings template"*/
     }
 
     private void createNewProject()
@@ -174,12 +192,22 @@ public class GUI_MainActivity extends AppCompatActivity
                @Override
                public void onClick(DialogInterface dialogInterface, int i)
                {
-                   String newProjectTitle = framework.popup_getInput();
-                   writeToList(newProjectTitle);
-                   adapter.notifyDataSetChanged();//refresh the adapter
 
-                   //TODO(3) ONCE THE DATABASE IS UP, CREATE ASSOCIATED DATA OF THIS ITEM
-                   //<...>
+                   if(framework.popup_getInput().isEmpty())
+                       framework.system_message_small("Error: Please enter a project name");
+
+                   if(projectExist(framework.popup_getInput()))
+                       framework.system_message_small("Error: Project title already exist");
+
+                   else
+                   {
+                       String newProjectTitle = framework.popup_getInput();
+                       writeToList(newProjectTitle);
+                       adapter.notifyDataSetChanged();//refresh the adapter
+
+                       //TODO(3) ONCE THE DATABASE IS UP, CREATE ASSOCIATED DATA OF THIS ITEM
+                       //<...>
+                   }
                }
 
            };
@@ -187,11 +215,21 @@ public class GUI_MainActivity extends AppCompatActivity
            framework.popup_show("Create new Project", "New Project Title", ocl);
         }
 
+    protected boolean projectExist(String newProjectTitle)
+    {
+        for(int i = 0; i < projectTitle.size(); i++)
+            if(projectTitle.get(i).getTitle().equals(newProjectTitle))
+                return true;
+
+        return false;
+    }
+
+    /**This will store the data to a text file that contains information to display the list of existing projects*/
     //FILE STORAGE WILL BE HANDLED INTERNALLY BY ANDROID
     private void writeToList(String newProjectTitle)
         {
             //add the new project into the arrayList
-            GUI_frontPageIdentifier newProject = new GUI_frontPageIdentifier(Integer.toString(new Random().nextInt(999)+1), newProjectTitle);
+            frontPageIdentifier newProject = new frontPageIdentifier(Integer.toString(new Random().nextInt(999)+1), newProjectTitle);
             projectTitle.add(newProject);
 
             //overwrite list.txt

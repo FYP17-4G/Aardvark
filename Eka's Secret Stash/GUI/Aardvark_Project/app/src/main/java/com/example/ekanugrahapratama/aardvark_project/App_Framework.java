@@ -4,8 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.Toast;
+import android.widget.TextView;
 import android.content.Context;
-import android.view.View;
 
 /**
  * This is class contains methods that simplifies the process of building the application
@@ -15,9 +16,14 @@ public class App_Framework
 {
     private Context context;
 
-    public App_Framework(Context c)
+    //Pop up window related variables
+    private AlertDialog.Builder popUpWindow;
+    private EditText popup_inputText;
+    private TextView popup_textView;
+
+    public App_Framework(Context context)
     {
-        this.context = c;
+        this.context = context;
     }
 
     /**
@@ -30,24 +36,23 @@ public class App_Framework
      *      framework.popup_getInput("Title", "Hint", myListener);
      * */
 
-    private EditText popup_inputText;
     public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener)
     {
         //build popup dialogue
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(popup_title);
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setTitle(popup_title);
 
         //set up the input field
         popup_inputText = new EditText(context);
         popup_inputText.setInputType(InputType.TYPE_CLASS_TEXT);
         popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
-        builder.setView(popup_inputText);
+        popUpWindow.setView(popup_inputText);
 
         //set up positive button
-        builder.setPositiveButton("OK",clickListener);
+        popUpWindow.setPositiveButton("OK",clickListener);
 
         //set up negative button
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialogInterface, int i)
@@ -56,7 +61,7 @@ public class App_Framework
             }
         });
 
-        builder.show();
+        popUpWindow.show();
     }
     /**
      * Use this method to get the user input in the popup dialogue
@@ -66,15 +71,47 @@ public class App_Framework
         return popup_inputText.getText().toString();
     }
 
-    /**Use this for displaying minor warnings and other small stuff*/
-    public void errMessage_small(String message) //use TOASTBOX FOR THIS
+    /**Use this for displaying small message, and error message as well*/
+    public void system_message_small(String message) //use TOASTBOX FOR THIS
     {
-
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    /**Pop up error message to display lengthy error message, or a severe one, contains only message and "OK" button*/
-    public void errrMessage_popup(String title, String message)
+    /**Pop up error message to display lengthy message, this can be used to display error message as well*/
+    public void system_message_popup(String popup_title, String popup_message, String popup_buttonMessage)
     {
+        DialogInterface.OnClickListener errMessageClickListener = new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.cancel();
+            }
+        };
 
+        popUpWindow = new AlertDialog.Builder(context);
+        popup_textView = new TextView(context);
+
+        popUpWindow.setTitle(popup_title);
+        popup_textView.setText(popup_message);
+        popUpWindow.setPositiveButton(popup_buttonMessage, errMessageClickListener);
+    }
+    public void system_message_popup(String popup_title, String popup_message) //by default, the text message in the popup button is "OK"
+    {
+        DialogInterface.OnClickListener errMessageClickListener = new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.cancel();
+            }
+        };
+
+        popUpWindow = new AlertDialog.Builder(context);
+        popup_textView = new TextView(context);
+
+        popUpWindow.setTitle(popup_title);
+        popup_textView.setText(popup_message);
+        popUpWindow.setPositiveButton("OK", errMessageClickListener);
     }
 }

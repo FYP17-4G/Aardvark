@@ -1,5 +1,6 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 
 import java.io.FileOutputStream;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.io.BufferedWriter;
 
 import android.content.Context;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.graphics.Color;
 import android.content.Intent;
 import android.widget.ImageButton;
+
 
 /*
 * NOTE:
@@ -32,9 +35,14 @@ import android.widget.ImageButton;
 
 public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 {
-    ArrayList<GUI_frontPageIdentifier> projectTitle;
+    ArrayList<frontPageIdentifier> projectTitle;
+    private String projectDirectoryFileName = "projectDirectory.txt";
 
-    public GUI_adaptr(ArrayList<GUI_frontPageIdentifier> n)
+    Context context;
+
+    App_Framework framework;
+
+    public GUI_adaptr(ArrayList<frontPageIdentifier> n)
         {
             this.projectTitle = n;
         }
@@ -42,13 +50,15 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
      @Override
      public viewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
         {
-            Context context = viewGroup.getContext();
+            context = viewGroup.getContext();
             int layoutIdForListItem = R.layout.front_page_item_content; //This will return the 'ID' of xml file layout, R.layout.<xml name> are built in function designed for this
             LayoutInflater inflater = LayoutInflater.from(context);
             boolean shouldAttachToParentImmediately = false;
 
             View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
             viewHolder viewHolder = new viewHolder(view);
+
+            framework = new App_Framework(context);
 
             return viewHolder;
         }
@@ -65,7 +75,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
             return projectTitle.size();
         }
 
-    //this is the item inside the recycler view
+    /**THIS IS INDIVIDUAL ITEM INSIDE THE ADAPTER*/
     class viewHolder extends RecyclerView.ViewHolder
         {
             TextView itemContent; //this displays the project title, TextView is an xml element
@@ -146,6 +156,85 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                     }
             };
 
+
+            protected boolean projectExist(String newProjectTitle)
+            {
+                for(int i = 0; i < projectTitle.size(); i++)
+                    if(projectTitle.get(i).getTitle().equals(newProjectTitle))
+                        return true;
+
+                return false;
+            }
+
+            boolean longpressed = false;
+
+            final GestureDetector adapterLongClickListener = new GestureDetector(new GestureDetector.SimpleOnGestureListener()
+            {
+                public void onLongPress(MotionEvent e)
+                {
+                    longpressed = true;
+                    renameProject();
+                    writeToList();
+
+                    //refresh the adapter
+                    GUI_adaptr.super.notifyDataSetChanged();
+                }
+            });
+
+            //TODO(me) IMPORTANT FOR RENAMING!!!!!, DO THIS WHEN THE DATABASE IS UP
+            /**A hash value is created upon creating new project, so then it will be id||title||hash
+             *
+             * When the associated project is renamed, THE VALUE OF HASH DOES NOT CHANGE
+             * Since this will help to avoid avalanche effect in the database caused by changing the hash value
+             * */
+            private void renameProject()
+            {
+                framework.popup_show("Rename Project", "New project name", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        String newProjectName = framework.popup_getInput();
+
+                        if(projectExist(newProjectName))
+                            framework.system_message_small("Project name already exist");
+
+                        else
+                        {
+                            //find the old project name, replace with the new one
+                            for(int x = 0; x < projectTitle.size(); x++)
+                                if(projectTitle.get(x).getTitle().equals(title))
+                                    {
+                                        projectTitle.get(x).setTitle(newProjectName);
+                                        itemContent.setText(projectTitle.get(x).getTitle());
+                                        break;
+                                    }
+                        }
+                    }
+                });
+            }
+
+            /**This will store the data to a text file that contains information to display the list of existing projects*/
+            /**!!THIS FUNCTION IS DIFFERENT FROM THE ONE IN MAIN ACTIVITY*/
+            //FILE STORAGE WILL BE HANDLED INTERNALLY BY ANDROID
+            private void writeToList()
+            {
+                //overwrite list.txt
+                BufferedWriter outputFile;
+
+                try
+                {
+                    FileOutputStream fos = context.openFileOutput(projectDirectoryFileName, context.MODE_PRIVATE);
+                    outputFile = new BufferedWriter(new OutputStreamWriter(fos));
+
+                    for(int i = 0; i < projectTitle.size(); i++)
+                        outputFile.write(projectTitle.get(i).getID() + "||" + projectTitle.get(i).getTitle()+"\n");
+
+                    outputFile.close();
+                }catch(IOException e)
+                {}
+            }
+
             private final View.OnTouchListener adapterTouchListener = new View.OnTouchListener()
             {
                 @Override
@@ -153,13 +242,15 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 {
                     if(event.getAction() == MotionEvent.ACTION_DOWN)//meaning area is pressed
                         {
+                            longpressed = false;
+                            adapterLongClickListener.onTouchEvent(event);
                             // Do Stuff
                             //use componentID and component Title as composite later to identify relevant data
 
                             //TODO(2) Change background color on click, revert color back on release (see the conditional statement after this one)
                             view.setBackgroundColor(Color.GRAY);
                         }
-                    else if(event.getAction() == MotionEvent.ACTION_UP)
+                    else if(event.getAction() == MotionEvent.ACTION_UP && !longpressed)
                         {
                             view.setBackgroundColor(Color.WHITE);
 

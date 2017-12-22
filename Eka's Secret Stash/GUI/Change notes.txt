@@ -23,3 +23,19 @@ Changes:
 
 + [GUI]Changed "Spinner" widget for Shift cipher to "Seek bar" widget
 + Added interface to set IC period:
+
+22 December 2017
+
++[GUI]Added basic error handling in MainActivity.java
++[GUI]Added rename function for each project entry (Long press project entry)
++[GUI]Added Copy to clipboard and Paste from clipboard buttons for Encryption/Decryption feature, as a mean to get text input and cipher text result
++[GUI]Added interface and empty functions for Encryption/Decryption feature
+	(hint: look for keyword "TODO(&&&)")
+	- Rectangular Transposition (Encryption only)
+	- Rectangular Substitution (Encryption only)
+	- Shift Cipher (Encryption and decryption)
+	- Vigenere Inverse (Encryption only)
+	- Vigenere Subtractive (Encryption only)
+	- Vigenere Additive (Encryption only)
+
+	

@@ -37,7 +37,8 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
             {
                 Intent mainIntent = new Intent(GUI_Splash_FullScreen.this, GUI_MainActivity.class);
                 GUI_Splash_FullScreen.this.startActivity(mainIntent);
-                GUI_Splash_FullScreen.this.finish();
+                GUI_Splash_FullScreen.this.finish();//so the user cant go back to this activity
+                overridePendingTransition(R.anim.anim_transition_slide_from_bottom, R.anim.anim_transition_slide_to_top);
             }
         }, DELAY_TIME);
     }
