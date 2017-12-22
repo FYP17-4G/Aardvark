@@ -6,3 +6,17 @@
 *.iml
 
 Mark_Test/\.idea/
+
+\.idea/compiler\.xml
+
+\.idea/misc\.xml
+
+\.idea/modules\.xml
+
+\.idea/vcs\.xml
+
+\.idea/workspace\.xml
+
+Krypto/\.idea/modules\.xml
+
+Krypto/\.idea/workspace\.xml

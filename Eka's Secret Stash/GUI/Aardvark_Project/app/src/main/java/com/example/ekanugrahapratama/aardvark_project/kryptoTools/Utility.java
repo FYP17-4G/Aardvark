@@ -1,4 +1,4 @@
-package mUtil;
+package com.example.ekanugrahapratama.aardvark_project.kryptoTools;
 
 import java.util.Scanner;
 
