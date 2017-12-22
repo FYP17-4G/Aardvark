@@ -1,8 +1,7 @@
 import com.Utility;
-import modules.RectangularTransposition;
+import modules.PermuteString;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Krypto {
     private static String ORIGINAL_DATA;
@@ -15,16 +14,12 @@ public class Krypto {
     // Initialize and set new ORIGINAL_DATA with the init function.
     // It will automatically set the MODIFIED_DATA as well.
     public static void main(String[] args) {
-        init (Utility.readFile("res/plain.txt"));
+        init (Utility.readFile("res/abc.txt"));
 //        init ("What does this all mean?");
         Utility.line('-', 30, "Original Text");
         displayOriginalString();
 
-        MODIFIED_DATA = RectangularTransposition.encrypt(MODIFIED_DATA, 3);
-        displayModifiedString();
-
-        MODIFIED_DATA = RectangularTransposition.decrypt(MODIFIED_DATA, 3);
-        displayModifiedString();
+        PermuteString.permute(MODIFIED_DATA, 2);
     }
 
     private static void init (String originalInput) {
@@ -105,31 +100,5 @@ public class Krypto {
         originalInput = originalInput.toLowerCase();
         originalInput = originalInput.replaceAll("[^A-Za-z]", "");
         MODIFIED_DATA = originalInput;
-    }
-
-    //for permuting the key. probably need to move it to the appropriate function.
-    private static List<List<Integer>> permute(Integer[] key) {
-        //use lists because they accept inserting stuff in the middle, unlike a normal array.
-        List<List<Integer>> permutations = new ArrayList<>();
-
-        // Add an empty list so that the middle for loop runs
-        permutations.add(new ArrayList<>());
-
-        for ( int i = 0; i < key.length; ++i) {
-            // create a temporary container to hold the new permutations
-            // while iterating over the old ones
-            List<List<Integer>> current = new ArrayList<>();
-
-            for ( List<Integer> permutation : permutations ) {
-                for ( int j = 0, n = permutation.size() + 1; j < n; ++j ) {
-                    List<Integer> temp = new ArrayList<>(permutation);
-                    temp.add(j, key[i]);
-                    current.add(temp);
-                }
-            }
-            permutations = new ArrayList<>(current);
-        }
-
-        return permutations;
     }
 }
