@@ -6,8 +6,8 @@
     <coordinates>
       <x>140</x>
       <y>120</y>
-      <w>1010</w>
-      <h>630</h>
+      <w>1220</w>
+      <h>820</h>
     </coordinates>
     <panel_attributes>TransposeData</panel_attributes>
     <additional_attributes/>
@@ -97,10 +97,10 @@ fg=black</panel_attributes>
       <x>340</x>
       <y>640</y>
       <w>30</w>
-      <h>130</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -108,10 +108,10 @@ fg=black</panel_attributes>
       <x>860</x>
       <y>480</y>
       <w>30</w>
-      <h>290</h>
+      <h>480</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;270.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;460.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

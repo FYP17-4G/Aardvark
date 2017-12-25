@@ -167,7 +167,7 @@ bg=light_gray</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.1.2. Check if name already exists
+2.1. Check if name already exists
 fg=blue</panel_attributes>
     <additional_attributes>370.0;20.0;10.0;20.0</additional_attributes>
   </element>
@@ -221,11 +221,11 @@ fg=red</panel_attributes>
     <coordinates>
       <x>860</x>
       <y>290</y>
-      <w>250</w>
+      <w>230</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.1.1. valid:=checkInput
+2.1. valid:=checkInput
 fg=black</panel_attributes>
     <additional_attributes>10.0;40.0;80.0;40.0;80.0;10.0;10.0;10.0</additional_attributes>
   </element>
@@ -251,7 +251,7 @@ fg=red</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2.3.1. Add to database
+2.3. Add to database
 fg=red</panel_attributes>
     <additional_attributes>370.0;20.0;10.0;20.0</additional_attributes>
   </element>
