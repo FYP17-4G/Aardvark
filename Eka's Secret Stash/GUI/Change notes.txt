@@ -38,4 +38,30 @@ Changes:
 	- Vigenere Subtractive (Encryption only)
 	- Vigenere Additive (Encryption only)
 
+23 December 2017
+
++[GUI] real-time update of cipher text with certain period applied on graph now works
++ Some bug fixing
+
+24 December 2017
+
+#Bug report:
+- Project rename prompt appears on pressing back from project View (if the button from bottom navigation panel is pressed)
+- Index out of bounds exception in substitution by string function (rect key subst)
+
++ Integrates all Crypto functions to the GUI to find more possible bugs
++ Slightly modified some Krypto codes for compatibility: (below are modified functions)
+	- Shift Cipher
+
++ [GUI]Added Encryption and Decryption GUI for the Encryption/Decryption feature
+	- Shift Cipher
+	- All Vigenere Cipher
+	- Rectangular Transposition
++ Copy and paste functions for Encryption / Decryption feature works properly
+
+//WHAT TO DO NEXT
+- GUI for permutation
+- merge Columnar transposition in project view
+- fix rectangular substitution (this affects "substitution by string" and rect transpo(in encrypt decrypt feature))
+
 	

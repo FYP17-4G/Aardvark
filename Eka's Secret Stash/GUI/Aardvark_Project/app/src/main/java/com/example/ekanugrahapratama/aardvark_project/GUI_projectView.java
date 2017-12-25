@@ -1,6 +1,7 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
 import android.content.DialogInterface;
+import android.graphics.ColorMatrix;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -25,7 +26,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.GraphView;
 
 import com.example.ekanugrahapratama.aardvark_project.analysisTools.CryptoAnalysis;
-import com.example.ekanugrahapratama.aardvark_project.kryptoTools.CalculateIC;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.*;
 
 public class GUI_projectView extends AppCompatActivity {
 
@@ -41,38 +42,49 @@ public class GUI_projectView extends AppCompatActivity {
     private String originalCipherText = new String();
     private TextView cipherTextView;
 
+    private ArrayList<String> permutation; //the cipher text permutation
+
     //Analysis variables
     private CryptoAnalysis cryptoAnalysis;
 
     //Graph variables
+    private String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+
     private GraphView graph;
     private TextView graphPeriodIndicator;
     private LineGraphSeries<DataPoint> cipherTextSeries = new LineGraphSeries<DataPoint>(); //USE THIS DATA SET FOR PLOTTING cipherText only!!!
     private LineGraphSeries<DataPoint> periodCipherTextSeries = new LineGraphSeries<DataPoint>(); //USE THIS DATA SET EXCLUSIVELY FOR CALCULATING GRAPH OF PERIOD N!!!
     private SeekBar graphSeekBar;
 
+    //IC CALCULATION
+    private int MAX_PERIOD = 20;
+
+    protected CalculateIC ic;
+    private TextView cipherICTV;
+    private double cipherIC = 0;
+
+    private ArrayList<Double> cipherICofN;
+    private ArrayList<StringBuilder> cTextofN;
+
     /**Variables for Krypto tools*/
     //CAESAR CIPHER
-    //private ShiftCipher caesarCipher = new ShiftCipher();
-
     private SeekBar caesarSeekBar;
-    TextView indicator;
+    private TextView indicator;
     private int shiftCipherBy = 0;
 
     private Button caesarShiftRight;
     private Button caesarShiftLeft;
 
-    //IC CALCULATION
-    protected CalculateIC ic;
-    private TextView cipherICTV;
-    private double cipherIC = 0;
+    private ShiftCipher shiftCipher = new ShiftCipher();
 
     //COLUMNAR TRANSPOSITION
     private Button cTranspo_button;
 
     //RECTANGULAR TRANSPOSITION
     private Button rTranspo_button;
+    private RectangularTransposition rectangularTransposition;
 
+    private ColumnarTransposition cTranspo = new ColumnarTransposition();
     //SUBSTITUTION
     private Spinner charASpinner; //Replace charA with charB
     private Spinner charBSpinner;
@@ -83,6 +95,8 @@ public class GUI_projectView extends AppCompatActivity {
     private Button stringSubButton;
     private String stringSubValue;
 
+    Substitute substitution;
+    RectKeySubstitution rectSubstitution;
 
     //<...>
 
@@ -92,8 +106,13 @@ public class GUI_projectView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_view);
 
-        //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
+        findViewById(R.id.normalview).add
 
+        /**SET UP THE CIPHER TEXT VIEW AREA*/
+        cipherTextView = (TextView) findViewById(R.id.project_view_cipher_text);
+        cipherTextView.setTextColor(Color.WHITE);
+
+        //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
         projectUniqueID = getIntent().getStringExtra("project_view_unique_ID"); //USE THIS LATRE
         this.projectTitle = getIntent().getStringExtra("project_view_title");
         setTitle(projectTitle);
@@ -110,12 +129,12 @@ public class GUI_projectView extends AppCompatActivity {
         //set IC related function
         cipherICTV = (TextView) findViewById(R.id.cipherICTextView);
         ic = new CalculateIC();
-        calculateCipherIC();
+
+        calculateCipherIC(cipherText, MAX_PERIOD);
         calculateCipherFreq();
 
-        graph = (GraphView) findViewById(R.id.graph_lot);
-        plotGraph();
-        setICPeriodTool();
+        setGraph();
+        rePlotGraph();
     }
 
     /**Misc Functions*/
@@ -123,6 +142,9 @@ public class GUI_projectView extends AppCompatActivity {
     //TEST_CIPHER.txt is inside "assets" folder. DELETE IT LATER AND CHANGE IT ACCORDINGLY
     private void getCipherTextFromFile()
     {
+
+        /**IMPORTANT!!!! IF THE FILE IS NOT FOUND, THEN ASK THE USER TO GET THE FILE LOCATION*/
+
         BufferedReader fileIn;
         String line;
 
@@ -131,7 +153,6 @@ public class GUI_projectView extends AppCompatActivity {
             fileIn = new BufferedReader(new InputStreamReader(getAssets().open("TEST_CIPHER.txt")));
             while((line = fileIn.readLine()) != null)
             {
-                System.out.println(">>>> " + line);
                 cipherText += line;
                 cipherTextView.append(line+"\n");
             }
@@ -144,19 +165,6 @@ public class GUI_projectView extends AppCompatActivity {
             System.exit(404);
         }
     }
-
-    //This will convert given String to the same string but without whitespace
-    protected String stringNoWhiteSpace(String cText)
-    {
-        String temp = new String();
-
-        for(int i = 0; i < cText.length(); i++)
-            if(cText.charAt(i) != ' ')
-                temp+=cText.charAt(i);
-
-        return temp;
-    }
-
 
     //TODO(me) FINISH THESE: record(), undo(), reset()
     //this records the actions of the user, use this for doing stuff like undo action
@@ -200,6 +208,8 @@ public class GUI_projectView extends AppCompatActivity {
 
                     else
                         doShiftLeft();
+
+                    refresh();
                 }
             }
         };
@@ -235,7 +245,6 @@ public class GUI_projectView extends AppCompatActivity {
         caesarSeekBar.setProgress(0);
         caesarSeekBar.setOnSeekBarChangeListener(caesarSeekBarListener);
 
-        cipherTextView = (TextView) findViewById(R.id.project_view_cipher_text);
         caesarShiftLeft = (Button) findViewById(R.id.button_caesarShiftL);
         caesarShiftRight = (Button) findViewById(R.id.button_caesarShiftR);
 
@@ -254,11 +263,13 @@ public class GUI_projectView extends AppCompatActivity {
     private void doShiftLeft()
     {
         //TODO(***) Do Shift DECRYPTION here, assign result to variable "cipherText", get key value from variable "shiftCipherBy"
+        cipherText = shiftCipher.decrypt(cipherText.toLowerCase(), shiftCipherBy);
     }
 
     private void doShiftRight()
     {
         //TODO(***) Do Shift ENCRYPTION here, assign result to variable "ciphertext", get key value from variable "shiftCipherBy"
+        cipherText = shiftCipher.encrypt(cipherText.toLowerCase(), shiftCipherBy);
     }
 
     private void setSubstitutionTool()
@@ -300,10 +311,10 @@ public class GUI_projectView extends AppCompatActivity {
             public void onClick(View v)
             {
                 if((charA != '-') || (charB != '-'))
-                    {
-                        doSubstitution(charA, charB);
-                        refresh();
-                    }
+                {
+                    doSubstitution(charA, charB);
+                    refresh();
+                }
             }
         };
 
@@ -360,15 +371,17 @@ public class GUI_projectView extends AppCompatActivity {
 
     }
 
-        private void doSubstitution(String stringKey)
-        {
-            //TODO(***) Substitution by STRING, assign result to variable "cipherText"
-        }
+    private void doSubstitution(String stringKey)
+    {
+        //TODO(***) Substitution by STRING, assign result to variable "cipherText"
+        cipherText = rectSubstitution.encrypt(cipherText.toLowerCase(), stringKey);
+    }
 
-        private void doSubstitution(char a, char b) //replace charA with charB
-        {
-            //TODO(***) Substitution by CHAR, assign result to variable "cipherText"
-        }
+    private void doSubstitution(char a, char b) //replace charA with charB
+    {
+        //TODO(***) Substitution by CHAR, assign result to variable "cipherText"
+        cipherText = substitution.sub(a, b, cipherText.toLowerCase());
+    }
 
     private void setTranspoTools()
     {
@@ -384,8 +397,7 @@ public class GUI_projectView extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
-                        doTranspo_C();
-
+                        doTranspo_C(framework.popup_getInput());
                         refresh();
                     }
                 };
@@ -407,13 +419,12 @@ public class GUI_projectView extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
-                        doTranspo_R();
-
+                        doTranspo_R(framework.popup_getInput());
                         refresh();
                     }
                 };
 
-                framework.popup_show("Columnar Transposition", "Enter key", ocl);
+                framework.popup_getNumber_show("Rectangular Transposition", "Enter Number of columns", ocl, 1);
             }
         });
 
@@ -421,30 +432,37 @@ public class GUI_projectView extends AppCompatActivity {
         //TODO(me) Set up interface for periodic transposition
     }
 
-        private void doTranspo_C()
-        {
-            //TODO(***) Columnar Transposition, assign result to variable "cipherText"
-        }
-        private void doTranspo_R()
-        {
-            //TODO(***) Rectangular Transposition, assign result to variable "cipherText"
-        }
+    private void doTranspo_C(String key)
+    {
+        //TODO(***) Columnar Transposition, assign result to variable "cipherText"
+
+    }
+    private void doTranspo_R(String key) //the key is integer
+    {
+        //TODO(***) Rectangular Transposition, assign result to variable "cipherText"
+        int k = (int)key.charAt(0);//NEED TO ASSIGN INPUT LENGTH LIMIT IN THE POPUP INPUT FIELD
+
+        //apply rectangular transposition from specified key
+        cipherText = rectangularTransposition.encrypt(cipherText, k);
+    }
 
     /**IC and FREQUENCY RELATED FUNCTIONS*/
 
-    private void setICPeriodTool()
+    private void setGraph()
     {
+        //TODO(me) find a way to make this more flexible (maybe allow the user to set their own maximum period)
+
         final SeekBar.OnSeekBarChangeListener graphPeriodListener = new SeekBar.OnSeekBarChangeListener()
         {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b)
             {
-                graphPeriodIndicator.setText("Period: "+ graphSeekBar.getProgress());
+                int prog = graphSeekBar.getProgress();
 
-                if((graphSeekBar.getProgress()) != 0)
+                if(prog > 1)
                 {
-                    cipherTextWithCurrentPeriod = getCipherTextPeriodOf(graphSeekBar.getProgress());
-                    graphSeekBar.dispatchDisplayHint(graphSeekBar.getProgress());
+                    graphPeriodIndicator.setText("Period: "+ prog);
+                    cipherTextWithCurrentPeriod = getCipherTextPeriodOf(prog); //cipherTextWithCurrentPeriod is class global
                     rePlotGraph();
                 }
             }
@@ -462,8 +480,6 @@ public class GUI_projectView extends AppCompatActivity {
             }
         };
 
-        int MAX_PERIOD = 20; //TODO(me) find a way to make this more flexible (maybe allow the user to set their own maximum period)
-
         graphPeriodIndicator = (TextView) findViewById(R.id.period_indicator);
         graphPeriodIndicator.setText("Period: 0");
 
@@ -471,41 +487,8 @@ public class GUI_projectView extends AppCompatActivity {
         graphSeekBar.setMax(MAX_PERIOD);
         graphSeekBar.setProgress(0);
         graphSeekBar.setOnSeekBarChangeListener(graphPeriodListener);
-    }
 
-    private String getCipherTextPeriodOf(int periodValue)
-    {
-        //TODO(***) Get the cipherText String of period N
-        String returnValue = "REPLACE LATER, skratta du florlar du";
-
-        return returnValue;
-    }
-
-    private void rePlotGraph()
-    {
-        //remove the data sets and series
-        cipherTextSeries = new LineGraphSeries<DataPoint>();
-        periodCipherTextSeries = new LineGraphSeries<DataPoint>();
-        graph.removeAllSeries();
-
-        //re plot the graph
-        plotGraph();
-
-        if(!cipherTextWithCurrentPeriod.isEmpty())//if this variable is not empty
-            plotGraph(cipherTextWithCurrentPeriod);
-    }
-
-    private void plotGraph() //use this to plot graph of whatever the value is in cipherText variable
-    {
-        String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-        final int MAX_DATA_POINTS = 26;
-
-        //fill series data
-        for(int x = 0; x < MAX_DATA_POINTS; x++)
-        {
-            int alphabetcount = charCount(cipherText.toLowerCase(), alphabet[x].charAt(0));
-            cipherTextSeries.appendData(new DataPoint(x, alphabetcount), true, MAX_DATA_POINTS);
-        }
+        graph = (GraphView) findViewById(R.id.graph_lot);
 
         //set up graph axis title
         graph.getGridLabelRenderer().setVerticalAxisTitle("Frequency");
@@ -518,59 +501,120 @@ public class GUI_projectView extends AppCompatActivity {
         //set the line color
         cipherTextSeries.setColor(Color.BLUE);
 
+        //set the line color
+        periodCipherTextSeries.setColor(Color.GRAY);
+
         graph.addSeries(cipherTextSeries);
+        graph.addSeries(periodCipherTextSeries);
     }
 
-    private void plotGraph(String textOfPeriod) //plot the graph for a given text, the value of the given text should be a string of period N
+    private String getCipherTextPeriodOf(int periodValue)
     {
-        String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+        return cTextofN.get(periodValue).toString();
+    }
+
+    private void rePlotGraph()
+    {
+
+
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                //remove the data sets and series
+                cipherTextSeries.resetData(plotGraph());
+
+                if(!cipherTextWithCurrentPeriod.isEmpty())//if this variable is not empty
+                    periodCipherTextSeries.resetData(plotGraph(cipherTextWithCurrentPeriod));
+            }
+        });
+    }
+
+    private DataPoint[] plotGraph() //use this to plot graph of whatever the value is in cipherText variable
+    {
         final int MAX_DATA_POINTS = 26;
+
+        DataPoint[] dp = new DataPoint[MAX_DATA_POINTS];
 
         //fill series data
         for(int x = 0; x < MAX_DATA_POINTS; x++)
         {
-            int alphabetcount = charCount(textOfPeriod.toLowerCase(), alphabet[x].charAt(0));
-            periodCipherTextSeries.appendData(new DataPoint(x, alphabetcount), true, MAX_DATA_POINTS);
+            int alphabetcount = charCount(framework.stringNoWhiteSpace(cipherText.toLowerCase()), alphabet[x].charAt(0));
+            dp[x] = new DataPoint(x, alphabetcount);
+            //cipherTextSeries.appendData(dp[x], false, MAX_DATA_POINTS);
         }
+        return dp;
+    }
 
-        //set the line color
-        periodCipherTextSeries.setColor(Color.GRAY);
-        graph.addSeries(periodCipherTextSeries);
+    private DataPoint[] plotGraph(String textOfPeriod) //plot the graph for a given text, the value of the given text should be a string of period N
+    {
+        final int MAX_DATA_POINTS = 26;
+
+        DataPoint[] dp = new DataPoint[MAX_DATA_POINTS];
+
+        //fill series data
+        for(int x = 0; x < MAX_DATA_POINTS; x++)
+        {
+            int alphabetcount = charCount(framework.stringNoWhiteSpace(textOfPeriod.toLowerCase()), alphabet[x].charAt(0));
+
+            int highest = 1;
+
+            for(int i = 0; i < 26; i++)
+                if(charCount(framework.stringNoWhiteSpace(textOfPeriod.toLowerCase()), alphabet[i].charAt(0)) > highest)
+                    highest = charCount(framework.stringNoWhiteSpace(textOfPeriod.toLowerCase()), alphabet[i].charAt(0));
+
+            /**THIS AMPLIFIES THE GRAPH REPRESENTATION OF THE CIPHER TEXT WITH PERIOD APPLIED, SO THE LINE CAN BE SEEN EASILY*/
+            alphabetcount *= (highest*3);
+
+            dp[x] = new DataPoint(x, alphabetcount);
+            //periodCipherTextSeries.appendData(dp[x], false, MAX_DATA_POINTS);
+        }
+        return dp;
     }
 
     private int charCount(String text, char c)
     {
         int count = 0;
 
-            for(int i = 0; i < text.length(); i++)
-                if(text.charAt(i) == c)
-                    count++;
+        for(int i = 0; i < text.length(); i++)
+            if(text.charAt(i) == c)
+                count++;
 
         return count;
     }
 
-    private void calculateCipherIC()
+    private void calculateCipherIC(String cText, int n)
     {
         cipherIC = getCipherIC(cipherText);
-        cipherICTV.setText("IC: " + Double.toString(cipherIC));
+        cipherICTV.setText("IC: " + Double.toString(cipherIC) + "\n");
+
+        cipherICofN = new ArrayList<Double>();
+        cipherICofN = getCipherIC(framework.stringNoWhiteSpace(cText), n);
+
+        for(int i = 0; i < cipherICofN.size(); i++)
+            cipherICTV.append("IC of period " + (i+1) + ": " + cipherICofN.get(i).toString() + "\n");
+
+
+        //getting every Nth letter for Polynomial cipher frequency analysis
+        cTextofN = new ArrayList<StringBuilder>();
+        cTextofN = ic.getEveryNthLetter(n, cText);
     }
 
-        //this is protected because we need it for suggestion system
-        protected double getCipherIC(String cText)
-        {
-            return ic.getIC(stringNoWhiteSpace(cText));
-        }
+    //this is protected because we need it for suggestion system
+    protected double getCipherIC(String cText)
+    {
+        return ic.getIC(framework.stringNoWhiteSpace(cText));
+    }
+
+    protected ArrayList<Double> getCipherIC(String cText, int n) //get cipher IC for period of 2 until N
+    {
+        return ic.getIC(n, framework.stringNoWhiteSpace(cText));
+    }
 
 
     private void calculateCipherFreq()
     {
         //TODO(***) Calculate Cipher Frequency
-        /**maybe pass it into an arrayList (Declare it in VARIABLE SECTION up top), then I'll make the GUI after*/
-
-        //TODO(me) setup GUI for displaying cipher
-    }
-    private void calculateCipherFreq(int begin, int end) //begin and end marks the index where it starts and where it finishes
-    {
-        //TODO(***) Calculate Cipher Frequency(with boundaries)
     }
 }

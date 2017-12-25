@@ -252,7 +252,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                         }
                     else if(event.getAction() == MotionEvent.ACTION_UP && !longpressed)
                         {
-                            view.setBackgroundColor(Color.WHITE);
+                            view.setBackgroundColor(Color.TRANSPARENT);
 
                             //TODO(3) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
                             launchProjectView(id+title);
@@ -260,7 +260,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                         }
                     else
                         {
-                            view.setBackgroundColor(Color.WHITE);
+                            view.setBackgroundColor(Color.TRANSPARENT);
                         }
 
                 return true;

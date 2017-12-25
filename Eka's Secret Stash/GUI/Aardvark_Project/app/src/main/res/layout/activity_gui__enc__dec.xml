@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ekanugrahapratama.aardvark_project.GUI_EncryptionDecryption">
+    tools:context="com.example.ekanugrahapratama.aardvark_project.GUI_Enc_Dec">
 
     <FrameLayout
         android:id="@+id/upperLayout"
@@ -91,11 +91,10 @@
                     <TextView
                         android:id="@+id/ed_caesar_shift_indicator"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Shift by: 0" />
+                        android:layout_height="wrap_content" />
 
                     <SeekBar
-                        android:id="@+id/seekBar"
+                        android:id="@+id/ed_caesarSeekBar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 

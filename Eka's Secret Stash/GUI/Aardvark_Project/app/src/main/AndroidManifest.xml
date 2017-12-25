@@ -12,7 +12,7 @@
         <activity
             android:name=".GUI_MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GUI_projectView"
             android:label="@string/projectView_name"
@@ -32,7 +32,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GUI_EncryptionDecryption"></activity>
+        <activity android:name=".GUI_EncryptionDecryption" />
+        <activity android:name=".GUI_Enc_Dec"></activity>
     </application>
 
 </manifest>

@@ -10,9 +10,23 @@ import android.content.DialogInterface;
 import android.content.ClipboardManager;
 import android.content.ClipData;
 
-public class GUI_EncryptionDecryption extends AppCompatActivity {
+import com.example.ekanugrahapratama.aardvark_project.encDecTools.*;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.ShiftCipher;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.RectKeySubstitution;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.RectangularTransposition;
+
+public class GUI_Enc_Dec extends AppCompatActivity {
 
     App_Framework framework = new App_Framework(this);;
+
+    /**ENCRYPTION DECRYPTION OBJECT VARIABLES*/
+    ShiftCipher shiftCipher;
+    VigenereAdditive vigenereAdditive;
+    VigenereInverse vigenereInverse;
+    VigenereSubtractive vigenereSubtractive;
+    RectangularTransposition rectangularTransposition;
+    RectKeySubstitution rectKeySubstitution;
+    /**-------------------------------------*/
 
     //cipher text view
     private String inputText = new String();
@@ -27,6 +41,8 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
     SeekBar caesarSeekBar;
     Button caesarShiftLeft;
     Button caesarShiftRight;
+
+    TextView caesarShiftIndicator;
 
     private int shiftCipherBy = 0;
 
@@ -46,7 +62,7 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gui__encryption_decryption);
+        setContentView(R.layout.activity_gui__enc__dec);
 
         inputTextView = (TextView) findViewById(R.id.ed_textInputView);
 
@@ -113,25 +129,41 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
                 else if(view.getId() == R.id.ed_vigenere_I)
                     title = "Vigenere Inverse";
 
-                framework.popup_show(title, "Enter Key", new DialogInterface.OnClickListener()
-                {
+                framework.popup_show(title, "Enter Key", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        if(framework.popup_getInput().isEmpty())
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (framework.popup_getInput().isEmpty())
                             framework.system_message_small("Error: Input cannot be empty");
 
                         else
+                        {
                             key = framework.popup_getInput();
+                            if (view.getId() == R.id.ed_vigenere_A)
+                                doVigenereAdditive(true);
+                            else if (view.getId() == R.id.ed_vigenere_I)
+                                doVigenereInverse(true);
+                            else
+                                doVigenereSubstractive(true);
+                        }
                     }
-                });
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (framework.popup_getInput().isEmpty())
+                            framework.system_message_small("Error: Input cannot be empty");
 
-                if(view.getId() == R.id.ed_vigenere_A)
-                    doVigenereAdditive();
-                else if(view.getId() == R.id.ed_vigenere_I)
-                    doVigenereInverse();
-                else
-                    doVigenereSubstractive();
+                        else
+                        {
+                            key = framework.popup_getInput();
+                            if (view.getId() == R.id.ed_vigenere_A)
+                                doVigenereAdditive(false);
+                            else if (view.getId() == R.id.ed_vigenere_I)
+                                doVigenereInverse(false);
+                            else
+                                doVigenereSubstractive(false);
+                        }
+                    }
+                }, "Encrypt", "Decrypt");
             }
 
             else
@@ -149,21 +181,31 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
             {
                 if(view.getId() == R.id.ed_transpo_rect)
                 {
-                    framework.popup_show("Tranposition", "Enter key", new DialogInterface.OnClickListener()
-                    {
+                    framework.popup_getNumber_show("Tranposition", "Enter key", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i)
-                        {
-                            if(framework.popup_getInput().isEmpty())
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (framework.popup_getInput().isEmpty())
                                 framework.system_message_small("Error: Input cannot be empty");
 
                             else
+                            {
                                 key = framework.popup_getInput();
-
+                                doRectTranspo(true);
+                            }
                         }
-                    });
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (framework.popup_getInput().isEmpty())
+                                framework.system_message_small("Error: Input cannot be empty");
 
-                    doRectTranspo();
+                            else
+                            {
+                                key = framework.popup_getInput();
+                                doRectTranspo(false);
+                            }
+                        }
+                    }, "Encrypt", "Decrypt");
                 }
             }
 
@@ -181,20 +223,18 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
             {
                 if(view.getId() == R.id.ed_substitution_rect)
                 {
-                    framework.popup_show("Substitution", "Enter key", new DialogInterface.OnClickListener()
-                    {
+                    framework.popup_show("Substitution", "Enter key", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i)
-                        {
-                            if(framework.popup_getInput().isEmpty())
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (framework.popup_getInput().isEmpty())
                                 framework.system_message_small("Error: Input cannot be empty");
 
-                            else
+                            else {
                                 key = framework.popup_getInput();
+                                doRectSub(true);
+                            }
                         }
                     });
-
-                    doRectSub();
                 }
             }
             else
@@ -205,15 +245,35 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
     /**---------Tool Setters*/
     private void setCaesarTool()
     {
-        caesarSeekBar = new SeekBar(this);
+        caesarSeekBar = (SeekBar) findViewById(R.id.ed_caesarSeekBar);
         caesarShiftLeft = (Button) findViewById(R.id.ed_caesar_shiftLeft);
         caesarShiftRight = (Button) findViewById(R.id.ed_caesar_shiftRight);
 
         caesarSeekBar.setProgress(0);
-        caesarSeekBar.setMax(26);
+        caesarSeekBar.setMax(25);
+        caesarSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                caesarShiftIndicator.setText("Shift by: " + caesarSeekBar.getProgress());
+                shiftCipherBy = caesarSeekBar.getProgress();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         caesarShiftLeft.setOnClickListener(caesarShiftListener);
         caesarShiftRight.setOnClickListener(caesarShiftListener);
+
+        caesarShiftIndicator = (TextView) findViewById(R.id.ed_caesar_shift_indicator);
+        caesarShiftIndicator.setText("Shift by: 0");
     }
     private void setVigenereTool()
     {
@@ -243,7 +303,8 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
         if(clipboard.hasPrimaryClip())
         {
             inputText = clipboard.getPrimaryClip().getItemAt(0).getText().toString(); //copy whats inside primary clipboard to input text
-            inputTextView.setText(inputText);
+            inputText = inputText.toLowerCase();
+            inputTextView.setText(inputText.toLowerCase());
         }
 
         else
@@ -265,38 +326,70 @@ public class GUI_EncryptionDecryption extends AppCompatActivity {
     /**FOR ALL SHIFT ALGORITHM text variable: "input text: String", key variable: "shiftCipherBy: int"*/
     private void doCaesarShiftR() //shift ENCRYPT
     {
-
+        inputText = shiftCipher.encrypt(inputText, shiftCipherBy);
+        refresh();
+        System.out.println(">>>>>>>" + inputText);
     }
     private void doCaesarShiftL() //shift DECRYPT
     {
-
+        inputText = shiftCipher.decrypt(inputText, shiftCipherBy);
+        refresh();
     }
 
     //TODO(&&&) Vigenere Additive, Inverse, Substractive
     /** FOR RECT TRANSPO, RECT SUBSTITUTION,AND ALL VIGENERE text variable: "input text: String", key variable: "key: String"*/
-    private void doVigenereAdditive()
+    private void doVigenereAdditive(boolean encrypt)
     {
+        if(encrypt)
+            inputText = vigenereAdditive.encrypt(framework.stringNoWhiteSpace(inputText), key);
+        else
+            inputText = vigenereAdditive.decrypt(framework.stringNoWhiteSpace(inputText), key);
 
+        refresh();
     }
-    private void doVigenereInverse()
+    private void doVigenereInverse(boolean encrypt)
     {
+        if(encrypt)
+            inputText = vigenereInverse.encrypt(framework.stringNoWhiteSpace(inputText), key);
+        else
+            inputText = vigenereInverse.decrypt(framework.stringNoWhiteSpace(inputText), key);
 
+        refresh();
     }
-    private void doVigenereSubstractive()
+    private void doVigenereSubstractive(boolean encrypt)
     {
+        if(encrypt)
+            inputText = vigenereSubtractive.encrypt(framework.stringNoWhiteSpace(inputText), key);
+        else
+            inputText = vigenereSubtractive.decrypt(framework.stringNoWhiteSpace(inputText), key);
 
+        refresh();
     }
 
     //TODO(&&&) Rectangular Transpo
-    private void doRectTranspo()
+    private void doRectTranspo(boolean encrypt)
     {
+        if(encrypt)
+            inputText = rectangularTransposition.encrypt(inputText, (int)key.charAt(0));
+        else
+            inputText = rectangularTransposition.decrypt(inputText, (int)key.charAt(0));
 
+        refresh();
     }
 
     //TODO(&&&) Rectangular Sub
-    private void doRectSub()
+    private void doRectSub(boolean encrypt)
     {
+        if(encrypt)
+            inputText = rectKeySubstitution.encrypt(inputText, key);
+        //else, do decrypt
 
+        refresh();
+    }
+
+    private void refresh() //this refreshes the input text view, !! DO NOTE that it also removes any occurences of whitespace
+    {
+        inputTextView.setText(framework.stringNoWhiteSpace(inputText));
     }
 
 }

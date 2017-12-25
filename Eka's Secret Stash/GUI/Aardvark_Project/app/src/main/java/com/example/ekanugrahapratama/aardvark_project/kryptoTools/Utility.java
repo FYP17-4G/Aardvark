@@ -1,9 +1,11 @@
 package com.example.ekanugrahapratama.aardvark_project.kryptoTools;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public final class Utility {
-    private static Scanner sc = new Scanner(System.in);
+public class Utility {
+    private static final Scanner sc = new Scanner(System.in);
 
     //to prevent instantiation
     private Utility(){}
@@ -11,9 +13,9 @@ public final class Utility {
     public static String getString (String prompt) {
         System.out.print(prompt + ": ");
 
-        String o = sc.nextLine();
-        return o;
+        return sc.nextLine();
     }
+
     public static Integer getInt(String prompt, int max) {
         Integer input;
         Boolean success = true;
@@ -37,6 +39,7 @@ public final class Utility {
 
         return input;
     }
+
     public static Double getDouble(String prompt) {
         String t;
         Double d = 0.0;
@@ -78,6 +81,7 @@ public final class Utility {
 
         System.out.println();
     }
+
     //draw a divider with a title
     public static void line (Character c, int len, String title) {
         if (len > title.length()) {
@@ -93,5 +97,77 @@ public final class Utility {
         }
 
         System.out.println();
+    }
+
+    public static Integer getHighestIndex (ArrayList<Integer> input) {
+        int maxVal = 0, maxInd = 0;
+
+        int counter = 0;
+        for (Integer in: input) {
+            if (maxVal < in) {
+                maxVal = in;
+                maxInd = counter;
+            }
+
+            ++counter;
+        }
+
+        return maxInd;
+    }
+
+    public static String processData (String data) {
+        return data.replace("[^A-Za-z]", "");
+    }
+
+    //reads a file, returns the contents in a single string.
+    //apparently a String object can hold 4 billion characters, maybe we should test that.
+    public static String readFile (String name) {
+        File infile = new File(name);
+        BufferedReader reader;
+        StringBuilder sb = new StringBuilder();
+        int c;
+        try {
+            reader = new BufferedReader(new FileReader(infile));
+            while ( (c = reader.read()) != -1 ) {
+                sb.append((char)c);
+            }
+        } catch (IOException io) {
+            System.out.println("name = " + name);
+            System.out.println("Not found!");
+            System.exit(-1);
+        }
+
+//        System.out.println("Successfully read " + name + "!");
+//        System.out.println("Data = " + sb.toString());
+        return sb.toString();
+    }
+
+    //writes to the specified file.
+    public static void writeFile (String name, String data) throws IOException {
+        File outfile = new File(name);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
+
+        writer.write(data);
+        System.out.println(name + " successfully created!");
+    }
+
+    public static Integer getIndex (Character ch) {
+        return Character.toLowerCase(ch) - 'a';
+    }
+
+    public static Character randomAlphaNumeric () {
+        String ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyz01234567890";
+        Integer random = (int) (Math.random() * (ALPHANUMERIC.length()));
+        return ALPHANUMERIC.charAt(random);
+    }
+
+    public static String pad (String original, Integer keyLength) {
+        StringBuilder padded = new StringBuilder(original);
+
+        while ( (padded.length() % keyLength) != 0) {
+            padded.append(randomAlphaNumeric());
+        }
+
+        return padded.toString();
     }
 }

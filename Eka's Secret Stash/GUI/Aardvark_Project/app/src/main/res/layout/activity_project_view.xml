@@ -6,17 +6,30 @@
     android:layout_height="match_parent"
     tools:context="com.example.ekanugrahapratama.aardvark_project.GUI_projectView">
 
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/normalview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="main" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/permview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="permutation view" />
+    </android.support.design.widget.TabLayout>
+
     <FrameLayout
         android:id="@+id/cipherTextContainer"
         android:layout_width="379dp"
         android:layout_height="178dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/black_overlay"
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/cipherText_ScrollView"
@@ -44,10 +57,13 @@
         android:layout_height="298dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cipherTextContainer"
+        app:layout_constraintVertical_bias="1.0">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -59,6 +75,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button_permutate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Button" />
 
                 <LinearLayout
                     android:id="@+id/layout_substitution"
@@ -87,6 +109,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Substitute by string" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -142,12 +165,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Rectangular Transpo" />
-
-                <Button
-                    android:id="@+id/button_tool3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="*Empty, do latre*" />
 
                 <LinearLayout
                     android:id="@+id/ICLayout"
@@ -211,7 +228,7 @@
                         <TextView
                             android:id="@+id/cipherICFreqView"
                             android:layout_width="159dp"
-                            android:layout_height="136dp"
+                            android:layout_height="365dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_weight="1"
@@ -220,8 +237,8 @@
 
                         <TextView
                             android:id="@+id/cipherICTextView"
-                            android:layout_width="113dp"
-                            android:layout_height="22dp"
+                            android:layout_width="186dp"
+                            android:layout_height="373dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_weight="1"

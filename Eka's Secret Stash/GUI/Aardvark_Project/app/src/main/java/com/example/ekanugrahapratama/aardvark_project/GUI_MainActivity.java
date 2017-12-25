@@ -170,7 +170,7 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private void launchEncryptionDecryptionActivity()
     {
-        Intent intent = new Intent(this, GUI_EncryptionDecryption.class);
+        Intent intent = new Intent(this, GUI_Enc_Dec.class);
         startActivity(intent);
     }
 

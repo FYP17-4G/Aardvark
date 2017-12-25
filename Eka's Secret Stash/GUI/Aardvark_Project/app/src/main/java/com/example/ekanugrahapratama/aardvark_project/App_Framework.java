@@ -3,10 +3,14 @@ package com.example.ekanugrahapratama.aardvark_project;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.InputType;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 /**
  * This is class contains methods that simplifies the process of building the application
@@ -18,23 +22,73 @@ public class App_Framework
 
     //Pop up window related variables
     private AlertDialog.Builder popUpWindow;
-    private EditText popup_inputText;
     private TextView popup_textView;
+
+    //pop up view object variables
+    private EditText popup_inputText;
+    private RecyclerView.Adapter adapter;
+
+    private String popUpNumberInput = new String();
 
     public App_Framework(Context context)
     {
         this.context = context;
     }
 
-    /**
-     * [This will create a standard popup dialogue]
-     *
-     * In order to do this, you have to pass in onClickListener variable that defines specific action to this method
-     * e.g:
-     *      App_Framework framework;
-     *      DialogueInterface.onClickListener myListener = new DialogueInterface.onClickListener(...Define on click listener action here...);
-     *      framework.popup_getInput("Title", "Hint", myListener);
-     * */
+    //displays selection list pop up menu
+    public void popup_selectionChoice_show(ArrayList<String> content)
+    {
+        adapter = new RecyclerView.Adapter()
+        {
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return null;
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 0;
+            }
+        };
+    }
+
+    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener, int inputLengthLimit)
+    {
+        //build popup dialogue
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setTitle(popup_title);
+
+        //set up the input field
+        popup_inputText = new EditText(context);
+        popup_inputText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
+        popUpWindow.setView(popup_inputText);
+
+        //set up positive button
+        popUpWindow.setPositiveButton("OK",clickListener);
+
+        //set up negative button
+        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.cancel();
+            }
+        });
+
+        popUpWindow.show();
+    }
+
+    public String popup_getNumber_getResult()
+    {
+        return popUpNumberInput;
+    }
 
     public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener)
     {
@@ -63,6 +117,51 @@ public class App_Framework
 
         popUpWindow.show();
     }
+
+    /**CUSTOMIZEABLE pop up input text for positive button (right button) and negative button (left button)*/
+    public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
+    {
+        //build popup dialogue
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setTitle(popup_title);
+
+        //set up the input field
+        popup_inputText = new EditText(context);
+        popup_inputText.setInputType(InputType.TYPE_CLASS_TEXT);
+        popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
+        popUpWindow.setView(popup_inputText);
+
+        //set up positive button
+        popUpWindow.setPositiveButton(positiveText, positiveOCL);
+
+        //set up negative button
+        popUpWindow.setNegativeButton(negativeText, negativeOCL);
+
+        popUpWindow.show();
+    }
+
+    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
+    {
+        //by default, the pop up dialogue content is text input
+        //build popup dialogue
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setTitle(popup_title);
+
+        //set up the input field
+        popup_inputText = new EditText(context);
+        popup_inputText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
+        popUpWindow.setView(popup_inputText);
+
+        //set up positive button
+        popUpWindow.setPositiveButton(positiveText, positiveOCL);
+
+        //set up negative button
+        popUpWindow.setNegativeButton(negativeText, negativeOCL);
+
+        popUpWindow.show();
+    }
+
     /**
      * Use this method to get the user input in the popup dialogue
      * */
@@ -95,6 +194,7 @@ public class App_Framework
         popUpWindow.setTitle(popup_title);
         popup_textView.setText(popup_message);
         popUpWindow.setPositiveButton(popup_buttonMessage, errMessageClickListener);
+        popUpWindow.setView(popup_textView);
     }
     public void system_message_popup(String popup_title, String popup_message) //by default, the text message in the popup button is "OK"
     {
@@ -110,8 +210,21 @@ public class App_Framework
         popUpWindow = new AlertDialog.Builder(context);
         popup_textView = new TextView(context);
 
+        popUpWindow.setView(popup_textView);
         popUpWindow.setTitle(popup_title);
         popup_textView.setText(popup_message);
         popUpWindow.setPositiveButton("OK", errMessageClickListener);
+    }
+
+    //This will convert given String to the same string but without whitespace
+    public String stringNoWhiteSpace(String cText)
+    {
+        String temp = new String();
+
+        for(int i = 0; i < cText.length(); i++)
+            if(cText.charAt(i) != ' ')
+                temp+=cText.charAt(i);
+
+        return temp;
     }
 }

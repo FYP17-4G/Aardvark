@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 public class FrequencyAnalysis {
     private static ArrayList < mPair <Character, Integer> > frequencyTable = new ArrayList<>(26);
-    
+
     public static void main(String[] args) {
         String filename = Utility.getString("Filename");
         File in = new File(filename);
