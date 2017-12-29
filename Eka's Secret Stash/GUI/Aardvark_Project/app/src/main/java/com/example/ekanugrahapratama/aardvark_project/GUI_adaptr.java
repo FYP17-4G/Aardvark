@@ -199,6 +199,9 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                         if(projectExist(newProjectName))
                             framework.system_message_small("Project name already exist");
 
+                        else if(newProjectName.isEmpty())
+                             framework.system_message_small("The project name cannot be empty");
+
                         else
                         {
                             //find the old project name, replace with the new one
@@ -270,7 +273,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
             private void launchProjectView(String newActivityParams)//put the passed value as parameter
                 {
                     //start a new activity, and passes some variables >>> H(project ID | project Title)
-                    Intent intent = new Intent(context, GUI_projectView.class);
+                    Intent intent = new Intent(context, GUI_project_view.class);
                     intent.putExtra("project_view_params", newActivityParams);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
                     intent.putExtra("project_view_title", title);
                     context.startActivity(intent);

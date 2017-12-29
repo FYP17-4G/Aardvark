@@ -1,13 +1,15 @@
-package modules;
+package com.example.ekanugrahapratama.aardvark_project.kryptoTools;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PermuteString {
-    public static void permute (String data, Integer blockSize) {
+    public String permute (String data, Integer blockSize) {
         StringBuilder output = new StringBuilder();
         ArrayList<String> splittedStrings;
         Integer[] key = new Integer[blockSize];
+
+        String returnValue = new String();
 
         //populate the "key"
         for (int i = 0; i < blockSize; ++i) { key[i] = i; }
@@ -23,21 +25,11 @@ public class PermuteString {
 
             ArrayList<String> out = splitIntoStrings(output.toString(), blockSize);
 
-            int blksPerLine = 0;
-            for (String s: out) {
-                System.out.print(s + " ");
-
-                if (++blksPerLine == 3) {
-                    System.out.println();
-                    blksPerLine = 0;
-                }
-            }
-
-            System.out.println();
-            output = new StringBuilder();
+            for(int i = 0; i < out.size(); i++)
+                returnValue += out.get(i);
         }
 
-        System.out.println();
+        return returnValue;
     }
 
     private static ArrayList<String> splitIntoStrings (String data, Integer blockSize) {

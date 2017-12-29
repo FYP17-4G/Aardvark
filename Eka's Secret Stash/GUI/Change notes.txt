@@ -1,8 +1,6 @@
 [Android Application Change Notes]
 
-20 December 2017
-Changes:
-
+<20 December 2017>
 + Added some empty functions for Crypto functions:
 	(hint: look for keyword "TODO(***)")
 	- Transposition functions
@@ -12,9 +10,7 @@ Changes:
 + Refractored source files for easier naming conventions
 + Added folder "KryptoTools" for Krypto related .java files
 
-21 December 2017
-Changes:
-
+<21 December 2017>
 + [GUI]Added Graph interface
 	- Downloaded GraphView library online
 	link: http://www.android-graphview.org/download-getting-started/
@@ -24,8 +20,7 @@ Changes:
 + [GUI]Changed "Spinner" widget for Shift cipher to "Seek bar" widget
 + Added interface to set IC period:
 
-22 December 2017
-
+<22 December 2017>
 +[GUI]Added basic error handling in MainActivity.java
 +[GUI]Added rename function for each project entry (Long press project entry)
 +[GUI]Added Copy to clipboard and Paste from clipboard buttons for Encryption/Decryption feature, as a mean to get text input and cipher text result
@@ -38,13 +33,11 @@ Changes:
 	- Vigenere Subtractive (Encryption only)
 	- Vigenere Additive (Encryption only)
 
-23 December 2017
-
+<23 December 2017>
 +[GUI] real-time update of cipher text with certain period applied on graph now works
 + Some bug fixing
 
-24 December 2017
-
+<24 December 2017>
 #Bug report:
 - Project rename prompt appears on pressing back from project View (if the button from bottom navigation panel is pressed)
 - Index out of bounds exception in substitution by string function (rect key subst)
@@ -59,9 +52,20 @@ Changes:
 	- Rectangular Transposition
 + Copy and paste functions for Encryption / Decryption feature works properly
 
-//WHAT TO DO NEXT
+##TODO NEXT
 - GUI for permutation
 - merge Columnar transposition in project view
-- fix rectangular substitution (this affects "substitution by string" and rect transpo(in encrypt decrypt feature))
+- fix rectangular substitution (this affects "substitution by string" and rect transposition(in encrypt decrypt feature))
 
-	
+<26 December 2017>
+- [GUI] added tabbed menu for projectView
+- Permutation works (But still needs more tuning => still laggy & still need to figure out how to display each permutation separately)
+- Slightly changed permutation.java code to fit into the application (will be re-adjusted by the original author later)
+- Displaying characters per space and words per line works
+- IC result is now sorted
+
+- fixed a bug in IC calculation
+- fixed stupid error in the frequency graph
+
+##TODO NEXT
+- resolve rectangular substitution and columnar transposition (still doesn't work correctly)

@@ -7,9 +7,10 @@
 package com.example.ekanugrahapratama.aardvark_project.analysisTools;
 
 import com.example.ekanugrahapratama.aardvark_project.App_Framework;
-import com.example.ekanugrahapratama.aardvark_project.GUI_projectView;
+import com.example.ekanugrahapratama.aardvark_project.GUI_project_view;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.CalculateIC;
 
-public class CryptoAnalysis extends GUI_projectView
+public class CryptoAnalysis extends GUI_project_view
 {
     private String originalCipherText;
 
@@ -18,7 +19,7 @@ public class CryptoAnalysis extends GUI_projectView
     //common english character distribution letter A -> Z (HARDCODED)
     private double[] englishDist = {8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07};
     private double englishIC = 0.065;
-    private double originalCipherTextIC = getCipherIC(originalCipherText);
+    private double originalCipherTextIC = new CalculateIC().getIC(originalCipherText);
 
     CryptoAnalysis(String cText)
     {

@@ -14,7 +14,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GUI_projectView"
+            android:name=".GUI_project_view"
             android:label="@string/projectView_name"
             android:parentActivityName=".GUI_MainActivity">
             <meta-data
@@ -32,8 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GUI_EncryptionDecryption" />
-        <activity android:name=".GUI_Enc_Dec"></activity>
+        <activity android:name=".GUI_Enc_Dec" />
     </application>
 
 </manifest>
