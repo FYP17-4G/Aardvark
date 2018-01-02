@@ -1,4 +1,6 @@
-package com.example.ekanugrahapratama.aardvark_project.kryptoTools;
+package modules;
+
+import com.Utility;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class FrequencyAnalysis {
-    private static ArrayList < mPair <Character, Integer> > frequencyTable = new ArrayList<>(26);
+    private static ArrayList <mUtil.mPair<Character, Integer>> frequencyTable = new ArrayList<>(26);
     
     public static void main(String[] args) {
         String filename = Utility.getString("Filename");
@@ -15,11 +17,11 @@ public class FrequencyAnalysis {
         BufferedReader reader;
         Integer max = 7;
 
-        ArrayList <mPair <Character, Integer> > testFrequency;
+        ArrayList <mUtil.mPair<Character, Integer>> testFrequency;
 
         //initialize frequencyTable (ugh)
         for (int i = 0; i < 26; ++i) {
-            frequencyTable.add(new mPair<>((char)('a' + i), 0));
+            frequencyTable.add(new mUtil.mPair<Character, Integer>((char)('a' + i), 0));
         }
 
         try {
@@ -47,7 +49,7 @@ public class FrequencyAnalysis {
 
         testFrequency = getMostFrequentCharacter(frequencyTable, max);
         System.out.print (max + " most frequent characters = ");
-        for (mPair x: testFrequency) {
+        for (mUtil.mPair x: testFrequency) {
             System.out.print(x.first + " ");
         }
         System.out.println();
@@ -65,9 +67,9 @@ public class FrequencyAnalysis {
     }
 
     //des or asc, defaults to des
-    private static void getFrequency (String direction, ArrayList <mPair <Character, Integer> > originalTable) {
-        ArrayList <mPair <Character, Integer> > tempTable = new ArrayList<>(originalTable);
-        Comparator<mPair <Character, Integer> > comparator = Comparator.comparing(x -> x.second);
+    private static void getFrequency (String direction, ArrayList <mUtil.mPair<Character, Integer>> originalTable) {
+        ArrayList <mUtil.mPair<Character, Integer>> tempTable = new ArrayList<>(originalTable);
+        Comparator<mUtil.mPair<Character, Integer>> comparator = Comparator.comparing(x -> x.second);
 
         if (direction.toLowerCase().equals("asc")) {
             tempTable.sort(comparator);
@@ -75,31 +77,31 @@ public class FrequencyAnalysis {
             tempTable.sort(comparator.reversed());
         }
 
-        for (mPair <Character, Integer> ch: tempTable) {
+        for (mUtil.mPair<Character, Integer> ch: tempTable) {
             System.out.print(ch.first + " ");
         }
 
         //can return
         System.out.println();
     }
-    private static Character getMostFrequentCharacter(ArrayList <mPair <Character, Integer> > original) {
-        ArrayList <mPair <Character, Integer> > tempTable = new ArrayList<>(original);
-        Comparator<mPair <Character, Integer> > comparator = Comparator.comparing(x -> x.second);
+    private static Character getMostFrequentCharacter(ArrayList <mUtil.mPair<Character, Integer>> original) {
+        ArrayList <mUtil.mPair<Character, Integer>> tempTable = new ArrayList<>(original);
+        Comparator<mUtil.mPair<Character, Integer>> comparator = Comparator.comparing(x -> x.second);
         tempTable.sort(comparator.reversed());
 
         return tempTable.get(0).first;
     }
 
     //returns an ArrayList of the <max> most frequent characters
-    private static ArrayList<mPair <Character, Integer> >
-    getMostFrequentCharacter (ArrayList <mPair <Character, Integer> > original, Integer max) {
+    private static ArrayList<mUtil.mPair<Character, Integer>>
+    getMostFrequentCharacter (ArrayList <mUtil.mPair<Character, Integer>> original, Integer max) {
         if (max > original.size())
             max = original.size();
 
-        ArrayList<mPair <Character, Integer> > ret = new ArrayList<>(max);
+        ArrayList<mUtil.mPair<Character, Integer>> ret = new ArrayList<>(max);
 
-        ArrayList <mPair <Character, Integer> > tempTable = new ArrayList<>(original);
-        Comparator<mPair <Character, Integer> > comparator = Comparator.comparing(x -> x.second);
+        ArrayList <mUtil.mPair<Character, Integer>> tempTable = new ArrayList<>(original);
+        Comparator<mUtil.mPair<Character, Integer>> comparator = Comparator.comparing(x -> x.second);
         tempTable.sort(comparator.reversed());
 
         for (int i = 0; i < max; ++i) {

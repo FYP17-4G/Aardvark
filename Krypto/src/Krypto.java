@@ -1,5 +1,5 @@
 import com.Utility;
-import modules.PermuteString;
+import modules.Substitute;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,15 @@ public class Krypto {
         Utility.line('-', 30, "Original Text");
         displayOriginalString();
 
-        PermuteString.permute(MODIFIED_DATA, 2);
+        MODIFIED_DATA = Substitute.ch('a', 'x', MODIFIED_DATA);
+
+//        try {
+//            MODIFIED_DATA = Substitute.str("the", "eht", MODIFIED_DATA);
+//        } catch (IOException io) {
+//            System.out.println("io = " + io);
+//        }
+
+        displayModifiedString();
     }
 
     private static void init (String originalInput) {
