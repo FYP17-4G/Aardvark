@@ -19,14 +19,9 @@ public class Krypto {
         Utility.line('-', 30, "Original Text");
         displayOriginalString();
 
-        MODIFIED_DATA = Substitute.ch('a', 'x', MODIFIED_DATA);
-
-//        try {
-//            MODIFIED_DATA = Substitute.str("the", "eht", MODIFIED_DATA);
-//        } catch (IOException io) {
-//            System.out.println("io = " + io);
-//        }
-
+        MODIFIED_DATA = Substitute.ch('a', 'e', MODIFIED_DATA, ORIGINAL_DATA);
+        displayModifiedString();
+        MODIFIED_DATA = Substitute.ch('e', 'k', MODIFIED_DATA, ORIGINAL_DATA);
         displayModifiedString();
     }
 
