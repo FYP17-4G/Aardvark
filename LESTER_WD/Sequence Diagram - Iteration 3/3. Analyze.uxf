@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>260</x>
+      <y>30</y>
+      <w>60</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>280</x>
+      <y>140</y>
+      <w>20</w>
+      <h>1400</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>720</x>
+      <y>90</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>_project:Project_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>790</x>
+      <y>220</y>
+      <w>20</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>90</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>110</y>
+      <w>30</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>80</x>
+      <y>0</y>
+      <w>1240</w>
+      <h>1570</h>
+    </coordinates>
+    <panel_attributes>Analyze</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>150</x>
+      <y>160</y>
+      <w>1080</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+[Replace by Character]
+
+
+
+
+
+
+
+
+
+
+
+bg=light_gray
+fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>1530</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>240</y>
+      <w>520</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1. Enters character to replace with
+fg=blue</panel_attributes>
+    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>270</y>
+      <w>250</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1.1 Performs replacement
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>790</x>
+      <y>450</y>
+      <w>20</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>150</x>
+      <y>400</y>
+      <w>1080</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+[Replace by String]
+
+
+
+
+
+
+
+
+
+
+
+bg=light_gray
+fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>450</y>
+      <w>520</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1. Enters string to be replaced
+fg=blue</panel_attributes>
+    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>480</y>
+      <w>520</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2. Enters string to replace with
+fg=blue</panel_attributes>
+    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>510</y>
+      <w>250</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2.1 Performs replacement
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>350</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>580</y>
+      <w>30</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>790</x>
+      <y>700</y>
+      <w>20</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>150</x>
+      <y>640</y>
+      <w>1080</w>
+      <h>380</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+[Shift cipher]
+
+
+
+
+
+
+
+
+
+
+
+bg=light_gray
+fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>690</y>
+      <w>520</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1. Slides the Seek Bar to determine the key value
+fg=blue</panel_attributes>
+    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>870</y>
+      <w>230</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1.1. Performs right shift
+fg=red</panel_attributes>
+    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>210</x>
+      <y>1170</y>
+      <w>960</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>loop
+--
+
+bg=light_gray
+fg=red
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>770</y>
+      <w>220</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1.1. Performs left shift
+fg=red</panel_attributes>
+    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>1250</y>
+      <w>30</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>790</x>
+      <y>1120</y>
+      <w>20</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>150</x>
+      <y>1040</y>
+      <w>1080</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+[Permute transposition]
+
+
+
+
+
+
+
+
+
+
+
+bg=light_gray
+fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>1170</y>
+      <w>250</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2.1 Performs permutations
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>1110</y>
+      <w>520</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1. Slide the first seeker to set number of characters per block
+fg=blue</panel_attributes>
+    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>1130</y>
+      <w>520</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2. Slide the second seeker to set number of blocks per line
+fg=blue</panel_attributes>
+    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>980</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>790</x>
+      <y>1350</y>
+      <w>20</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>150</x>
+      <y>1280</y>
+      <w>1080</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+[Frequency Graph]
+
+
+
+
+
+
+
+
+
+
+
+bg=light_gray
+fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>1390</y>
+      <w>250</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+2.1 Prints frequency graph
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;60.0;70.0;60.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>1350</y>
+      <w>520</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+1. Slide the seeker to set period of text
+fg=blue</panel_attributes>
+    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>1480</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>210</x>
+      <y>740</y>
+      <w>960</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>alt
+--
+[Shift Left Button Clicked]
+
+
+
+
+
+-.
+[Shift Right Button Clicked]
+bg=light_gray
+fg=red
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
