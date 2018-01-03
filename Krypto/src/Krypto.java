@@ -1,6 +1,7 @@
 import com.Utility;
-import modules.Substitute;
+import modules.OneTimePad;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Krypto {
@@ -19,10 +20,13 @@ public class Krypto {
         Utility.line('-', 30, "Original Text");
         displayOriginalString();
 
-        MODIFIED_DATA = Substitute.ch('a', 'e', MODIFIED_DATA, ORIGINAL_DATA);
-        displayModifiedString();
-        MODIFIED_DATA = Substitute.ch('e', 'k', MODIFIED_DATA, ORIGINAL_DATA);
-        displayModifiedString();
+        ArrayList<String> otp = OneTimePad.encrypt(MODIFIED_DATA);
+        try {
+            String dec = OneTimePad.decrypt(otp.get(1), otp.get(0));
+            System.out.println("dec = " + dec);
+        } catch (IOException io) {
+            System.out.println("io = " + io);
+        }
     }
 
     private static void init (String originalInput) {
