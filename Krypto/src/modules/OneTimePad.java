@@ -5,8 +5,9 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class OneTimePad {
+    private static String alphabet = "abcdefghijklmnopqrstuvwxyz";
+
     private static String getPad(int size) {
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
         int tmp;
         SecureRandom rnd = new SecureRandom();
         StringBuilder sb = new StringBuilder();
@@ -21,7 +22,6 @@ public class OneTimePad {
     }
 
     public static ArrayList<String> encrypt(String plaintext) {
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         ArrayList<String> output = new ArrayList<>();
         String pad = getPad(plaintext.length());
@@ -38,7 +38,6 @@ public class OneTimePad {
         }
 
         output.add(ciphertext.toString());
-        System.out.println(output);
         return output;
     }
 
@@ -46,13 +45,12 @@ public class OneTimePad {
         if (ciphertext.length() != pad.length())
             throw new IOException("Ciphertext and Pad are not compatible!");
 
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
         int c, p, out;
         for (int i = 0; i < ciphertext.length(); ++i) {
             c = ciphertext.charAt(i);
             p = pad.charAt(i);
-            out = (p - 'a') - (c - 'a');
+            out =  (c - 'a') - (p - 'a');
 
             if (out < 0)
                 out += 26;

@@ -21,9 +21,13 @@ public class Krypto {
         displayOriginalString();
 
         ArrayList<String> otp = OneTimePad.encrypt(MODIFIED_DATA);
+        MODIFIED_DATA = otp.get(1);
+        displayModifiedString();
+        String pad = otp.get(0);
         try {
-            String dec = OneTimePad.decrypt(otp.get(1), otp.get(0));
-            System.out.println("dec = " + dec);
+            MODIFIED_DATA = OneTimePad.decrypt(pad, MODIFIED_DATA);
+
+            displayModifiedString();
         } catch (IOException io) {
             System.out.println("io = " + io);
         }
