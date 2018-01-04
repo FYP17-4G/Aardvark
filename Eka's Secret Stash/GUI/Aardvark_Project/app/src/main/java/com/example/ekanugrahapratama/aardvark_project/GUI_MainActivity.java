@@ -178,6 +178,8 @@ public class GUI_MainActivity extends AppCompatActivity
     {
         //TODO(me) GUI for about us activity
         /**Just create empty activity with a paragraph of text and some contact info*/
+        Intent intent = new Intent(this, GUI_aboutUs.class);
+        this.startActivity(intent);
     }
     private void launchSettingsActivity()
     {

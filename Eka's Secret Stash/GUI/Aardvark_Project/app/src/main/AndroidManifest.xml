@@ -33,6 +33,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".GUI_Enc_Dec" />
+        <activity
+            android:name=".GUI_aboutUs"
+            android:label="@string/title_activity_gui_about_us"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

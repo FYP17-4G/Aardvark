@@ -40,8 +40,7 @@ public class GUI_fragment_project_view extends Fragment {
     //TODO(***) Declare variables here
     /**[VARIABLE SECTION]*/
     //Project cipher variables
-    String projectUniqueID = new String();
-    private String projectTitle = new String();
+    private List<String> changeHistory = new ArrayList<>();
     private String cipherText = new String();
     private String cipherTextWithCurrentPeriod = new String();
     private String originalCipherText = new String();
@@ -84,6 +83,7 @@ public class GUI_fragment_project_view extends Fragment {
 
     //COLUMNAR TRANSPOSITION
     private Button cTranspo_button;
+    private ColumnarTransposition columnarTransposition;
 
     //RECTANGULAR TRANSPOSITION
     private Button rTranspo_button;
@@ -102,6 +102,10 @@ public class GUI_fragment_project_view extends Fragment {
 
     Substitute substitution;
     RectKeySubstitution rectSubstitution;
+
+    //undo button and reset button
+    private Button undoButton;
+    private Button resetButton;
 
     //<...>
 
@@ -132,6 +136,9 @@ public class GUI_fragment_project_view extends Fragment {
 
         getCipherTextFromFile();/**Gets cipher text from a text file, make this function displays FILE BROWSER POPUP*/
 
+        originalCipherText = cipherText; //TODO(me) FIND A WAY TO SET ORIGINAL CIPHER TEXT PROPERLY, SINCE THIS ONE IS JUST DIRECT ASSIGNING
+        changeHistory.add(originalCipherText);
+
         //set IC related function
         cipherICTV = (TextView) view.findViewById(R.id.cipherICTextView);
         ic = new CalculateIC();
@@ -140,6 +147,9 @@ public class GUI_fragment_project_view extends Fragment {
 
         setGraph();
         rePlotGraph();
+
+        setUndoButton();
+        setResetButton();
 
         return view;
     }
@@ -179,26 +189,64 @@ public class GUI_fragment_project_view extends Fragment {
         return this.cipherText;
     }
 
-    //TODO(me) FINISH THESE: record(), undo(), reset()
-    //this records the actions of the user, use this for doing stuff like undo action
-    //this method can be used as "write to file"
-    private void record(String recordString)
-    {
 
+    private void setUndoButton()
+    {
+        undoButton = (Button) view.findViewById(R.id.button_undo);
+
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                undo();
+            }
+        });
     }
+
+    private void setResetButton()
+    {
+        resetButton = (Button) view.findViewById(R.id.button_reset);
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                reset();
+            }
+        });
+    }
+
 
     private void undo() //undo the cipher text into its previous state
     {
 
+        if(changeHistory.size() == 1)
+            framework.system_message_small("Maximum undo attempt reached");
+
+        else if(!this.cipherText.equals(this.originalCipherText) && !changeHistory.isEmpty() && changeHistory.size() >1) //because the first entry == originalCipherText
+        {
+            changeHistory.remove(changeHistory.size()-1); //remove the latest entry
+            this.cipherText = changeHistory.get(changeHistory.size()-1);
+            cipherTextView.setText(framework.stringNoWhiteSpace(cipherText));
+        }
     }
 
     private void reset() //reset the cipher text into its original state
     {
+        if(this.cipherText.equals(this.originalCipherText))
+            framework.system_message_small("cipher text is already at its original state");
 
+        else if(!this.cipherText.equals(this.originalCipherText) && !changeHistory.isEmpty())
+        {
+            this.cipherText = originalCipherText;
+            cipherTextView.setText(framework.stringNoWhiteSpace(cipherText));
+            changeHistory.clear(); //remove all items from the arraylist
+        }
     }
 
     private void refresh()//refreshes the cipher text view
     {
+        changeHistory.add(cipherText);
         cipherTextView.setText(framework.stringNoWhiteSpace(cipherText));
         rePlotGraph();
     }
@@ -379,15 +427,15 @@ public class GUI_fragment_project_view extends Fragment {
         charSubButton.setOnClickListener(charSubButtonListener);
 
         /**Setup button for Substitution by String*/
-        stringSubButton = (Button) view.findViewById(R.id.button_stringSubstitution);
-        stringSubButton.setOnClickListener(stringSubButtonListener);
+        //stringSubButton = (Button) view.findViewById(R.id.button_stringSubstitution);
+        //stringSubButton.setOnClickListener(stringSubButtonListener);
 
     }
 
     private void doSubstitution(String stringKey)
     {
         //TODO(***) Substitution by STRING, assign result to variable "cipherText"
-        cipherText = rectSubstitution.encrypt(cipherText.toLowerCase(), stringKey);
+        //cipherText = substitution.str(cipherText, );
     }
 
     private void doSubstitution(char a, char b) //replace charA with charB
@@ -400,6 +448,8 @@ public class GUI_fragment_project_view extends Fragment {
     {
         /**Columnar Transposition*/
         cTranspo_button = (Button) view.findViewById(R.id.button_cTranspo);
+        columnarTransposition = new ColumnarTransposition();
+
         cTranspo_button.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -415,7 +465,7 @@ public class GUI_fragment_project_view extends Fragment {
                     }
                 };
 
-                framework.popup_show("Columnar Transposition", "Enter key", ocl);
+                framework.popup_getNumber_show("Columnar Transposition", "Enter key", ocl, 100); /**CHANGE INPUT LENGTH LIMIT*/
             }
         });
 
@@ -448,11 +498,16 @@ public class GUI_fragment_project_view extends Fragment {
     private void doTranspo_C(String key)
     {
         //TODO(***) Columnar Transposition, assign result to variable "cipherText"
+        List<List<Character>> list = new ArrayList<>();
+
+        List<List<Character>> cipherTextResult = columnarTransposition.encrypt(cipherText, key, list);
+        System.out.println(cipherTextResult.toString());
+
     }
     private void doTranspo_R(String key) //the key is integer
     {
         //TODO(***) Rectangular Transposition, assign result to variable "cipherText"
-        int k = (int)key.charAt(0);//NEED TO ASSIGN INPUT LENGTH LIMIT IN THE POPUP INPUT FIELD
+        int k = Integer.parseInt(key);//NEED TO ASSIGN INPUT LENGTH LIMIT IN THE POPUP INPUT FIELD
 
         //apply rectangular transposition from specified key
         cipherText = rectangularTransposition.encrypt(cipherText, k);

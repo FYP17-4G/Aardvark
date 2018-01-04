@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 
 public class GUI_project_view extends AppCompatActivity
 {
+    private String projectUniqueID = new String();
+    private String projectTitle = new String();
+
     private projectView_fragmentPagerAdapter projectViewFragmentAdapter;
     private ViewPager viewPager;
 
@@ -24,9 +27,9 @@ public class GUI_project_view extends AppCompatActivity
         framework = new App_Framework(this);
 
         //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
-        //projectUniqueID = getIntent().getStringExtra("project_view_unique_ID"); //USE THIS LATRE
-        //this.projectTitle = getIntent().getStringExtra("project_view_title");
-        //setTitle(projectTitle);
+        projectUniqueID = getIntent().getStringExtra("project_view_unique_ID"); //USE THIS LATRE
+        this.projectTitle = getIntent().getStringExtra("project_view_title");
+        setTitle(projectTitle);
 
         projectViewFragmentAdapter = new projectView_fragmentPagerAdapter(getSupportFragmentManager());
 

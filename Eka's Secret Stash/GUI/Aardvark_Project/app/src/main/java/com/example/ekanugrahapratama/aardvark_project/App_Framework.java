@@ -2,9 +2,13 @@ package com.example.ekanugrahapratama.aardvark_project;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.text.InputType;
+import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.content.Context;
@@ -195,6 +199,7 @@ public class App_Framework
         popup_textView.setText(popup_message);
         popUpWindow.setPositiveButton(popup_buttonMessage, errMessageClickListener);
         popUpWindow.setView(popup_textView);
+        popUpWindow.show();
     }
     public void system_message_popup(String popup_title, String popup_message) //by default, the text message in the popup button is "OK"
     {
@@ -214,6 +219,28 @@ public class App_Framework
         popUpWindow.setTitle(popup_title);
         popup_textView.setText(popup_message);
         popUpWindow.setPositiveButton("OK", errMessageClickListener);
+        popUpWindow.show();
+    }
+
+    public void system_message_confirmAction(String popup_title, String popup_message, DialogInterface.OnClickListener ols) //by default, the text message in the popup button is "OK"
+    {   popUpWindow = new AlertDialog.Builder(context);
+        popup_textView = new TextView(context);
+
+        popUpWindow.setView(popup_textView);
+        popUpWindow.setTitle(popup_title);
+        popup_textView.setText("\n"+popup_message);
+        popup_textView.setTypeface(Typeface.DEFAULT_BOLD);
+        popup_textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        popup_textView.setTextSize(18);
+        popUpWindow.setPositiveButton("OK", ols);
+        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        popUpWindow.show();
     }
 
     //This will convert given String to the same string but without whitespace

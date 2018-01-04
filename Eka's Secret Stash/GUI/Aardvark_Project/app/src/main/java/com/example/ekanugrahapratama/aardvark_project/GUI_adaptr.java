@@ -121,41 +121,51 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 @Override
                 public void onClick(View v)
                     {
-                    //delete the associated item from list.txt
-                        String projectDirectoryFileName = "projectDirectory.txt";
-
-                        try
+                        framework.system_message_confirmAction("Delete Project", "Delete '" + title + "'?", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
                             {
-                                FileOutputStream fos = context.openFileOutput(projectDirectoryFileName, Context.MODE_PRIVATE);
-                                BufferedWriter output = new BufferedWriter(new OutputStreamWriter(fos));
-
-                                for(int i = 0; i < projectTitle.size(); i++)
-                                    {
-                                        String tempID = projectTitle.get(i).getID();
-                                        String tempTitle = projectTitle.get(i).getTitle();
-
-                                        String tmp = tempID + "||" + tempTitle;
-                                        if(tmp.equals(id + "||" + title))
-                                            {
-                                            projectTitle.remove(i);
-
-                                            //TODO(1) ONCE THE DATABASE IS UP, DELETE THE ASSOCIATED DATA OF THIS ITEM
-                                            //<...>
-                                            }
-                                        else
-                                            {
-                                                output.write(tempID + "||" + tempTitle + "\n");
-                                            }
-                                    }
-                                notifyDataSetChanged(); //refreshes recycler contents;
-
-                                output.close();
-                            }catch(IOException e)
-                                {}
-
+                                deleteProject();
+                            }
+                        });
                     }
             };
 
+
+            private void deleteProject()
+            {
+                //delete the associated item from list.txt
+                String projectDirectoryFileName = "projectDirectory.txt";
+
+                try
+                {
+                    FileOutputStream fos = context.openFileOutput(projectDirectoryFileName, Context.MODE_PRIVATE);
+                    BufferedWriter output = new BufferedWriter(new OutputStreamWriter(fos));
+
+                    for(int i = 0; i < projectTitle.size(); i++)
+                    {
+                        String tempID = projectTitle.get(i).getID();
+                        String tempTitle = projectTitle.get(i).getTitle();
+
+                        String tmp = tempID + "||" + tempTitle;
+                        if(tmp.equals(id + "||" + title))
+                        {
+                            projectTitle.remove(i);
+
+                            //TODO(1) ONCE THE DATABASE IS UP, DELETE THE ASSOCIATED DATA OF THIS ITEM
+                            //<...>
+                        }
+                        else
+                        {
+                            output.write(tempID + "||" + tempTitle + "\n");
+                        }
+                    }
+                    notifyDataSetChanged(); //refreshes recycler contents;
+
+                    output.close();
+                }catch(IOException e)
+                {}
+            }
 
             protected boolean projectExist(String newProjectTitle)
             {
@@ -189,7 +199,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
              * */
             private void renameProject()
             {
-                framework.popup_show("Rename Project", "New project name", new DialogInterface.OnClickListener()
+                framework.popup_show("Rename Project", title, new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
