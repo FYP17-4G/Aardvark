@@ -254,4 +254,16 @@ public class App_Framework
 
         return temp;
     }
+
+
+
+
+    /**THIS FUNCTION "CLEANS" THE INPUT STRING SO IT WILL BE SAFE TO USE IN MARK'S CODES
+     * Delete stringNoWhiteSpace() later
+     * */
+    public String init (String input) {
+        input = input.toLowerCase();
+        input = input.replaceAll("[^A-Za-z]", "");
+        return input;
+    }
 }

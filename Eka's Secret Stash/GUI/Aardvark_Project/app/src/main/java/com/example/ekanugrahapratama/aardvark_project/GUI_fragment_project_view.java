@@ -21,7 +21,6 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -227,7 +226,7 @@ public class GUI_fragment_project_view extends Fragment {
         {
             changeHistory.remove(changeHistory.size()-1); //remove the latest entry
             this.cipherText = changeHistory.get(changeHistory.size()-1);
-            cipherTextView.setText(framework.stringNoWhiteSpace(cipherText));
+            cipherTextView.setText(framework.init(cipherText));
         }
     }
 
@@ -239,7 +238,7 @@ public class GUI_fragment_project_view extends Fragment {
         else if(!this.cipherText.equals(this.originalCipherText) && !changeHistory.isEmpty())
         {
             this.cipherText = originalCipherText;
-            cipherTextView.setText(framework.stringNoWhiteSpace(cipherText));
+            cipherTextView.setText(framework.init(cipherText));
             changeHistory.clear(); //remove all items from the arraylist
         }
     }
@@ -247,7 +246,7 @@ public class GUI_fragment_project_view extends Fragment {
     private void refresh()//refreshes the cipher text view
     {
         changeHistory.add(cipherText);
-        cipherTextView.setText(framework.stringNoWhiteSpace(cipherText));
+        cipherTextView.setText(framework.init(cipherText));
         rePlotGraph();
     }
 
@@ -634,7 +633,7 @@ public class GUI_fragment_project_view extends Fragment {
         //fill series data
         for(int x = 0; x < MAX_DATA_POINTS; x++)
         {
-            int alphabetcount = charCount(framework.stringNoWhiteSpace(textOfPeriod.toLowerCase()), alphabet[x].charAt(0));
+            int alphabetcount = charCount(framework.init(textOfPeriod.toLowerCase()), alphabet[x].charAt(0));
 
 
             dp[x] = new DataPoint(x, alphabetcount);

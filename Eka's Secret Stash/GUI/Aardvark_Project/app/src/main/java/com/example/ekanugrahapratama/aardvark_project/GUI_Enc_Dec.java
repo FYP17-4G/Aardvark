@@ -381,7 +381,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
     private void doRectSub(boolean encrypt)
     {
         if(encrypt)
-            inputText = rectKeySubstitution.encrypt(inputText, key);
+            inputText = rectKeySubstitution.encrypt(framework.init(inputText), key);
         //else, do decrypt
 
         refresh();

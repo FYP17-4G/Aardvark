@@ -128,9 +128,7 @@ public class GUI_fragment_project_view_permutation extends Fragment
 
     private String permutation(String input, int blockSize)
     {
-        String temp = new String(input);
-        temp = permuteString.permute(temp, blockSize);
-        return temp;
+        return permuteString.permute(framework.init(input), blockSize);
     }
 
     private String spacing(String input, int space)

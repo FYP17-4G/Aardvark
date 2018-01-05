@@ -26,7 +26,7 @@ public class PermuteString {
             ArrayList<String> out = splitIntoStrings(output.toString(), blockSize);
 
             for(int i = 0; i < out.size(); i++)
-                returnValue += out.get(i);
+                returnValue += (out.get(i));
         }
 
         return returnValue;
@@ -36,6 +36,8 @@ public class PermuteString {
         StringBuilder sb = new StringBuilder();
         ArrayList<String> output = new ArrayList<>();
         int count = 0;
+
+        data+="\n\n"; /**THIS LINE SPLITS EACH PERMUTATION*/
 
         for (Character c: data.toCharArray()) {
             sb.append(c);

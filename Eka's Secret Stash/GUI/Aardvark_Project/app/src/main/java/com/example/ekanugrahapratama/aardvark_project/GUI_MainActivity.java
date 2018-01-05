@@ -150,22 +150,27 @@ public class GUI_MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_encryption_decryption)
-        {
+        if(id == R.id.nav_frontPage)
+            launchFrontPageActivity();
+
+        /*else*/if (id == R.id.nav_encryption_decryption)
             launchEncryptionDecryptionActivity();
-        }
+
         else if (id == R.id.nav_about_us)
-        {
-            launchAboutUsActivity();
-        }
+             launchAboutUsActivity();
+
         else if (id == R.id.nav_settings)
-        {
             launchSettingsActivity();
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void launchFrontPageActivity()
+    {
+        Intent intent = new Intent(this, GUI_MainActivity.class);
+        startActivity(intent);
     }
 
     private void launchEncryptionDecryptionActivity()
