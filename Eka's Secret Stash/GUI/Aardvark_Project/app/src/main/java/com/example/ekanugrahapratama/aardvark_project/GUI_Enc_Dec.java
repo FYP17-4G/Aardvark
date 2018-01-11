@@ -341,27 +341,27 @@ public class GUI_Enc_Dec extends AppCompatActivity {
     private void doVigenereAdditive(boolean encrypt)
     {
         if(encrypt)
-            inputText = vigenereAdditive.encrypt(framework.stringNoWhiteSpace(inputText), key);
+            inputText = vigenereAdditive.encrypt(framework.init(inputText), key);
         else
-            inputText = vigenereAdditive.decrypt(framework.stringNoWhiteSpace(inputText), key);
+            inputText = vigenereAdditive.decrypt(framework.init(inputText), key);
 
         refresh();
     }
     private void doVigenereInverse(boolean encrypt)
     {
         if(encrypt)
-            inputText = vigenereInverse.encrypt(framework.stringNoWhiteSpace(inputText), key);
+            inputText = vigenereInverse.encrypt(framework.init(inputText), key);
         else
-            inputText = vigenereInverse.decrypt(framework.stringNoWhiteSpace(inputText), key);
+            inputText = vigenereInverse.decrypt(framework.init(inputText), key);
 
         refresh();
     }
     private void doVigenereSubstractive(boolean encrypt)
     {
         if(encrypt)
-            inputText = vigenereSubtractive.encrypt(framework.stringNoWhiteSpace(inputText), key);
+            inputText = vigenereSubtractive.encrypt(framework.init(inputText), key);
         else
-            inputText = vigenereSubtractive.decrypt(framework.stringNoWhiteSpace(inputText), key);
+            inputText = vigenereSubtractive.decrypt(framework.init(inputText), key);
 
         refresh();
     }
@@ -389,7 +389,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
 
     private void refresh() //this refreshes the input text view, !! DO NOTE that it also removes any occurences of whitespace
     {
-        inputTextView.setText(framework.stringNoWhiteSpace(inputText));
+        inputTextView.setText(framework.init(inputText));
     }
 
 }

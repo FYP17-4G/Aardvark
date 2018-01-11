@@ -268,6 +268,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                             view.setBackgroundColor(Color.TRANSPARENT);
 
                             //TODO(3) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
+
                             launchProjectView(id+title);
 
                         }

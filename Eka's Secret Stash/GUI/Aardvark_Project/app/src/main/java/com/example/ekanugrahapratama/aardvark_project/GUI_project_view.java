@@ -1,9 +1,13 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 public class GUI_project_view extends AppCompatActivity
 {
@@ -17,6 +21,39 @@ public class GUI_project_view extends AppCompatActivity
     private GUI_fragment_project_view_permutation permView = new GUI_fragment_project_view_permutation();
 
     private App_Framework framework;
+
+    private void backToList()
+    {
+        startActivity(new Intent(this, GUI_MainActivity.class));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backToList();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        backToList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("lastActivity", getClass().getName());
+        editor.putString("lastActivity_title", projectTitle);
+        editor.putString("lastActivity_id", projectUniqueID);
+        editor.commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -1,6 +1,7 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,11 +41,20 @@ public class GUI_MainActivity extends AppCompatActivity
     //front page identifier = struct like class for the adapter to simplify the data reading
     private ArrayList<frontPageIdentifier> projectTitle = new ArrayList();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //clear shared preferenes
+        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+
 
         //RECYCLER HERE---------------------
         //fill in the projectTitle

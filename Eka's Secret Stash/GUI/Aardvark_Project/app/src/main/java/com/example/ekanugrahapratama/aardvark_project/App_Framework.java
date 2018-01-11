@@ -250,11 +250,11 @@ public class App_Framework
 
         for(int i = 0; i < cText.length(); i++)
             if(cText.charAt(i) != ' ')
-                temp+=cText.charAt(i);
+
+    temp+=cText.charAt(i);
 
         return temp;
     }
-
 
 
 

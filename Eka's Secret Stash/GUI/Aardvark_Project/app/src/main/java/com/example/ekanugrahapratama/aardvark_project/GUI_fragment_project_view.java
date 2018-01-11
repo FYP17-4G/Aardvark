@@ -48,7 +48,7 @@ public class GUI_fragment_project_view extends Fragment {
     //Analysis variables
     private CryptoAnalysis cryptoAnalysis;
 
-    //Graph variables
+    //Graph variables KEEP THIS HERE
     private String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
     private final double[] englishDistribution = {8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07};
 
@@ -96,7 +96,6 @@ public class GUI_fragment_project_view extends Fragment {
     private char charA;
     private char charB;
 
-    private Button stringSubButton;
     private String stringSubValue;
 
     Substitute substitution;
@@ -525,7 +524,7 @@ public class GUI_fragment_project_view extends Fragment {
             {
                 int prog = graphSeekBar.getProgress();
 
-                if(prog > 1)
+                if(prog > 0)
                 {
                     cipherTextWithCurrentPeriod = getCipherTextPeriodOf(0, prog); //cipherTextWithCurrentPeriod is class global
                     rePlotGraph();
