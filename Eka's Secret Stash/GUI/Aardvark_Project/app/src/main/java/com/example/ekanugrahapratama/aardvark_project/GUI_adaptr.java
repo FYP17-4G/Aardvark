@@ -269,7 +269,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 
                             //TODO(3) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
 
-                            launchProjectView(id+title);
+                            launchProjectView();
 
                         }
                     else
@@ -281,11 +281,11 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 }
             };
 
-            private void launchProjectView(String newActivityParams)//put the passed value as parameter
+            private void launchProjectView()//put the passed value as parameter
                 {
                     //start a new activity, and passes some variables >>> H(project ID | project Title)
                     Intent intent = new Intent(context, GUI_project_view.class);
-                    intent.putExtra("project_view_params", newActivityParams);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
+                    intent.putExtra("project_view_unique_ID", id);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
                     intent.putExtra("project_view_title", title);
                     context.startActivity(intent);
                 }

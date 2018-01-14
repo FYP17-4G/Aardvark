@@ -1,8 +1,13 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.design.widget.NavigationView;
@@ -16,19 +21,22 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.util.Random;
 import java.util.ArrayList;
 
 public class GUI_MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int READ_REQUEST_CODE = 42;
 
     private App_Framework framework = new App_Framework(this);
 
@@ -41,16 +49,20 @@ public class GUI_MainActivity extends AppCompatActivity
     //front page identifier = struct like class for the adapter to simplify the data reading
     private ArrayList<frontPageIdentifier> projectTitle = new ArrayList();
 
+    private Context context = this;
 
+    private View newProjectView;
+    private String cipherTextFromFile = new String(); //for use when the user enters a file as cipher text input
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        newProjectView = getLayoutInflater().inflate(R.layout.pop_new_project, null);
 
         //clear shared preferenes
-        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
         editor.commit();
@@ -204,32 +216,42 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private void createNewProject()
         {
-           DialogInterface.OnClickListener ocl = new DialogInterface.OnClickListener()
-           {
+            int ID = new Random().nextInt(999)+1;
+
+           //SETUP NEWPROJECTPOPUP ELEMENT HERE
+           EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
+           EditText cipherTextInput = newProjectView.findViewById(R.id.editText_cipherInputField);
+
+           Button getFromFile = newProjectView.findViewById(R.id.button_getCipherTextFromFile);
+           getFromFile.setOnClickListener(new View.OnClickListener() {
                @Override
-               public void onClick(DialogInterface dialogInterface, int i)
-               {
-
-                   if(framework.popup_getInput().isEmpty())
-                       framework.system_message_small("Error: Please enter a project name");
-
-                   if(projectExist(framework.popup_getInput()))
-                       framework.system_message_small("Error: Project title already exist");
-
-                   else
-                   {
-                       String newProjectTitle = framework.popup_getInput();
-                       writeToList(newProjectTitle);
-                       adapter.notifyDataSetChanged();//refresh the adapter
-
-                       //TODO(3) ONCE THE DATABASE IS UP, CREATE ASSOCIATED DATA OF THIS ITEM
-                       //<...>
-                   }
+               public void onClick(View view) {
+                   openFileBrowser(); //this function will call default device file browser
                }
+           });
 
-           };
+            framework.popup_custom("Create new project", newProjectView, "create", "cancel", new DialogInterface.OnClickListener() {
+                //get the cipher text input from input field
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-           framework.popup_show("Create new Project", "New Project Title", ocl);
+                        String projectTitle = newProjectTitle.getText().toString();
+                        String cipherText = cipherTextInput.getText().toString();
+
+                        if(projectTitle.isEmpty())
+                            framework.system_message_small("Project title is still empty");
+                        else if(cipherText.isEmpty())
+                            framework.system_message_small("Cipher text input is still empty");
+                        else
+                        {
+                            writeToList(projectTitle, ID);
+
+                            //saves ciphertext to a file
+                            framework.saveAsTxt(Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt", cipherText, context, false);
+                            adapter.notifyDataSetChanged();//refresh the adapter
+                        }
+                }
+            });
         }
 
     protected boolean projectExist(String newProjectTitle)
@@ -243,29 +265,68 @@ public class GUI_MainActivity extends AppCompatActivity
 
     /**This will store the data to a text file that contains information to display the list of existing projects*/
     //FILE STORAGE WILL BE HANDLED INTERNALLY BY ANDROID
-    private void writeToList(String newProjectTitle)
+    private void writeToList(String newProjectTitle, int ID)
         {
             //add the new project into the arrayList
-            frontPageIdentifier newProject = new frontPageIdentifier(Integer.toString(new Random().nextInt(999)+1), newProjectTitle);
+            frontPageIdentifier newProject = new frontPageIdentifier(Integer.toString(ID), newProjectTitle);
             projectTitle.add(newProject);
-
-            //overwrite list.txt
-            BufferedWriter outputFile;
 
             String newID = newProject.getID();
             String newTitle = newProject.getTitle();
 
-            try
-                {
-                    FileOutputStream fos = openFileOutput(projectDirectoryFileName, MODE_APPEND);
-                    outputFile = new BufferedWriter(new OutputStreamWriter(fos));
-                    outputFile.write(newID + "||" + newTitle+"\n");
-                    outputFile.close();
-                }catch(IOException e)
-                    {}
-
+            framework.saveAsTxt(projectDirectoryFileName, newID + "||" + newTitle, this, true);
         }
 
-    private void writeToDB()
-        {}
+    private void openFileBrowser()
+    {
+        String returnVal = new String();
+
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT); //START INTENT TO CHOOSE FILE USING DEVICE' DEFAULT FILE BROWSER
+        intent.addCategory(Intent.CATEGORY_OPENABLE);//SHOW ONLY FILES THAT CAN BE OPENED
+        intent.setType("text/plain"); //only plain txt file can be accessed
+
+
+        startActivityForResult(intent, READ_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        {
+            if(data != null) {
+                //URI is the return value given by ACTION_OPEN_DOCUMENT intent
+                Uri uri = data.getData();
+
+                try
+                {
+                    cipherTextFromFile = readTextFromUri(uri);
+                } catch (IOException e)
+                {}
+
+                if(!cipherTextFromFile.isEmpty())
+                {
+                    EditText editText = newProjectView.findViewById(R.id.editText_cipherInputField);
+                    editText.setText(cipherTextFromFile);
+                }
+                else
+                    framework.system_message_small("Error opening file (file could be empty)");
+            }
+        }
+    }
+
+    public String readTextFromUri(Uri uri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                inputStream));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+
+        return stringBuilder.toString();
+    }
+
 }

@@ -1,8 +1,10 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -14,7 +16,17 @@ import android.widget.TextView;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is class contains methods that simplifies the process of building the application
@@ -40,25 +52,64 @@ public class App_Framework
     }
 
     //displays selection list pop up menu
-    public void popup_selectionChoice_show(ArrayList<String> content)
+    public void popup_custom(String title, View view)
     {
-        adapter = new RecyclerView.Adapter()
+
+        if(view.getParent() != null)
+        {
+            ((ViewGroup)view.getParent()).removeView(view);
+        }
+
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setView(view);
+        popUpWindow.show();
+    }
+    public void popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener)
+    {
+
+        if(view.getParent() != null)
+        {
+            ((ViewGroup)view.getParent()).removeView(view);
+        }
+
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setView(view);
+
+        popUpWindow.setPositiveButton(positiveText, clickListener);
+        popUpWindow.setNegativeButton(negativeText, new DialogInterface.OnClickListener()
         {
             @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return null;
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.cancel();
             }
+        });
 
+        popUpWindow.show();
+    }
+
+    public void popup_custom(String title, View view, DialogInterface.OnClickListener clickListener)
+    {
+
+        if(view.getParent() != null)
+        {
+            ((ViewGroup)view.getParent()).removeView(view);
+        }
+
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setView(view);
+
+        popUpWindow.setPositiveButton("OK", clickListener);
+        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
             @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.cancel();
             }
+        });
 
-            @Override
-            public int getItemCount() {
-                return 0;
-            }
-        };
+        popUpWindow.show();
     }
 
     public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener, int inputLengthLimit)
@@ -256,8 +307,6 @@ public class App_Framework
         return temp;
     }
 
-
-
     /**THIS FUNCTION "CLEANS" THE INPUT STRING SO IT WILL BE SAFE TO USE IN MARK'S CODES
      * Delete stringNoWhiteSpace() later
      * */
@@ -265,5 +314,76 @@ public class App_Framework
         input = input.toLowerCase();
         input = input.replaceAll("[^A-Za-z]", "");
         return input;
+    }
+
+    //SAVE TO AND LOAD FROM TEXT FILE IN THE DEVICE STORAGE
+    /**WHAT IS THE INPUT AND WHAT IS */
+    public void saveAsTxt(String filename, String input, Context context,boolean append)
+    {
+        //overwrite list.txt
+        BufferedWriter outputFile;
+
+        try
+        {
+            FileOutputStream fos;
+
+            if(append)
+                fos = context.openFileOutput(filename, context.MODE_APPEND);
+            else
+                fos = context.openFileOutput(filename, context.MODE_PRIVATE);
+
+            outputFile = new BufferedWriter(new OutputStreamWriter(fos));
+            outputFile.write(input + "\n");
+            outputFile.close();
+        }catch(IOException e)
+        {}
+    }
+
+    public void saveAsTxt(String filename, List<String> input, Context context, boolean append)
+    {
+        //overwrite list.txt
+        BufferedWriter outputFile;
+
+        try
+        {
+            FileOutputStream fos;
+
+            if(append)
+                fos = context.openFileOutput(filename, context.MODE_APPEND);
+            else
+                fos = context.openFileOutput(filename, context.MODE_PRIVATE);
+
+            outputFile = new BufferedWriter(new OutputStreamWriter(fos));
+
+            for(int i = 0; i < input.size(); i++)
+                outputFile.write(input.get(i) + "\n");
+
+            outputFile.close();
+        }catch(IOException e)
+        {}
+    }
+
+    //this gets cipher text file in storage location managed by the application
+    public String getCipherTextFromFile(String filename)
+    {
+        String returnValue = new String();
+
+        BufferedReader inputFile;
+
+        try
+        {
+            FileInputStream fis = context.openFileInput(filename);
+
+            inputFile = new BufferedReader(new InputStreamReader(fis));
+
+            String line;
+            while((line = inputFile.readLine()) != null)
+            {
+                returnValue += line;
+            }
+        }catch(IOException e)
+        {System.out.println("[ERROR] Cipher text file not found");}
+
+        return returnValue;
     }
 }

@@ -47,7 +47,7 @@ public class GUI_project_view extends AppCompatActivity
     protected void onPause() {
         super.onPause();
 
-        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("lastActivity", getClass().getName());
         editor.putString("lastActivity_title", projectTitle);
@@ -64,9 +64,14 @@ public class GUI_project_view extends AppCompatActivity
         framework = new App_Framework(this);
 
         //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
-        projectUniqueID = getIntent().getStringExtra("project_view_unique_ID"); //USE THIS LATRE
+        this.projectUniqueID = getIntent().getStringExtra("project_view_unique_ID"); //USE THIS LATRE
         this.projectTitle = getIntent().getStringExtra("project_view_title");
-        setTitle(projectTitle);
+        setTitle(this.projectTitle);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title", projectTitle);
+        bundle.putString("id", projectUniqueID);
+        mainView.setArguments(bundle);
 
         projectViewFragmentAdapter = new projectView_fragmentPagerAdapter(getSupportFragmentManager());
 

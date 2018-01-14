@@ -67,5 +67,10 @@
 - fixed a bug in IC calculation
 - fixed stupid error in the frequency graph
 
-##TODO NEXT
-- resolve rectangular substitution and columnar transposition (still doesn't work correctly)
+
+<14 January 2018>
+- Persistent session works properly
+- Rearranged elements in project view to make it tidier
+- New GUI for when creating a new project works
+	- User can now enter the cipher text by themselves or get it from a file
+- minor bug fixes

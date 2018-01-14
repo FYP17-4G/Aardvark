@@ -52,7 +52,7 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
         String projectID = new String();
 
         try {
-            SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+            SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
             activityClass = Class.forName(
                     prefs.getString("lastActivity", GUI_MainActivity.class.getName()));
 
@@ -67,7 +67,7 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
         intent.putExtra("project_view_params", projectName);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
         intent.putExtra("project_view_title", projectName);
 
-        if(projectName.equals("**NO TITLE**"))
+        if(projectName.equals("**NO TITLE**") && projectID.equals("**NO ID**"))
             intent = new Intent(this, GUI_MainActivity.class);
 
         startActivity(intent);

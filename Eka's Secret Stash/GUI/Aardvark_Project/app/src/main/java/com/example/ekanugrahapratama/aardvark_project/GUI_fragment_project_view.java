@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.graphics.Color;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
@@ -35,6 +38,9 @@ import com.example.ekanugrahapratama.aardvark_project.kryptoTools.*;
 public class GUI_fragment_project_view extends Fragment {
 
     App_Framework framework;
+
+    private String projectTitle = new String();
+    private String projectID = new String();
 
     //TODO(***) Declare variables here
     /**[VARIABLE SECTION]*/
@@ -78,7 +84,11 @@ public class GUI_fragment_project_view extends Fragment {
     private Button caesarShiftRight;
     private Button caesarShiftLeft;
 
+    private Button caesar_popup_button;
+
     private ShiftCipher shiftCipher = new ShiftCipher();
+
+    private int currentShift = 26;
 
     //COLUMNAR TRANSPOSITION
     private Button cTranspo_button;
@@ -119,6 +129,9 @@ public class GUI_fragment_project_view extends Fragment {
         view = inflater.inflate(R.layout.fragment_project_view_main, container, false);
         fragmentActivity = this.getActivity(); /**This is important: use this to access activity related functions*/
 
+        this.projectTitle = getArguments().getString("title");
+        this.projectID = getArguments().getString("id");
+
         framework= new App_Framework(view.getContext());
 
         /**SET UP THE CIPHER TEXT VIEW AREA*/
@@ -132,16 +145,11 @@ public class GUI_fragment_project_view extends Fragment {
 
         //SET OTHER TOOLS HERE<...>
 
-        getCipherTextFromFile();/**Gets cipher text from a text file, make this function displays FILE BROWSER POPUP*/
+        getCipherTextFromFile();
 
         originalCipherText = cipherText; //TODO(me) FIND A WAY TO SET ORIGINAL CIPHER TEXT PROPERLY, SINCE THIS ONE IS JUST DIRECT ASSIGNING
         changeHistory.add(originalCipherText);
-
-        //set IC related function
-        cipherICTV = (TextView) view.findViewById(R.id.cipherICTextView);
-        ic = new CalculateIC();
-
-        calculateCipherIC(MAX_PERIOD);
+        cipherTextView.setText(cipherText);
 
         setGraph();
         rePlotGraph();
@@ -149,21 +157,30 @@ public class GUI_fragment_project_view extends Fragment {
         setUndoButton();
         setResetButton();
 
+        //set IC related function
+        ic = new CalculateIC();
+
+        calculateCipherIC(MAX_PERIOD);
+
         return view;
     }
 
-
-    /**Misc Functions*/
-    //TODO(me) get content from HARDCODED text file, dont forget to change this when the database is up
     //TEST_CIPHER.txt is inside "assets" folder. DELETE IT LATER AND CHANGE IT ACCORDINGLY
     private void getCipherTextFromFile()
     {
 
-        /**IMPORTANT!!!! IF THE FILE IS NOT FOUND, THEN ASK THE USER TO GET THE FILE LOCATION*/
+        /**GET ORIGINAL CIPHER TEXT FILE FROM FILE*/
+        this.cipherText = framework.init(framework.getCipherTextFromFile(this.projectID + this.projectTitle + "cipherTextOriginal.txt"));
+        System.out.println(">>>>>>>" + this.projectID + " " + this.projectTitle);
+        System.out.println("CIPHERTEXT: " + this.cipherText);
 
-        BufferedReader fileIn;
-        String line;
+        //this.cipherText = "dfwkgtnulfxpfggchrugiiezbxmzgsiifgbxsthttrvwyh.dzwdgivgbayvtrqrvxbxnxusxlublvfvpldr.fuhtckacqaimmcnfxduetmnaapxbkacecnawymgd.gxpxoulmiofindsvpcaikmjtsvxgcgfkzgaevf.pnehscczgeroemppskxbcokbkerlwcccvtbsfixojeemjnyfnndsjxqhifgkgs.gxpxoulylhzlfdujxqhqltptaewkxsvkw.wolkfpdyxjslrblvimxwtt";
 
+
+
+        /**GET CIPHER TEXT WITH THE CHANGES*/
+
+        /*
         try
         {
             fileIn = new BufferedReader(new InputStreamReader(fragmentActivity.getAssets().open("TEST_CIPHER.txt")));
@@ -179,7 +196,7 @@ public class GUI_fragment_project_view extends Fragment {
         {
             System.out.println("[ERROR] @GUI_fragment_project_view: NullPtrException");
             System.exit(404);
-        }
+        }*/
     }
 
     public String getCipherText()
@@ -255,6 +272,8 @@ public class GUI_fragment_project_view extends Fragment {
      * */
     private void setCaesarTool()
     {
+        View shiftView = getLayoutInflater().inflate(R.layout.pop_shift_cipher, null);
+
         View.OnClickListener shiftListener = new View.OnClickListener()
         {
             @Override
@@ -279,9 +298,21 @@ public class GUI_fragment_project_view extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b)
             {
 
-                indicator.setText("Shift by: " + caesarSeekBar.getProgress());
-                caesarSeekBar.dispatchDisplayHint(caesarSeekBar.getProgress());
-                shiftCipherBy = caesarSeekBar.getProgress();
+                if(seekBar.getProgress() < currentShift)
+                {
+                    currentShift --;
+                    doShiftLeft();
+                }
+                else
+                {
+                    currentShift ++;
+                    doShiftRight();
+                }
+
+                indicator.setText("Current Shift: " + (seekBar.getProgress() - 26));
+                refresh();
+                //caesarSeekBar.dispatchDisplayHint(caesarSeekBar.getProgress());
+                //shiftCipherBy = caesarSeekBar.getProgress();
             }
 
             @Override
@@ -297,15 +328,15 @@ public class GUI_fragment_project_view extends Fragment {
             }
         };
 
-        caesarSeekBar = (SeekBar) view.findViewById(R.id.seekBar_caesar);
-        indicator = (TextView) view.findViewById(R.id.seekBar_indicator);
+        caesarSeekBar = (SeekBar) shiftView.findViewById(R.id.seekBar_caesar);
+        indicator = (TextView) shiftView.findViewById(R.id.seekBar_indicator);
         indicator.setText("Shift by: 0");
-        caesarSeekBar.setMax(26);
-        caesarSeekBar.setProgress(0);
+        caesarSeekBar.setMax(52);
+        caesarSeekBar.setProgress(26);
         caesarSeekBar.setOnSeekBarChangeListener(caesarSeekBarListener);
 
-        caesarShiftLeft = (Button) view.findViewById(R.id.button_caesarShiftL);
-        caesarShiftRight = (Button) view.findViewById(R.id.button_caesarShiftR);
+        caesarShiftLeft = (Button) shiftView.findViewById(R.id.button_caesarShiftL);
+        caesarShiftRight = (Button) shiftView.findViewById(R.id.button_caesarShiftR);
 
         caesarShiftLeft.setOnClickListener(shiftListener);
         caesarShiftRight.setOnClickListener(shiftListener);
@@ -317,22 +348,35 @@ public class GUI_fragment_project_view extends Fragment {
         ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter<Integer>(view.getContext(), android.R.layout.simple_spinner_item, content);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        //caesar shift button in fragment project view
+        caesar_popup_button = view.findViewById(R.id.button_shiftPopup);
+        caesar_popup_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                framework.popup_custom("Caesar Shift", shiftView);
+            }
+        });
+
     }
 
     private void doShiftLeft()
     {
+        shiftCipherBy = 1;
         //TODO(***) Do Shift DECRYPTION here, assign result to variable "cipherText", get key value from variable "shiftCipherBy"
         cipherText = shiftCipher.decrypt(cipherText.toLowerCase(), shiftCipherBy);
     }
 
     private void doShiftRight()
     {
+        shiftCipherBy =1;
         //TODO(***) Do Shift ENCRYPTION here, assign result to variable "ciphertext", get key value from variable "shiftCipherBy"
         cipherText = shiftCipher.encrypt(cipherText.toLowerCase(), shiftCipherBy);
     }
 
     private void setSubstitutionTool()
     {
+        View substitutionView = getLayoutInflater().inflate(R.layout.pop_substitution_cipher, null);
+
         /**Substitution by character*/
         Character[] alphabets = {'-', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
@@ -398,35 +442,46 @@ public class GUI_fragment_project_view extends Fragment {
         };
 
         /**Setup spinner for both charA and charB*/
-        charASpinner = (Spinner) view.findViewById(R.id.spinner_charA);
-        charBSpinner = (Spinner) view.findViewById(R.id.spinner_charB);
+        charASpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charA);
+        charBSpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charB);
 
         List<Character> content = new ArrayList<Character>(Arrays.asList(alphabets)); //assign 'alphabets' array as a list data type
 
         //set spinner for charA
-        ArrayAdapter<Character> spinnerAdapterA = new ArrayAdapter<Character>(view.getContext(), android.R.layout.simple_spinner_item, content);
+        ArrayAdapter<Character> spinnerAdapterA = new ArrayAdapter<Character>(substitutionView.getContext(), android.R.layout.simple_spinner_item, content);
         spinnerAdapterA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         charASpinner.setAdapter(spinnerAdapterA);
 
         //set spinner for charB
-        ArrayAdapter<Character> spinnerAdapterB = new ArrayAdapter<Character>(view.getContext(), android.R.layout.simple_spinner_item, content);
+        ArrayAdapter<Character> spinnerAdapterB = new ArrayAdapter<Character>(substitutionView.getContext(), android.R.layout.simple_spinner_item, content);
         spinnerAdapterB.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         charBSpinner.setAdapter(spinnerAdapterB);
 
-        charASpinner = (Spinner) view.findViewById(R.id.spinner_charA);
-        charBSpinner = (Spinner) view.findViewById(R.id.spinner_charB);
+        charASpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charA);
+        charBSpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charB);
         charASpinner.setOnItemSelectedListener(charAListener);
         charBSpinner.setOnItemSelectedListener(charBListener);
 
         /**Setup button for Substitution by char*/
-        charSubButton = (Button) view.findViewById(R.id.button_charSubstitution);
+        charSubButton = (Button) substitutionView.findViewById(R.id.button_charSubstitution);
         charSubButton.setOnClickListener(charSubButtonListener);
 
         /**Setup button for Substitution by String*/
         //stringSubButton = (Button) view.findViewById(R.id.button_stringSubstitution);
         //stringSubButton.setOnClickListener(stringSubButtonListener);
+
+
+
+        /**SETUP BUTTON IN VIEW*/
+        Button substitutionButton = view.findViewById(R.id.button_subPopup);
+        substitutionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                framework.popup_custom("Substitution", substitutionView);
+            }
+        });
 
     }
 
@@ -515,6 +570,8 @@ public class GUI_fragment_project_view extends Fragment {
 
     private void setGraph()
     {
+        View graphView = getLayoutInflater().inflate(R.layout.pop_graph, null);
+
         //TODO(me) find a way to make this more flexible (maybe allow the user to set their own maximum period)
 
         final SeekBar.OnSeekBarChangeListener graphPeriodListener = new SeekBar.OnSeekBarChangeListener()
@@ -546,16 +603,18 @@ public class GUI_fragment_project_view extends Fragment {
             }
         };
 
-        graphPeriodIndicator = (TextView) view.findViewById(R.id.period_indicator);
+        cipherICTV = (TextView) graphView.findViewById(R.id.cipherICTextView);
+
+        graphPeriodIndicator = (TextView) graphView.findViewById(R.id.period_indicator);
         graphPeriodIndicator.setText("IC of every N letters: 0");
 
-        graphSeekBar = (SeekBar) view.findViewById(R.id.seekBar_period);
+        graphSeekBar = (SeekBar) graphView.findViewById(R.id.seekBar_period);
         graphSeekBar.setMax(MAX_PERIOD);
         //graphSeekBar.setMin(2); //TODO()CHANGE API 24 TO 26 FOR THIS TO WORK
         graphSeekBar.setProgress(2);
         graphSeekBar.setOnSeekBarChangeListener(graphPeriodListener);
 
-        graph = (GraphView) view.findViewById(R.id.graph_lot);
+        graph = (GraphView) graphView.findViewById(R.id.graph_lot);
 
         //set up graph axis title
         //graph.getGridLabelRenderer().setVerticalAxisTitle("Frequency");
@@ -581,6 +640,17 @@ public class GUI_fragment_project_view extends Fragment {
 
         graph.addSeries(cipherTextSeries);
         graph.addSeries(periodCipherTextSeries);
+
+
+
+        /**SET THE BUTTON IN VIEW*/
+        Button graphButtonPopup = view.findViewById(R.id.button_graphPopup);
+        graphButtonPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                framework.popup_custom("Frequency", graphView);
+            }
+        });
     }
 
     private String getCipherTextPeriodOf(int startFrom, int periodValue)
@@ -697,10 +767,5 @@ public class GUI_fragment_project_view extends Fragment {
     protected ArrayList<Double> getCipherIC(String cText, int n) //get cipher IC for period of 2 until N
     {
         return ic.getIC(n, cText);
-    }
-
-    private void calculateCipherFreq(int n)
-    {
-
     }
 }
