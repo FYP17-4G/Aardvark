@@ -1,6 +1,5 @@
-import com.Utility;
-import modules.Substitution;
-import com.InvalidKeyException;
+import com.*;
+import modules.*;
 
 public class Krypto {
     private static String ORIGINAL_TEXT;
@@ -8,9 +7,9 @@ public class Krypto {
     private static Utility util = Utility.getInstance();
 
     public static void main(String[] args) {
-        Substitution cipher = new Substitution();
-        String key = "zyxwvutsrqponmlkjihgfedcbasss";
-        init(util.readFile("res/plain.txt"));
+        Cipher cipher = new VigenereAdditive();
+        String key = "Doggy";
+        init("Cats go moo");
 
         System.out.println(displayOriginalString() + "\n");
         try {

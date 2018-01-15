@@ -18,8 +18,8 @@ import com.Cipher;
 import com.InvalidKeyException;
 
 public class Shift implements Cipher {
-    private String cipherDescription = "Shifts the input by 'key'. Allows encryption & decryption.";
-    private String cipherName = "Shift Cipher";
+    private final String cipherDescription = "Shifts the input by 'key'. Allows encryption & decryption.";
+    private final String cipherName = "Shift Cipher";
 
 //    //so it can't be instantiated
 //    private Shift(){}
