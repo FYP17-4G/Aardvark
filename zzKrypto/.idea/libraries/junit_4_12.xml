@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="junit-4.12">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Library/Application Support/JetBrains/Toolbox/apps/IDEA-C/ch-0/173.4127.27/IntelliJ IDEA CE.app/Contents/lib/junit-4.12.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Application Support/JetBrains/Toolbox/apps/IDEA-C/ch-0/173.4127.27/IntelliJ IDEA CE.app/Contents/lib/junit.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
