@@ -4,11 +4,12 @@ import modules.*;
 public class Krypto {
     private static String ORIGINAL_TEXT;
     private static String MODIFIED_TEXT;
+    private static Integer TEXT_COUNT;
     private static Utility util = Utility.getInstance();
 
     public static void main(String[] args) {
-        Cipher cipher = new VigenereInverse();
-        String key = "secrEt";
+        Cipher cipher = new Transposition();
+        String key = "never";
         init("What does this all mean");
 
         System.out.println(displayOriginalString() + "\n");
@@ -23,7 +24,7 @@ public class Krypto {
         System.out.println(displayModifiedString(3, 15) + "\n");
 
         try {
-            MODIFIED_TEXT = cipher.decrypt(MODIFIED_TEXT, key);
+            MODIFIED_TEXT = Utility.unpad(cipher.decrypt(MODIFIED_TEXT, key), TEXT_COUNT);
         } catch (InvalidKeyException ike) {
             System.err.println(ike.getMessage());
             System.exit (-1);
@@ -36,6 +37,7 @@ public class Krypto {
     private static void init (String originalInput) {
         ORIGINAL_TEXT = originalInput;
         MODIFIED_TEXT = util.processText(ORIGINAL_TEXT);
+        TEXT_COUNT = MODIFIED_TEXT.length();
     }
 
     private static String displayOriginalString() {

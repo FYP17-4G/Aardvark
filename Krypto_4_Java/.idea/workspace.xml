@@ -24,82 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Shift.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/modules/Shift.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="637">
-              <caret line="112" column="11" lean-forward="false" selection-start-line="112" selection-start-column="11" selection-end-line="112" selection-end-column="11" />
-              <folding>
-                <element signature="e#0#3251#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="method#encrypt#0;class#Shift#0" expanded="false" />
-                <element signature="method#decrypt#0;class#Shift#0" expanded="false" />
-                <element signature="method#encrypt#1;class#Shift#0" expanded="false" />
-                <element signature="method#decrypt#1;class#Shift#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VigenereAdditive.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/modules/VigenereAdditive.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="53" />
-              <folding>
-                <element signature="e#0#3350#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="method#encrypt#0;class#VigenereAdditive#0" expanded="false" />
-                <element signature="method#decrypt#0;class#VigenereAdditive#0" expanded="false" />
-                <element signature="method#encryptOne#0;class#VigenereAdditive#0" expanded="false" />
-                <element signature="method#decryptOne#0;class#VigenereAdditive#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VigenereSubtractive.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/modules/VigenereSubtractive.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="86" column="4" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="94" selection-end-column="5" />
-              <folding>
-                <element signature="e#0#3465#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="method#encrypt#0;class#VigenereSubtractive#0" expanded="false" />
-                <element signature="method#decrypt#0;class#VigenereSubtractive#0" expanded="false" />
-                <element signature="e#2314#2315#0" expanded="true" />
-                <element signature="e#2341#2342#0" expanded="true" />
-                <element signature="e#2386#2387#0" expanded="true" />
-                <element signature="e#2413#2414#0" expanded="true" />
-                <element signature="method#decryptOne#0;class#VigenereSubtractive#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VigenereInverse.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/modules/VigenereInverse.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="719">
-              <caret line="49" column="32" lean-forward="false" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#3203#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="e#2107#2108#0" expanded="true" />
-                <element signature="e#2134#2135#0" expanded="true" />
-                <element signature="e#2179#2180#0" expanded="true" />
-                <element signature="e#2206#2207#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Krypto.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Krypto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
+            <state relative-caret-position="9">
+              <caret line="6" column="38" lean-forward="false" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#init#0;class#Krypto#0" expanded="false" />
@@ -110,15 +39,52 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Transposition.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/modules/Transposition.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="12" column="83" lean-forward="false" selection-start-line="12" selection-start-column="83" selection-end-line="12" selection-end-column="83" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#encrypt#0;class#Transposition#0" expanded="false" />
+                <element signature="method#decrypt#0;class#Transposition#0" expanded="false" />
+                <element signature="method#checkKey#0;class#Transposition#0" expanded="false" />
+                <element signature="method#getRectangle#0;class#Transposition#0" expanded="false" />
+                <element signature="method#flip#0;class#Transposition#0" expanded="false" />
+                <element signature="method#mix#0;class#Transposition#0" expanded="false" />
+                <element signature="method#unmix#0;class#Transposition#0" expanded="false" />
+                <element signature="method#convertToKey#0;class#Transposition#0" expanded="false" />
+                <element signature="method#find#0;class#Transposition#0" expanded="false" />
+                <element signature="method#sortString#0;class#Transposition#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Substitution.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/modules/Substitution.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-497">
+              <caret line="30" column="4" lean-forward="false" selection-start-line="30" selection-start-column="4" selection-end-line="31" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#4009#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Utility.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+            <state relative-caret-position="489">
+              <caret line="70" column="1" lean-forward="true" selection-start-line="70" selection-start-column="1" selection-end-line="70" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#processText#0;class#Utility#0" expanded="false" />
                 <element signature="method#readFile#0;class#Utility#0" expanded="false" />
+                <element signature="method#removeDuplicates#0;class#Utility#0" expanded="false" />
+                <element signature="method#pad#0;class#Utility#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -145,7 +111,6 @@
       <list>
         <option value="$PROJECT_DIR$/src/res/InvalidKeyException.java" />
         <option value="$PROJECT_DIR$/src/modules/Substitute.java" />
-        <option value="$PROJECT_DIR$/src/com/Utility.java" />
         <option value="$PROJECT_DIR$/src/res/Cipher.java" />
         <option value="$PROJECT_DIR$/src/modules/Substitution.java" />
         <option value="$PROJECT_DIR$/src/modules/Shift.java" />
@@ -153,6 +118,8 @@
         <option value="$PROJECT_DIR$/src/com/Cipher.java" />
         <option value="$PROJECT_DIR$/src/modules/VigenereSubtractive.java" />
         <option value="$PROJECT_DIR$/src/modules/VigenereInverse.java" />
+        <option value="$PROJECT_DIR$/src/modules/Transposition.java" />
+        <option value="$PROJECT_DIR$/src/com/Utility.java" />
         <option value="$PROJECT_DIR$/src/Krypto.java" />
       </list>
     </option>
@@ -365,7 +332,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32859176" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -392,7 +359,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -437,10 +404,10 @@
           <folding>
             <element signature="e#0#4009#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#3128#3129#0" expanded="true" />
-            <element signature="e#3155#3156#0" expanded="true" />
-            <element signature="e#3200#3201#0" expanded="true" />
-            <element signature="e#3227#3228#0" expanded="true" />
+            <element signature="e#3128#3129#0" expanded="false" />
+            <element signature="e#3155#3156#0" expanded="false" />
+            <element signature="e#3200#3201#0" expanded="false" />
+            <element signature="e#3227#3228#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -453,6 +420,8 @@
             <element signature="imports" expanded="true" />
             <element signature="method#processText#0;class#Utility#0" expanded="false" />
             <element signature="method#readFile#0;class#Utility#0" expanded="false" />
+            <element signature="method#removeDuplicates#0;class#Utility#0" expanded="false" />
+            <element signature="method#pad#0;class#Utility#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -480,21 +449,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Substitution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="30" column="4" lean-forward="false" selection-start-line="30" selection-start-column="4" selection-end-line="31" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#4009#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#3128#3129#0" expanded="true" />
-            <element signature="e#3155#3156#0" expanded="true" />
-            <element signature="e#3200#3201#0" expanded="true" />
-            <element signature="e#3227#3228#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/Shift.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="637">
@@ -506,18 +460,6 @@
             <element signature="method#decrypt#0;class#Shift#0" expanded="false" />
             <element signature="method#encrypt#1;class#Shift#0" expanded="false" />
             <element signature="method#decrypt#1;class#Shift#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/Utility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#processText#0;class#Utility#0" expanded="false" />
-            <element signature="method#readFile#0;class#Utility#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -580,10 +522,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Substitution.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-497">
+          <caret line="30" column="4" lean-forward="false" selection-start-line="30" selection-start-column="4" selection-end-line="31" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#4009#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="70" column="1" lean-forward="true" selection-start-line="70" selection-start-column="1" selection-end-line="70" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#processText#0;class#Utility#0" expanded="false" />
+            <element signature="method#readFile#0;class#Utility#0" expanded="false" />
+            <element signature="method#removeDuplicates#0;class#Utility#0" expanded="false" />
+            <element signature="method#pad#0;class#Utility#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Transposition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="12" column="83" lean-forward="false" selection-start-line="12" selection-start-column="83" selection-end-line="12" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#encrypt#0;class#Transposition#0" expanded="false" />
+            <element signature="method#decrypt#0;class#Transposition#0" expanded="false" />
+            <element signature="method#checkKey#0;class#Transposition#0" expanded="false" />
+            <element signature="method#getRectangle#0;class#Transposition#0" expanded="false" />
+            <element signature="method#flip#0;class#Transposition#0" expanded="false" />
+            <element signature="method#mix#0;class#Transposition#0" expanded="false" />
+            <element signature="method#unmix#0;class#Transposition#0" expanded="false" />
+            <element signature="method#convertToKey#0;class#Transposition#0" expanded="false" />
+            <element signature="method#find#0;class#Transposition#0" expanded="false" />
+            <element signature="method#sortString#0;class#Transposition#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Krypto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
+        <state relative-caret-position="9">
+          <caret line="6" column="38" lean-forward="false" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#init#0;class#Krypto#0" expanded="false" />
