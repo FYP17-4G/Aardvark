@@ -1,6 +1,6 @@
 /*
  * ---------
- * Module Name: VigenereAdditive.java
+ * Module Name: VigenereSubtractive.java
  * An additive cipher where the ciphertext's value is obtained by addiong the value of the plaintext
  * to the value of the repeating key (mod 26). CT_i = PT_i - K_i (mod 26)
  * i [<p>] in Krypto.exe

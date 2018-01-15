@@ -8,10 +8,8 @@
 package com;
 
 public interface Cipher {
-
     //basic encryption/decryption
     String encrypt(String plaintext, String key) throws InvalidKeyException;
-
     String decrypt(String ciphertext, String key) throws InvalidKeyException;
 
     //returns a name or description of the current cipher.

@@ -7,9 +7,9 @@ public class Krypto {
     private static Utility util = Utility.getInstance();
 
     public static void main(String[] args) {
-        Cipher cipher = new VigenereAdditive();
-        String key = "Doggy";
-        init("Cats go moo");
+        Cipher cipher = new VigenereSubtractive();
+        String key = "secrEt";
+        init("What does this all mean");
 
         System.out.println(displayOriginalString() + "\n");
         try {
