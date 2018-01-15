@@ -61,18 +61,35 @@
       <file leaf-file-name="VigenereSubtractive.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/modules/VigenereSubtractive.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="69" column="19" lean-forward="false" selection-start-line="69" selection-start-column="19" selection-end-line="69" selection-end-column="19" />
+            <state relative-caret-position="146">
+              <caret line="86" column="4" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="94" selection-end-column="5" />
               <folding>
+                <element signature="e#0#3465#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="method#encrypt#0;class#VigenereSubtractive#0" expanded="false" />
                 <element signature="method#decrypt#0;class#VigenereSubtractive#0" expanded="false" />
-                <element signature="e#1787#1788#0" expanded="true" />
-                <element signature="e#1814#1815#0" expanded="true" />
-                <element signature="e#1859#1860#0" expanded="true" />
-                <element signature="e#1886#1887#0" expanded="true" />
-                <element signature="method#encryptOne#0;class#VigenereSubtractive#0" expanded="false" />
+                <element signature="e#2314#2315#0" expanded="true" />
+                <element signature="e#2341#2342#0" expanded="true" />
+                <element signature="e#2386#2387#0" expanded="true" />
+                <element signature="e#2413#2414#0" expanded="true" />
                 <element signature="method#decryptOne#0;class#VigenereSubtractive#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VigenereInverse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/modules/VigenereInverse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="719">
+              <caret line="49" column="32" lean-forward="false" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#3203#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2107#2108#0" expanded="true" />
+                <element signature="e#2134#2135#0" expanded="true" />
+                <element signature="e#2179#2180#0" expanded="true" />
+                <element signature="e#2206#2207#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -81,8 +98,8 @@
       <file leaf-file-name="Krypto.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Krypto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+            <state relative-caret-position="207">
+              <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#init#0;class#Krypto#0" expanded="false" />
@@ -133,8 +150,9 @@
         <option value="$PROJECT_DIR$/src/modules/Substitution.java" />
         <option value="$PROJECT_DIR$/src/modules/Shift.java" />
         <option value="$PROJECT_DIR$/src/modules/VigenereAdditive.java" />
-        <option value="$PROJECT_DIR$/src/modules/VigenereSubtractive.java" />
         <option value="$PROJECT_DIR$/src/com/Cipher.java" />
+        <option value="$PROJECT_DIR$/src/modules/VigenereSubtractive.java" />
+        <option value="$PROJECT_DIR$/src/modules/VigenereInverse.java" />
         <option value="$PROJECT_DIR$/src/Krypto.java" />
       </list>
     </option>
@@ -504,6 +522,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/Cipher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#810#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/VigenereAdditive.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
@@ -519,38 +547,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/Cipher.java">
+    <entry file="file://$PROJECT_DIR$/src/modules/VigenereSubtractive.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="25" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state relative-caret-position="146">
+          <caret line="86" column="4" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="94" selection-end-column="5" />
           <folding>
-            <element signature="e#0#810#0" expanded="true" />
+            <element signature="e#0#3465#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#encrypt#0;class#VigenereSubtractive#0" expanded="false" />
+            <element signature="method#decrypt#0;class#VigenereSubtractive#0" expanded="false" />
+            <element signature="e#2314#2315#0" expanded="true" />
+            <element signature="e#2341#2342#0" expanded="true" />
+            <element signature="e#2386#2387#0" expanded="true" />
+            <element signature="e#2413#2414#0" expanded="true" />
+            <element signature="method#decryptOne#0;class#VigenereSubtractive#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/VigenereSubtractive.java">
+    <entry file="file://$PROJECT_DIR$/src/modules/VigenereInverse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="69" column="19" lean-forward="false" selection-start-line="69" selection-start-column="19" selection-end-line="69" selection-end-column="19" />
+        <state relative-caret-position="719">
+          <caret line="49" column="32" lean-forward="false" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
           <folding>
+            <element signature="e#0#3203#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="method#encrypt#0;class#VigenereSubtractive#0" expanded="false" />
-            <element signature="method#decrypt#0;class#VigenereSubtractive#0" expanded="false" />
-            <element signature="e#1787#1788#0" expanded="true" />
-            <element signature="e#1814#1815#0" expanded="true" />
-            <element signature="e#1859#1860#0" expanded="true" />
-            <element signature="e#1886#1887#0" expanded="true" />
-            <element signature="method#encryptOne#0;class#VigenereSubtractive#0" expanded="false" />
-            <element signature="method#decryptOne#0;class#VigenereSubtractive#0" expanded="false" />
+            <element signature="e#2107#2108#0" expanded="true" />
+            <element signature="e#2134#2135#0" expanded="true" />
+            <element signature="e#2179#2180#0" expanded="true" />
+            <element signature="e#2206#2207#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Krypto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        <state relative-caret-position="207">
+          <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#init#0;class#Krypto#0" expanded="false" />

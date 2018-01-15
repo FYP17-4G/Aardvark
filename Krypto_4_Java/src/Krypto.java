@@ -7,7 +7,7 @@ public class Krypto {
     private static Utility util = Utility.getInstance();
 
     public static void main(String[] args) {
-        Cipher cipher = new VigenereSubtractive();
+        Cipher cipher = new VigenereInverse();
         String key = "secrEt";
         init("What does this all mean");
 
