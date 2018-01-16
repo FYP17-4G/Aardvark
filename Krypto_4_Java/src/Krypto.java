@@ -8,11 +8,12 @@ public class Krypto {
     private static Utility util = Utility.getInstance();
 
     public static void main(String[] args) {
-        Cipher cipher = new Transposition();
-        String key = "never";
-        init("What does this all mean");
+        Cipher cipher = new TranspositionPeriodic();
+        String key = "Never";
+        init("Jack and Jill ran up the hill");
 
-        System.out.println(displayOriginalString() + "\n");
+        System.out.println("Original: " + displayOriginalString());
+
         try {
             MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
         } catch (InvalidKeyException ike) {
@@ -20,18 +21,19 @@ public class Krypto {
             System.exit (-1);
         }
 
-        System.out.println(displayModifiedString() + "\n");
-        System.out.println(displayModifiedString(3, 15) + "\n");
+//        System.out.println(displayModifiedString() + "\n");
+        System.out.println("Encrypted: " + displayModifiedString(5, 10));
 
         try {
+            //Utility.unpad is important, gets rid of the random padded characters in the end.
             MODIFIED_TEXT = Utility.unpad(cipher.decrypt(MODIFIED_TEXT, key), TEXT_COUNT);
         } catch (InvalidKeyException ike) {
             System.err.println(ike.getMessage());
             System.exit (-1);
         }
 
-        System.out.println(displayModifiedString() + "\n");
-        System.out.println(displayModifiedString(3, 15) + "\n");
+//        System.out.println(displayModifiedString() + "\n");
+        System.out.println("Decrypted: " + displayModifiedString(5, 10));
     }
 
     private static void init (String originalInput) {

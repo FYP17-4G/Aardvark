@@ -19,6 +19,9 @@ import com.InvalidKeyException;
 import com.Utility;
 
 public class VigenereInverse implements Cipher {
+    private static final String DESC = "Inverse Vigenere Cipher";
+    private static final String NAME = "Inverse Vigenere Cipher";
+
     @Override
     public String encrypt(String plaintext, String key) throws InvalidKeyException {
         key = key.toLowerCase();

@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Transposition implements Cipher {
+    private static final String DESC = "Transposition Cipher";
+    private static final String NAME = "Transposition Cipher";
+
     @Override
     public String encrypt(String plaintext, String key) throws InvalidKeyException {
         key = key.toLowerCase();

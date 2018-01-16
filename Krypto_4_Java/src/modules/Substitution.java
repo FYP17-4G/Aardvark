@@ -28,9 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Substitution implements Cipher {
-    private String DESC = "Substitution Cipher";
-    private String NAME = "Substitution Cipher";
-    private String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    private static final String DESC = "Substitution Cipher";
+    private static final String NAME = "Substitution Cipher";
 
     //allows the user to substitute a single character
     //returns a String with all the oldCharacters changed to the newCharacters.
@@ -56,8 +55,8 @@ public class Substitution implements Cipher {
         String output = plaintext;
 
         if (checkKey(key)) {
-            for (int i = 0; i < alphabet.length(); ++i) {
-                char currLetter = alphabet.charAt(i);
+            for (int i = 0; i < Utility.alphabet.length(); ++i) {
+                char currLetter = Utility.alphabet.charAt(i);
                 char currKey    = key.charAt(i);
 
                 output = byCharacter(currLetter, currKey, output, plaintext);
@@ -72,8 +71,8 @@ public class Substitution implements Cipher {
         String output = ciphertext;
 
         if (checkKey(key)) {
-            for (int i = 0; i < alphabet.length(); ++i) {
-                char currLetter = alphabet.charAt(i);
+            for (int i = 0; i < Utility.alphabet.length(); ++i) {
+                char currLetter = Utility.alphabet.charAt(i);
                 char currKey    = key.charAt(i);
 
                 output = byCharacter(currKey, currLetter, output, ciphertext);
@@ -96,8 +95,8 @@ public class Substitution implements Cipher {
     @Override
     public Boolean checkKey(String key) throws InvalidKeyException {
         //check key length
-        if (key.length() != alphabet.length())
-            throw new InvalidKeyException("Key must be exactly " + alphabet.length() + " characters!");
+        if (key.length() != Utility.alphabet.length())
+            throw new InvalidKeyException("Key must be exactly " + Utility.alphabet.length() + " characters!");
 
         //check if key has duplicate characters
         String newKey = Utility.removeDuplicates(key);

@@ -19,8 +19,8 @@ import com.InvalidKeyException;
 import com.Utility;
 
 public class VigenereSubtractive implements Cipher {
-    private String DESC = "Subtractive Vigenere Cipher";
-    private String NAME = "Subtractive Vigenere Cipher";
+    private static final String DESC = "Subtractive Vigenere Cipher";
+    private static final String NAME = "Subtractive Vigenere Cipher";
 
     @Override
     public String encrypt(String plaintext, String key) throws InvalidKeyException {
