@@ -17,7 +17,7 @@ public class TranspositionPeriodic implements Cipher {
         if (checkKey(key)) {
             plaintext = Utility.pad(plaintext, key.length());
 
-            List<String> splitPlain = splitStrings(plaintext, key.length());
+            List<String> splitPlain = Utility.splitStrings(plaintext, key.length());
             List<Integer> convertedKey = convertToKey(key);
             StringBuilder ciphertext = new StringBuilder();
 
@@ -34,7 +34,7 @@ public class TranspositionPeriodic implements Cipher {
     @Override
     public String decrypt(String ciphertext, String key) throws InvalidKeyException {
         if (checkKey(key)) {
-            List<String> splitCipher = splitStrings(ciphertext, key.length());
+            List<String> splitCipher = Utility.splitStrings(ciphertext, key.length());
             List<Integer> convertedKey = convertToKey(key);
             StringBuilder plaintext = new StringBuilder();
 
@@ -64,24 +64,6 @@ public class TranspositionPeriodic implements Cipher {
         }
 
         return true;
-    }
-
-    private List<String> splitStrings (String input, int keylength) {
-        StringBuilder temp = new StringBuilder();
-        List<String> out = new ArrayList<>();
-        int currentCount = 0;
-
-        for (Character c: input.toCharArray()) {
-            temp.append(c);
-            ++currentCount;
-
-            if (currentCount >= keylength) {
-                out.add(temp.toString());
-                temp = new StringBuilder();
-                currentCount = 0;
-            }
-        }
-        return out;
     }
 
     private ArrayList<Integer> convertToKey (String key) {

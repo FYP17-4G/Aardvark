@@ -1,6 +1,9 @@
 import com.*;
 import modules.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Krypto {
     private static String ORIGINAL_TEXT;
     private static String MODIFIED_TEXT;
@@ -11,29 +14,7 @@ public class Krypto {
         Cipher cipher = new TranspositionPeriodic();
         String key = "Never";
         init("Jack and Jill ran up the hill");
-
-        System.out.println("Original: " + displayOriginalString());
-
-        try {
-            MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
-        } catch (InvalidKeyException ike) {
-            System.err.println(ike.getMessage());
-            System.exit (-1);
-        }
-
-//        System.out.println(displayModifiedString() + "\n");
-        System.out.println("Encrypted: " + displayModifiedString(5, 10));
-
-        try {
-            //Utility.unpad is important, gets rid of the random padded characters in the end.
-            MODIFIED_TEXT = Utility.unpad(cipher.decrypt(MODIFIED_TEXT, key), TEXT_COUNT);
-        } catch (InvalidKeyException ike) {
-            System.err.println(ike.getMessage());
-            System.exit (-1);
-        }
-
-//        System.out.println(displayModifiedString() + "\n");
-        System.out.println("Decrypted: " + displayModifiedString(5, 10));
+        List<String> permutations = new ArrayList<>();
     }
 
     private static void init (String originalInput) {

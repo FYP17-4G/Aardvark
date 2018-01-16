@@ -68,4 +68,38 @@ public class Utility {
     public static String unpad (String paddedText, int originalLength) {
         return paddedText.substring(0, originalLength);
     }
+
+    public static List<String> splitStrings (String input, int keylength) {
+        StringBuilder temp = new StringBuilder();
+        List<String> out = new ArrayList<>();
+        int currentCount = 0;
+
+        for (Character c: input.toCharArray()) {
+            temp.append(c);
+            ++currentCount;
+
+            if (currentCount >= keylength) {
+                out.add(temp.toString());
+                temp = new StringBuilder();
+                currentCount = 0;
+            }
+        }
+        return out;
+    }
+
+    public static Integer getHighestIndex (ArrayList<Integer> input) {
+        int maxVal = 0, maxInd = 0;
+
+        int counter = 0;
+        for (Integer in: input) {
+            if (maxVal < in) {
+                maxVal = in;
+                maxInd = counter;
+            }
+
+            ++counter;
+        }
+
+        return maxInd;
+    }
 }
