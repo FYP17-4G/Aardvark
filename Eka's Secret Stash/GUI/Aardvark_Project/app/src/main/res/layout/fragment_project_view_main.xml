@@ -112,18 +112,11 @@
                 android:text="Caesar Shift" />
 
             <Button
-                android:id="@+id/button_rTranspo"
+                android:id="@+id/button_normalTranspo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Rectangular Transpo" />
-
-            <Button
-                android:id="@+id/button_cTranspo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Columnar Transpo" />
+                android:text="Transposition" />
 
             <Button
                 android:id="@+id/button_graphPopup"

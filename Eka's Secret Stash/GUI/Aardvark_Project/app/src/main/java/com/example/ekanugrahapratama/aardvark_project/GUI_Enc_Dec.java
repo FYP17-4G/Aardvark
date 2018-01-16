@@ -11,21 +11,16 @@ import android.content.ClipboardManager;
 import android.content.ClipData;
 
 import com.example.ekanugrahapratama.aardvark_project.encDecTools.*;
-import com.example.ekanugrahapratama.aardvark_project.kryptoTools.ShiftCipher;
-import com.example.ekanugrahapratama.aardvark_project.kryptoTools.RectKeySubstitution;
-import com.example.ekanugrahapratama.aardvark_project.kryptoTools.RectangularTransposition;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.*;
 
 public class GUI_Enc_Dec extends AppCompatActivity {
 
     App_Framework framework = new App_Framework(this);;
 
     /**ENCRYPTION DECRYPTION OBJECT VARIABLES*/
-    ShiftCipher shiftCipher;
     VigenereAdditive vigenereAdditive;
     VigenereInverse vigenereInverse;
     VigenereSubtractive vigenereSubtractive;
-    RectangularTransposition rectangularTransposition;
-    RectKeySubstitution rectKeySubstitution;
     /**-------------------------------------*/
 
     //cipher text view
@@ -190,7 +185,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
                             else
                             {
                                 key = framework.popup_getInput();
-                                doRectTranspo(true);
+                                doTranspo(true);
                             }
                         }
                     }, new DialogInterface.OnClickListener() {
@@ -202,7 +197,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
                             else
                             {
                                 key = framework.popup_getInput();
-                                doRectTranspo(false);
+                                doTranspo(false);
                             }
                         }
                     }, "Encrypt", "Decrypt");
@@ -231,7 +226,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
 
                             else {
                                 key = framework.popup_getInput();
-                                doRectSub(true);
+                                doSub(true);
                             }
                         }
                     });
@@ -326,13 +321,22 @@ public class GUI_Enc_Dec extends AppCompatActivity {
     /**FOR ALL SHIFT ALGORITHM text variable: "input text: String", key variable: "shiftCipherBy: int"*/
     private void doCaesarShiftR() //shift ENCRYPT
     {
-        inputText = shiftCipher.encrypt(inputText, shiftCipherBy);
+        try
+        {
+            inputText = new Shift().encrypt(inputText, Integer.toString(shiftCipherBy));
+        }catch(InvalidKeyException e)
+        {}
+
         refresh();
-        System.out.println(">>>>>>>" + inputText);
     }
     private void doCaesarShiftL() //shift DECRYPT
     {
-        inputText = shiftCipher.decrypt(inputText, shiftCipherBy);
+        try
+        {
+            inputText = new Shift().decrypt(inputText, Integer.toString(shiftCipherBy));
+        }catch(InvalidKeyException e)
+        {}
+
         refresh();
     }
 
@@ -367,22 +371,33 @@ public class GUI_Enc_Dec extends AppCompatActivity {
     }
 
     //TODO(&&&) Rectangular Transpo
-    private void doRectTranspo(boolean encrypt)
+    private void doTranspo(boolean encrypt)
     {
-        if(encrypt)
-            inputText = rectangularTransposition.encrypt(inputText, (int)key.charAt(0));
-        else
-            inputText = rectangularTransposition.decrypt(inputText, (int)key.charAt(0));
+        try
+        {
+            if(encrypt)
+                inputText = new Transposition().encrypt(inputText, Integer.toString((int)key.charAt(0)));
+            else
+                inputText = new Transposition().decrypt(inputText, Integer.toString((int)key.charAt(0)));
+
+        }catch(InvalidKeyException e)
+        {}
 
         refresh();
     }
 
     //TODO(&&&) Rectangular Sub
-    private void doRectSub(boolean encrypt)
+    private void doSub(boolean encrypt)
     {
-        if(encrypt)
-            inputText = rectKeySubstitution.encrypt(framework.init(inputText), key);
-        //else, do decrypt
+        try
+        {
+            if(encrypt)
+                inputText = new Substitution().encrypt(framework.init(inputText), key);
+            //else, do decrypt
+            else
+                inputText = new Substitution().decrypt(framework.init(inputText), key);
+        }catch(InvalidKeyException e)
+        {}
 
         refresh();
     }

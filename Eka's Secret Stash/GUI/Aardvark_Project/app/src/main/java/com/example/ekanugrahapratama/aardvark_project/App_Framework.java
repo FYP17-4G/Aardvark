@@ -51,7 +51,7 @@ public class App_Framework
         this.context = context;
     }
 
-    //displays selection list pop up menu
+    //plain custom pop up container
     public void popup_custom(String title, View view)
     {
 
@@ -64,6 +64,8 @@ public class App_Framework
         popUpWindow.setView(view);
         popUpWindow.show();
     }
+
+    //custom popup with defined positive and negative button behaviour
     public void popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener)
     {
 
@@ -361,6 +363,18 @@ public class App_Framework
             outputFile.close();
         }catch(IOException e)
         {}
+    }
+
+    public String readTextFromUri(Uri uri, Context context) throws IOException
+    {
+        InputStream inputStream = context.getContentResolver().openInputStream(uri);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null)
+            stringBuilder.append(line);
+
+        return stringBuilder.toString();
     }
 
     //this gets cipher text file in storage location managed by the application

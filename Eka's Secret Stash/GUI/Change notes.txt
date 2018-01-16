@@ -74,3 +74,7 @@
 - New GUI for when creating a new project works
 	- User can now enter the cipher text by themselves or get it from a file
 - minor bug fixes
+
+<16 January 2018>
+- Bug fix(Inconsistent shift cipher value when sliding the seek bar too fast)
+- UI redesign (Color scheme)

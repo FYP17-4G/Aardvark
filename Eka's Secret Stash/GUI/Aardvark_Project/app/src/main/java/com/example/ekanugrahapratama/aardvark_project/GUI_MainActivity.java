@@ -301,7 +301,8 @@ public class GUI_MainActivity extends AppCompatActivity
 
                 try
                 {
-                    cipherTextFromFile = readTextFromUri(uri);
+                    cipherTextFromFile = framework.readTextFromUri(uri, context);
+
                 } catch (IOException e)
                 {}
 
@@ -314,19 +315,6 @@ public class GUI_MainActivity extends AppCompatActivity
                     framework.system_message_small("Error opening file (file could be empty)");
             }
         }
-    }
-
-    public String readTextFromUri(Uri uri) throws IOException {
-        InputStream inputStream = getContentResolver().openInputStream(uri);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                inputStream));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
-        }
-
-        return stringBuilder.toString();
     }
 
 }

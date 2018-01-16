@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,11 +16,6 @@ import android.widget.SeekBar;
 import android.view.View;
 import android.graphics.Color;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +46,8 @@ public class GUI_fragment_project_view extends Fragment {
     private String originalCipherText = new String();
     private TextView cipherTextView;
 
+    private String beforeShift = new String();
+
     //Analysis variables
     private CryptoAnalysis cryptoAnalysis;
 
@@ -73,8 +70,6 @@ public class GUI_fragment_project_view extends Fragment {
 
     private ArrayList<Double> cipherICofN;
 
-    private List<Double> cipherICWithPeriod = new ArrayList<>();
-
     /**Variables for Krypto tools*/
     //CAESAR CIPHER
     private SeekBar caesarSeekBar;
@@ -86,19 +81,6 @@ public class GUI_fragment_project_view extends Fragment {
 
     private Button caesar_popup_button;
 
-    private ShiftCipher shiftCipher = new ShiftCipher();
-
-    private int currentShift = 26;
-
-    //COLUMNAR TRANSPOSITION
-    private Button cTranspo_button;
-    private ColumnarTransposition columnarTransposition;
-
-    //RECTANGULAR TRANSPOSITION
-    private Button rTranspo_button;
-    private RectangularTransposition rectangularTransposition;
-
-    private ColumnarTransposition cTranspo = new ColumnarTransposition();
     //SUBSTITUTION
     private Spinner charASpinner; //Replace charA with charB
     private Spinner charBSpinner;
@@ -107,9 +89,6 @@ public class GUI_fragment_project_view extends Fragment {
     private char charB;
 
     private String stringSubValue;
-
-    Substitute substitution;
-    RectKeySubstitution rectSubstitution;
 
     //undo button and reset button
     private Button undoButton;
@@ -171,32 +150,11 @@ public class GUI_fragment_project_view extends Fragment {
 
         /**GET ORIGINAL CIPHER TEXT FILE FROM FILE*/
         this.cipherText = framework.init(framework.getCipherTextFromFile(this.projectID + this.projectTitle + "cipherTextOriginal.txt"));
-        System.out.println(">>>>>>>" + this.projectID + " " + this.projectTitle);
-        System.out.println("CIPHERTEXT: " + this.cipherText);
 
         //this.cipherText = "dfwkgtnulfxpfggchrugiiezbxmzgsiifgbxsthttrvwyh.dzwdgivgbayvtrqrvxbxnxusxlublvfvpldr.fuhtckacqaimmcnfxduetmnaapxbkacecnawymgd.gxpxoulmiofindsvpcaikmjtsvxgcgfkzgaevf.pnehscczgeroemppskxbcokbkerlwcccvtbsfixojeemjnyfnndsjxqhifgkgs.gxpxoulylhzlfdujxqhqltptaewkxsvkw.wolkfpdyxjslrblvimxwtt";
 
-
-
         /**GET CIPHER TEXT WITH THE CHANGES*/
 
-        /*
-        try
-        {
-            fileIn = new BufferedReader(new InputStreamReader(fragmentActivity.getAssets().open("TEST_CIPHER.txt")));
-            while((line = fileIn.readLine()) != null)
-            {
-                cipherText += line;
-                cipherTextView.append(line+"\n");
-            }
-
-            fileIn.close();
-        }catch(IOException e)
-        {}catch(NullPointerException n)
-        {
-            System.out.println("[ERROR] @GUI_fragment_project_view: NullPtrException");
-            System.exit(404);
-        }*/
     }
 
     public String getCipherText()
@@ -274,6 +232,8 @@ public class GUI_fragment_project_view extends Fragment {
     {
         View shiftView = getLayoutInflater().inflate(R.layout.pop_shift_cipher, null);
 
+
+
         View.OnClickListener shiftListener = new View.OnClickListener()
         {
             @Override
@@ -298,14 +258,14 @@ public class GUI_fragment_project_view extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b)
             {
 
-                if(seekBar.getProgress() < currentShift)
+                shiftCipherBy = (seekBar.getProgress() - 26);
+
+                if(shiftCipherBy < 0)
                 {
-                    currentShift --;
                     doShiftLeft();
                 }
                 else
                 {
-                    currentShift ++;
                     doShiftRight();
                 }
 
@@ -353,6 +313,8 @@ public class GUI_fragment_project_view extends Fragment {
         caesar_popup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                beforeShift = cipherText;
                 framework.popup_custom("Caesar Shift", shiftView);
             }
         });
@@ -361,16 +323,20 @@ public class GUI_fragment_project_view extends Fragment {
 
     private void doShiftLeft()
     {
-        shiftCipherBy = 1;
-        //TODO(***) Do Shift DECRYPTION here, assign result to variable "cipherText", get key value from variable "shiftCipherBy"
-        cipherText = shiftCipher.decrypt(cipherText.toLowerCase(), shiftCipherBy);
+        try
+        {
+            cipherText = new Shift().decrypt(beforeShift.toLowerCase(), Integer.toString(Math.abs(shiftCipherBy)));
+        }catch(InvalidKeyException e)
+        {}
     }
 
     private void doShiftRight()
     {
-        shiftCipherBy =1;
-        //TODO(***) Do Shift ENCRYPTION here, assign result to variable "ciphertext", get key value from variable "shiftCipherBy"
-        cipherText = shiftCipher.encrypt(cipherText.toLowerCase(), shiftCipherBy);
+        try
+        {
+            cipherText = new Shift().encrypt(beforeShift.toLowerCase(), Integer.toString(Math.abs(shiftCipherBy)));
+        }catch(InvalidKeyException e)
+        {}
     }
 
     private void setSubstitutionTool()
@@ -487,23 +453,24 @@ public class GUI_fragment_project_view extends Fragment {
 
     private void doSubstitution(String stringKey)
     {
-        //TODO(***) Substitution by STRING, assign result to variable "cipherText"
-        //cipherText = substitution.str(cipherText, );
+        /**ENCRYPT OR DECRYPT ????*/
+        try
+        {
+            cipherText = new Substitution().decrypt(cipherText, stringKey);
+        }catch(InvalidKeyException e)
+        {}
     }
 
     private void doSubstitution(char a, char b) //replace charA with charB
     {
-        //TODO(***) Substitution by CHAR, assign result to variable "cipherText"
-        cipherText = substitution.sub(a, b, cipherText.toLowerCase());
+        cipherText = new Substitution().byCharacter(a, b, cipherText, originalCipherText);
     }
 
     private void setTranspoTools()
     {
-        /**Columnar Transposition*/
-        cTranspo_button = (Button) view.findViewById(R.id.button_cTranspo);
-        columnarTransposition = new ColumnarTransposition();
+        Button TranspoButton = (Button) view.findViewById(R.id.button_normalTranspo);
 
-        cTranspo_button.setOnClickListener(new View.OnClickListener()
+        TranspoButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -513,7 +480,7 @@ public class GUI_fragment_project_view extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
-                        doTranspo_C(framework.popup_getInput());
+                        doTranspo(framework.popup_getInput());
                         refresh();
                     }
                 };
@@ -521,49 +488,15 @@ public class GUI_fragment_project_view extends Fragment {
                 framework.popup_getNumber_show("Columnar Transposition", "Enter key", ocl, 100); /**CHANGE INPUT LENGTH LIMIT*/
             }
         });
+    }
 
-
-        /**Rectangular Transposition*/
-        rTranspo_button = (Button) view.findViewById(R.id.button_rTranspo);
-        rTranspo_button.setOnClickListener(new View.OnClickListener()
+    private void doTranspo(String key)
+    {
+        try
         {
-            @Override
-            public void onClick(View view)
-            {
-                DialogInterface.OnClickListener ocl = new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        doTranspo_R(framework.popup_getInput());
-                        refresh();
-                    }
-                };
-
-                framework.popup_getNumber_show("Rectangular Transposition", "Enter Number of columns", ocl, 1);
-            }
-        });
-
-        /**Periodic Transposition*/
-        //TODO(me) Set up interface for periodic transposition
-    }
-
-    private void doTranspo_C(String key)
-    {
-        //TODO(***) Columnar Transposition, assign result to variable "cipherText"
-        List<List<Character>> list = new ArrayList<>();
-
-        List<List<Character>> cipherTextResult = columnarTransposition.encrypt(cipherText, key, list);
-        System.out.println(cipherTextResult.toString());
-
-    }
-    private void doTranspo_R(String key) //the key is integer
-    {
-        //TODO(***) Rectangular Transposition, assign result to variable "cipherText"
-        int k = Integer.parseInt(key);//NEED TO ASSIGN INPUT LENGTH LIMIT IN THE POPUP INPUT FIELD
-
-        //apply rectangular transposition from specified key
-        cipherText = rectangularTransposition.encrypt(cipherText, k);
+            cipherText = new Transposition().decrypt(cipherText, key);
+        }catch(InvalidKeyException e)
+        {}
     }
 
     /**IC and FREQUENCY RELATED FUNCTIONS*/
