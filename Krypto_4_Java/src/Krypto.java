@@ -13,8 +13,12 @@ public class Krypto {
     public static void main(String[] args) {
         Cipher cipher = new TranspositionPeriodic();
         String key = "Never";
-        init("Jack and Jill ran up the hill");
-        List<String> permutations = new ArrayList<>();
+//        init("Jack and Jill ran up the hill");
+        init (Utility.readFile("res/abc.txt"));
+        
+//        System.out.println("analysis.getData() = " + analysis.getData());
+//        System.out.println(analysis.getFREQUENCY());
+//        System.out.println(analysis.getSEQUENCE());
     }
 
     private static void init (String originalInput) {

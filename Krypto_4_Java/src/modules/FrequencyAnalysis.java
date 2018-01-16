@@ -14,13 +14,15 @@
 
 package modules;
 
-import com.Utility;
+import com.Analysis;
+
 import java.util.*;
 
 public class FrequencyAnalysis {
-    public static void frequencyAnalysis (String data, Integer sequenceLength, Integer maxEntries ) {
+    public static Analysis frequencyAnalysis (String data, Integer sequenceLength) {
         String checkSequence, currentSequence;
         Set<String> sequenceSet = new HashSet<>();
+        Analysis analysis;
 
         //find all possible sequences
         for (int i = 0; i < data.length(); ++i) {
@@ -50,18 +52,7 @@ public class FrequencyAnalysis {
 
         ArrayList<Integer> sequenceCounter = new ArrayList<>(Arrays.asList(seqCounter));
 
-        if (maxEntries == 0 || maxEntries > sequenceCounter.size()) {
-            maxEntries = sequenceCounter.size();
-        }
-
-        for (int i = 0; i < maxEntries; ++i) {
-            int highest = Utility.getHighestIndex(sequenceCounter);
-            String output = sequences.get(highest) + ": " + sequenceCounter.get(highest);
-
-            sequenceCounter.remove(highest);
-            sequences.remove(highest);
-
-            System.out.println(output);
-        }
+        analysis = new Analysis(data, sequences, sequenceCounter);
+        return analysis;
     }
 }
