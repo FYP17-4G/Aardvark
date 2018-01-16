@@ -115,7 +115,7 @@
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>270</y>
+      <y>250</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
@@ -345,7 +345,8 @@ layer=2</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 3. Paste from clipboard
-fg=red</panel_attributes>
+fg=red
+layer=2</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>

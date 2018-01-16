@@ -205,10 +205,11 @@ Cipher</panel_attributes>
     <coordinates>
       <x>560</x>
       <y>610</y>
-      <w>150</w>
-      <h>50</h>
+      <w>170</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>2.4. Rectangular Key Substitution Cipher</panel_attributes>
+    <panel_attributes>2.4. Rectangular Key 
+Substitution Cipher</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -228,10 +229,10 @@ Cipher</panel_attributes>
       <x>530</x>
       <y>50</y>
       <w>30</w>
-      <h>210</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -499,9 +500,10 @@ Rectangular
       <x>560</x>
       <y>220</y>
       <w>150</w>
-      <h>40</h>
+      <h>50</h>
     </coordinates>
-    <panel_attributes>1.4. Edit Project</panel_attributes>
+    <panel_attributes>1.4. Change Project
+Data</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -518,95 +520,25 @@ Rectangular
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>840</x>
-      <y>220</y>
+      <x>560</x>
+      <y>280</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>1.4.3. Undo 
+    <panel_attributes>1.5. Undo 
 Modifications</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>840</x>
-      <y>270</y>
+      <x>560</x>
+      <y>330</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>1.4.4. Reset 
+    <panel_attributes>1.6. Reset 
 Modifications</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>670</x>
-      <y>220</y>
-      <w>190</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>170.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>690</x>
-      <y>240</y>
-      <w>170</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>150.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>690</x>
-      <y>130</y>
-      <w>170</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;90.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>690</x>
-      <y>180</y>
-      <w>170</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;50.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>840</x>
-      <y>170</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>1.4.2. Write to file</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>840</x>
-      <y>120</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>1.4.1. Read from file</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -678,5 +610,27 @@ and rectangular</panel_attributes>
     <panel_attributes>lt=.&gt;
 &lt;&lt;extends&gt;&gt;</panel_attributes>
     <additional_attributes>80.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>330</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>280</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
