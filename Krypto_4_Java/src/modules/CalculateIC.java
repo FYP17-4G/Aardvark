@@ -4,7 +4,7 @@
  * Calculates the Index of Coincidence (IC) of every period.
  * i [<p>] in Krypto.exe
  * ---------
- * @params: String  data -> the input text 
+ * @params: String  data -> the input text
  *          Integer p -> period
  * Returns either a List<Double> of all the ICs of the specified <p> from <data>.
  * The LAST element of the list is the AVERAGE IC.
@@ -30,7 +30,7 @@ public class CalculateIC {
         Double sum = 0.0;
 
         for (StringBuilder sb : splitStrings) {
-            Double ic = getIC(sb.toString());
+            Double ic = calculate(sb.toString());
             IC.add(ic);
             sum += ic;
         }
@@ -40,8 +40,12 @@ public class CalculateIC {
         return IC;
     }
 
+    public static List<Double> getIC(String data) {
+        return getIC(data, 1);
+    }
+
     //get IC for a particular string of data
-    private static double getIC(String data) {
+    private static double calculate(String data) {
         int[] counts = new int[26];
         Arrays.fill(counts, 0);
 
