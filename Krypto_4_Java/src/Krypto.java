@@ -1,24 +1,30 @@
 import com.*;
 import modules.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Krypto {
     private static String ORIGINAL_TEXT;
     private static String MODIFIED_TEXT;
+
+    //TEXT_COUNT -> Original number of characters in the string
+    //used for the Utility.unpad() function.
     private static Integer TEXT_COUNT;
     private static Utility util = Utility.getInstance();
 
     public static void main(String[] args) {
-        Cipher cipher = new TranspositionPeriodic();
+        Cipher cipher = new VigenereAdditive();
         String key = "Never";
 //        init("Jack and Jill ran up the hill");
-        init (Utility.readFile("res/abc.txt"));
-        
-//        System.out.println("analysis.getData() = " + analysis.getData());
-//        System.out.println(analysis.getFREQUENCY());
-//        System.out.println(analysis.getSEQUENCE());
+        init (Utility.readFile("res/plain.txt"));
+
+        try {
+            MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
+        } catch (InvalidKeyException e) {
+            e.getMessage();
+        }
+
+        List<Double> modIC = CalculateIC.getIC(MODIFIED_TEXT, 4);
+        System.out.println("modIC = " + modIC);
     }
 
     private static void init (String originalInput) {

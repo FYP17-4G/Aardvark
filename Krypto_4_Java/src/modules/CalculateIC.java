@@ -4,9 +4,10 @@
  * Calculates the Index of Coincidence (IC) of every period.
  * i [<p>] in Krypto.exe
  * ---------
- * @params: p -> Period
- * Returns either a single Double (if p is 1) OR
- * an ArrayList<Double> (if p > 1)
+ * @params: String  data -> the input text 
+ *          Integer p -> period
+ * Returns either a List<Double> of all the ICs of the specified <p> from <data>.
+ * The LAST element of the list is the AVERAGE IC.
  * ---------
  */
 
@@ -16,23 +17,31 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CalculateIC {
     //get IC for a bunch of data, reading from every nth letter.
     //data entered here is the whole set of data. the function will split the string accordingly.
-    public static ArrayList<Double> getIC(Integer n, String data) {
-        ArrayList<StringBuilder> splitStrings = getEveryNthLetter(n, data);
-        ArrayList<Double> IC = new ArrayList<>(n);
+    //returns an ArrayList <Double>: the IC for each subset of characters (n subsets) in data.
+    //the last value in the ArrayList should be the Average of all the ICs.
+    public static List<Double> getIC(String data, Integer p) {
+        ArrayList<StringBuilder> splitStrings = getEveryNthLetter(p, data);
+        ArrayList<Double> IC = new ArrayList<>(p);
+        Double sum = 0.0;
 
         for (StringBuilder sb : splitStrings) {
-            IC.add(getIC(sb.toString()));
+            Double ic = getIC(sb.toString());
+            IC.add(ic);
+            sum += ic;
         }
+
+        IC.add (sum / IC.size());
 
         return IC;
     }
 
     //get IC for a particular string of data
-    public static double getIC(String data) {
+    private static double getIC(String data) {
         int[] counts = new int[26];
         Arrays.fill(counts, 0);
 
@@ -53,7 +62,6 @@ public class CalculateIC {
         }
 
         denom = totalChars * (totalChars - 1);
-
 
         Double IC = BigDecimal.valueOf((numer / denom)).setScale(3, RoundingMode.HALF_UP).doubleValue();
 
