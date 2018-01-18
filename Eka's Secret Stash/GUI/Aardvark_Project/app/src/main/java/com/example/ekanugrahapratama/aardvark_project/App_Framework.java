@@ -18,7 +18,9 @@ import android.support.v7.widget.RecyclerView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -399,5 +401,39 @@ public class App_Framework
         {System.out.println("[ERROR] Cipher text file not found");}
 
         return returnValue;
+    }
+
+    public void deleteTextFile(String filename)
+    {
+        File file = context.getFileStreamPath(filename);
+        file.delete();
+    }
+
+    /**WHEN RENAMING, IT NEEDS THE FULL PATH,
+     *
+     * OBTAIN THE FULL PATH BY file.toString();
+     * */
+    public void renameTextFile(String targetFile, String newFileName)
+    {
+        File file = context.getFileStreamPath(targetFile);
+
+        //extract the path
+        String path = file.getAbsolutePath();
+        for(int i = path.length(); i > 0; i--)
+        {
+            if(path.charAt(i - 1) == '/')
+                break;
+
+            StringBuilder sb = new StringBuilder(path);
+            sb.deleteCharAt(i - 1);
+            path = sb.toString();
+        }
+
+        newFileName = path + newFileName;
+
+        if(file.renameTo(new File(newFileName)))
+            system_message_small("Renamed");
+        else
+            system_message_small("Rename failed");
     }
 }

@@ -78,3 +78,13 @@
 <16 January 2018>
 - Bug fix(Inconsistent shift cipher value when sliding the seek bar too fast)
 - UI redesign (Color scheme)
+
+<17 January 2018>
+- UI redesign (Frequency analysis), it is now fancier
+- Some code refractoring and importing Mark's code into the android app
+
+<18 January 2018>
+- Modified some Mark's code to return value needed for my code
+- Added common word occurrences into the interface
+- Frequency analysis is now sorted.
+- Fixed a bug (Data lost when renaming project)

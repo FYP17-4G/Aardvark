@@ -1,6 +1,6 @@
 /*
  * ---------
- * Module Name: VigenereAdditive.java
+ * Module Name: VigenereInverse.java
  * An additive cipher where the ciphertext's value is obtained by addiong the value of the plaintext
  * to the value of the repeating key (mod 26). CT_i = PT_i - K_i (mod 26)
  * i [<p>] in Krypto.exe
@@ -14,51 +14,83 @@
 
 package com.example.ekanugrahapratama.aardvark_project.encDecTools;
 
-public class VigenereInverse {
-    private static String ALPHABETS = "abcdefghijklmnopqrstuvwxyz";
-    private VigenereInverse(){}
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.Cipher;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.InvalidKeyException;
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.Utility;
 
-    public static String encrypt (String plaintext, String key) {
-        key = key.replaceAll("[^a-zA-Z]", "");
-        StringBuilder out = new StringBuilder();
-        int position = 0;
+public class VigenereInverse implements Cipher {
+    private static final String DESC = "Inverse Vigenere Cipher";
+    private static final String NAME = "Inverse Vigenere Cipher";
 
-        for (Character c: plaintext.toCharArray()) {
-//            System.out.println("key.charAt(position) = " + key.charAt(position));
+    @Override
+    public String encrypt(String plaintext, String key) throws InvalidKeyException {
+        key = key.toLowerCase();
+        if (checkKey(key)) {
+            StringBuilder out = new StringBuilder();
+            int position = 0;
 
-            if (position >= (key.length())) {
-                position = 0;
+            for (Character c: plaintext.toCharArray()) {
+
+                if (position >= (key.length())) {
+                    position = 0;
+                }
+
+                if (Character.isAlphabetic(c)) {
+                    out.append(encryptOne(c, key.charAt(position++)));
+                } else {
+                    out.append(c);
+                }
             }
 
-            if (Character.isAlphabetic(c)) {
-                out.append(encryptOne(c, key.charAt(position++)));
-            } else {
-                out.append(c);
-            }
+            return out.toString();
         }
 
-        return out.toString();
+        return "Failed.";
     }
 
-    public static String decrypt (String ciphertext, String key) {
-        key = key.replaceAll("[^a-zA-Z0-9]", "");
-        StringBuilder out = new StringBuilder();
-        int position = 0;
-        for (Character c: ciphertext.toCharArray()) {
-            if (position >= (key.length())) {
-                position = 0;
+    @Override
+    public String decrypt(String ciphertext, String key) throws InvalidKeyException {
+        key = key.toLowerCase();
+        if (checkKey(key)) {
+            StringBuilder out = new StringBuilder();
+            int position = 0;
+            for (Character c: ciphertext.toCharArray()) {
+                if (position >= (key.length())) {
+                    position = 0;
+                }
+
+                if (Character.isAlphabetic(c)) {
+                    out.append(decryptOne(c, key.charAt(position++)));
+                } else {
+                    out.append(c);
+                }
             }
 
-            if (Character.isAlphabetic(c)) {
-                out.append(decryptOne(c, key.charAt(position++)));
-            } else {
-                out.append(c);
-            }
+            return out.toString();
         }
 
-        return out.toString();
+        return "Failed.";
     }
 
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public Boolean checkKey(String key) throws InvalidKeyException {
+        if (key.length() < 1) throw new InvalidKeyException("Key is too short!");
+        for (Character c: key.toCharArray()) {
+            if (!Character.isAlphabetic(c)) throw new InvalidKeyException("Illegal characters in key!");
+        }
+
+        return true;
+    }
 
     //encrypt ONE character
     private static Character encryptOne (Character plaintext, Character key) {
@@ -71,9 +103,9 @@ public class VigenereInverse {
         if (res < 0)
             res += 26;
 
-        res %= ALPHABETS.length();
+        res %= Utility.alphabet.length();
 
-        return ALPHABETS.charAt(res);
+        return Utility.alphabet.charAt(res);
     }
 
     //decrypt ONE character
@@ -84,8 +116,8 @@ public class VigenereInverse {
         res = plaintext - 'a';
         res += k;
 
-        res %= ALPHABETS.length();
+        res %= Utility.alphabet.length();
 
-        return ALPHABETS.charAt(res);
+        return Utility.alphabet.charAt(res);
     }
 }

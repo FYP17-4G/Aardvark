@@ -16,8 +16,7 @@
             <FrameLayout
                 android:id="@+id/permutation_cipher_text_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/black_overlay">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/permutation_cipherTextView"
@@ -56,7 +55,7 @@
                 android:id="@+id/button_permutate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Permutate" />
+                android:text="/*DELETE THIS BUTTON*/" />
         </LinearLayout>
 
     </LinearLayout>

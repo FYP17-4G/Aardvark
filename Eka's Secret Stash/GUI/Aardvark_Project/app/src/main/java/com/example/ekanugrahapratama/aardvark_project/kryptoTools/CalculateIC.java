@@ -1,3 +1,15 @@
+/*
+ * ---------
+ * Module Name: CalculateIC.java
+ * Calculates the Index of Coincidence (IC) of every period.
+ * i [<p>] in Krypto.exe
+ * ---------
+ * @params: p -> Period
+ * Returns either a single Double (if p is 1) OR
+ * an ArrayList<Double> (if p > 1)
+ * ---------
+ */
+
 package com.example.ekanugrahapratama.aardvark_project.kryptoTools;
 
 import java.math.BigDecimal;
@@ -6,17 +18,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CalculateIC {
-
-    public CalculateIC()
-        {}
-
     //get IC for a bunch of data, reading from every nth letter.
     //data entered here is the whole set of data. the function will split the string accordingly.
-    public ArrayList<Double> getIC (Integer n, String data) {
+    public static ArrayList<Double> getIC(Integer n, String data) {
         ArrayList<StringBuilder> splitStrings = getEveryNthLetter(n, data);
         ArrayList<Double> IC = new ArrayList<>(n);
 
-        for (StringBuilder sb: splitStrings) {
+        for (StringBuilder sb : splitStrings) {
             IC.add(getIC(sb.toString()));
         }
 
@@ -24,7 +32,7 @@ public class CalculateIC {
     }
 
     //get IC for a particular string of data
-    public double getIC (String data) {
+    public static double getIC(String data) {
         int[] counts = new int[26];
         Arrays.fill(counts, 0);
 
@@ -32,7 +40,7 @@ public class CalculateIC {
         double numer = 0.0, denom;
         data = data.toLowerCase();
 
-        for (Character c: data.toLowerCase().toCharArray()) {
+        for (Character c : data.toLowerCase().toCharArray()) {
             if (Character.isAlphabetic(c)) {
                 index = c - 'a';
                 ++counts[index];
@@ -40,14 +48,14 @@ public class CalculateIC {
             }
         }
 
-        for (Integer n: counts) {
+        for (Integer n : counts) {
             numer += (n * (n - 1));
         }
 
         denom = totalChars * (totalChars - 1);
 
 
-        Double IC = BigDecimal.valueOf( (numer / denom) ).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        Double IC = BigDecimal.valueOf((numer / denom)).setScale(3, RoundingMode.HALF_UP).doubleValue();
 
         return IC;
     }
@@ -58,7 +66,7 @@ public class CalculateIC {
     //e.g. getEveryNthLetter (4, hello world!) results in:
     //1. hol    2. ewd
     //3. lo     4. lr
-    public ArrayList<StringBuilder> getEveryNthLetter(Integer n, String data) {
+    private static ArrayList<StringBuilder> getEveryNthLetter(Integer n, String data) {
         data = data.replaceAll("[^A-Za-z]", "");
         ArrayList<StringBuilder> split = new ArrayList<>(n);
         int counter = 0;
@@ -67,7 +75,7 @@ public class CalculateIC {
             split.add(new StringBuilder());
         }
 
-        for (Character c: data.toLowerCase().toCharArray()) {
+        for (Character c : data.toLowerCase().toCharArray()) {
             split.get(counter).append(c);
             ++counter;
 

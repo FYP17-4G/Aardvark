@@ -9,7 +9,7 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/cipherNestedScroll"
         android:layout_width="373dp"
-        android:layout_height="295dp"
+        android:layout_height="374dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -28,7 +28,6 @@
                 android:id="@+id/cipherTextContainer"
                 android:layout_width="match_parent"
                 android:layout_height="289dp"
-                android:background="@color/black_overlay"
                 tools:layout_editor_absoluteX="3dp"
                 tools:layout_editor_absoluteY="0dp">
 
@@ -46,7 +45,8 @@
                         <TextView
                             android:id="@+id/project_view_cipher_text"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="337dp"
+                            android:transitionName="cipherTextViewTransition"/>
                     </LinearLayout>
                 </android.support.v4.widget.NestedScrollView>
 
@@ -68,29 +68,34 @@
                 android:id="@+id/button_reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:background="@android:drawable/ic_media_rew"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/button_undo"
-                android:layout_width="wrap_content"
+                android:layout_width="88dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:background="@android:drawable/ic_menu_revert"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="7dp" />
+                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
     </FrameLayout>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="61dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -102,13 +107,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@android:color/background_light"
                 android:text="Substitute Character" />
+
+            <Button
+                android:id="@+id/button_stringSubstitution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/background_light"
+                android:text="Substitute String" />
 
             <Button
                 android:id="@+id/button_shiftPopup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@android:color/background_light"
                 android:text="Caesar Shift" />
 
             <Button
@@ -116,6 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@android:color/background_light"
                 android:text="Transposition" />
 
             <Button
@@ -123,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@android:color/background_light"
                 android:text="graph" />
 
         </LinearLayout>

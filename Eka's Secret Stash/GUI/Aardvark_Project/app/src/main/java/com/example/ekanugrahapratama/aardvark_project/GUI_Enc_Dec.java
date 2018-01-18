@@ -317,7 +317,6 @@ public class GUI_Enc_Dec extends AppCompatActivity {
 
     /**------Cipher Algorithm*/
 
-    //TODO(&&&) Caesar shift
     /**FOR ALL SHIFT ALGORITHM text variable: "input text: String", key variable: "shiftCipherBy: int"*/
     private void doCaesarShiftR() //shift ENCRYPT
     {
@@ -340,37 +339,47 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    //TODO(&&&) Vigenere Additive, Inverse, Substractive
     /** FOR RECT TRANSPO, RECT SUBSTITUTION,AND ALL VIGENERE text variable: "input text: String", key variable: "key: String"*/
     private void doVigenereAdditive(boolean encrypt)
     {
-        if(encrypt)
-            inputText = vigenereAdditive.encrypt(framework.init(inputText), key);
-        else
-            inputText = vigenereAdditive.decrypt(framework.init(inputText), key);
+        try
+        {
+            if(encrypt)
+                inputText = vigenereAdditive.encrypt(framework.init(inputText), key);
+            else
+                inputText = vigenereAdditive.decrypt(framework.init(inputText), key);
+        }catch(InvalidKeyException e)
+        {}
 
         refresh();
     }
     private void doVigenereInverse(boolean encrypt)
     {
-        if(encrypt)
-            inputText = vigenereInverse.encrypt(framework.init(inputText), key);
-        else
-            inputText = vigenereInverse.decrypt(framework.init(inputText), key);
+        try
+        {
+            if(encrypt)
+                inputText = vigenereInverse.encrypt(framework.init(inputText), key);
+            else
+                inputText = vigenereInverse.decrypt(framework.init(inputText), key);
+        }catch(InvalidKeyException e)
+        {}
 
         refresh();
     }
     private void doVigenereSubstractive(boolean encrypt)
     {
-        if(encrypt)
-            inputText = vigenereSubtractive.encrypt(framework.init(inputText), key);
-        else
-            inputText = vigenereSubtractive.decrypt(framework.init(inputText), key);
+        try
+        {
+            if(encrypt)
+                inputText = vigenereSubtractive.encrypt(framework.init(inputText), key);
+            else
+                inputText = vigenereSubtractive.decrypt(framework.init(inputText), key);
+        }catch(InvalidKeyException e)
+        {}
 
         refresh();
     }
 
-    //TODO(&&&) Rectangular Transpo
     private void doTranspo(boolean encrypt)
     {
         try
@@ -386,7 +395,6 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    //TODO(&&&) Rectangular Sub
     private void doSub(boolean encrypt)
     {
         try

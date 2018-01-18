@@ -27,20 +27,6 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button_caesarShiftL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SL" />
-
-            <Button
-                android:id="@+id/button_caesarShiftR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SR" />
-
         </LinearLayout>
 
     </LinearLayout>

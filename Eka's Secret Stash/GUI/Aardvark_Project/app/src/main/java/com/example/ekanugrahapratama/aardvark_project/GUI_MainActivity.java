@@ -69,9 +69,6 @@ public class GUI_MainActivity extends AppCompatActivity
 
 
         //RECYCLER HERE---------------------
-        //fill in the projectTitle
-        //TODO(1) Fill in the project title container with ID||Title from list.txt file
-
         BufferedReader fileIn;
 
         //get the contents for the recycler view
@@ -203,14 +200,12 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private void launchAboutUsActivity()
     {
-        //TODO(me) GUI for about us activity
         /**Just create empty activity with a paragraph of text and some contact info*/
         Intent intent = new Intent(this, GUI_aboutUs.class);
         this.startActivity(intent);
     }
     private void launchSettingsActivity()
     {
-        //TODO(me) GUI for settings activity
         /**For settings, use "Settings template"*/
     }
 
@@ -246,8 +241,10 @@ public class GUI_MainActivity extends AppCompatActivity
                         {
                             writeToList(projectTitle, ID);
 
+                            String filename = Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt";
+
                             //saves ciphertext to a file
-                            framework.saveAsTxt(Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt", cipherText, context, false);
+                            framework.saveAsTxt(filename , cipherText, context, false);
                             adapter.notifyDataSetChanged();//refresh the adapter
                         }
                 }

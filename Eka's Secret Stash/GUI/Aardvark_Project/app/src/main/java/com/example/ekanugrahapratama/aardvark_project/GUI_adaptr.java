@@ -84,6 +84,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 
             private String id;
             private String title;
+
             private int idx; //entry index in the recycler component
 
             //this will get the context from the caller of this class (in this case is the main activity)
@@ -132,6 +133,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
             };
 
 
+            //TODO(deleteProject()) DELETE ASSOCIATED TEXT FILES AS WELL
             private void deleteProject()
             {
                 //delete the associated item from list.txt
@@ -191,7 +193,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 }
             });
 
-            //TODO(me) IMPORTANT FOR RENAMING!!!!!, DO THIS WHEN THE DATABASE IS UP
+            //TODO(renameProject()) DELETE ASSOCIATED TEXT FILES AS WELL
             /**A hash value is created upon creating new project, so then it will be id||title||hash
              *
              * When the associated project is renamed, THE VALUE OF HASH DOES NOT CHANGE
@@ -222,6 +224,14 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                                         itemContent.setText(projectTitle.get(x).getTitle());
                                         break;
                                     }
+
+                            String oldName = id+title+"cipherTextOriginal.txt";
+                            String newName = id+newProjectName+"cipherTextOriginal.txt";
+
+                            title = newProjectName;
+
+                            //TODO() RENAME RELATED TEXT FILES HERE
+                            framework.renameTextFile(oldName, newName);
                         }
                     }
                 });
@@ -260,17 +270,13 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                             // Do Stuff
                             //use componentID and component Title as composite later to identify relevant data
 
-                            //TODO(2) Change background color on click, revert color back on release (see the conditional statement after this one)
                             view.setBackgroundColor(Color.GRAY);
                         }
                     else if(event.getAction() == MotionEvent.ACTION_UP && !longpressed)
                         {
                             view.setBackgroundColor(Color.TRANSPARENT);
 
-                            //TODO(3) Start new activity on button click, pass on id and title to the new activity (or maybe the value of H(id||title))
-
                             launchProjectView();
-
                         }
                     else
                         {

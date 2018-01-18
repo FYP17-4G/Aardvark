@@ -55,7 +55,7 @@ public class GUI_fragment_project_view_permutation extends Fragment
         permuteString = new PermuteString();
 
         cipherTextView = (TextView) view.findViewById(R.id.permutation_cipherTextView);
-        cipherTextView.setTextColor(Color.WHITE);
+        cipherTextView.setTextColor(Color.BLACK);
 
         /**Build the view here*/
         spaceIndicator = (TextView) view.findViewById(R.id.seekBar_space_indicator);
@@ -111,19 +111,23 @@ public class GUI_fragment_project_view_permutation extends Fragment
 
     public void refresh(String val, int space, int line)
     {
-        String temp = framework.stringNoWhiteSpace(val); /**DISPLAY temp! NOT cipherText*/
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String temp = framework.stringNoWhiteSpace(val); /**DISPLAY temp! NOT cipherText*/
 
-        /**Spacing and lining (spacing() and lining() could be merged together)*/
-        //do spacing here
-        if(space != 0)
-            temp = spacing(temp, space);
-        //do lining here
-        if(line != 0)
-            temp = lining(temp, line);
+                //do spacing here
+                if(space != 0)
+                    temp = spacing(temp, space);
+                //do lining here
+                if(line != 0)
+                    temp = lining(temp, line);
 
-        spaceIndicator.setText("chars per space: " + space);
-        lineIndicator.setText("words per line:" + line);
-        cipherTextView.setText(temp);
+                spaceIndicator.setText("chars per space: " + space);
+                lineIndicator.setText("words per line:" + line);
+                cipherTextView.setText(temp);
+            }
+        });
     }
 
     private String permutation(String input, int blockSize)

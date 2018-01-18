@@ -36,7 +36,11 @@
         <activity
             android:name=".GUI_aboutUs"
             android:label="@string/title_activity_gui_about_us"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".GUI_fragment_graph"
+            android:label="Frequency Analysis"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

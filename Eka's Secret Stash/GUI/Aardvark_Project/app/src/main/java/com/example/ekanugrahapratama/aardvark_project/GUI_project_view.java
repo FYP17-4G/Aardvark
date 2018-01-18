@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+//TODO() BUILD UNDO - RESET CIPHER TEXT STATE MECHANISM
+
 public class GUI_project_view extends AppCompatActivity
 {
     private String projectUniqueID = new String();
@@ -64,7 +66,7 @@ public class GUI_project_view extends AppCompatActivity
         framework = new App_Framework(this);
 
         //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
-        this.projectUniqueID = getIntent().getStringExtra("project_view_unique_ID"); //USE THIS LATRE
+        this.projectUniqueID = getIntent().getStringExtra("project_view_unique_ID");
         this.projectTitle = getIntent().getStringExtra("project_view_title");
         setTitle(this.projectTitle);
 
