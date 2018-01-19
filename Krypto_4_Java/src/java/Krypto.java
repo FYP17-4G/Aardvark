@@ -9,22 +9,31 @@ public class Krypto {
     //TEXT_COUNT -> Original number of characters in the string
     //used for the Utility.unpad() function.
     private static Integer TEXT_COUNT;
-    private static Utility util = Utility.getInstance();
 
     public static void main(String[] args) {
-        Cipher cipher = new VigenereAdditive();
-        String key = "fcicieninceneicnienapncoineois;zgoneo";
-
-        CalculateIC.getIC(key, 5);
+        Cipher cipher = new Kamasutra();
+        String key = Utility.generateUniqueKey(26);
 //        init("Jack and Jill ran up the hill");
-        init (util.readFile("res/plain.txt"));
-//        System.out.println(displayOriginalString());
+        init (Utility.readFile("res/plain.txt"));
 
+	    System.out.println(Utility.getVigenereSquare());
+
+//	    try {
+//		    MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
+//	    } catch (InvalidKeyException e) {
+//		    e.printStackTrace();
+//	    }
+//
+//	    System.out.println(displayModifiedString());
+////        System.out.println(displayOriginalString());
+//
 //        try {
-//            MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
+//            MODIFIED_TEXT = cipher.decrypt(MODIFIED_TEXT, key);
 //        } catch (InvalidKeyException e) {
 //            System.out.println(e.getMessage());
 //        }
+
+	    System.out.println(displayModifiedString());
 
 //        System.out.println(displayModifiedString());
 
@@ -36,13 +45,13 @@ public class Krypto {
 
 //        System.out.println(displayModifiedString());
 
-//        List<Double> modIC = CalculateIC.getIC(MODIFIED_TEXT, 4);
-//        System.out.println("modIC = " + modIC);
+        List<Double> modIC = CalculateIC.getIC(MODIFIED_TEXT);
+	    System.out.println("modIC = " + modIC);
     }
 
     private static void init (String originalInput) {
         ORIGINAL_TEXT = originalInput;
-        MODIFIED_TEXT = util.processText(ORIGINAL_TEXT);
+        MODIFIED_TEXT = Utility.processText(ORIGINAL_TEXT);
         TEXT_COUNT = MODIFIED_TEXT.length(); //unpad
     }
 

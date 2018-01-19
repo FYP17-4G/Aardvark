@@ -66,13 +66,7 @@ public class CalculateIC {
         }
 
         denom = totalChars * (totalChars - 1);
-
-        System.out.println("denom = " + denom);
-        Double IC = BigDecimal.valueOf((numer / denom)).setScale(15, RoundingMode.HALF_UP).doubleValue();
-
-        System.out.println("IC = " + IC);
-
-        return IC;
+        return BigDecimal.valueOf((numer / denom)).setScale(15, RoundingMode.HALF_UP).doubleValue();
     }
 
     //compiles every nth letter into an ArrayList of strings, according to n.

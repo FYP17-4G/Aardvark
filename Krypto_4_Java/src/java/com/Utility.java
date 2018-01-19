@@ -12,6 +12,33 @@ public class Utility {
 
     private Utility() {}
 
+    public static String generateKey(int length) {
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < length; ++i) {
+            out.append(getRandAlphabet());
+        }
+
+        return out.toString();
+    }
+
+    public static String generateUniqueKey(int length) {
+        StringBuilder out = new StringBuilder();
+        int counter = 0;
+        Character c;
+
+        do {
+            c = getRandAlphabet();
+
+            if (!out.toString().contains(c.toString())) {
+                out.append(c);
+                ++counter;
+            }
+
+        } while (counter < length);
+
+        return out.toString();
+    }
+
     public static String processText(String original) {
         //remove the numbers, punctuation, etc from the original text
         return original.toLowerCase().replaceAll("[^A-Za-z]", "");
@@ -103,5 +130,24 @@ public class Utility {
         }
 
         return maxInd;
+    }
+
+    public static String getVigenereSquare() {
+    	StringBuilder out = new StringBuilder();
+//    	for (int i = 0; i < 26; ++i) {
+//    		out.append(i % 10);
+//	    }
+//
+//	    out.append("\n");
+
+    	for (int row = 0; row < 26; ++row) {
+    		for (int col = 0; col < 26; ++col) {
+    			int index = (row + col) % 26;
+			    out.append(alphabet.charAt(index));
+		    }
+		    out.append("\n");
+	    }
+
+    	return out.toString();
     }
 }
