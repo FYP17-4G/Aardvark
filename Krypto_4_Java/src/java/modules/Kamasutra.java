@@ -27,22 +27,24 @@ public class Kamasutra implements Cipher {
 
     @Override
     public String decrypt(String ciphertext, String key) throws InvalidKeyException {
-	    key = key.toLowerCase();
-	    checkKey(key);
+//	    key = key.toLowerCase();
+//	    checkKey(key);
+//
+//	    StringBuilder out = new StringBuilder();
+//	    for (Character c: ciphertext.toCharArray()) {
+//		    int position = find (c, key);
+//		    if (position < 13)
+//			    position += 13;
+//		    else {
+//			    position -= 13;
+//		    }
+//
+//		    out.append(key.charAt(position));
+//	    }
+//
+//	    return out.toString();
 
-	    StringBuilder out = new StringBuilder();
-	    for (Character c: ciphertext.toCharArray()) {
-		    int position = find (c, key);
-		    if (position < 13)
-			    position += 13;
-		    else {
-			    position -= 13;
-		    }
-
-		    out.append(key.charAt(position));
-	    }
-
-	    return out.toString();
+	    return encrypt(ciphertext, key);
     }
 
     @Override
