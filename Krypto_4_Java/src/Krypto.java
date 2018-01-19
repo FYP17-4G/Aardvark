@@ -13,35 +13,37 @@ public class Krypto {
 
     public static void main(String[] args) {
         Cipher cipher = new VigenereAdditive();
-        String key = "doctorwho";
+        String key = "fcicieninceneicnienapncoineois;zgoneo";
+
+        CalculateIC.getIC(key, 5);
 //        init("Jack and Jill ran up the hill");
         init (util.readFile("res/plain.txt"));
-        System.out.println(displayOriginalString());
+//        System.out.println(displayOriginalString());
 
-        try {
-            MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
-        } catch (InvalidKeyException e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
+//        } catch (InvalidKeyException e) {
+//            System.out.println(e.getMessage());
+//        }
 
-        System.out.println(displayModifiedString());
+//        System.out.println(displayModifiedString());
 
-        try {
-            MODIFIED_TEXT = cipher.decrypt(MODIFIED_TEXT, key);
-        } catch (InvalidKeyException e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            MODIFIED_TEXT = cipher.decrypt(MODIFIED_TEXT, key);
+//        } catch (InvalidKeyException e) {
+//            System.out.println(e.getMessage());
+//        }
 
-        System.out.println(displayModifiedString());
+//        System.out.println(displayModifiedString());
 
-        List<Double> modIC = CalculateIC.getIC(MODIFIED_TEXT, 4);
-        System.out.println("modIC = " + modIC);
+//        List<Double> modIC = CalculateIC.getIC(MODIFIED_TEXT, 4);
+//        System.out.println("modIC = " + modIC);
     }
 
     private static void init (String originalInput) {
         ORIGINAL_TEXT = originalInput;
         MODIFIED_TEXT = util.processText(ORIGINAL_TEXT);
-        TEXT_COUNT = MODIFIED_TEXT.length();
+        TEXT_COUNT = MODIFIED_TEXT.length(); //unpad
     }
 
     private static String displayOriginalString() {
