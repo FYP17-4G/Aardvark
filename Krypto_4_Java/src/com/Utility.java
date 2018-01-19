@@ -38,14 +38,16 @@ public class Utility {
 
     public static String removeDuplicates (String in) {
         Set<Character> temp = new HashSet<>();
+        List<Character> revTemp = new ArrayList<>();
         StringBuilder out = new StringBuilder();
 
-        for (Character c: in.toCharArray()) {
-            temp.add(c);
-        }
+        in = in.toLowerCase();
 
-        for (Character c: temp) {
-            out.append(c);
+        for (Character c: in.toCharArray()) {
+            if (!revTemp.contains(c)) {
+                revTemp.add(c);
+                out.append(c);
+            }
         }
 
         return out.toString();

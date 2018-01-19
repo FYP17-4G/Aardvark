@@ -13,15 +13,26 @@ public class Krypto {
 
     public static void main(String[] args) {
         Cipher cipher = new VigenereAdditive();
-        String key = "Never";
+        String key = "doctorwho";
 //        init("Jack and Jill ran up the hill");
-        init (Utility.readFile("res/plain.txt"));
+        init (util.readFile("res/plain.txt"));
+        System.out.println(displayOriginalString());
 
         try {
             MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
         } catch (InvalidKeyException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
+
+        System.out.println(displayModifiedString());
+
+        try {
+            MODIFIED_TEXT = cipher.decrypt(MODIFIED_TEXT, key);
+        } catch (InvalidKeyException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println(displayModifiedString());
 
         List<Double> modIC = CalculateIC.getIC(MODIFIED_TEXT, 4);
         System.out.println("modIC = " + modIC);
