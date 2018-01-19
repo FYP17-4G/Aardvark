@@ -225,13 +225,16 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                                         break;
                                     }
 
+                            //TODO() RENAME RELATED TEXT FILES HERE
                             String oldName = id+title+"cipherTextOriginal.txt";
                             String newName = id+newProjectName+"cipherTextOriginal.txt";
+                            framework.renameTextFile(oldName, newName);
+
+                            oldName = id+title+"notes.txt";
+                            newName = id+newProjectName+"notes.txt";
+                            framework.renameTextFile(oldName, newName);
 
                             title = newProjectName;
-
-                            //TODO() RENAME RELATED TEXT FILES HERE
-                            framework.renameTextFile(oldName, newName);
                         }
                     }
                 });

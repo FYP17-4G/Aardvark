@@ -75,6 +75,10 @@ public class GUI_fragment_project_view extends Fragment {
     private Button undoButton;
     private Button resetButton;
 
+
+    //notes button
+    private Button noteButton;
+
     //<...>
 
     /**TAB RELATED VARIABLES*/
@@ -116,36 +120,18 @@ public class GUI_fragment_project_view extends Fragment {
 
 
 
-        /**BUTTONS AND ITS LISTENER*/
-        Button graphButtonPopup = view.findViewById(R.id.button_graphPopup);
-        graphButtonPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //DO TRANSITION
-                doFragmentTransition();
-            }
-        });
-
+        /**BUTTONS SETUP*/
+        setGraph();
+        setNote();
 
         return view;
-    }
-
-    /**
-     * USE THIS FUNCTION FOR SHARED ELEMENTS ACTIVITIES
-     * */
-    private void doFragmentTransition()
-    {
-        Intent intent = new Intent(fragmentActivity, GUI_fragment_graph.class);
-        intent.putExtra("cipherText", cipherText);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, cipherTextView, ViewCompat.getTransitionName(cipherTextView));
-        startActivity(intent, options.toBundle());
     }
 
     private void getCipherTextFromFile()
     {
 
         /**GET ORIGINAL CIPHER TEXT FILE FROM FILE*/
-        this.cipherText = framework.init(framework.getCipherTextFromFile(this.projectID + this.projectTitle + "cipherTextOriginal.txt"));
+        this.cipherText = framework.init(framework.getTextFromFile(this.projectID + this.projectTitle + "cipherTextOriginal.txt"));
 
         //this.cipherText = "dfwkgtnulfxpfggchrugiiezbxmzgsiifgbxsthttrvwyh.dzwdgivgbayvtrqrvxbxnxusxlublvfvpldr.fuhtckacqaimmcnfxduetmnaapxbkacecnawymgd.gxpxoulmiofindsvpcaikmjtsvxgcgfkzgaevf.pnehscczgeroemppskxbcokbkerlwcccvtbsfixojeemjnyfnndsjxqhifgkgs.gxpxoulylhzlfdujxqhqltptaewkxsvkw.wolkfpdyxjslrblvimxwtt";
 
@@ -160,6 +146,34 @@ public class GUI_fragment_project_view extends Fragment {
         return this.cipherText;
     }
 
+    private void setGraph()
+    {
+        Button graphButtonPopup = view.findViewById(R.id.button_graphPopup);
+        graphButtonPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //DO TRANSITION
+                Intent intent = new Intent(fragmentActivity, GUI_fragment_graph.class);
+                intent.putExtra("cipherText", cipherText);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, cipherTextView, ViewCompat.getTransitionName(cipherTextView));
+                startActivity(intent, options.toBundle());
+            }
+        });
+    }
+
+    private void setNote()
+    {
+        noteButton = view.findViewById(R.id.button_notes);
+        noteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(fragmentActivity, GUI_note.class);
+                intent.putExtra("title", projectTitle);
+                intent.putExtra("id", projectID);
+                startActivity(intent);
+            }
+        });
+    }
 
     private void setUndoButton()
     {

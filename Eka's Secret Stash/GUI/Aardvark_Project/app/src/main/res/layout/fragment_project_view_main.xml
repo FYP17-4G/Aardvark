@@ -142,6 +142,14 @@
                 android:backgroundTint="@android:color/background_light"
                 android:text="graph" />
 
+            <Button
+                android:id="@+id/button_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/background_light"
+                android:text="Notes" />
+
         </LinearLayout>
     </HorizontalScrollView>
 

@@ -88,3 +88,7 @@
 - Added common word occurrences into the interface
 - Frequency analysis is now sorted.
 - Fixed a bug (Data lost when renaming project)
+
+<19 January 2018>
+- Added 'note' function
+- Some UI element redesigning

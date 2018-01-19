@@ -320,9 +320,8 @@ public class App_Framework
         return input;
     }
 
-    //SAVE TO AND LOAD FROM TEXT FILE IN THE DEVICE STORAGE
-    /**WHAT IS THE INPUT AND WHAT IS */
-    public void saveAsTxt(String filename, String input, Context context,boolean append)
+    /**SAVE TO AND LOAD FROM TEXT FILE IN THE DEVICE STORAGE*/
+    public void saveAsTxt(String filename, String input, boolean append)
     {
         //overwrite list.txt
         BufferedWriter outputFile;
@@ -343,7 +342,7 @@ public class App_Framework
         {}
     }
 
-    public void saveAsTxt(String filename, List<String> input, Context context, boolean append)
+    public void saveAsTxt(String filename, List<String> input, boolean append)
     {
         //overwrite list.txt
         BufferedWriter outputFile;
@@ -380,7 +379,7 @@ public class App_Framework
     }
 
     //this gets cipher text file in storage location managed by the application
-    public String getCipherTextFromFile(String filename)
+    public String getTextFromFile(String filename)
     {
         String returnValue = new String();
 
@@ -398,7 +397,7 @@ public class App_Framework
                 returnValue += line;
             }
         }catch(IOException e)
-        {System.out.println("[ERROR] Cipher text file not found");}
+        {System.out.println("[ERROR] Text file not found");}
 
         return returnValue;
     }

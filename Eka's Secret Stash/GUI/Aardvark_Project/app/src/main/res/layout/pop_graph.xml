@@ -106,14 +106,14 @@
 
                 <TextView
                     android:id="@+id/frequencyDetailsTextView"
-                    android:layout_width="358dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/cipherICTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="189dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"

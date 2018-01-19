@@ -5,8 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +27,17 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
 
+        String text = "Krypto.exeⓒ: By Dr.Susilo, University of Wollongong, This application is intended for School's Final Year Project <...more...>";
+        setBottomText(text);
+
         launchApp();
+    }
+
+    private void setBottomText(String text)
+    {
+        View view = getLayoutInflater().inflate(R.layout.activity_splash__full_screen, null);
+        TextView bottomText = view.findViewById(R.id.copyright_text_view);
+        bottomText.setText(text);
     }
 
     private void launchApp()

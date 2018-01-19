@@ -244,7 +244,7 @@ public class GUI_MainActivity extends AppCompatActivity
                             String filename = Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt";
 
                             //saves ciphertext to a file
-                            framework.saveAsTxt(filename , cipherText, context, false);
+                            framework.saveAsTxt(filename , cipherText, false);
                             adapter.notifyDataSetChanged();//refresh the adapter
                         }
                 }
@@ -271,7 +271,7 @@ public class GUI_MainActivity extends AppCompatActivity
             String newID = newProject.getID();
             String newTitle = newProject.getTitle();
 
-            framework.saveAsTxt(projectDirectoryFileName, newID + "||" + newTitle, this, true);
+            framework.saveAsTxt(projectDirectoryFileName, newID + "||" + newTitle, true);
         }
 
     private void openFileBrowser()
