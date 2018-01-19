@@ -67,7 +67,10 @@ public class CalculateIC {
 
         denom = totalChars * (totalChars - 1);
 
-        Double IC = BigDecimal.valueOf((numer / denom)).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        System.out.println("denom = " + denom);
+        Double IC = BigDecimal.valueOf((numer / denom)).setScale(15, RoundingMode.HALF_UP).doubleValue();
+
+        System.out.println("IC = " + IC);
 
         return IC;
     }
