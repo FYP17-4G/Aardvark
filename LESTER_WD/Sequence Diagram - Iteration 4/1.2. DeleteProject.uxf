@@ -191,9 +191,9 @@ fg=black</panel_attributes>
 
 -.
 [No]
-bg=gray
 fg=blue
-layer=0</panel_attributes>
+layer=0
+bg=light_gray</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
