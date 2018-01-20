@@ -1,7 +1,7 @@
 /*
  * ---------
- * Module Name: VigenereAdditive.java
- * An additive cipher where the ciphertext's value is obtained by addiong the value of the plaintext
+ * Module Name: Vigenere.java
+ * An cipher where the ciphertext is obtained by adding the value of the plaintext
  * to the value of the repeating key (mod 26). CT_i = PT_i + K_i (mod 26)
  * i [<p>] in Krypto.exe
  * ---------
@@ -18,7 +18,7 @@ import com.Cipher;
 import com.InvalidKeyException;
 import com.Utility;
 
-public class VigenereAdditive implements Cipher {
+public class Vigenere implements Cipher {
     private static final String DESC = "Additive Vigenere Cipher";
     private static final String NAME = "Additive Vigenere Cipher";
 

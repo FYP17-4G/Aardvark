@@ -1,8 +1,8 @@
 /*
  * ---------
- * Module Name: VigenereInverse.java
- * An additive cipher where the ciphertext's value is obtained by addiong the value of the plaintext
- * to the value of the repeating key (mod 26). CT_i = PT_i - K_i (mod 26)
+ * Module Name: Beaufort.java
+ * An cipher where the ciphertext is obtained by subtracting the plaintext from the key
+ * to the value of the repeating key (mod 26). CT_i = K_i - PT_i (mod 26)
  * i [<p>] in Krypto.exe
  * ---------
  * @params: data            -> input
@@ -18,9 +18,9 @@ import com.Cipher;
 import com.InvalidKeyException;
 import com.Utility;
 
-public class VigenereInverse implements Cipher {
-    private static final String DESC = "Inverse Vigenere Cipher";
-    private static final String NAME = "Inverse Vigenere Cipher";
+public class Beaufort implements Cipher {
+    private static final String DESC = "Subtractive Vigenere Cipher";
+    private static final String NAME = "Subtractive Vigenere Cipher";
 
     @Override
     public String encrypt(String plaintext, String key) throws InvalidKeyException {
@@ -30,6 +30,7 @@ public class VigenereInverse implements Cipher {
             int position = 0;
 
             for (Character c: plaintext.toCharArray()) {
+//            System.out.println("key.charAt(position) = " + key.charAt(position));
 
                 if (position >= (key.length())) {
                     position = 0;
@@ -51,6 +52,7 @@ public class VigenereInverse implements Cipher {
     @Override
     public String decrypt(String ciphertext, String key) throws InvalidKeyException {
         key = key.toLowerCase();
+
         if (checkKey(key)) {
             StringBuilder out = new StringBuilder();
             int position = 0;
@@ -69,17 +71,17 @@ public class VigenereInverse implements Cipher {
             return out.toString();
         }
 
-        return "Failed.";
+        return "Failed";
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return DESC;
     }
 
     @Override
     public String getName() {
-        return null;
+        return NAME;
     }
 
     @Override
@@ -94,14 +96,13 @@ public class VigenereInverse implements Cipher {
 
     //encrypt ONE character
     private static Character encryptOne (Character plaintext, Character key) {
-        int res, k;
-        k = key - 'a';
+        int res;
 
-        res = plaintext - 'a';
-        res -= k;
+        res = key - 'a';
+        res -= plaintext - 'a';
 
         if (res < 0)
-            res += 26;
+            res += Utility.alphabet.length();
 
         res %= Utility.alphabet.length();
 
@@ -110,11 +111,13 @@ public class VigenereInverse implements Cipher {
 
     //decrypt ONE character
     private static Character decryptOne (Character plaintext, Character key) {
-        int res, k;
-        k = key - 'a';
+        int res;
 
-        res = plaintext - 'a';
-        res += k;
+        res = key - 'a';
+        res -= plaintext - 'a';
+
+        if (res < 0)
+            res += Utility.alphabet.length();
 
         res %= Utility.alphabet.length();
 
