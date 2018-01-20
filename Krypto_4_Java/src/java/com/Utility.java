@@ -23,7 +23,7 @@ public class Utility {
 
     public static String generateUniqueKey(int length) {
     	if (length > 26) length = 26;
-    	
+
         StringBuilder out = new StringBuilder();
         int counter = 0;
         Character c;

@@ -11,11 +11,14 @@ public class Krypto {
     private static Integer TEXT_COUNT;
 
     public static void main(String[] args) {
-        Cipher cipher = new BeaufortVariant();
+        Cipher cipher = new RectangularKeyTransposition();
 //        init("Jack and Jill ran up the hill");
         init (Utility.readFile("res/abc.txt"));
 
-	    String key = Utility.generateUniqueKey(26);
+	    String key = Utility.generateUniqueKey(6);
+	    System.out.println(displayOriginalString());
+	    System.out.println("key = " + key);
+	    System.out.println();
 
 	    try {
 		    MODIFIED_TEXT = cipher.encrypt(MODIFIED_TEXT, key);
@@ -25,7 +28,7 @@ public class Krypto {
 
 	    System.out.println(displayModifiedString());
 	    System.out.println();
-	    System.out.println(displayModifiedString(3, 7));
+	    System.out.println(displayModifiedString(3, 3));
 	    System.out.println();
 
         try {
@@ -36,7 +39,7 @@ public class Krypto {
 
 	    System.out.println(displayModifiedString());
 	    System.out.println();
-        System.out.println(displayModifiedString(3, 7));
+        System.out.println(displayModifiedString(3, 3));
 	    System.out.println();
 
         List<Double> modIC = CalculateIC.getIC(MODIFIED_TEXT);

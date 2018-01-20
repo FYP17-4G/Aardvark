@@ -173,7 +173,6 @@ public class Transposition implements Cipher {
         String temp = key.toLowerCase();
 
         String sorted = sortString(temp);
-        System.out.println("sorted = " + sorted);
         ArrayList<Integer> intKey = new ArrayList<>(temp.length());
         ArrayList<Integer> returnable = new ArrayList<>();
         for (int i = 1; i <= temp.length(); ++i) { intKey.add(i); }
