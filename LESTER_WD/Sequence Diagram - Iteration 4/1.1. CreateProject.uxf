@@ -9,7 +9,7 @@
       <w>1210</w>
       <h>920</h>
     </coordinates>
-    <panel_attributes>Create Project</panel_attributes>
+    <panel_attributes>1.1. Create Project</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -115,7 +115,7 @@
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>270</y>
+      <y>250</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
@@ -229,12 +229,12 @@ fg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>860</x>
-      <y>710</y>
+      <y>740</y>
       <w>30</w>
-      <h>270</h>
+      <h>240</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;250.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
@@ -273,12 +273,12 @@ fg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1130</x>
-      <y>520</y>
+      <y>690</y>
       <w>30</w>
-      <h>460</h>
+      <h>290</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;440.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;270.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -297,9 +297,9 @@ fg=blue</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>240</x>
-      <y>390</y>
+      <y>380</y>
       <w>980</w>
-      <h>350</h>
+      <h>380</h>
     </coordinates>
     <panel_attributes>alt
 --
@@ -318,7 +318,7 @@ fg=blue</panel_attributes>
 [Paste data from clipboard]
 bg=gray
 fg=red
-layer=1</panel_attributes>
+layer=0</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -338,15 +338,16 @@ layer=2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>600</y>
-      <w>280</w>
+      <x>600</x>
+      <y>630</y>
+      <w>550</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 3. Paste from clipboard
-fg=red</panel_attributes>
-    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
+fg=red
+layer=2</panel_attributes>
+    <additional_attributes>530.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -388,7 +389,7 @@ layer=2</panel_attributes>
     <id>UMLGeneric</id>
     <coordinates>
       <x>860</x>
-      <y>680</y>
+      <y>710</y>
       <w>20</w>
       <h>40</h>
     </coordinates>
@@ -401,16 +402,16 @@ layer=2</panel_attributes>
       <x>860</x>
       <y>570</y>
       <w>30</w>
-      <h>130</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>630</y>
+      <y>660</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
@@ -424,7 +425,7 @@ layer=2</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>600</x>
-      <y>660</y>
+      <y>690</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
@@ -446,6 +447,41 @@ layer=2</panel_attributes>
 4. submit()
 fg=red
 layer=2</panel_attributes>
+    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1130</x>
+      <y>650</y>
+      <w>20</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1130</x>
+      <y>510</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>600</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+3. pasteFromClipboard()
+fg=red</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
