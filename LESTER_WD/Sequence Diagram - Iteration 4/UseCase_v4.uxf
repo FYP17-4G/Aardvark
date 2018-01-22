@@ -4,8 +4,8 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>150</x>
-      <y>490</y>
+      <x>170</x>
+      <y>510</y>
       <w>60</w>
       <h>110</h>
     </coordinates>
@@ -15,9 +15,9 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>280</x>
-      <y>10</y>
-      <w>870</w>
+      <x>300</x>
+      <y>30</y>
+      <w>1010</w>
       <h>960</h>
     </coordinates>
     <panel_attributes/>
@@ -26,8 +26,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>170</x>
-      <y>140</y>
+      <x>190</x>
+      <y>160</y>
       <w>170</w>
       <h>360</h>
     </coordinates>
@@ -37,8 +37,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>320</x>
-      <y>130</y>
+      <x>340</x>
+      <y>150</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -48,8 +48,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>140</y>
+      <x>480</x>
+      <y>160</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -59,8 +59,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>40</y>
+      <x>580</x>
+      <y>60</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -70,8 +70,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>100</y>
+      <x>580</x>
+      <y>120</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -81,8 +81,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>160</y>
+      <x>580</x>
+      <y>180</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -92,8 +92,8 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>330</x>
-      <y>500</y>
+      <x>350</x>
+      <y>520</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -103,30 +103,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>420</y>
-      <w>30</w>
-      <h>230</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>530</x>
-      <y>410</y>
-      <w>50</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>200</x>
-      <y>510</y>
+      <x>220</x>
+      <y>530</y>
       <w>150</w>
       <h>30</h>
     </coordinates>
@@ -136,98 +114,19 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>510</y>
-      <w>90</w>
+      <x>490</x>
+      <y>530</y>
+      <w>420</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;</panel_attributes>
-    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>560</x>
-      <y>410</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>2.1. Shift Cipher</panel_attributes>
-    <additional_attributes/>
+    <additional_attributes>400.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>470</y>
-      <w>50</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>560</x>
-      <y>470</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>2.2. Vigenere Cipher</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>560</x>
-      <y>530</y>
-      <w>150</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>2.3. Transposition
-Cipher</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>530</x>
-      <y>540</y>
-      <w>50</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>560</x>
-      <y>610</y>
-      <w>170</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>2.4. Rectangular Key 
-Substitution Cipher</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>530</x>
-      <y>610</y>
-      <w>50</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>530</x>
-      <y>50</y>
+      <x>550</x>
+      <y>70</y>
       <w>30</w>
       <h>320</h>
     </coordinates>
@@ -237,8 +136,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>100</y>
+      <x>550</x>
+      <y>120</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -248,8 +147,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>160</y>
+      <x>550</x>
+      <y>180</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -259,8 +158,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>40</y>
+      <x>550</x>
+      <y>60</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -270,8 +169,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>170</x>
-      <y>550</y>
+      <x>190</x>
+      <y>570</y>
       <w>190</w>
       <h>300</h>
     </coordinates>
@@ -281,8 +180,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>340</x>
-      <y>810</y>
+      <x>360</x>
+      <y>830</y>
       <w>140</w>
       <h>40</h>
     </coordinates>
@@ -292,8 +191,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>720</y>
+      <x>550</x>
+      <y>740</y>
       <w>30</w>
       <h>230</h>
     </coordinates>
@@ -303,8 +202,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>710</y>
+      <x>550</x>
+      <y>730</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -314,8 +213,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>710</y>
+      <x>580</x>
+      <y>730</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -325,8 +224,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>770</y>
+      <x>550</x>
+      <y>790</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -336,8 +235,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>770</y>
+      <x>580</x>
+      <y>790</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
@@ -347,8 +246,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>840</y>
+      <x>580</x>
+      <y>860</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
@@ -358,8 +257,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>840</y>
+      <x>550</x>
+      <y>860</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -369,8 +268,8 @@ Substitution Cipher</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>910</y>
+      <x>580</x>
+      <y>930</y>
       <w>150</w>
       <h>50</h>
     </coordinates>
@@ -381,8 +280,8 @@ Frequency Graph</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>910</y>
+      <x>550</x>
+      <y>930</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -392,8 +291,8 @@ Frequency Graph</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>820</y>
+      <x>490</x>
+      <y>840</y>
       <w>90</w>
       <h>30</h>
     </coordinates>
@@ -403,102 +302,8 @@ Frequency Graph</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>830</x>
-      <y>360</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>2.2.1 Additive</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>830</x>
-      <y>410</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>2.2.2 Subtractive</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>700</x>
-      <y>370</y>
-      <w>150</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>130.0;10.0;10.0;120.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>700</x>
-      <y>420</y>
-      <w>150</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>130.0;10.0;10.0;70.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>840</x>
-      <y>580</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>2.3.2. Columnar</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>830</x>
-      <y>520</y>
-      <w>160</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>2.3.1 Columnar and 
-Rectangular
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>700</x>
-      <y>530</y>
-      <w>150</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>130.0;10.0;10.0;30.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>700</x>
-      <y>550</y>
-      <w>160</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>140.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>560</x>
-      <y>220</y>
+      <x>580</x>
+      <y>240</y>
       <w>150</w>
       <h>50</h>
     </coordinates>
@@ -509,8 +314,8 @@ Data</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>220</y>
+      <x>550</x>
+      <y>240</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -520,8 +325,8 @@ Data</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>280</y>
+      <x>580</x>
+      <y>300</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -532,8 +337,8 @@ Modifications</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>560</x>
-      <y>330</y>
+      <x>580</x>
+      <y>350</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -544,31 +349,8 @@ Modifications</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>830</x>
-      <y>460</y>
-      <w>160</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>2.2.3 Key Subtraction</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>710</x>
-      <y>460</y>
-      <w>140</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>120.0;20.0;10.0;30.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>830</x>
-      <y>740</y>
+      <x>850</x>
+      <y>760</y>
       <w>250</w>
       <h>50</h>
     </coordinates>
@@ -579,8 +361,8 @@ and rectangular</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>830</x>
-      <y>800</y>
+      <x>850</x>
+      <y>820</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
@@ -590,8 +372,8 @@ and rectangular</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
-      <y>780</y>
+      <x>770</x>
+      <y>800</y>
       <w>100</w>
       <h>60</h>
     </coordinates>
@@ -602,8 +384,8 @@ and rectangular</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
-      <y>750</y>
+      <x>770</x>
+      <y>770</y>
       <w>100</w>
       <h>60</h>
     </coordinates>
@@ -614,8 +396,8 @@ and rectangular</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>330</y>
+      <x>550</x>
+      <y>350</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -625,12 +407,184 @@ and rectangular</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>280</y>
+      <x>550</x>
+      <y>300</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>360</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>910</x>
+      <y>360</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>2.1. Shift Cipher</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>410</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>910</x>
+      <y>680</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>2.7. Rectangular Key 
+Substitution Cipher</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>910</x>
+      <y>410</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>2.2. Additive 
+Vigenere Cipher</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>910</x>
+      <y>470</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>2.3. Subtractive 
+Vigenere Cipher</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>910</x>
+      <y>630</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>2.6. Columnar 
+Transposition CIpher</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>910</x>
+      <y>570</y>
+      <w>280</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>2.5. Columnar and Rectangular
+Transposition Cipher
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>910</x>
+      <y>520</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>2.4. Key Subtraction 
+Vigenere Cipher</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>470</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>520</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>570</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>630</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>680</y>
+      <w>50</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>370</y>
+      <w>30</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;330.0</additional_attributes>
   </element>
 </diagram>
