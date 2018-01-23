@@ -21,6 +21,8 @@ import android.graphics.Color;
 import android.content.Intent;
 import android.widget.ImageButton;
 
+import com.example.ekanugrahapratama.aardvark_project.Database.DatabaseFramework;
+
 
 /*
 * NOTE:
@@ -35,14 +37,15 @@ import android.widget.ImageButton;
 
 public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 {
-    ArrayList<frontPageIdentifier> projectTitle;
+    ArrayList<FrontPageIdentifier> projectTitle;
     private String projectDirectoryFileName = "projectDirectory.txt";
 
     Context context;
 
     App_Framework framework;
+    DatabaseFramework database;
 
-    public GUI_adaptr(ArrayList<frontPageIdentifier> n)
+    public GUI_adaptr(ArrayList<FrontPageIdentifier> n)
         {
             this.projectTitle = n;
         }
@@ -59,6 +62,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
             viewHolder viewHolder = new viewHolder(view);
 
             framework = new App_Framework(context);
+            database = new DatabaseFramework(context);
 
             return viewHolder;
         }
@@ -132,12 +136,10 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                     }
             };
 
-
-            //TODO(deleteProject()) DELETE ASSOCIATED TEXT FILES AS WELL
             private void deleteProject()
             {
                 //delete the associated item from list.txt
-                String projectDirectoryFileName = "projectDirectory.txt";
+                /*String projectDirectoryFileName = "projectDirectory.txt";
 
                 try
                 {
@@ -162,11 +164,13 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                             output.write(tempID + "||" + tempTitle + "\n");
                         }
                     }
-                    notifyDataSetChanged(); //refreshes recycler contents;
 
                     output.close();
                 }catch(IOException e)
-                {}
+                {}*/
+                database.deleteEntry(id, title);
+                projectTitle = database.getAllTitle();
+                notifyDataSetChanged(); //refreshes recycler contents;
             }
 
             protected boolean projectExist(String newProjectTitle)
@@ -217,16 +221,16 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                         else
                         {
                             //find the old project name, replace with the new one
-                            for(int x = 0; x < projectTitle.size(); x++)
+                            /*for(int x = 0; x < projectTitle.size(); x++)
                                 if(projectTitle.get(x).getTitle().equals(title))
                                     {
                                         projectTitle.get(x).setTitle(newProjectName);
                                         itemContent.setText(projectTitle.get(x).getTitle());
                                         break;
-                                    }
+                                    }*/
 
                             //TODO() RENAME RELATED TEXT FILES HERE
-                            String oldName = id+title+"cipherTextOriginal.txt";
+                            /*String oldName = id+title+"cipherTextOriginal.txt";
                             String newName = id+newProjectName+"cipherTextOriginal.txt";
                             framework.renameTextFile(oldName, newName);
 
@@ -234,7 +238,10 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                             newName = id+newProjectName+"notes.txt";
                             framework.renameTextFile(oldName, newName);
 
-                            title = newProjectName;
+                            title = newProjectName;*/
+                            database.updateData(id, title, "PROJECT_TITLE", newProjectName);
+                            projectTitle = database.getAllTitle();
+                            notifyDataSetChanged();
                         }
                     }
                 });
@@ -296,6 +303,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                     Intent intent = new Intent(context, GUI_project_view.class);
                     intent.putExtra("project_view_unique_ID", id);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
                     intent.putExtra("project_view_title", title);
+
                     context.startActivity(intent);
                 }
         }

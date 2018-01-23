@@ -1,6 +1,5 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
@@ -10,24 +9,22 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.ekanugrahapratama.aardvark_project.kryptoTools.Utility;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -311,14 +308,6 @@ public class App_Framework
         return temp;
     }
 
-    /**THIS FUNCTION "CLEANS" THE INPUT STRING SO IT WILL BE SAFE TO USE IN MARK'S CODES
-     * Delete stringNoWhiteSpace() later
-     * */
-    public String init (String input) {
-        input = input.toLowerCase();
-        input = input.replaceAll("[^A-Za-z]", "");
-        return input;
-    }
 
     /**SAVE TO AND LOAD FROM TEXT FILE IN THE DEVICE STORAGE*/
     public void saveAsTxt(String filename, String input, boolean append)
@@ -434,5 +423,84 @@ public class App_Framework
             system_message_small("Renamed");
         else
             system_message_small("Rename failed");
+    }
+
+
+
+    /**READ AND WRITE CODE (Mark)*/
+    private static Utility util = Utility.getInstance();
+
+    private String ORIGINAL_TEXT;
+    private String MODIFIED_TEXT;
+    private int TEXT_COUNT;
+
+    private String displayOriginalString() {
+        return ORIGINAL_TEXT;
+    }
+
+    private String displayModifiedString () {
+        StringBuilder output = new StringBuilder();
+
+        int counter = 0;
+        for (Character c: ORIGINAL_TEXT.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                output.append(' ');
+            } else if (Character.isUpperCase(c)) {
+                output.append(Character.toUpperCase(MODIFIED_TEXT.charAt(counter)));
+                ++counter;
+            } else if (!Character.isAlphabetic(c)) {
+                output.append(c);
+            } else {
+                output.append(MODIFIED_TEXT.charAt(counter));
+                ++counter;
+            }
+        }
+
+        return output.toString();
+    }
+
+    private String displayModifiedString (int blockSize, int blocksPerLine) {
+        int charCounter = 0, blockCounter = 0;
+        StringBuilder sb = new StringBuilder();
+
+        for (Character c: MODIFIED_TEXT.toCharArray()) {
+            sb.append(c);
+            ++charCounter;
+            if (charCounter == blockSize) {
+                sb.append(" ");
+                ++blockCounter;
+                charCounter = 0;
+            }
+
+            if (blockCounter == blocksPerLine) {
+                sb.append('\n');
+                blockCounter = 0;
+            }
+        }
+
+        return sb.toString();
+    }
+
+
+    private void init (String originalInput) {
+        ORIGINAL_TEXT = originalInput;
+        MODIFIED_TEXT = util.processText(ORIGINAL_TEXT);
+        TEXT_COUNT = MODIFIED_TEXT.length();
+    }
+
+    /**THIS FUNCTION "CLEANS" THE INPUT STRING SO IT WILL BE SAFE TO USE IN MARK'S CODES
+     * Delete stringNoWhiteSpace() later
+     * */
+    public String format (String input) {
+        input = input.toLowerCase();
+        input = input.replaceAll("[^A-Za-z]", "");
+        return input;
+    }
+
+    //MY OWN DEFINED FUNCTION
+    public String clean(String input)
+    {
+        init(input);
+        return displayModifiedString();
     }
 }

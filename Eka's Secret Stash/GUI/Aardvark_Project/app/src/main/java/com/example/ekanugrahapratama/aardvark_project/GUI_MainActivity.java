@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.OpenableColumns;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.design.widget.NavigationView;
@@ -21,13 +19,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.ekanugrahapratama.aardvark_project.Database.DatabaseFramework;
+
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.util.Random;
@@ -39,6 +37,7 @@ public class GUI_MainActivity extends AppCompatActivity
     private static final int READ_REQUEST_CODE = 42;
 
     private App_Framework framework = new App_Framework(this);
+    private DatabaseFramework database = new DatabaseFramework(this);
 
     private GUI_adaptr adapter;
     private RecyclerView list; //the 'array' of project list
@@ -47,7 +46,7 @@ public class GUI_MainActivity extends AppCompatActivity
     private String projectDirectoryFileName = "projectDirectory.txt";
 
     //front page identifier = struct like class for the adapter to simplify the data reading
-    private ArrayList<frontPageIdentifier> projectTitle = new ArrayList();
+    private ArrayList<FrontPageIdentifier> projectTitle = new ArrayList();
 
     private Context context = this;
 
@@ -69,10 +68,10 @@ public class GUI_MainActivity extends AppCompatActivity
 
 
         //RECYCLER HERE---------------------
-        BufferedReader fileIn;
+        /*BufferedReader fileIn;*/
 
         //get the contents for the recycler view
-        try
+        /*try
         {
             FileInputStream fis = openFileInput(projectDirectoryFileName);
             fileIn = new BufferedReader(new InputStreamReader(fis));
@@ -86,16 +85,12 @@ public class GUI_MainActivity extends AppCompatActivity
                 //process the line
                 substr = line.split("\\|\\|");
 
-                frontPageIdentifier fpi = new frontPageIdentifier(substr[0], substr[1]);
+                FrontPageIdentifier fpi = new FrontPageIdentifier(substr[0], substr[1]);
                 projectTitle.add(fpi);
             }
 
             fileIn.close();
-        }catch(IOException e){}
-
-        //TODO(2) Use encryption to secure list.txt <<<<<<<<<<<<<< IMPORTANTER
-
-
+        }catch(IOException e){}*/
 
         //the rest
         list = (RecyclerView) findViewById(R.id.rv_numbers);
@@ -104,8 +99,7 @@ public class GUI_MainActivity extends AppCompatActivity
 
         list.setHasFixedSize(true);
 
-        adapter = new GUI_adaptr(projectTitle);
-        list.setAdapter(adapter);
+        getListFromDB();
         //---------------------
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -138,6 +132,7 @@ public class GUI_MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            System.exit(0); // EXIT THE APPLICATION NORMALLY
         }
     }
 
@@ -186,6 +181,19 @@ public class GUI_MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**CALL THIS FUNCTION DURING STARTUP AND WHEN THERE IS ANY UPDATE TO THE DATABASE TABLE*/
+    private void getListFromDB()
+    {
+        projectTitle = database.getAllTitle();
+        if(!projectTitle.isEmpty())
+        {
+            adapter = new GUI_adaptr(projectTitle);
+
+            if(adapter.getItemCount() > 0)
+                list.setAdapter(adapter);
+        }
+    }
+
     private void launchFrontPageActivity()
     {
         Intent intent = new Intent(this, GUI_MainActivity.class);
@@ -213,7 +221,7 @@ public class GUI_MainActivity extends AppCompatActivity
         {
             int ID = new Random().nextInt(999)+1;
 
-           //SETUP NEWPROJECTPOPUP ELEMENT HERE
+           //SETUP NEWP ROJECT POPUP ELEMENT HERE
            EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
            EditText cipherTextInput = newProjectView.findViewById(R.id.editText_cipherInputField);
 
@@ -239,12 +247,19 @@ public class GUI_MainActivity extends AppCompatActivity
                             framework.system_message_small("Cipher text input is still empty");
                         else
                         {
-                            writeToList(projectTitle, ID);
+                            //writeToList(projectTitle, ID);
 
-                            String filename = Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt";
+                            //String filename = Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt";
 
                             //saves ciphertext to a file
-                            framework.saveAsTxt(filename , cipherText, false);
+                            //framework.saveAsTxt(filename , cipherText, false);
+
+                            database.addNewComposite(Integer.toString(ID), projectTitle);
+                            //database.addData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
+                            database.updateData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
+                            //getListFromDB();
+
+                            getListFromDB();
                             adapter.notifyDataSetChanged();//refresh the adapter
                         }
                 }
@@ -260,19 +275,6 @@ public class GUI_MainActivity extends AppCompatActivity
         return false;
     }
 
-    /**This will store the data to a text file that contains information to display the list of existing projects*/
-    //FILE STORAGE WILL BE HANDLED INTERNALLY BY ANDROID
-    private void writeToList(String newProjectTitle, int ID)
-        {
-            //add the new project into the arrayList
-            frontPageIdentifier newProject = new frontPageIdentifier(Integer.toString(ID), newProjectTitle);
-            projectTitle.add(newProject);
-
-            String newID = newProject.getID();
-            String newTitle = newProject.getTitle();
-
-            framework.saveAsTxt(projectDirectoryFileName, newID + "||" + newTitle, true);
-        }
 
     private void openFileBrowser()
     {
@@ -281,7 +283,6 @@ public class GUI_MainActivity extends AppCompatActivity
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT); //START INTENT TO CHOOSE FILE USING DEVICE' DEFAULT FILE BROWSER
         intent.addCategory(Intent.CATEGORY_OPENABLE);//SHOW ONLY FILES THAT CAN BE OPENED
         intent.setType("text/plain"); //only plain txt file can be accessed
-
 
         startActivityForResult(intent, READ_REQUEST_CODE);
     }

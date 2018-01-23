@@ -210,11 +210,13 @@ public class GUI_fragment_graph extends AppCompatActivity
      * */
     private DataPoint[] plotGraph(String textOfPeriod) //plot the graph for a given text, the value of the given text should be a string of period N
     {
+        textOfPeriod = framework.format(textOfPeriod).toLowerCase();
+
         final int MAX_DATA_POINTS = 26;
 
         DataPoint[] dp = new DataPoint[MAX_DATA_POINTS];
 
-        Integer[] frequency = Graph.displayGraph(framework.init(textOfPeriod));
+        Integer[] frequency = Graph.displayGraph(framework.clean(textOfPeriod));
 
         //fill series data
         for(int x = 0; x < MAX_DATA_POINTS; x++)
@@ -226,6 +228,7 @@ public class GUI_fragment_graph extends AppCompatActivity
     private void calculateCipherIC(int n)
     {
         cipherIC = getCipherIC(cipherText);
+
         cipherICTV.setText("[IC: " + Double.toString(cipherIC) + "]\n");
 
         cipherICofN = new ArrayList<Double>();
@@ -244,7 +247,10 @@ public class GUI_fragment_graph extends AppCompatActivity
             }
 
             averageIC = averageIC/i;
-            averageICList.add(new mPair(i, averageIC));
+
+            //averageIC control: if its 0, dont display
+            if(averageIC != 0)
+                averageICList.add(new mPair(i, averageIC));
         }
 
         //sort the average IC list (DESCENDING)

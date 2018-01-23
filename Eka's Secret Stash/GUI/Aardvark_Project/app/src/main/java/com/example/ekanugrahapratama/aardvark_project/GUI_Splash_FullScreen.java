@@ -5,16 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -77,13 +71,18 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
             activityClass = GUI_MainActivity.class;
         }
 
-        Intent intent = new Intent(this, activityClass);
-
-        intent.putExtra("project_view_params", projectName);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
-        intent.putExtra("project_view_title", projectName);
+        Intent intent;
 
         if(projectName.equals("**NO TITLE**") && projectID.equals("**NO ID**"))
             intent = new Intent(this, GUI_MainActivity.class);
+        else
+        {
+            //intent = new Intent(this, activityClass); //this will start 'GUI_Fragment_Project_View' with its corresponding ID and title
+            intent = new Intent(this, activityClass);
+
+            intent.putExtra("project_view_unique_ID", projectID);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
+            intent.putExtra("project_view_title", projectName);
+        }
 
         startActivity(intent);
         finish();

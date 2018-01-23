@@ -345,9 +345,9 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         try
         {
             if(encrypt)
-                inputText = vigenereAdditive.encrypt(framework.init(inputText), key);
+                inputText = vigenereAdditive.encrypt(framework.clean(inputText), key);
             else
-                inputText = vigenereAdditive.decrypt(framework.init(inputText), key);
+                inputText = vigenereAdditive.decrypt(framework.clean(inputText), key);
         }catch(InvalidKeyException e)
         {}
 
@@ -358,9 +358,9 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         try
         {
             if(encrypt)
-                inputText = vigenereInverse.encrypt(framework.init(inputText), key);
+                inputText = vigenereInverse.encrypt(framework.clean(inputText), key);
             else
-                inputText = vigenereInverse.decrypt(framework.init(inputText), key);
+                inputText = vigenereInverse.decrypt(framework.clean(inputText), key);
         }catch(InvalidKeyException e)
         {}
 
@@ -371,9 +371,9 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         try
         {
             if(encrypt)
-                inputText = vigenereSubtractive.encrypt(framework.init(inputText), key);
+                inputText = vigenereSubtractive.encrypt(framework.clean(inputText), key);
             else
-                inputText = vigenereSubtractive.decrypt(framework.init(inputText), key);
+                inputText = vigenereSubtractive.decrypt(framework.clean(inputText), key);
         }catch(InvalidKeyException e)
         {}
 
@@ -400,10 +400,10 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         try
         {
             if(encrypt)
-                inputText = new Substitution().encrypt(framework.init(inputText), key);
+                inputText = new Substitution().encrypt(framework.clean(inputText), key);
             //else, do decrypt
             else
-                inputText = new Substitution().decrypt(framework.init(inputText), key);
+                inputText = new Substitution().decrypt(framework.clean(inputText), key);
         }catch(InvalidKeyException e)
         {}
 
@@ -412,7 +412,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
 
     private void refresh() //this refreshes the input text view, !! DO NOTE that it also removes any occurences of whitespace
     {
-        inputTextView.setText(framework.init(inputText));
+        inputTextView.setText(framework.clean(inputText));
     }
 
 }

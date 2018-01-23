@@ -1,5 +1,7 @@
 [Android Application Change Notes]
 
+<<ITERATION 1>>
+
 <20 December 2017>
 + Added some empty functions for Crypto functions:
 	(hint: look for keyword "TODO(***)")
@@ -7,7 +9,7 @@
 	- Substitution functions
 	- Shift functions
 	- Cipher Frequency calculation functions
-+ Refractored source files for easier naming conventions
++ Refactored source files for easier naming conventions
 + Added folder "KryptoTools" for Krypto related .java files
 
 <21 December 2017>
@@ -29,9 +31,9 @@
 	- Rectangular Transposition (Encryption only)
 	- Rectangular Substitution (Encryption only)
 	- Shift Cipher (Encryption and decryption)
-	- Vigenere Inverse (Encryption only)
-	- Vigenere Subtractive (Encryption only)
-	- Vigenere Additive (Encryption only)
+	- Vigenère Inverse (Encryption only)
+	- Vigenère Subtractive (Encryption only)
+	- Vigenère Additive (Encryption only)
 
 <23 December 2017>
 +[GUI] real-time update of cipher text with certain period applied on graph now works
@@ -48,14 +50,9 @@
 
 + [GUI]Added Encryption and Decryption GUI for the Encryption/Decryption feature
 	- Shift Cipher
-	- All Vigenere Cipher
+	- All Vigenère Cipher
 	- Rectangular Transposition
 + Copy and paste functions for Encryption / Decryption feature works properly
-
-##TODO NEXT
-- GUI for permutation
-- merge Columnar transposition in project view
-- fix rectangular substitution (this affects "substitution by string" and rect transposition(in encrypt decrypt feature))
 
 <26 December 2017>
 - [GUI] added tabbed menu for projectView
@@ -67,6 +64,8 @@
 - fixed a bug in IC calculation
 - fixed stupid error in the frequency graph
 
+
+<<ITERATION 2>>
 
 <14 January 2018>
 - Persistent session works properly
@@ -81,7 +80,7 @@
 
 <17 January 2018>
 - UI redesign (Frequency analysis), it is now fancier
-- Some code refractoring and importing Mark's code into the android app
+- Some code refactoring and importing Mark's code into the android app
 
 <18 January 2018>
 - Modified some Mark's code to return value needed for my code
@@ -92,3 +91,27 @@
 <19 January 2018>
 - Added 'note' function
 - Some UI element redesigning
+- Fixed a bug (Missing cipher text and project title when reopening the application and continue where the user left off)
+- Fixed NumberFormatException error during IC calculation
+
+<22 January 2018>
+#Bug report: Application crashes when trying to do shift after undoing/resetting the cipher state
+
+- User can now save the crypto project
+- Integrated SQLite into the program
+	- SQLite is now fully functional on current version of the app
+
+<23 January 2018>
+
+
+/*NEXT UP: 
+> Create edit project cipher text function
+> Allow user to determine the common word occurrences length
+> non AS: Cross check the diagrams
+
+> Add read from file function for encryption and decryption feature
+
+#####
+What to do for GUI:
+- Change main view content to card menu (Preview on top half, bottom left = title, bottom right = triple dots => delete, edit)
+*/

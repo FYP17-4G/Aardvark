@@ -1,15 +1,13 @@
 package com.example.ekanugrahapratama.aardvark_project;
 
 import android.content.Intent;
-import android.support.transition.TransitionInflater;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,17 +19,11 @@ import android.widget.SeekBar;
 import android.view.View;
 import android.graphics.Color;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.GraphView;
-
+import com.example.ekanugrahapratama.aardvark_project.Database.DatabaseFramework;
 import com.example.ekanugrahapratama.aardvark_project.analysisTools.CryptoAnalysis;
 import com.example.ekanugrahapratama.aardvark_project.kryptoTools.*;
 
@@ -75,9 +67,8 @@ public class GUI_fragment_project_view extends Fragment {
     private Button undoButton;
     private Button resetButton;
 
-
-    //notes button
-    private Button noteButton;
+    //database
+    private DatabaseFramework database;
 
     //<...>
 
@@ -98,11 +89,14 @@ public class GUI_fragment_project_view extends Fragment {
 
         framework= new App_Framework(view.getContext());
 
+        //set up the database
+        database = new DatabaseFramework(view.getContext());
+
         /**SET UP THE CIPHER TEXT VIEW AREA*/
         cipherTextView = (TextView) view.findViewById(R.id.project_view_cipher_text);
         cipherTextView.setTextColor(Color.BLACK);
 
-        getCipherTextFromFile();
+        getCipherTextFromDB();
 
         //SET UP TOOLS FOR THE PROJECT
         setCaesarTool(); //shift cipher
@@ -111,34 +105,56 @@ public class GUI_fragment_project_view extends Fragment {
 
         //SET OTHER TOOLS HERE<...>
 
-        originalCipherText = cipherText; //TODO(me) FIND A WAY TO SET ORIGINAL CIPHER TEXT PROPERLY, SINCE THIS ONE IS JUST DIRECT ASSIGNING
-        changeHistory.add(originalCipherText);
+        //originalCipherText = cipherText;
+        originalCipherText = changeHistory.get(0); //since the originalCipherText will always be at the first entry
+        //changeHistory.add(originalCipherText);
 
         setUndoButton();
         setResetButton();
 
-
-
-
-        /**BUTTONS SETUP*/
         setGraph();
-        setNote();
+
+        /**SET UP SAVE BUTTON*/
+        Button saveButton = view.findViewById(R.id.button_save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateCipherTextToDB();
+                framework.system_message_small("Progress saved");
+            }
+        });
 
         return view;
     }
 
-    private void getCipherTextFromFile()
+    private void getCipherTextFromDB()
     {
+        //this.cipherText = framework.clean(framework.getTextFromFile(this.projectID + this.projectTitle + "cipherTextOriginal.txt"));
 
-        /**GET ORIGINAL CIPHER TEXT FILE FROM FILE*/
-        this.cipherText = framework.init(framework.getTextFromFile(this.projectID + this.projectTitle + "cipherTextOriginal.txt"));
+         String ctext = database.getCipherText(projectID, projectTitle);
+        //split and add to change history
+        String[] split = ctext.split("\\|");
 
-        //this.cipherText = "dfwkgtnulfxpfggchrugiiezbxmzgsiifgbxsthttrvwyh.dzwdgivgbayvtrqrvxbxnxusxlublvfvpldr.fuhtckacqaimmcnfxduetmnaapxbkacecnawymgd.gxpxoulmiofindsvpcaikmjtsvxgcgfkzgaevf.pnehscczgeroemppskxbcokbkerlwcccvtbsfixojeemjnyfnndsjxqhifgkgs.gxpxoulylhzlfdujxqhqltptaewkxsvkw.wolkfpdyxjslrblvimxwtt";
+        changeHistory = new ArrayList<>(Arrays.asList(split));
 
-        /**GET CIPHER TEXT WITH THE CHANGES*/
-
-
+        cipherText = changeHistory.get(changeHistory.size() - 1);
+        //cipherText = ctext;
+        cipherText = framework.format(cipherText);
         cipherTextView.setText(cipherText);
+    }
+
+    private void updateCipherTextToDB()
+    {
+        //process the stuff from changeHistory
+        String data = new String();
+
+        for(int i = 0; i < changeHistory.size(); i++)
+        {
+            data += changeHistory.get(i);
+            if(i < changeHistory.size() - 1)
+                data += "|";
+        }
+        database.updateCipherText(projectID, projectTitle, data);
     }
 
     public String getCipherText()
@@ -157,20 +173,6 @@ public class GUI_fragment_project_view extends Fragment {
                 intent.putExtra("cipherText", cipherText);
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, cipherTextView, ViewCompat.getTransitionName(cipherTextView));
                 startActivity(intent, options.toBundle());
-            }
-        });
-    }
-
-    private void setNote()
-    {
-        noteButton = view.findViewById(R.id.button_notes);
-        noteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(fragmentActivity, GUI_note.class);
-                intent.putExtra("title", projectTitle);
-                intent.putExtra("id", projectID);
-                startActivity(intent);
             }
         });
     }
@@ -212,7 +214,7 @@ public class GUI_fragment_project_view extends Fragment {
         {
             changeHistory.remove(changeHistory.size()-1); //remove the latest entry
             this.cipherText = changeHistory.get(changeHistory.size()-1);
-            cipherTextView.setText(framework.init(cipherText));
+            cipherTextView.setText(framework.format(cipherText));
         }
     }
 
@@ -224,7 +226,7 @@ public class GUI_fragment_project_view extends Fragment {
         else if(!this.cipherText.equals(this.originalCipherText) && !changeHistory.isEmpty())
         {
             this.cipherText = originalCipherText;
-            cipherTextView.setText(framework.init(cipherText));
+            cipherTextView.setText(framework.format(cipherText));
             changeHistory.clear(); //remove all items from the arraylist
         }
     }
@@ -232,7 +234,7 @@ public class GUI_fragment_project_view extends Fragment {
     private void refresh()//refreshes the cipher text view
     {
         changeHistory.add(cipherText);
-        cipherTextView.setText(framework.init(cipherText));
+        cipherTextView.setText(cipherText);
     }
 
     /**GUI SETUP*/

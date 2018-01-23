@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_frontPage"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="?android:attr/fingerprintAuthDrawable"
             android:title="Front Page" />
         <item
             android:id="@+id/nav_encryption_decryption"

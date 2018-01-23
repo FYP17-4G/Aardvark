@@ -54,8 +54,15 @@ public class CalculateIC {
 
         denom = totalChars * (totalChars - 1);
 
+        Double IC;
 
-        Double IC = BigDecimal.valueOf((numer / denom)).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        try
+        {
+            IC = BigDecimal.valueOf((numer / denom)).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        }catch(NumberFormatException e)
+        {
+            IC = 0.00;
+        }
 
         return IC;
     }

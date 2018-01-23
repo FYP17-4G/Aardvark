@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 //TODO() BUILD UNDO - RESET CIPHER TEXT STATE MECHANISM
@@ -30,11 +31,26 @@ public class GUI_project_view extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.project_view_action_bar_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case android.R.id.home:
                 backToList();
-        }
+            case R.id.menu_item_note:
+                launchNote();
+        }*/
+
+        if(item.getItemId() == R.id.home)
+            backToList();
+        else if(item.getItemId()== R.id.menu_item_note)
+            launchNote();
+
         return true;
     }
 
@@ -68,11 +84,20 @@ public class GUI_project_view extends AppCompatActivity
         //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
         this.projectUniqueID = getIntent().getStringExtra("project_view_unique_ID");
         this.projectTitle = getIntent().getStringExtra("project_view_title");
+
+        //check if the value of ID and title is null, if so, exit the application and output error message
+        if(this.projectUniqueID.isEmpty() || this.projectTitle.isEmpty())
+        {
+            finish();
+            Log.e("Unexpected Error", "Project Title or ID is NULL");
+            System.exit(0);
+        }
+
         setTitle(this.projectTitle);
 
         Bundle bundle = new Bundle();
-        bundle.putString("title", projectTitle);
-        bundle.putString("id", projectUniqueID);
+        bundle.putString("title", this.projectTitle);
+        bundle.putString("id", this.projectUniqueID);
         mainView.setArguments(bundle);
 
         projectViewFragmentAdapter = new projectView_fragmentPagerAdapter(getSupportFragmentManager());
@@ -84,8 +109,19 @@ public class GUI_project_view extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setOnTabSelectedListener(tabSelectedListener);
 
+        //this disables the back button at the upper left screen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
+    private void launchNote()
+    {
+        Intent intent = new Intent(this, GUI_note.class);
+        intent.putExtra("title", projectTitle);
+        intent.putExtra("id", projectUniqueID);
+        startActivity(intent);
+    }
+
+    //SETUP VIEW PAGER FOR TAB
     private void setupViewPager(ViewPager viewPager)
     {
         projectViewFragmentAdapter.addFragment(mainView, "Main View");

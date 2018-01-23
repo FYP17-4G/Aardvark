@@ -5,12 +5,12 @@ package com.example.ekanugrahapratama.aardvark_project;
  * Use this class to identify which item being selected and to access relevant data
  */
 
-public class frontPageIdentifier
+public class FrontPageIdentifier
 {
     private String ID;
     private String title;
 
-    public frontPageIdentifier(String ID, String title)
+    public FrontPageIdentifier(String ID, String title)
         {
         this.ID = ID;
         this.title = title;
