@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.ekanugrahapratama.aardvark_project.Main2Activity">
+    tools:context="com.example.FYP.aardvark_project.Main2Activity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar_projectView"

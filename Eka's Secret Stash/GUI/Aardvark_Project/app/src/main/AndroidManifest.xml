@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ekanugrahapratama.aardvark_project">
+    package="com.example.FYP.aardvark_project">
 
     <application
         android:allowBackup="true"
@@ -10,19 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.ekanugrahapratama.aardvark_project.GUI_MainActivity"
+            android:name="com.example.FYP.aardvark_project.GUI_MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.ekanugrahapratama.aardvark_project.GUI_project_view"
+            android:name="com.example.FYP.aardvark_project.GUI_project_view"
             android:label="@string/projectView_name"
-            android:parentActivityName="com.example.ekanugrahapratama.aardvark_project.GUI_MainActivity">
+            android:parentActivityName="com.example.FYP.aardvark_project.GUI_MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ekanugrahapratama.aardvark_project.GUI_MainActivity" />
+                android:value="com.example.FYP.aardvark_project.GUI_MainActivity" />
         </activity>
         <activity
-            android:name="com.example.ekanugrahapratama.aardvark_project.GUI_Splash_FullScreen"
+            android:name="com.example.FYP.aardvark_project.GUI_Splash_FullScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -32,16 +32,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.ekanugrahapratama.aardvark_project.GUI_Enc_Dec" />
+        <activity android:name="com.example.FYP.aardvark_project.GUI_Enc_Dec" />
         <activity
-            android:name="com.example.ekanugrahapratama.aardvark_project.GUI_aboutUs"
+            android:name="com.example.FYP.aardvark_project.GUI_aboutUs"
             android:label="@string/title_activity_gui_about_us"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.example.ekanugrahapratama.aardvark_project.GUI_fragment_graph"
+            android:name="com.example.FYP.aardvark_project.GUI_fragment_graph"
             android:label="Frequency Analysis"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.example.ekanugrahapratama.aardvark_project.GUI_note"></activity>
+        <activity android:name="com.example.FYP.aardvark_project.GUI_note"></activity>
     </application>
 
 </manifest>
