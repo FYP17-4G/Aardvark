@@ -57,6 +57,8 @@ public class GUI_MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         newProjectView = getLayoutInflater().inflate(R.layout.pop_new_project, null);
 
+        setTitle("PROJECT MANAGER"); //change the title in the action bar
+
         //clear shared preferenes
         SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -179,16 +181,20 @@ public class GUI_MainActivity extends AppCompatActivity
     }
 
     /**CALL THIS FUNCTION DURING STARTUP AND WHEN THERE IS ANY UPDATE TO THE DATABASE TABLE*/
-    private void getListFromDB()
+    protected void getListFromDB()
     {
         projectTitle = database.getAllTitle();
         if(!projectTitle.isEmpty())
         {
+            findViewById(R.id.text_view_empty).setVisibility(View.GONE);
+
             adapter = new GUI_adaptr(projectTitle);
 
             if(adapter.getItemCount() > 0)
                 list.setAdapter(adapter);
         }
+        else if(projectTitle.isEmpty())
+            findViewById(R.id.text_view_empty).setVisibility(View.VISIBLE);
     }
 
     private void launchFrontPageActivity()
@@ -221,6 +227,9 @@ public class GUI_MainActivity extends AppCompatActivity
            //SETUP NEWP ROJECT POPUP ELEMENT HERE
            EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
            EditText cipherTextInput = newProjectView.findViewById(R.id.editText_cipherInputField);
+
+           newProjectTitle.setText("");
+           cipherTextInput.setText("");
 
            Button getFromFile = newProjectView.findViewById(R.id.button_getCipherTextFromFile);
            getFromFile.setOnClickListener(new View.OnClickListener() {
@@ -263,9 +272,8 @@ public class GUI_MainActivity extends AppCompatActivity
             });
         }
 
-    /**THIS FUNCTION WILL BE USED IN ADAPTER*/
-    //TODO() FIND A WAY For createNewProject(String title, String cText) to be private, but still accessible from Adapter.java
-    public void createNewProject(String ID, String title, String cText)
+    /**THIS FUNCTION WILL BE USED IN "GUI_adaptr.java"*/
+    protected void createNewProject(String ID, String title, String cText)
     {
         //SETUP NEWP ROJECT POPUP ELEMENT HERE
         EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
@@ -304,7 +312,8 @@ public class GUI_MainActivity extends AppCompatActivity
                     //framework.saveAsTxt(filename , cipherText, false);
 
                     //database.addData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
-                    database.updateData(ID, projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
+                    database.updateData(ID, title, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
+                    database.updateData(ID, title, "PROJECT_TITLE", projectTitle);
                     //getListFromDB();
 
                     getListFromDB();

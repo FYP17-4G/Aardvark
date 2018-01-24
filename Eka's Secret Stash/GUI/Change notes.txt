@@ -101,8 +101,10 @@
 - Integrated SQLite into the program
 	- SQLite is now fully functional on current version of the app
 
-<23 January 2018>
-
+<24 January 2018>
+- Redesigned the UI (changed the project list container to a card)
+- Redesigned colour scheme (Dominant white, shades of grey, with navy blue accent)
+- Added options for the user to edit the project, and delete the project under the same menu
 
 /*NEXT UP: 
 > Create edit project cipher text function
@@ -110,8 +112,4 @@
 > non AS: Cross check the diagrams
 
 > Add read from file function for encryption and decryption feature
-
-#####
-What to do for GUI:
-- Change main view content to card menu (Preview on top half, bottom left = title, bottom right = triple dots => delete, edit)
 */

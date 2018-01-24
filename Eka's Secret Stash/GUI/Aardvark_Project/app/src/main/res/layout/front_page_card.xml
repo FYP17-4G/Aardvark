@@ -1,56 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hardwareAccelerated="true"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card"
-        android:layout_width="match_parent"
-        android:layout_height="144dp"
-        app:cardBackgroundColor="@android:color/darker_gray"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp">
+        android:layout_width="0dp"
+        android:layout_height="226dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </GridLayout>
 
         <LinearLayout
+            android:id="@+id/card_top_half"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="107dp">
+                android:layout_height="163dp">
 
                 <TextView
                     android:id="@+id/card_preview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="PREVIEW" />
+                    android:padding="16dp"
+                    android:text="PREVIEW"
+                    android:textColor="@color/cardview_dark_background" />
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/card_bottom_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_overlay"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/card_title"
-                    android:layout_width="305dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="TITLE" />
-
-                <ImageButton
-                    android:id="@+id/card_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="643dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_menu_manage" />
+                    android:padding="16dp"
+                    android:text="TITLE"
+                    android:textAppearance="@android:style/TextAppearance.Material.Large"
+                    android:textSize="18sp" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/card_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/card_button_inner"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="0dp"
+                        android:layout_height="27dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:background="@mipmap/ic_more_vert_black_24dp"
+                        android:paddingRight="8dp"
+                        android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
+                        android:textSize="8sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+
             </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

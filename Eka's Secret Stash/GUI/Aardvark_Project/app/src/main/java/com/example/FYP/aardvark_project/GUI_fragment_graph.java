@@ -29,6 +29,7 @@ public class GUI_fragment_graph extends AppCompatActivity
     private final int DATA_LIMIT = 20;
     private final int MAX_PERIOD = 20;
     private final int MAX_Y_AXIS = 60;
+    private final int SEQUENCE_LENGTH = 3; //this number is only for a test
 
     //Graph variables KEEP THIS HERE
     private String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
@@ -60,7 +61,6 @@ public class GUI_fragment_graph extends AppCompatActivity
      * Make sure 'sequenceLength' variable is no longer than the cipher text length;
      * 'sequenceLength' should be determinable by the user
      * */
-    private final int sequenceLength = 3; //this number is only for a test
     private Analysis frequencyAnalysis;
 
     private TextView frequencyAnalysisTextView;
@@ -271,7 +271,7 @@ public class GUI_fragment_graph extends AppCompatActivity
 
     private void calculateLetterFrequency()
     {
-        frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(cipherText, sequenceLength);
+        frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(cipherText, SEQUENCE_LENGTH);
 
         frequencyAnalysisTextView = (TextView) findViewById(R.id.frequencyDetailsTextView);
 

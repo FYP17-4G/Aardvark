@@ -4,7 +4,4 @@
     <item
         android:id="@+id/menu_item_note"
         android:title="Notes" />
-    <item
-        android:id="@+id/menu_item_change_cText"
-        android:title="!!!Change cipher text" />
 </menu>

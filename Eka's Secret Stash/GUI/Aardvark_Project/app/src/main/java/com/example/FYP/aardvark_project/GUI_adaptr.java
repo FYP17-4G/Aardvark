@@ -1,6 +1,8 @@
 package com.example.FYP.aardvark_project;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 
@@ -85,9 +87,10 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
     class viewHolder extends RecyclerView.ViewHolder
         {
             TextView itemPreview;
-            TextView itemContent; //this displays the project title, TextView is an xml element
+            TextView itemTitle; //this displays the project title, TextView is an xml element
             FrameLayout itemContentFrame;
-            ImageButton projectEditButton;
+            ConstraintLayout projectEditButton;
+            Button projectEditButtonInner;
             CardView cardView;
 
             private String id;
@@ -99,37 +102,56 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
             //this way we can start a new activity which is connected to the caller via the Manifest
             Context context;
 
-
             //@constructor
             public viewHolder(View itemView)
                 {
                     super(itemView);
                     itemPreview = (TextView)itemView.findViewById(R.id.card_preview);
-                    itemContent = (TextView)itemView.findViewById(R.id.card_title); //the ID of the element can be found in front_page_card
+                    itemTitle = (TextView)itemView.findViewById(R.id.card_title); //the ID of the element can be found in front_page_card
                     itemContentFrame = (FrameLayout)itemView.findViewById(R.id.card);
-                    projectEditButton = (ImageButton)itemView.findViewById(R.id.card_button);
+                    projectEditButton = (ConstraintLayout) itemView.findViewById(R.id.card_button);
+                    projectEditButtonInner = itemView.findViewById(R.id.card_button_inner);
 
                     context = itemView.getContext();
 
                     itemContentFrame.setOnTouchListener(adapterTouchListener);
                     projectEditButton.setOnClickListener(editButtonListener);
-
-                    LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-                    //itemContentFrame.setBackgroundColor(Color.YELLOW);
-                    //itemPreview.setBackgroundColor(Color.BLUE);
+                    projectEditButtonInner.setOnClickListener(editButtonListener);
                 }
 
             //this function will be called by member of interface onBindViewHolder from recycler extension
             void bind(int idx)
                 {
-                    itemContent.setText(projectTitle.get(idx).getTitle());
-
                     //these 2 lines will assign unique ID and title taken from list.txt to individual view holder
                     this.id = projectTitle.get(idx).getID();
                     this.title = projectTitle.get(idx).getTitle();
                     this.idx = idx;
+
+                    itemPreview.setText(processStringForPreview(new DatabaseFramework(context).getCipherText(id, title))); //gets the cipher text directly from the database
+                    itemTitle.setText("  " + projectTitle.get(idx).getTitle());
                 }
+
+            private String processStringForPreview(String s)
+            {
+                boolean MORE = true;
+                int PREVIEW_LENGTH = 300;
+
+                if(s.length() < PREVIEW_LENGTH)
+                {
+                    PREVIEW_LENGTH = s.length();
+                    MORE = false;
+                }
+
+                String temp = new String();
+
+                for(int i = 0; i < PREVIEW_LENGTH; i++)
+                    temp += s.charAt(i);
+
+                if(MORE)
+                    temp += "......";
+
+                return temp;
+            }
 
             private final View.OnClickListener editButtonListener = new View.OnClickListener()
             {
@@ -146,15 +168,25 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 LayoutInflater layoutInflater = LayoutInflater.from(context);
                 View view = layoutInflater.inflate(R.layout.pop_menu_edit_project, null);
 
+                final AlertDialog alertDialog = framework.popup_custom(title, view);
+
                 Button editButton = view.findViewById(R.id.button_edit);
                 Button deleteButton = view.findViewById(R.id.button_delete);
 
                 editButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        /**
+                         * EDIT function reuses the layout for creating a new project,
+                         * */
+
                         GUI_MainActivity mainActivity = (GUI_MainActivity)context;
                         String cipherText = database.getCipherText(id, title);
                         mainActivity.createNewProject(id, title, cipherText);
+
+                        alertDialog.cancel();
+                        notifyDataSetChanged();
                     }
                 });
 
@@ -166,49 +198,24 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                             public void onClick(DialogInterface dialogInterface, int i)
                             {
                                 deleteProject();
+
+                                alertDialog.cancel();
+                                notifyDataSetChanged();
                             }
                         });
                     }
                 });
-
-                framework.popup_custom(title, view);
-
+                alertDialog.show();
             }
 
             private void deleteProject()
             {
-                //delete the associated item from list.txt
-                /*String projectDirectoryFileName = "projectDirectory.txt";
-
-                try
-                {
-                    FileOutputStream fos = context.openFileOutput(projectDirectoryFileName, Context.MODE_PRIVATE);
-                    BufferedWriter output = new BufferedWriter(new OutputStreamWriter(fos));
-
-                    for(int i = 0; i < projectTitle.size(); i++)
-                    {
-                        String tempID = projectTitle.get(i).getID();
-                        String tempTitle = projectTitle.get(i).getTitle();
-
-                        String tmp = tempID + "||" + tempTitle;
-                        if(tmp.equals(id + "||" + title))
-                        {
-                            projectTitle.remove(i);
-
-                            //TODO(1) ONCE THE DATABASE IS UP, DELETE THE ASSOCIATED DATA OF THIS ITEM
-                            //<...>
-                        }
-                        else
-                        {
-                            output.write(tempID + "||" + tempTitle + "\n");
-                        }
-                    }
-
-                    output.close();
-                }catch(IOException e)
-                {}*/
                 database.deleteEntry(id, title);
                 projectTitle = database.getAllTitle();
+
+                GUI_MainActivity mainActivity = (GUI_MainActivity)context;
+                mainActivity.getListFromDB();
+
                 notifyDataSetChanged(); //refreshes recycler contents;
             }
 
@@ -220,21 +227,6 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 
                 return false;
             }
-
-            boolean longpressed = false;
-
-            final GestureDetector adapterLongClickListener = new GestureDetector(new GestureDetector.SimpleOnGestureListener()
-            {
-                public void onLongPress(MotionEvent e)
-                {
-                    longpressed = true;
-                    renameProject();
-                    writeToList();
-
-                    //refresh the adapter
-                    GUI_adaptr.super.notifyDataSetChanged();
-                }
-            });
 
             //TODO(renameProject()) DELETE ASSOCIATED TEXT FILES AS WELL
             /**A hash value is created upon creating new project, so then it will be id||title||hash
@@ -312,25 +304,30 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 @Override
                 public boolean onTouch(View view, MotionEvent event)
                 {
-                    if(event.getAction() == MotionEvent.ACTION_DOWN)//meaning area is pressed
+                    /*if(event.getAction() == MotionEvent.ACTION_DOWN)//meaning area is pressed
                         {
-                            longpressed = false;
-                            adapterLongClickListener.onTouchEvent(event);
                             // Do Stuff
                             //use componentID and component Title as composite later to identify relevant data
 
-                            view.setBackgroundColor(Color.GRAY);
+                            //view.setBackgroundColor(Color.GRAY);
                         }
-                    else if(event.getAction() == MotionEvent.ACTION_UP && !longpressed)
+                    else if(event.getAction() == MotionEvent.ACTION_UP)
                         {
-                            view.setBackgroundColor(Color.GRAY);
+                            //view.setBackgroundColor(Color.GRAY);
 
                             launchProjectView();
                         }
                     else
                         {
-                            view.setBackgroundColor(Color.GRAY);
-                        }
+                            //view.setBackgroundColor(Color.GRAY);
+                        }*/
+
+                if(event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    //view.setBackgroundColor(Color.GRAY);
+
+                    launchProjectView();
+                }
 
                 return true;
                 }

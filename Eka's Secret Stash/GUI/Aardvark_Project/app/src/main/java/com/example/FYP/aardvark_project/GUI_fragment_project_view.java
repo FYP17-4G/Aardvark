@@ -10,6 +10,7 @@ import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
@@ -175,7 +176,10 @@ public class GUI_fragment_project_view extends Fragment {
                 //DO TRANSITION
                 Intent intent = new Intent(fragmentActivity, GUI_fragment_graph.class);
                 intent.putExtra("cipherText", cipherText);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, cipherTextView, ViewCompat.getTransitionName(cipherTextView));
+
+                FrameLayout targetFrame = getLayoutInflater().inflate(R.layout.pop_graph, null).findViewById(R.id.scrollable_cipher_layout);
+
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, targetFrame, ViewCompat.getTransitionName(targetFrame));
                 startActivity(intent, options.toBundle());
             }
         });
@@ -307,7 +311,7 @@ public class GUI_fragment_project_view extends Fragment {
             public void onClick(View view) {
 
                 beforeShift = cipherText;
-                framework.popup_custom("Caesar Shift", shiftView);
+                framework.popup_custom("Caesar Shift", shiftView).show();
             }
         });
 
@@ -439,7 +443,7 @@ public class GUI_fragment_project_view extends Fragment {
         substitutionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                framework.popup_custom("Substitution", substitutionView);
+                framework.popup_custom("Substitution", substitutionView).show();
             }
         });
 

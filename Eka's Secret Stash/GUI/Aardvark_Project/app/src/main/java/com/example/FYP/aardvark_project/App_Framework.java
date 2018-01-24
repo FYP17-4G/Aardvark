@@ -51,7 +51,7 @@ public class App_Framework
     }
 
     //plain custom pop up container
-    public void popup_custom(String title, View view)
+    public AlertDialog popup_custom(String title, View view)
     {
 
         if(view.getParent() != null)
@@ -61,7 +61,11 @@ public class App_Framework
 
         popUpWindow = new AlertDialog.Builder(context);
         popUpWindow.setView(view);
-        popUpWindow.show();
+        //popUpWindow.show();
+
+        AlertDialog alertDialog = popUpWindow.create();
+
+        return alertDialog;
     }
 
     //custom popup with defined positive and negative button behaviour
