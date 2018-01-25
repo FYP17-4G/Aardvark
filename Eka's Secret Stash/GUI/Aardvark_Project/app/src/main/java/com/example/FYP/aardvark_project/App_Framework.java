@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -36,18 +38,46 @@ public class App_Framework
     private Context context;
 
     //Pop up window related variables
+    private AlertDialog alertDialog;
     private AlertDialog.Builder popUpWindow;
     private TextView popup_textView;
 
     //pop up view object variables
     private EditText popup_inputText;
-    private RecyclerView.Adapter adapter;
 
     private String popUpNumberInput = new String();
 
     public App_Framework(Context context)
     {
         this.context = context;
+    }
+
+    //popup specifically for main activity use, when long pressed a card, this function will display the preview of the cipher text
+    public void popup_cipher_preview(String cipherText)
+    {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.pop_cipher_preview, null);
+        TextView previewCipherText = view.findViewById(R.id.previewCText);
+        previewCipherText.setText(cipherText);
+
+        popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setView(view);
+        alertDialog = popUpWindow.create();
+        alertDialog.show();
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if(event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    //cancel alert dialog on press release
+                    alertDialog.cancel();
+                }
+
+                return true;
+            }
+        });
     }
 
     //plain custom pop up container
@@ -60,10 +90,10 @@ public class App_Framework
         }
 
         popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setTitle(title);
         popUpWindow.setView(view);
-        //popUpWindow.show();
 
-        AlertDialog alertDialog = popUpWindow.create();
+        alertDialog = popUpWindow.create();
 
         return alertDialog;
     }
@@ -78,6 +108,7 @@ public class App_Framework
         }
 
         popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setTitle(title);
         popUpWindow.setView(view);
 
         popUpWindow.setPositiveButton(positiveText, clickListener);
@@ -102,6 +133,7 @@ public class App_Framework
         }
 
         popUpWindow = new AlertDialog.Builder(context);
+        popUpWindow.setTitle(title);
         popUpWindow.setView(view);
 
         popUpWindow.setPositiveButton("OK", clickListener);

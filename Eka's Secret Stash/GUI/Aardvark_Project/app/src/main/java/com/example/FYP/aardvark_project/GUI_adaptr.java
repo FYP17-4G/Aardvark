@@ -41,13 +41,14 @@ import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 
 public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 {
-    ArrayList<FrontPageIdentifier> projectTitle;
-    private String projectDirectoryFileName = "projectDirectory.txt";
+    private ArrayList<FrontPageIdentifier> projectTitle;
 
-    Context context;
+    private Context context;
 
-    App_Framework framework;
-    DatabaseFramework database;
+    private App_Framework framework;
+    private DatabaseFramework database;
+
+
 
     public GUI_adaptr(ArrayList<FrontPageIdentifier> n)
         {
@@ -83,18 +84,25 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
             return projectTitle.size();
         }
 
+    public void filterList(ArrayList<FrontPageIdentifier> filteredList)
+    {
+        projectTitle = filteredList;
+        notifyDataSetChanged();
+    }
+
     /**THIS IS INDIVIDUAL ITEM INSIDE THE ADAPTER*/
     class viewHolder extends RecyclerView.ViewHolder
         {
-            TextView itemPreview;
-            TextView itemTitle; //this displays the project title, TextView is an xml element
-            FrameLayout itemContentFrame;
-            ConstraintLayout projectEditButton;
-            Button projectEditButtonInner;
-            CardView cardView;
+            private TextView itemPreview;
+            private TextView itemTitle; //this displays the project title, TextView is an xml element
+            private FrameLayout itemContentFrame;
+            private ConstraintLayout projectEditButton;
+            private Button projectEditButtonInner;
+            private CardView cardView;
 
             private String id;
             private String title;
+            private String previewCText;
 
             private int idx; //entry index in the recycler component
 
@@ -126,8 +134,9 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                     this.id = projectTitle.get(idx).getID();
                     this.title = projectTitle.get(idx).getTitle();
                     this.idx = idx;
+                    this.previewCText = new DatabaseFramework(context).getCipherText(id, title);
 
-                    itemPreview.setText(processStringForPreview(new DatabaseFramework(context).getCipherText(id, title))); //gets the cipher text directly from the database
+                    itemPreview.setText(processStringForPreview(previewCText)); //gets the cipher text directly from the database
                     itemTitle.setText("  " + projectTitle.get(idx).getTitle());
                 }
 
@@ -251,25 +260,6 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 
                         else
                         {
-                            //find the old project name, replace with the new one
-                            /*for(int x = 0; x < projectTitle.size(); x++)
-                                if(projectTitle.get(x).getTitle().equals(title))
-                                    {
-                                        projectTitle.get(x).setTitle(newProjectName);
-                                        itemContent.setText(projectTitle.get(x).getTitle());
-                                        break;
-                                    }*/
-
-                            //TODO() RENAME RELATED TEXT FILES HERE
-                            /*String oldName = id+title+"cipherTextOriginal.txt";
-                            String newName = id+newProjectName+"cipherTextOriginal.txt";
-                            framework.renameTextFile(oldName, newName);
-
-                            oldName = id+title+"notes.txt";
-                            newName = id+newProjectName+"notes.txt";
-                            framework.renameTextFile(oldName, newName);
-
-                            title = newProjectName;*/
                             database.updateData(id, title, "PROJECT_TITLE", newProjectName);
                             projectTitle = database.getAllTitle();
                             notifyDataSetChanged();
@@ -278,56 +268,30 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 });
             }
 
-            /**This will store the data to a text file that contains information to display the list of existing projects*/
-            /**!!THIS FUNCTION IS DIFFERENT FROM THE ONE IN MAIN ACTIVITY*/
-            //FILE STORAGE WILL BE HANDLED INTERNALLY BY ANDROID
-            private void writeToList()
+            boolean longpressed = false;
+            final GestureDetector adapterLongClickListener = new GestureDetector(new GestureDetector.SimpleOnGestureListener()
             {
-                //overwrite list.txt
-                BufferedWriter outputFile;
-
-                try
+                public void onLongPress(MotionEvent e)
                 {
-                    FileOutputStream fos = context.openFileOutput(projectDirectoryFileName, context.MODE_PRIVATE);
-                    outputFile = new BufferedWriter(new OutputStreamWriter(fos));
-
-                    for(int i = 0; i < projectTitle.size(); i++)
-                        outputFile.write(projectTitle.get(i).getID() + "||" + projectTitle.get(i).getTitle()+"\n");
-
-                    outputFile.close();
-                }catch(IOException e)
-                {}
-            }
+                    longpressed = true;
+                    framework.popup_cipher_preview(previewCText);
+                }
+            });
 
             private final View.OnTouchListener adapterTouchListener = new View.OnTouchListener()
             {
                 @Override
                 public boolean onTouch(View view, MotionEvent event)
                 {
-                    /*if(event.getAction() == MotionEvent.ACTION_DOWN)//meaning area is pressed
+                    if(event.getAction() == MotionEvent.ACTION_DOWN)//meaning area is pressed
                         {
-                            // Do Stuff
-                            //use componentID and component Title as composite later to identify relevant data
-
-                            //view.setBackgroundColor(Color.GRAY);
+                            longpressed = false;
+                            adapterLongClickListener.onTouchEvent(event);
                         }
-                    else if(event.getAction() == MotionEvent.ACTION_UP)
+                    else if(event.getAction() == MotionEvent.ACTION_UP && !longpressed)
                         {
-                            //view.setBackgroundColor(Color.GRAY);
-
                             launchProjectView();
                         }
-                    else
-                        {
-                            //view.setBackgroundColor(Color.GRAY);
-                        }*/
-
-                if(event.getAction() == MotionEvent.ACTION_UP)
-                {
-                    //view.setBackgroundColor(Color.GRAY);
-
-                    launchProjectView();
-                }
 
                 return true;
                 }

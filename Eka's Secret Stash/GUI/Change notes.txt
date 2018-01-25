@@ -106,6 +106,12 @@
 - Redesigned colour scheme (Dominant white, shades of grey, with navy blue accent)
 - Added options for the user to edit the project, and delete the project under the same menu
 
+<25 January 2018>
+#Bug report: Long press sensitivity is too sensitive, find a workaround for this (@ GUI_adaptr.java)
+
+- Search bar added
+- Long pressing on the card will show cipher text preview pop up
+
 /*NEXT UP: 
 > Create edit project cipher text function
 > Allow user to determine the common word occurrences length

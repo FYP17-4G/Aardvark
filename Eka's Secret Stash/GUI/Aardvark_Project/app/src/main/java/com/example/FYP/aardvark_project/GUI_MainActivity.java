@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +17,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,11 +54,15 @@ public class GUI_MainActivity extends AppCompatActivity
     private View newProjectView;
     private String cipherTextFromFile = new String(); //for use when the user enters a file as cipher text input
 
+
+    private EditText searchBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         newProjectView = getLayoutInflater().inflate(R.layout.pop_new_project, null);
 
         setTitle("PROJECT MANAGER"); //change the title in the action bar
@@ -122,6 +130,52 @@ public class GUI_MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //set up the search bar
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.setHint("Search");
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //make changes here
+                filter(editable.toString());
+            }
+        });
+    }
+
+    private void filter(String input)
+    {
+        //if the search bar is empty, pass in the complete list
+        if(input.isEmpty())
+        {
+            getListFromDB();
+            adapter.filterList(projectTitle);
+        }
+        //else, if the search bar contains something, filter the list
+        else
+        {
+            ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
+
+            for(FrontPageIdentifier item: projectTitle)
+            {
+                if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
+                {
+                    filteredTitle.add(item);
+                }
+            }
+
+            adapter.filterList(filteredTitle);
+        }
     }
 
     @Override
@@ -150,9 +204,9 @@ public class GUI_MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

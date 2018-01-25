@@ -54,8 +54,7 @@ public class GUI_fragment_project_view_permutation extends Fragment
 
         permuteString = new PermuteString();
 
-        cipherTextView = (TextView) view.findViewById(R.id.permutation_cipherTextView);
-        cipherTextView.setTextColor(Color.BLACK);
+        cipherTextView = view.findViewById(R.id.perm_cTextView);
 
         /**Build the view here*/
         spaceIndicator = (TextView) view.findViewById(R.id.seekBar_space_indicator);

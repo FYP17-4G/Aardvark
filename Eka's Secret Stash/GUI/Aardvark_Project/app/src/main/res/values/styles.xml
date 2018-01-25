@@ -3,14 +3,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/primaryTextColor</item>
+        <item name="colorPrimaryDark">@color/primaryTextColor</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/primaryTextColor</item>
         <item name="android:navigationBarColor">@color/cardview_light_background</item>
         <item name="android:colorBackground">@color/cardview_light_background</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textColorPrimary">?attr/actionModeSplitBackground</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

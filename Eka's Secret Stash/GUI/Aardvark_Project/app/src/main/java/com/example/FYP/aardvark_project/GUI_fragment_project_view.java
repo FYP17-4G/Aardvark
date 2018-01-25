@@ -99,7 +99,6 @@ public class GUI_fragment_project_view extends Fragment {
 
         /**SET UP THE CIPHER TEXT VIEW AREA*/
         cipherTextView = (TextView) view.findViewById(R.id.project_view_cipher_text);
-        cipherTextView.setTextColor(Color.BLACK);
 
         getCipherTextFromDB();
 
