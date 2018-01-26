@@ -31,7 +31,7 @@
       <w>180</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>MainActivity</panel_attributes>
+    <panel_attributes>GUI_MainActivity</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -121,7 +121,7 @@
       <w>180</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>ProjectView</panel_attributes>
+    <panel_attributes>GUI_project_view</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

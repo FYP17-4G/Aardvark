@@ -86,7 +86,7 @@
       <w>150</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>1.3. Rename Project</panel_attributes>
+    <panel_attributes>1.3. Edit Project</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -128,10 +128,10 @@
       <x>530</x>
       <y>50</y>
       <w>30</w>
-      <h>320</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -303,34 +303,11 @@ Frequency Graph</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>560</x>
-      <y>220</y>
-      <w>150</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>1.4. Change Project
-Data</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>530</x>
-      <y>220</y>
-      <w>50</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>30.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>560</x>
-      <y>280</y>
+      <y>210</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>1.5. Undo 
+    <panel_attributes>1.4. Undo 
 Modifications</panel_attributes>
     <additional_attributes/>
   </element>
@@ -338,11 +315,11 @@ Modifications</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>560</x>
-      <y>330</y>
+      <y>260</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>1.6. Reset 
+    <panel_attributes>1.5. Reset 
 Modifications</panel_attributes>
     <additional_attributes/>
   </element>
@@ -350,7 +327,7 @@ Modifications</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>530</x>
-      <y>330</y>
+      <y>260</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
@@ -361,7 +338,7 @@ Modifications</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>530</x>
-      <y>280</y>
+      <y>210</y>
       <w>50</w>
       <h>40</h>
     </coordinates>
