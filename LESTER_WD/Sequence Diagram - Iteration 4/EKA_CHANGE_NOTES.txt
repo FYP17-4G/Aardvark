@@ -1,0 +1,73 @@
+DIAGRAM CHANGE NOTES
+
+** BEFORE -> AFTER
+
+[1.1 CreateProject]
+- CreateProject() -> CreateNewProject()
+- "Select File From Directory" -> OpenFileBrowser()
+- ReadFromFile() -> "User clicks read from file button"
+- Submit() -> "User presses submit button"
+- AddToDatabase() -> addNewComposite(ID: int, Title: String)
+- [ADDED] new Intent(ACTION_OPEN_DOCUMENT)
+- [ADDED] UpdateData(ID: int, Title: String, column: String, data: String)
+- [ADDED] "View Adapter" class
+- [ADDED] notifyDataSetChanged() function
+- [ADDED] "User types in the cipher text manually" scenario
+- [DELETED] The entire paste from clipboard scenario
+
+[1.2 DeleteProject]
+- removeFromDatabase() -> deleteEntry()
+- [ADDED] "View Adapter" class
+- showProjectView() -> notifyDataSetChanged()
+
+[1.3 RenameProject]
+- updateDatabase() -> updateData(ID: int, title: String, column: String, data: String)
+- [ADDED] "View Adapter" class
+- showProjectView() -> notifyDataSetChanged()
+
+[1.4 ChangeProjectData]
+**TBA**
+
+[1.5 UndoModifications]
+- [DELETED]showProjectView()
+- [ADDED] 2 new scenarios
+- [ADDED] PrintErrorMessage() function
+
+[2.1 ShiftCipher]
+- "Select file from directory" -> new Intent(ACTION_OPEN_DOCUMENT)
+- showEncDecView() -> new Intent(MainView, Encrypt_Decrypt_View)
+- "Paste from clipboard" -> clipboard.getPrimaryClip()
+- showProjectView() -> doShiftLeft() & doShiftRight()
+
+[2.2 AdditiveVignereCipher]
+- "Select file from directory" -> new Intent(ACTION_OPEN_DOCUMENT)
+- showEncDecView() -> new Intent(MainView, Encrypt_Decrypt_View)
+- "Paste from clipboard" -> clipboard.getPrimaryClip()
+
+[2.3 SubtractiveVigenereCipher]
+- "Select file from directory" -> new Intent(ACTION_OPEN_DOCUMENT)
+- showEncDecView() -> new Intent(MainView, Encrypt_Decrypt_View)
+- "Paste from clipboard" -> clipboard.getPrimaryClip()
+
+[2.4 KeySubstractionVigenereCipher]
+- "Select file from directory" -> new Intent(ACTION_OPEN_DOCUMENT)
+- showEncDecView() -> new Intent(MainView, Encrypt_Decrypt_View)
+- "Paste from clipboard" -> clipboard.getPrimaryClip()
+
+[2.5 ColumnarRectangularTranspositionCipher]
+- "Select file from directory" -> new Intent(ACTION_OPEN_DOCUMENT)
+- showEncDecView() -> new Intent(MainView, Encrypt_Decrypt_View)
+- "Paste from clipboard" -> clipboard.getPrimaryClip()
+
+[2.6 ColumnarTranspositionCipher]
+- "Select file from directory" -> new Intent(ACTION_OPEN_DOCUMENT)
+- showEncDecView() -> new Intent(MainView, Encrypt_Decrypt_View)
+- "Paste from clipboard" -> clipboard.getPrimaryClip()
+
+[2.7 RectangularKeySubstitutionCipher]
+- "Select file from directory" -> new Intent(ACTION_OPEN_DOCUMENT)
+- showEncDecView() -> new Intent(MainView, Encrypt_Decrypt_View)
+- "Paste from clipboard" -> clipboard.getPrimaryClip()
+
+[2.8 CalculateIC]
+**TBA**
