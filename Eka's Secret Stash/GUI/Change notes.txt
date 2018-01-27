@@ -99,40 +99,43 @@
 + Fixed Data lost when renaming project bug (reported @ 14 January 2018)
 
 <19 January 2018>
-- Added 'note' function
-- Some UI element redesigning
-- Fixed a bug (Missing cipher text and project title when reopening the application and continue where the user left off; reported @ 16 January 2018)
-- Fixed NumberFormatException error during IC calculation (reported @ 17 January 2018)
++ Added 'note' function
++ Some UI element redesigning
++ Fixed a bug (Missing cipher text and project title when reopening the application and continue where the user left off; reported @ 16 January 2018)
++ Fixed NumberFormatException error during IC calculation (reported @ 17 January 2018)
 
 <22 January 2018>
 #Bug report: Application crashes when trying to do shift for a value > 0
 
-- User can now save the crypto project
-- Integrated SQLite into the program
++ User can now save the crypto project
++ Integrated SQLite into the program
 	- SQLite is now fully functional on current version of the app
 
 <24 January 2018>
-- Redesigned the UI (changed the project list container to a card)
-- Redesigned colour scheme (Dominant white, shades of grey, with navy blue accent)
-- Added options for the user to edit the project, and delete the project under the same menu
++ Redesigned the UI (changed the project list container to a card)
++ Redesigned colour scheme (Dominant white, shades of grey, with navy blue accent)
++ Added options for the user to edit the project, and delete the project under the same menu
 
 <25 January 2018>
 #Bug report: Long press on Card view sensitivity is too sensitive, find a workaround for this.
 
-- Search bar added
-- Long pressing on the card will show cipher text preview pop up
++ Search bar added
++ Long pressing on the card will show cipher text preview pop up
 
 <26 January 2018>
-#Bug report: Front page action bar CTD error (Action bar already supplied by window service error)
+#Bug report: 
+- Front page action bar CTD error (Action bar already supplied by window service error)
+- Vigenere encryption and decryption error in encryption/decryption activity
 
-- User can now change between light theme and dark theme (Though it works partially)
-- Some code rearrangement (to make the source code look tidier)
++ User can now change between light theme and dark theme (Though it works partially)
++ Some code rearrangement (to make the source code look tidier)
 
 <27 January 2018>
 
-- Fixed action bar CTD error bug (reported @26 January 2018)
-- The user can now click on the graph in frequency analysis activity to expand the detailed information of the graph (now with animation!)
-- Animated the search bar, so the user have to be at the top of the list to be able to see the search bar
++ Fixed action bar CTD error bug (reported @26 January 2018)
++ The user can now click on the graph in frequency analysis activity to expand the detailed information of the graph (now with animation!)
++ Animated the search bar, so the user have to be at the top of the list to be able to see the search bar
++ Fixed Vigenere encryption decryption error (reported @ 26 January 2018)
 
 /*NEXT UP: 
 > Allow user to determine the common word occurrences length
