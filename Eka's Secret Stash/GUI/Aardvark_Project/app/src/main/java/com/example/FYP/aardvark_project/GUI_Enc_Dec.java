@@ -15,12 +15,9 @@ import com.example.FYP.aardvark_project.kryptoTools.*;
 
 public class GUI_Enc_Dec extends AppCompatActivity {
 
-    App_Framework framework = new App_Framework(this);;
+    App_Framework framework;
 
     /**ENCRYPTION DECRYPTION OBJECT VARIABLES*/
-    VigenereAdditive vigenereAdditive;
-    VigenereInverse vigenereInverse;
-    VigenereSubtractive vigenereSubtractive;
     /**-------------------------------------*/
 
     //cipher text view
@@ -56,6 +53,8 @@ public class GUI_Enc_Dec extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        framework = new App_Framework(this, true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui__enc__dec);
 
@@ -298,7 +297,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         if(clipboard.hasPrimaryClip())
         {
             inputText = clipboard.getPrimaryClip().getItemAt(0).getText().toString(); //copy whats inside primary clipboard to input text
-            inputText = inputText.toLowerCase();
+            inputText = framework.format(inputText);
             inputTextView.setText(inputText.toLowerCase());
         }
 
@@ -345,9 +344,9 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         try
         {
             if(encrypt)
-                inputText = vigenereAdditive.encrypt(framework.clean(inputText), key);
+                inputText = new VigenereAdditive().encrypt(framework.clean(inputText), key);
             else
-                inputText = vigenereAdditive.decrypt(framework.clean(inputText), key);
+                inputText = new VigenereAdditive().decrypt(framework.clean(inputText), key);
         }catch(InvalidKeyException e)
         {}
 
@@ -358,9 +357,9 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         try
         {
             if(encrypt)
-                inputText = vigenereInverse.encrypt(framework.clean(inputText), key);
+                inputText = new VigenereInverse().encrypt(framework.clean(inputText), key);
             else
-                inputText = vigenereInverse.decrypt(framework.clean(inputText), key);
+                inputText = new VigenereInverse().decrypt(framework.clean(inputText), key);
         }catch(InvalidKeyException e)
         {}
 
@@ -371,9 +370,9 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         try
         {
             if(encrypt)
-                inputText = vigenereSubtractive.encrypt(framework.clean(inputText), key);
+                inputText = new VigenereSubtractive().encrypt(framework.clean(inputText), key);
             else
-                inputText = vigenereSubtractive.decrypt(framework.clean(inputText), key);
+                inputText = new VigenereSubtractive().decrypt(framework.clean(inputText), key);
         }catch(InvalidKeyException e)
         {}
 

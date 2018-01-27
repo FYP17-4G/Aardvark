@@ -41,6 +41,8 @@ public class GUI_note extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.framework = new App_Framework(this, true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui_note);
 
@@ -52,8 +54,6 @@ public class GUI_note extends AppCompatActivity
 
     private void setup()
     {
-        this.framework = new App_Framework(this);
-
         this.title = getIntent().getStringExtra("title");
         this.id = getIntent().getStringExtra("id");
 

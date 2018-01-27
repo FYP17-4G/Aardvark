@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,13 +26,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 
-public class GUI_fragment_graph extends AppCompatActivity
+public class GUI_graph extends AppCompatActivity
 {
     //Some pseudo macro variables
     private final int DATA_LIMIT = 20;
     private final int MAX_PERIOD = 20;
     private final int MAX_Y_AXIS = 60;
     private final int SEQUENCE_LENGTH = 3; //this number is only for a test
+
+    private boolean GRAPH_FOCUSED = false;
 
     //Graph variables KEEP THIS HERE
     private String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
@@ -68,11 +73,11 @@ public class GUI_fragment_graph extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        framework= new App_Framework(this, true);
+
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.pop_graph);
-
-        framework= new App_Framework(this);
+        setContentView(R.layout.activity_graph);
 
         /**SET UP THE CIPHER TEXT VIEW AREA*/
         cipherTextView = (TextView) findViewById(R.id.textView_cipherTextView);
@@ -89,6 +94,27 @@ public class GUI_fragment_graph extends AppCompatActivity
         calculateCipherIC(MAX_PERIOD);
 
         calculateLetterFrequency();
+        focusOnGraph(false);
+
+        framework.system_message_small("Tap on the graph to display detailed information <<< DELETE LATER");
+    }
+
+    /**THIS FUNCTION HIDES AND SHOWS ELEMENTS WHEN THE USER CLICKS ON THE GRAPH*/
+    private void focusOnGraph(boolean focused)
+    {
+        FrameLayout cipherFrameLayout = findViewById(R.id.scrollable_cipher_layout);
+        LinearLayout graphDetailedInfo = findViewById(R.id.graphDetailedInfoLayout);
+
+        if(focused)
+        {
+            cipherFrameLayout.setVisibility(View.GONE);
+            graphDetailedInfo.setVisibility(View.VISIBLE);
+        }
+        else if(!focused)
+        {
+            cipherFrameLayout.setVisibility(View.VISIBLE);
+            graphDetailedInfo.setVisibility(View.GONE);
+        }
     }
 
     /**IC and FREQUENCY RELATED FUNCTIONS*/
@@ -124,6 +150,16 @@ public class GUI_fragment_graph extends AppCompatActivity
             }
         };
 
+        View.OnClickListener graphClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                /**This toggles element visibility in graph activity*/
+                GRAPH_FOCUSED = !GRAPH_FOCUSED;
+                focusOnGraph(GRAPH_FOCUSED);
+            }
+        };
+
         cipherICTV = (TextView) findViewById(R.id.cipherICTextView);
 
         //SET GRAPH VIEW, AND THE INDICATOR
@@ -137,6 +173,7 @@ public class GUI_fragment_graph extends AppCompatActivity
         graphPeriodIndicator.setText("IC of every N letters: " + graphSeekBar.getProgress());
 
         graph = (GraphView) findViewById(R.id.graph_lot);
+        graph.setOnClickListener(graphClickListener);
 
         //set up graph axis title
         //graph.getGridLabelRenderer().setVerticalAxisTitle("Frequency");

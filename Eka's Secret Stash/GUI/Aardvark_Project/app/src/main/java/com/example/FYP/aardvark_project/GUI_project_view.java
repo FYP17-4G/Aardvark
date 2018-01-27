@@ -3,9 +3,15 @@ package com.example.FYP.aardvark_project;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,29 +82,17 @@ public class GUI_project_view extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        framework = new App_Framework(this, true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_view);
 
-        framework = new App_Framework(this);
-
-        //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
-        this.projectUniqueID = getIntent().getStringExtra("project_view_unique_ID");
-        this.projectTitle = getIntent().getStringExtra("project_view_title");
-
-        //check if the value of ID and title is null, if so, exit the application and output error message
-        if(this.projectUniqueID.isEmpty() || this.projectTitle.isEmpty())
-        {
-            finish();
-            Log.e("Unexpected Error", "Project Title or ID is NULL");
-            System.exit(0);
-        }
+        getValuesFromSharedPrefs();
 
         setTitle(this.projectTitle);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("title", this.projectTitle);
-        bundle.putString("id", this.projectUniqueID);
-        mainView.setArguments(bundle);
+        setBundleForMainView();
+        //setBundleForPermutationView();
 
         projectViewFragmentAdapter = new projectView_fragmentPagerAdapter(getSupportFragmentManager());
 
@@ -110,8 +104,33 @@ public class GUI_project_view extends AppCompatActivity
         tabLayout.setOnTabSelectedListener(tabSelectedListener);
 
         //this disables the back button at the upper left screen
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
+
+
+    /**Functions for onCreate()*/
+    private void getValuesFromSharedPrefs()
+    {
+        //ACCESS THE PASSED PARAMETERS FROM GUI_adaptr.java
+        this.projectUniqueID = getIntent().getStringExtra("project_view_unique_ID");
+        this.projectTitle = getIntent().getStringExtra("project_view_title");
+
+        //check if the value of ID and title is null, if so, exit the application and output error message
+        if(this.projectUniqueID.isEmpty() || this.projectTitle.isEmpty())
+        {
+            finish();
+            Log.e("Unexpected Error", "Project Title or ID is NULL");
+            System.exit(0);
+        }
+    }
+    private void setBundleForMainView()
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", this.projectTitle);
+        bundle.putString("id", this.projectUniqueID);
+        mainView.setArguments(bundle);
+    }
+
 
     private void launchNote()
     {

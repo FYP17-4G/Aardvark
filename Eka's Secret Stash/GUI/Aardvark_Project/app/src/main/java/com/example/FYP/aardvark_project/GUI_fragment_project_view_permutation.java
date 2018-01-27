@@ -50,7 +50,7 @@ public class GUI_fragment_project_view_permutation extends Fragment
     {
         view = inflater.inflate(R.layout.fragment_project_view_permutation, container, false);
 
-        framework = new App_Framework(view.getContext());
+        framework = new App_Framework(view.getContext(), true);
 
         permuteString = new PermuteString();
 

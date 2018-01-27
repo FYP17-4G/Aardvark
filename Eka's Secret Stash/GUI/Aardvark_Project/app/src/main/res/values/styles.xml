@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- APPLICATION'S LIGHT THEME (DEFAULT) -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryTextColor</item>
@@ -13,7 +13,26 @@
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <!--APPLICATION'S DARK THEME-->
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/dark_primaryColor</item>
+        <item name="colorPrimaryDark">@color/dark_primaryDarkColor</item>
+        <item name="colorAccent">@color/dark_secondaryColor</item>
+        <item name="android:statusBarColor">@color/dark_primaryColor</item>
+        <item name="android:navigationBarColor">@color/cardview_dark_background</item>
+        <item name="android:colorBackground">@color/cardview_dark_background</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColorPrimary">@color/dark_primaryTextColor</item>
+    </style>
+
+
+    <!--===========================================================================================-->
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="DarkTheme.NoActionBar" parent="DarkTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

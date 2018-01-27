@@ -13,12 +13,17 @@
         android:layout_width="0dp"
         android:layout_height="226dp"
         android:layout_marginBottom="8dp"
+
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <GridLayout
             android:layout_width="match_parent"
@@ -54,11 +59,11 @@
 
                 <TextView
                     android:id="@+id/card_title"
-                    android:layout_width="643dp"
+                    android:layout_width="554dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="16dp"
-                    android:text="@{viewHolder.title}"
+                    android:text="TITLE"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
                     android:textSize="18sp" />
 

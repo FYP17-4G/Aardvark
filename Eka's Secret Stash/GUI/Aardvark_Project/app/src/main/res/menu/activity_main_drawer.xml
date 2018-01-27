@@ -10,7 +10,7 @@
             android:title="Front Page" />
         <item
             android:id="@+id/nav_encryption_decryption"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="?android:attr/fingerprintAuthDrawable"
             android:title="Encryption/Decryption" />
         <item
             android:id="@+id/nav_about_us"

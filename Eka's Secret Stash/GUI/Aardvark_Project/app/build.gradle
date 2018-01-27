@@ -26,7 +26,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dataBinding{
+    dataBinding {
         enabled true
     }
 }
@@ -44,6 +44,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.android.support:preference-v7:26.1.0'
     implementation files('libs/GraphView-4.2.1.jar')
     implementation 'com.android.support:cardview-v7:26.1.0'
 }

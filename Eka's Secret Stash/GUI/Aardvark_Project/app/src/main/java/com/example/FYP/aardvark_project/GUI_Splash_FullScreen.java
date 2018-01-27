@@ -19,6 +19,9 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //this function is just here to change the theme for this activity
+        new App_Framework(this, false);
+
         super.onCreate(savedInstanceState);
 
         String text = "Krypto.exeⓒ: By Dr.Susilo, University of Wollongong, This application is intended for School's Final Year Project <...more...>";

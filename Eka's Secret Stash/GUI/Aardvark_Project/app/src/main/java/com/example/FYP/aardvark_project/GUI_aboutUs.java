@@ -7,8 +7,13 @@ import android.widget.TextView;
 
 public class GUI_aboutUs extends AppCompatActivity {
 
+    App_Framework framework;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        framework = new App_Framework(this, true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui_about_us);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

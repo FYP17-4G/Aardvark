@@ -1,10 +1,14 @@
 package com.example.FYP.aardvark_project;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,10 +51,58 @@ public class App_Framework
 
     private String popUpNumberInput = new String();
 
-    public App_Framework(Context context)
+    public App_Framework(Context context, boolean overrideTheme)
     {
         this.context = context;
+
+        if(overrideTheme)
+            setTheme();
     }
+
+    /**
+     * This function reinstate the alert dialog builder and applies theme accordingly
+     * */
+    private void reinstateBuilder()
+    {
+        if(new App_Framework(context, true).setTheme()) //is dark theme
+            popUpWindow = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.DarkTheme));
+
+        else //is light theme
+            popUpWindow = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
+    }
+
+    /**
+     * This function sets the theme of the application according to the shared preferences value defined
+     * in the Settings activity
+     *
+     * Because setTheme() is called upon this object creation, this object must be called before super.OnCreate()
+     * on each activity
+     *
+     * Note: For fragment, this does not matter
+     * */
+    public boolean setTheme()
+    {
+        //if true = change to dark theme, if not, use light theme
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Boolean dark = sharedPreferences.getBoolean(Settings.DARK_THEME_SWITCH, false);
+
+        if(!dark)
+        {
+            //set context theme to light
+            context.setTheme(R.style.AppTheme);
+
+        }
+        else
+        {
+            //set context theme to dark
+            context.setTheme(R.style.DarkTheme);
+        }
+
+        return dark;
+    }
+
+    /**=========================GUI RELATED FUNCTIONS*/
 
     //popup specifically for main activity use, when long pressed a card, this function will display the preview of the cipher text
     public void popup_cipher_preview(String cipherText)
@@ -60,7 +112,8 @@ public class App_Framework
         TextView previewCipherText = view.findViewById(R.id.previewCText);
         previewCipherText.setText(cipherText);
 
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setView(view);
         alertDialog = popUpWindow.create();
         alertDialog.show();
@@ -89,7 +142,8 @@ public class App_Framework
             ((ViewGroup)view.getParent()).removeView(view);
         }
 
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setTitle(title);
         popUpWindow.setView(view);
 
@@ -107,7 +161,8 @@ public class App_Framework
             ((ViewGroup)view.getParent()).removeView(view);
         }
 
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setTitle(title);
         popUpWindow.setView(view);
 
@@ -132,7 +187,8 @@ public class App_Framework
             ((ViewGroup)view.getParent()).removeView(view);
         }
 
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setTitle(title);
         popUpWindow.setView(view);
 
@@ -152,7 +208,8 @@ public class App_Framework
     public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener, int inputLengthLimit)
     {
         //build popup dialogue
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setTitle(popup_title);
 
         //set up the input field
@@ -185,7 +242,8 @@ public class App_Framework
     public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener)
     {
         //build popup dialogue
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setTitle(popup_title);
 
         //set up the input field
@@ -214,7 +272,8 @@ public class App_Framework
     public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
     {
         //build popup dialogue
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setTitle(popup_title);
 
         //set up the input field
@@ -236,7 +295,8 @@ public class App_Framework
     {
         //by default, the pop up dialogue content is text input
         //build popup dialogue
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popUpWindow.setTitle(popup_title);
 
         //set up the input field
@@ -280,7 +340,8 @@ public class App_Framework
             }
         };
 
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popup_textView = new TextView(context);
 
         popUpWindow.setTitle(popup_title);
@@ -300,7 +361,8 @@ public class App_Framework
             }
         };
 
-        popUpWindow = new AlertDialog.Builder(context);
+        reinstateBuilder();
+
         popup_textView = new TextView(context);
 
         popUpWindow.setView(popup_textView);
@@ -311,7 +373,9 @@ public class App_Framework
     }
 
     public void system_message_confirmAction(String popup_title, String popup_message, DialogInterface.OnClickListener ols) //by default, the text message in the popup button is "OK"
-    {   popUpWindow = new AlertDialog.Builder(context);
+    {
+        reinstateBuilder();
+
         popup_textView = new TextView(context);
 
         popUpWindow.setView(popup_textView);
@@ -331,6 +395,12 @@ public class App_Framework
         popUpWindow.show();
     }
 
+
+
+
+
+
+    /**==============OTHER FRAMEWORK FUNCTIONS*/
     //This will convert given String to the same string but without whitespace
     public String stringNoWhiteSpace(String cText)
     {
@@ -345,52 +415,9 @@ public class App_Framework
     }
 
 
-    /**SAVE TO AND LOAD FROM TEXT FILE IN THE DEVICE STORAGE*/
-    public void saveAsTxt(String filename, String input, boolean append)
-    {
-        //overwrite list.txt
-        BufferedWriter outputFile;
-
-        try
-        {
-            FileOutputStream fos;
-
-            if(append)
-                fos = context.openFileOutput(filename, context.MODE_APPEND);
-            else
-                fos = context.openFileOutput(filename, context.MODE_PRIVATE);
-
-            outputFile = new BufferedWriter(new OutputStreamWriter(fos));
-            outputFile.write(input + "\n");
-            outputFile.close();
-        }catch(IOException e)
-        {}
-    }
-
-    public void saveAsTxt(String filename, List<String> input, boolean append)
-    {
-        //overwrite list.txt
-        BufferedWriter outputFile;
-
-        try
-        {
-            FileOutputStream fos;
-
-            if(append)
-                fos = context.openFileOutput(filename, context.MODE_APPEND);
-            else
-                fos = context.openFileOutput(filename, context.MODE_PRIVATE);
-
-            outputFile = new BufferedWriter(new OutputStreamWriter(fos));
-
-            for(int i = 0; i < input.size(); i++)
-                outputFile.write(input.get(i) + "\n");
-
-            outputFile.close();
-        }catch(IOException e)
-        {}
-    }
-
+    /**
+     * Read data from URI returned by the "OPEN_FILE_BROWSER" intent
+     * */
     public String readTextFromUri(Uri uri, Context context) throws IOException
     {
         InputStream inputStream = context.getContentResolver().openInputStream(uri);
@@ -402,65 +429,6 @@ public class App_Framework
 
         return stringBuilder.toString();
     }
-
-    //this gets cipher text file in storage location managed by the application
-    public String getTextFromFile(String filename)
-    {
-        String returnValue = new String();
-
-        BufferedReader inputFile;
-
-        try
-        {
-            FileInputStream fis = context.openFileInput(filename);
-
-            inputFile = new BufferedReader(new InputStreamReader(fis));
-
-            String line;
-            while((line = inputFile.readLine()) != null)
-            {
-                returnValue += line;
-            }
-        }catch(IOException e)
-        {System.out.println("[ERROR] Text file not found");}
-
-        return returnValue;
-    }
-
-    public void deleteTextFile(String filename)
-    {
-        File file = context.getFileStreamPath(filename);
-        file.delete();
-    }
-
-    /**WHEN RENAMING, IT NEEDS THE FULL PATH,
-     *
-     * OBTAIN THE FULL PATH BY file.toString();
-     * */
-    public void renameTextFile(String targetFile, String newFileName)
-    {
-        File file = context.getFileStreamPath(targetFile);
-
-        //extract the path
-        String path = file.getAbsolutePath();
-        for(int i = path.length(); i > 0; i--)
-        {
-            if(path.charAt(i - 1) == '/')
-                break;
-
-            StringBuilder sb = new StringBuilder(path);
-            sb.deleteCharAt(i - 1);
-            path = sb.toString();
-        }
-
-        newFileName = path + newFileName;
-
-        if(file.renameTo(new File(newFileName)))
-            system_message_small("Renamed");
-        else
-            system_message_small("Rename failed");
-    }
-
 
 
     /**READ AND WRITE CODE (Mark)*/

@@ -48,8 +48,6 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
     private App_Framework framework;
     private DatabaseFramework database;
 
-
-
     public GUI_adaptr(ArrayList<FrontPageIdentifier> n)
         {
             this.projectTitle = n;
@@ -66,7 +64,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
             View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
             viewHolder viewHolder = new viewHolder(view);
 
-            framework = new App_Framework(context);
+            framework = new App_Framework(context, true);
             database = new DatabaseFramework(context);
 
             return viewHolder;
@@ -88,6 +86,13 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
     {
         projectTitle = filteredList;
         notifyDataSetChanged();
+    }
+
+    public boolean isEmpty()
+    {
+        if(getItemCount() < 1)
+            return true;
+        return false;
     }
 
     /**THIS IS INDIVIDUAL ITEM INSIDE THE ADAPTER*/
@@ -125,6 +130,8 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                     itemContentFrame.setOnTouchListener(adapterTouchListener);
                     projectEditButton.setOnClickListener(editButtonListener);
                     projectEditButtonInner.setOnClickListener(editButtonListener);
+
+                    adjustTheme();
                 }
 
             //this function will be called by member of interface onBindViewHolder from recycler extension
@@ -139,6 +146,21 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                     itemPreview.setText(processStringForPreview(previewCText)); //gets the cipher text directly from the database
                     itemTitle.setText("  " + projectTitle.get(idx).getTitle());
                 }
+
+            private void adjustTheme()
+            {
+                //set the card theme
+                if(new App_Framework(context, true).setTheme())
+                {
+                    itemContentFrame.setBackgroundColor(context.getResources().getColor(R.color.cardview_dark_background));
+                    itemTitle.setTextColor(context.getResources().getColor(R.color.dark_primaryTextColor));
+                    itemPreview.setTextColor(context.getResources().getColor(R.color.dark_secondaryTextColor));
+                }
+                else
+                {
+                    itemContentFrame.setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
+                }
+            }
 
             private String processStringForPreview(String s)
             {
@@ -192,7 +214,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 
                         GUI_MainActivity mainActivity = (GUI_MainActivity)context;
                         String cipherText = database.getCipherText(id, title);
-                        mainActivity.createNewProject(id, title, cipherText);
+                        mainActivity.editProject(id, title, cipherText);
 
                         alertDialog.cancel();
                         notifyDataSetChanged();
@@ -228,47 +250,7 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 notifyDataSetChanged(); //refreshes recycler contents;
             }
 
-            protected boolean projectExist(String newProjectTitle)
-            {
-                for(int i = 0; i < projectTitle.size(); i++)
-                    if(projectTitle.get(i).getTitle().equals(newProjectTitle))
-                        return true;
-
-                return false;
-            }
-
-            //TODO(renameProject()) DELETE ASSOCIATED TEXT FILES AS WELL
-            /**A hash value is created upon creating new project, so then it will be id||title||hash
-             *
-             * When the associated project is renamed, THE VALUE OF HASH DOES NOT CHANGE
-             * Since this will help to avoid avalanche effect in the database caused by changing the hash value
-             * */
-            private void renameProject()
-            {
-                framework.popup_show("Rename Project", title, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        String newProjectName = framework.popup_getInput();
-
-                        if(projectExist(newProjectName))
-                            framework.system_message_small("Project name already exist");
-
-                        else if(newProjectName.isEmpty())
-                             framework.system_message_small("The project name cannot be empty");
-
-                        else
-                        {
-                            database.updateData(id, title, "PROJECT_TITLE", newProjectName);
-                            projectTitle = database.getAllTitle();
-                            notifyDataSetChanged();
-                        }
-                    }
-                });
-            }
-
-            boolean longpressed = false;
+            private boolean longpressed = false;
             final GestureDetector adapterLongClickListener = new GestureDetector(new GestureDetector.SimpleOnGestureListener()
             {
                 public void onLongPress(MotionEvent e)

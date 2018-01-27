@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.view.View;
-import android.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +27,8 @@ import com.example.FYP.aardvark_project.analysisTools.CryptoAnalysis;
 import com.example.FYP.aardvark_project.kryptoTools.*;
 
 public class GUI_fragment_project_view extends Fragment {
+
+    private final int INITIAL_CAESAR_SEEKBAR_VALUE = 26;
 
     private App_Framework framework;
 
@@ -77,22 +78,18 @@ public class GUI_fragment_project_view extends Fragment {
     private View view;
     private FragmentActivity fragmentActivity;
 
-
-    /**WHEEL VIEW*/
-    String wheelMenuContent[] = new String[]{};
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         //set up the view
         view = inflater.inflate(R.layout.fragment_project_view_main, container, false);
+
+        framework= new App_Framework(view.getContext(), true);
+
         fragmentActivity = this.getActivity(); /**This is important: use this to access activity related functions*/
 
         this.projectTitle = getArguments().getString("title");
         this.projectID = getArguments().getString("id");
-
-        framework= new App_Framework(view.getContext());
 
         //set up the database
         database = new DatabaseFramework(view.getContext());
@@ -173,10 +170,10 @@ public class GUI_fragment_project_view extends Fragment {
             @Override
             public void onClick(View view) {
                 //DO TRANSITION
-                Intent intent = new Intent(fragmentActivity, GUI_fragment_graph.class);
+                Intent intent = new Intent(fragmentActivity, GUI_graph.class);
                 intent.putExtra("cipherText", cipherText);
 
-                FrameLayout targetFrame = getLayoutInflater().inflate(R.layout.pop_graph, null).findViewById(R.id.scrollable_cipher_layout);
+                FrameLayout targetFrame = getLayoutInflater().inflate(R.layout.activity_graph, null).findViewById(R.id.scrollable_cipher_layout);
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, targetFrame, ViewCompat.getTransitionName(targetFrame));
                 startActivity(intent, options.toBundle());
@@ -291,10 +288,12 @@ public class GUI_fragment_project_view extends Fragment {
 
         caesarSeekBar = (SeekBar) shiftView.findViewById(R.id.seekBar_caesar);
         indicator = (TextView) shiftView.findViewById(R.id.seekBar_indicator);
-        indicator.setText("Shift by: 0");
+
         caesarSeekBar.setMax(52);
-        caesarSeekBar.setProgress(26);
+        caesarSeekBar.setProgress(INITIAL_CAESAR_SEEKBAR_VALUE);
         caesarSeekBar.setOnSeekBarChangeListener(caesarSeekBarListener);
+
+        indicator.setText("Current Shift: " + (caesarSeekBar.getProgress() - 26));
 
         List<Integer> content = new ArrayList<>();
         for(int i = 0; i < 26; i++)
@@ -491,7 +490,7 @@ public class GUI_fragment_project_view extends Fragment {
     {
         try
         {
-            cipherText = new Transposition().decrypt(cipherText, key);
+            cipherText = new Transposition().encrypt(cipherText, key);
         }catch(InvalidKeyException e)
         {}
     }

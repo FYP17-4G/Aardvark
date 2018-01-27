@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,7 +35,7 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private static final int READ_REQUEST_CODE = 42;
 
-    private App_Framework framework = new App_Framework(this);
+    private App_Framework framework;
     private DatabaseFramework database = new DatabaseFramework(this);
 
     private GUI_adaptr adapter;
@@ -60,58 +58,76 @@ public class GUI_MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        framework = new App_Framework(this, false);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         newProjectView = getLayoutInflater().inflate(R.layout.pop_new_project, null);
 
-        setTitle("PROJECT MANAGER"); //change the title in the action bar
+        clearSharedPrefs();
 
+        setRecycler();
+
+        setNavDrawer();
+        setFloatingActionButton();
+        setSearchBar();
+
+        getListFromDB();
+
+        adjustTheme();
+
+        setTitle("PROJECT MANAGER"); //change the title in the action bar
+    }
+
+    /**Functions for onCreate()*/
+
+    private void adjustTheme()
+    {
+        View view = getLayoutInflater().inflate(R.layout.app_bar_main, null);
+
+        if(framework.setTheme()) //is dark theme
+        {
+            view.findViewById(R.id.fab).setBackgroundColor(getResources().getColor(R.color.dark_secondaryColor));
+        }
+        else //is light theme
+        {
+            findViewById(R.id.fab).setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+
+    }
+
+    private void clearSharedPrefs()
+    {
         //clear shared preferenes
         SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
         editor.commit();
+    }
 
-
-        //RECYCLER HERE---------------------
-        /*BufferedReader fileIn;*/
-
-        //get the contents for the recycler view
-        /*try
-        {
-            FileInputStream fis = openFileInput(projectDirectoryFileName);
-            fileIn = new BufferedReader(new InputStreamReader(fis));
-
-            String line;
-            String[] substr;//use this variable when splitting 'line'
-
-
-            while((line = fileIn.readLine()) != null)
-            {
-                //process the line
-                substr = line.split("\\|\\|");
-
-                FrontPageIdentifier fpi = new FrontPageIdentifier(substr[0], substr[1]);
-                projectTitle.add(fpi);
-            }
-
-            fileIn.close();
-        }catch(IOException e){}*/
-
-        //the rest
+    private void setRecycler()
+    {
         list = (RecyclerView) findViewById(R.id.rv_numbers);
         LinearLayoutManager layout = new LinearLayoutManager(this);
         list.setLayoutManager(layout);
 
         list.setHasFixedSize(true);
 
-        getListFromDB();
-        //---------------------
+        /**THIS ANIMATES THE SEARCH BAR ON TOP, IF THE USER IS AT THE TOP OF THE LIST, THE SEARCH BAR WILL BE VISIBLE*/
+        list.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
+                if(layout.findFirstVisibleItemPosition() != 0)
+                    searchBar.setVisibility(View.GONE);
+                else
+                    searchBar.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+    private void setFloatingActionButton()
+    {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
@@ -121,6 +137,12 @@ public class GUI_MainActivity extends AppCompatActivity
                 createNewProject();
             }
         });
+    }
+
+    private void setNavDrawer()
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -130,7 +152,10 @@ public class GUI_MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
+    private void setSearchBar()
+    {
         //set up the search bar
         searchBar = findViewById(R.id.searchBar);
         searchBar.setHint("Search");
@@ -152,6 +177,9 @@ public class GUI_MainActivity extends AppCompatActivity
             }
         });
     }
+
+
+
 
     private void filter(String input)
     {
@@ -249,6 +277,12 @@ public class GUI_MainActivity extends AppCompatActivity
         }
         else if(projectTitle.isEmpty())
             findViewById(R.id.text_view_empty).setVisibility(View.VISIBLE);
+
+        /**SET THE VISIBILITY OF THE SEARCH BAR, IF THERE IS NOTHING IN THE ADAPTER, DONT DISPLAY THE SEARCH BAR*/
+        if(adapter.isEmpty())
+            searchBar.setVisibility(View.GONE);
+        else
+            searchBar.setVisibility(View.VISIBLE);
     }
 
     private void launchFrontPageActivity()
@@ -265,6 +299,7 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private void launchAboutUsActivity()
     {
+        //TODO()BUG HERE PLS FIX
         /**Just create empty activity with a paragraph of text and some contact info*/
         Intent intent = new Intent(this, GUI_aboutUs.class);
         this.startActivity(intent);
@@ -272,6 +307,8 @@ public class GUI_MainActivity extends AppCompatActivity
     private void launchSettingsActivity()
     {
         /**For settings, use "Settings template"*/
+        Intent intent = new Intent(this, Settings.class);
+        this.startActivity(intent);
     }
 
     private void createNewProject()
@@ -307,17 +344,9 @@ public class GUI_MainActivity extends AppCompatActivity
                             framework.system_message_small("Cipher text input is still empty");
                         else
                         {
-                            //writeToList(projectTitle, ID);
-
-                            //String filename = Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt";
-
-                            //saves ciphertext to a file
-                            //framework.saveAsTxt(filename , cipherText, false);
-
                             database.addNewComposite(Integer.toString(ID), projectTitle);
                             //database.addData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
                             database.updateData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
-                            //getListFromDB();
 
                             getListFromDB();
                             adapter.notifyDataSetChanged();//refresh the adapter
@@ -327,8 +356,11 @@ public class GUI_MainActivity extends AppCompatActivity
         }
 
     /**THIS FUNCTION WILL BE USED IN "GUI_adaptr.java"*/
-    protected void createNewProject(String ID, String title, String cText)
+    protected void editProject(String ID, String title, String cText)
     {
+        String viewTitle = "Edit Project";
+        String positiveButtonText = "Save Changes";
+
         //SETUP NEWP ROJECT POPUP ELEMENT HERE
         EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
         EditText cipherTextInput = newProjectView.findViewById(R.id.editText_cipherInputField);
@@ -344,7 +376,7 @@ public class GUI_MainActivity extends AppCompatActivity
             }
         });
 
-        framework.popup_custom("Create new project", newProjectView, "create", "cancel", new DialogInterface.OnClickListener() {
+        framework.popup_custom(viewTitle, newProjectView, positiveButtonText, "cancel", new DialogInterface.OnClickListener() {
             //get the cipher text input from input field
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -358,17 +390,8 @@ public class GUI_MainActivity extends AppCompatActivity
                     framework.system_message_small("Cipher text input is still empty");
                 else
                 {
-                    //writeToList(projectTitle, ID);
-
-                    //String filename = Integer.toString(ID) + projectTitle + "cipherTextOriginal.txt";
-
-                    //saves ciphertext to a file
-                    //framework.saveAsTxt(filename , cipherText, false);
-
-                    //database.addData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
                     database.updateData(ID, title, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
                     database.updateData(ID, title, "PROJECT_TITLE", projectTitle);
-                    //getListFromDB();
 
                     getListFromDB();
                     adapter.notifyDataSetChanged();//refresh the adapter

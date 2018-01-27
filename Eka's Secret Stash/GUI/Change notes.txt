@@ -68,34 +68,44 @@
 <<ITERATION 2>>
 
 <14 January 2018>
-- Persistent session works properly
-- Rearranged elements in project view to make it tidier
-- New GUI for when creating a new project works
+# Bug report: 
+- Inconsistent shift value when sliding too quickly
+- Cannot rename project
+
++ Persistent session works properly
++ Rearranged elements in project view to make it tidier
++ New GUI for when creating a new project works
 	- User can now enter the cipher text by themselves or get it from a file
-- minor bug fixes
++ minor bug fixes
 
 <16 January 2018>
-- Bug fix(Inconsistent shift cipher value when sliding the seek bar too fast)
-- UI redesign (Color scheme)
+#Bug report:
+- Missing title and cipher text in project view when reopening the app
+
++ fix Inconsistent shift cipher value when sliding the seek bar too fast bug (reported @ 14 January 2018)
++ UI redesign (Color scheme)
 
 <17 January 2018>
-- UI redesign (Frequency analysis), it is now fancier
-- Some code refactoring and importing Mark's code into the android app
+#Bug report:
+- NumberFormatException error in IC calculation
+
++ UI redesign (Frequency analysis), it is now fancier
++ Some code refactoring and importing Mark's code into the android app
 
 <18 January 2018>
-- Modified some Mark's code to return value needed for my code
-- Added common word occurrences into the interface
-- Frequency analysis is now sorted.
-- Fixed a bug (Data lost when renaming project)
++ Modified some Mark's code to return value needed for my code
++ Added common word occurrences into the interface
++ Frequency analysis is now sorted.
++ Fixed Data lost when renaming project bug (reported @ 14 January 2018)
 
 <19 January 2018>
 - Added 'note' function
 - Some UI element redesigning
-- Fixed a bug (Missing cipher text and project title when reopening the application and continue where the user left off)
-- Fixed NumberFormatException error during IC calculation
+- Fixed a bug (Missing cipher text and project title when reopening the application and continue where the user left off; reported @ 16 January 2018)
+- Fixed NumberFormatException error during IC calculation (reported @ 17 January 2018)
 
 <22 January 2018>
-#Bug report: Application crashes when trying to do shift after undoing/resetting the cipher state
+#Bug report: Application crashes when trying to do shift for a value > 0
 
 - User can now save the crypto project
 - Integrated SQLite into the program
@@ -107,15 +117,24 @@
 - Added options for the user to edit the project, and delete the project under the same menu
 
 <25 January 2018>
-#Bug report: Long press sensitivity is too sensitive, find a workaround for this (@ GUI_adaptr.java)
+#Bug report: Long press on Card view sensitivity is too sensitive, find a workaround for this.
 
 - Search bar added
 - Long pressing on the card will show cipher text preview pop up
 
-/*NEXT UP: 
-> Create edit project cipher text function
-> Allow user to determine the common word occurrences length
-> non AS: Cross check the diagrams
+<26 January 2018>
+#Bug report: Front page action bar CTD error (Action bar already supplied by window service error)
 
+- User can now change between light theme and dark theme (Though it works partially)
+- Some code rearrangement (to make the source code look tidier)
+
+<27 January 2018>
+
+- Fixed action bar CTD error bug (reported @26 January 2018)
+- The user can now click on the graph in frequency analysis activity to expand the detailed information of the graph (now with animation!)
+- Animated the search bar, so the user have to be at the top of the list to be able to see the search bar
+
+/*NEXT UP: 
+> Allow user to determine the common word occurrences length
 > Add read from file function for encryption and decryption feature
 */
