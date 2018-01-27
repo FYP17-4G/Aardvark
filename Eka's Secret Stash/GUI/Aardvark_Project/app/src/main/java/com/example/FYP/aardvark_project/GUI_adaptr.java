@@ -88,13 +88,6 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
         notifyDataSetChanged();
     }
 
-    public boolean isEmpty()
-    {
-        if(getItemCount() < 1)
-            return true;
-        return false;
-    }
-
     /**THIS IS INDIVIDUAL ITEM INSIDE THE ADAPTER*/
     class viewHolder extends RecyclerView.ViewHolder
         {

@@ -73,11 +73,11 @@ public class GUI_MainActivity extends AppCompatActivity
         setFloatingActionButton();
         setSearchBar();
 
-        getListFromDB();
-
         adjustTheme();
 
         setTitle("PROJECT MANAGER"); //change the title in the action bar
+
+        getListFromDB();
     }
 
     /**Functions for onCreate()*/
@@ -173,7 +173,8 @@ public class GUI_MainActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable editable) {
                 //make changes here
-                filter(editable.toString());
+                if(!editable.toString().isEmpty())
+                    filter(editable.toString());
             }
         });
     }
@@ -279,7 +280,8 @@ public class GUI_MainActivity extends AppCompatActivity
             findViewById(R.id.text_view_empty).setVisibility(View.VISIBLE);
 
         /**SET THE VISIBILITY OF THE SEARCH BAR, IF THERE IS NOTHING IN THE ADAPTER, DONT DISPLAY THE SEARCH BAR*/
-        if(adapter.isEmpty())
+        //TODO()BUFFER OVERFLOW HERE FIX THIS!!
+        if(projectTitle.isEmpty())
             searchBar.setVisibility(View.GONE);
         else
             searchBar.setVisibility(View.VISIBLE);
