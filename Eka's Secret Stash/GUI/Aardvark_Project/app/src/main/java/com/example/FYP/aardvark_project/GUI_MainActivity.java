@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.design.widget.NavigationView;
@@ -55,10 +56,14 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private EditText searchBar;
 
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         framework = new App_Framework(this, false);
+
+        overrideTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -67,34 +72,25 @@ public class GUI_MainActivity extends AppCompatActivity
 
         clearSharedPrefs();
 
-        setRecycler();
-
-        setNavDrawer();
         setFloatingActionButton();
+
+        setRecycler();
+        setNavDrawer();
         setSearchBar();
 
-        adjustTheme();
-
         setTitle("PROJECT MANAGER"); //change the title in the action bar
-
         getListFromDB();
     }
 
     /**Functions for onCreate()*/
 
-    private void adjustTheme()
+    /**Use this because this class needs "no action bar" theme for it to work */
+    private void overrideTheme()
     {
-        View view = getLayoutInflater().inflate(R.layout.app_bar_main, null);
-
-        if(framework.setTheme()) //is dark theme
-        {
-            view.findViewById(R.id.fab).setBackgroundColor(getResources().getColor(R.color.dark_secondaryColor));
-        }
-        else //is light theme
-        {
-            findViewById(R.id.fab).setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        }
-
+        if(framework.isDarkTheme())
+            this.setTheme(R.style.DarkTheme_NoActionBar);
+        else
+            this.setTheme(R.style.AppTheme_NoActionBar);
     }
 
     private void clearSharedPrefs()
@@ -114,21 +110,36 @@ public class GUI_MainActivity extends AppCompatActivity
 
         list.setHasFixedSize(true);
 
-        /**THIS ANIMATES THE SEARCH BAR ON TOP, IF THE USER IS AT THE TOP OF THE LIST, THE SEARCH BAR WILL BE VISIBLE*/
+        /**
+         * This sets the view of the floating action button and the search bar.
+         * if the user is not at the top of the recycler view, both of them will not be visible
+         * */
         list.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
-                if(layout.findFirstVisibleItemPosition() != 0 && projectTitle.size() > 3)
-                    searchBar.setVisibility(View.GONE);
-                else
-                    searchBar.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(layout.findFirstVisibleItemPosition() != 0 && projectTitle.size() > 3)
+                        {
+                            searchBar.setVisibility(View.GONE);
+                            fab.setVisibility(View.GONE);
+
+                        }
+                        else
+                        {
+                            searchBar.setVisibility(View.VISIBLE);
+                            fab.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }, 0);
             }
         });
     }
 
     private void setFloatingActionButton()
     {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -137,6 +148,11 @@ public class GUI_MainActivity extends AppCompatActivity
                 createNewProject();
             }
         });
+
+        if(framework.isDarkTheme())
+            fab.setBackgroundTintList(getResources().getColorStateList(R.color.dark_secondaryColor));
+        else
+            fab.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
     }
 
     private void setNavDrawer()

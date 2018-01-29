@@ -95,8 +95,6 @@ public class GUI_graph extends AppCompatActivity
 
         calculateLetterFrequency();
         focusOnGraph(false);
-
-        framework.system_message_small("Tap on the graph to display detailed information <<< DELETE LATER");
     }
 
     /**THIS FUNCTION HIDES AND SHOWS ELEMENTS WHEN THE USER CLICKS ON THE GRAPH*/
@@ -187,11 +185,11 @@ public class GUI_graph extends AppCompatActivity
         staticLabels.setHorizontalLabels(alphabet);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabels);
 
-        //set first series line color
+        //set first series line color (Blue)
         cipherTextSeries.setColor(Color.BLUE);
 
-        //set second series line color
-        periodCipherTextSeries.setColor(Color.DKGRAY);
+        //set second series line color (Orange)
+        periodCipherTextSeries.setColor(Color.parseColor("#ffa500"));
 
         graph.getViewport().setScrollable(true);
 

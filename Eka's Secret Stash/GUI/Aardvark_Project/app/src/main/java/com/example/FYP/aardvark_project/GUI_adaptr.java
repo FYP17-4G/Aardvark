@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.io.BufferedWriter;
+import java.util.logging.Handler;
 
 import android.content.Context;
 import android.view.GestureDetector;
@@ -120,7 +121,9 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
 
                     context = itemView.getContext();
 
-                    itemContentFrame.setOnTouchListener(adapterTouchListener);
+                    //itemContentFrame.setOnTouchListener(adapterTouchListener);
+                    itemContentFrame.setOnClickListener(cardClickListener);
+                    itemContentFrame.setOnLongClickListener(cardLongClickListener);
                     projectEditButton.setOnClickListener(editButtonListener);
                     projectEditButtonInner.setOnClickListener(editButtonListener);
 
@@ -243,32 +246,18 @@ public class GUI_adaptr extends RecyclerView.Adapter<GUI_adaptr.viewHolder>
                 notifyDataSetChanged(); //refreshes recycler contents;
             }
 
-            private boolean longpressed = false;
-            final GestureDetector adapterLongClickListener = new GestureDetector(new GestureDetector.SimpleOnGestureListener()
-            {
-                public void onLongPress(MotionEvent e)
-                {
-                    longpressed = true;
-                    framework.popup_cipher_preview(previewCText);
-                }
-            });
-
-            private final View.OnTouchListener adapterTouchListener = new View.OnTouchListener()
-            {
+            private final View.OnClickListener cardClickListener = new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View view, MotionEvent event)
-                {
-                    if(event.getAction() == MotionEvent.ACTION_DOWN)//meaning area is pressed
-                        {
-                            longpressed = false;
-                            adapterLongClickListener.onTouchEvent(event);
-                        }
-                    else if(event.getAction() == MotionEvent.ACTION_UP && !longpressed)
-                        {
-                            launchProjectView();
-                        }
+                public void onClick(View view) {
+                    launchProjectView();
+                }
+            };
 
-                return true;
+            private final View.OnLongClickListener cardLongClickListener = new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    framework.popup_cipher_preview(previewCText);
+                    return true;
                 }
             };
 

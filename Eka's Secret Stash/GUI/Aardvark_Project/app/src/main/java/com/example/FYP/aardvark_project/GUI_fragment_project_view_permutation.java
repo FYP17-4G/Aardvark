@@ -101,11 +101,11 @@ public class GUI_fragment_project_view_permutation extends Fragment
         return view;
     };
 
-    /**USE THIS ONLY WHEN INITIALIZING THIS OBJECT*/
+    /**USE THIS ONLY WHEN INITIALIZING THIS OBJECT AND WHEN THE USER CLICKS ON PERMUTATION VIEW TAB*/
     public void setCipherText(String cipherText)
     {
         this.cipherText = cipherText;
-        cipherTextView.setText(this.cipherText);
+        refresh(this.cipherText, spaceSeekBar.getProgress(), lineSeekBar.getProgress());
     }
 
     public void refresh(String val, int space, int line)

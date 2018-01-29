@@ -25,14 +25,37 @@
         <item name="android:textColorPrimary">@color/dark_primaryTextColor</item>
     </style>
 
+    <!--===========================================================================================-->
+
+    <style name="AppDialogTheme" parent="@android:style/ThemeOverlay.Material.Dialog.Alert">
+        <item name="colorPrimary">@color/primaryTextColor</item>
+        <item name="colorPrimaryDark">@color/primaryTextColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/primaryTextColor</item>
+        <item name="android:navigationBarColor">@color/cardview_light_background</item>
+        <item name="android:colorBackground">@color/cardview_light_background</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+    </style>
+
+    <style name="DarkDialogTheme" parent="@android:style/ThemeOverlay.Material.Dialog.Alert">
+        <item name="colorPrimary">@color/dark_primaryColor</item>
+        <item name="colorPrimaryDark">@color/dark_primaryDarkColor</item>
+        <item name="colorAccent">@color/dark_secondaryColor</item>
+        <item name="android:statusBarColor">@color/dark_primaryColor</item>
+        <item name="android:navigationBarColor">@color/cardview_dark_background</item>
+        <item name="android:colorBackground">@color/cardview_dark_background</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColorPrimary">@color/dark_primaryTextColor</item>
+    </style>
 
     <!--===========================================================================================-->
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
+    <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="DarkTheme.NoActionBar" parent="DarkTheme">
+    <style name="DarkTheme.NoActionBar" parent="@style/DarkTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

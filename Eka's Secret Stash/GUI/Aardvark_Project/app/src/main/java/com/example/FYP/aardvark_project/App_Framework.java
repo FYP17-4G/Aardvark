@@ -1,6 +1,5 @@
 package com.example.FYP.aardvark_project;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -18,20 +17,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 
 import com.example.FYP.aardvark_project.kryptoTools.Utility;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.List;
 
 /**
  * This is class contains methods that simplifies the process of building the application
@@ -64,11 +56,11 @@ public class App_Framework
      * */
     private void reinstateBuilder()
     {
-        if(new App_Framework(context, true).setTheme()) //is dark theme
-            popUpWindow = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.DarkTheme));
+        if(isDarkTheme()) //is dark theme
+            popUpWindow = new AlertDialog.Builder(context, R.style.DarkDialogTheme);
 
         else //is light theme
-            popUpWindow = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
+            popUpWindow = new AlertDialog.Builder(context, R.style.AppDialogTheme);
     }
 
     /**
@@ -80,12 +72,17 @@ public class App_Framework
      *
      * Note: For fragment, this does not matter
      * */
+
+    //get settings menu preference for dark theme
+    private boolean getThemePreference()
+    {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(Settings.DARK_THEME_SWITCH, false);
+    }
+
     public boolean setTheme()
     {
-        //if true = change to dark theme, if not, use light theme
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Boolean dark = sharedPreferences.getBoolean(Settings.DARK_THEME_SWITCH, false);
+        Boolean dark = getThemePreference();
 
         if(!dark)
         {
@@ -100,6 +97,11 @@ public class App_Framework
         }
 
         return dark;
+    }
+
+    public boolean isDarkTheme()
+    {
+        return getThemePreference();
     }
 
     /**=========================GUI RELATED FUNCTIONS*/

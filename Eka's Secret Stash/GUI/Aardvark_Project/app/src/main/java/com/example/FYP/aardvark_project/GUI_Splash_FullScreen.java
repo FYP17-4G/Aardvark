@@ -19,8 +19,7 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        //this function is just here to change the theme for this activity
-        new App_Framework(this, false);
+        overrideTheme();
 
         super.onCreate(savedInstanceState);
 
@@ -28,6 +27,15 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
         setBottomText(text);
 
         launchApp();
+    }
+
+    private void overrideTheme()
+    {
+        //this function is just here to change the theme for this activity
+        if(new App_Framework(this, false).isDarkTheme())
+            this.setTheme(R.style.DarkTheme_NoActionBar);
+        else
+            this.setTheme(R.style.AppTheme_NoActionBar);
     }
 
     private void setBottomText(String text)
