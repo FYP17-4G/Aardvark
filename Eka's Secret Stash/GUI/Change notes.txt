@@ -143,6 +143,8 @@
 + Theme changing Fully works
 + Fixed a bug (chars/word and words/line sliders does not correspond to the cipher text (discovered today))
 + Fixed card view long click sensitivity (reported @ 25 January 2018)
++ Some minor UI fixes
++ Fixed a bug that causes the search bar to not return all project entry when it is empty (discovered today)
 
 /*NEXT UP: 
 > Allow user to determine the common word occurrences length

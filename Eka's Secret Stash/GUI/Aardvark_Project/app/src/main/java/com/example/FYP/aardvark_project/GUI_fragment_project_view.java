@@ -94,8 +94,7 @@ public class GUI_fragment_project_view extends Fragment {
         //set up the database
         database = new DatabaseFramework(view.getContext());
 
-        /**SET UP THE CIPHER TEXT VIEW AREA*/
-        cipherTextView = (TextView) view.findViewById(R.id.project_view_cipher_text);
+        setCipherTextView();
 
         getCipherTextFromDB();
 
@@ -115,15 +114,7 @@ public class GUI_fragment_project_view extends Fragment {
 
         setGraph();
 
-        /**SET UP SAVE BUTTON*/
-        Button saveButton = view.findViewById(R.id.button_save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateCipherTextToDB();
-                framework.system_message_small("Progress saved");
-            }
-        });
+        setSaveButton();
 
         return view;
     }
@@ -177,6 +168,29 @@ public class GUI_fragment_project_view extends Fragment {
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, targetFrame, ViewCompat.getTransitionName(targetFrame));
                 startActivity(intent, options.toBundle());
+            }
+        });
+    }
+
+    private void setCipherTextView()
+    {
+        /**SET UP THE CIPHER TEXT VIEW AREA*/
+        cipherTextView = (TextView) view.findViewById(R.id.project_view_cipher_text);
+        if(framework.isDarkTheme())
+            cipherTextView.setTextColor(getResources().getColor(R.color.dark_primaryTextColor));
+        else
+            cipherTextView.setTextColor(getResources().getColor(R.color.primaryTextColor));
+    }
+
+    private void setSaveButton()
+    {
+        /**SET UP SAVE BUTTON*/
+        Button saveButton = view.findViewById(R.id.button_save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateCipherTextToDB();
+                framework.system_message_small("Progress saved");
             }
         });
     }

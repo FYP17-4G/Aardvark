@@ -117,22 +117,19 @@ public class GUI_MainActivity extends AppCompatActivity
         list.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(layout.findFirstVisibleItemPosition() != 0 && projectTitle.size() > 3)
-                        {
-                            searchBar.setVisibility(View.GONE);
-                            fab.setVisibility(View.GONE);
+                final int MINIMUM_RECYCLERVIEW_ENTRY = 2;
 
-                        }
-                        else
-                        {
-                            searchBar.setVisibility(View.VISIBLE);
-                            fab.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }, 0);
+                if(layout.findFirstVisibleItemPosition() != 0 && projectTitle.size() >= MINIMUM_RECYCLERVIEW_ENTRY)
+                {
+                    searchBar.setVisibility(View.INVISIBLE);
+                    fab.setVisibility(View.GONE);
+
+                }
+                else
+                {
+                    searchBar.setVisibility(View.VISIBLE);
+                    fab.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -188,9 +185,13 @@ public class GUI_MainActivity extends AppCompatActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
+                getListFromDB();
+
                 //make changes here
-                if(!editable.toString().isEmpty())
+                if(!editable.toString().isEmpty() || editable.toString() != null)
                     filter(editable.toString());
+                else
+                    adapter.filterList(projectTitle);
             }
         });
     }
@@ -200,27 +201,17 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private void filter(String input)
     {
-        //if the search bar is empty, pass in the complete list
-        if(input.isEmpty())
-        {
-            getListFromDB();
-            adapter.filterList(projectTitle);
-        }
-        //else, if the search bar contains something, filter the list
-        else
-        {
-            ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
+        ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
 
-            for(FrontPageIdentifier item: projectTitle)
+        for(FrontPageIdentifier item: projectTitle)
+        {
+            if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
             {
-                if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
-                {
-                    filteredTitle.add(item);
-                }
+                filteredTitle.add(item);
             }
-
-            adapter.filterList(filteredTitle);
         }
+
+        adapter.filterList(filteredTitle);
     }
 
     @Override
