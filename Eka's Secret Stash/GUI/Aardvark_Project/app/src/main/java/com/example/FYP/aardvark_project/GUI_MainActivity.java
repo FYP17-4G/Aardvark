@@ -118,7 +118,7 @@ public class GUI_MainActivity extends AppCompatActivity
         list.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
-                if(layout.findFirstVisibleItemPosition() != 0)
+                if(layout.findFirstVisibleItemPosition() != 0 && projectTitle.size() > 3)
                     searchBar.setVisibility(View.GONE);
                 else
                     searchBar.setVisibility(View.VISIBLE);
@@ -279,8 +279,9 @@ public class GUI_MainActivity extends AppCompatActivity
         else if(projectTitle.isEmpty())
             findViewById(R.id.text_view_empty).setVisibility(View.VISIBLE);
 
-        /**SET THE VISIBILITY OF THE SEARCH BAR, IF THERE IS NOTHING IN THE ADAPTER, DONT DISPLAY THE SEARCH BAR*/
-        //TODO()BUFFER OVERFLOW HERE FIX THIS!!
+        /**SET THE VISIBILITY OF THE SEARCH BAR, IF THERE IS NOTHING IN THE ADAPTER, DONT DISPLAY THE SEARCH BAR
+         * */
+
         if(projectTitle.isEmpty())
             searchBar.setVisibility(View.GONE);
         else

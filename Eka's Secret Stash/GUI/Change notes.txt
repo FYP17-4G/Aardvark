@@ -131,11 +131,18 @@
 + Some code rearrangement (to make the source code look tidier)
 
 <27 January 2018>
+#Bug report:
+- Changing theme only works on some elements and activities
 
 + Fixed action bar CTD error bug (reported @26 January 2018)
 + The user can now click on the graph in frequency analysis activity to expand the detailed information of the graph (now with animation!)
 + Animated the search bar, so the user have to be at the top of the list to be able to see the search bar
 + Fixed Vigenere encryption decryption error (reported @ 26 January 2018)
+
+<29 January 2018>
++ Theme changing Fully works
++ Fixed a bug (chars/word and words/line sliders does not correspond to the cipher text (discovered today))
++ Fixed card view long click sensitivity (reported @ 25 January 2018)
 
 /*NEXT UP: 
 > Allow user to determine the common word occurrences length

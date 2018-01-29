@@ -3,7 +3,8 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="dark_theme_preference"
-        android:summary="Enable this theme to avoid eyestrain. NOTE: Please restart the app after making changes to this"
+        android:summary="Enable this theme to reduce eyestrain.
+NOTE: REQUIRES APP RESTART"
         android:title="Use Dark Theme" />
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
