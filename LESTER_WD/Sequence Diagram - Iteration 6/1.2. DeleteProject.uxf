@@ -109,20 +109,20 @@
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-1. Select 'Options' menu beside the project name</panel_attributes>
+1. Select 'Options'</panel_attributes>
     <additional_attributes>380.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>240</x>
-      <y>210</y>
-      <w>400</w>
-      <h>40</h>
+      <x>630</x>
+      <y>200</y>
+      <w>190</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-2. showOptions()</panel_attributes>
-    <additional_attributes>380.0;20.0;10.0;20.0</additional_attributes>
+1.1. showOptions()</panel_attributes>
+    <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -204,7 +204,7 @@ bg=light_gray</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-3. Selects 'Delete Project' option</panel_attributes>
+2. Selects 'Delete Project' option</panel_attributes>
     <additional_attributes>380.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -216,7 +216,7 @@ bg=light_gray</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-4.2. notifyDataSetChanged()
+3.2. notifyDataSetChanged()
 fg=blue</panel_attributes>
     <additional_attributes>550.0;20.0;10.0;20.0</additional_attributes>
   </element>
@@ -229,7 +229,7 @@ fg=blue</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-4.1. deleteProject()
+3.1. deleteProject()
 fg=blue</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
@@ -275,7 +275,7 @@ fg=blue</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-4. Selects confirmation</panel_attributes>
+3. Selects confirmation</panel_attributes>
     <additional_attributes>380.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

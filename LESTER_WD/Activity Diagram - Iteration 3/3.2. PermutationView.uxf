@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>220</x>
+      <y>60</y>
+      <w>490</w>
+      <h>810</h>
+    </coordinates>
+    <panel_attributes>User
+--
+valign=top
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>710</x>
+      <y>60</y>
+      <w>550</w>
+      <h>810</h>
+    </coordinates>
+    <panel_attributes>MainActivity
+--
+valign=top
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>120</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-()
+bg=black
+fg=black</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>310</x>
+      <y>170</y>
+      <w>160</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Select a project
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>200</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+bg=black
+fg=black</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>310</x>
+      <y>260</y>
+      <w>160</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Select Permutation View
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>310</x>
+      <y>450</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Slide the second slider 
+to determine the number 
+of blocks per line
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>290</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+bg=black
+fg=black</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>480</y>
+      <w>400</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+bg=black
+fg=black</panel_attributes>
+    <additional_attributes>380.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>850</x>
+      <y>470</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Perform permutation view</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>500</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+bg=black
+fg=black</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>920</x>
+      <y>550</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=final
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>310</x>
+      <y>340</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Slide the first slider 
+to determine the number 
+of characters per block
+fg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>400</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+bg=black
+fg=black</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
