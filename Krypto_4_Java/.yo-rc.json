@@ -1,0 +1,9 @@
+{
+  "generator-java": {
+    "title": "Krypto_4_java",
+    "description": "Building Prof Willy's CryptAnalysis Workbench (KRYPTO) in Java",
+    "author": "FYP17/4G",
+    "email": "fyp17.4g@gmail.com",
+    "namespace": ""
+  }
+}

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: junit:junit:4.1.+">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Could not find any version that matches junit:junit:4.1.+.&#13;&#10;Versions that do not match:&#13;&#10;    4.12&#13;&#10;    4.12-beta-3&#13;&#10;    4.12-beta-2&#13;&#10;    4.12-beta-1&#13;&#10;    4.11&#13;&#10;    + 19 more&#13;&#10;Searched in the following locations:&#13;&#10;    https:/repo.maven.apache.org/maven2/junit/junit/maven-metadata.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
