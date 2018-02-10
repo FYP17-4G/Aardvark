@@ -1,10 +1,9 @@
 package com.example.FYP.aardvark_project;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +13,18 @@ import android.widget.Button;
 
 import com.example.FYP.aardvark_project.kryptoTools.PermuteString;
 
+import java.util.List;
+
 /**
  * Another fragment is "GUI_rpojectView"
  */
 
 public class GUI_fragment_project_view_permutation extends Fragment
 {
-    private static final String TAG = "fragment_project_view_permutation";
-
     private App_Framework framework;
 
     private String cipherText = new String();
+    private String originalCipherText = new String();
     private TextView cipherTextView;
 
     private View view;
@@ -35,12 +35,12 @@ public class GUI_fragment_project_view_permutation extends Fragment
     private SeekBar spaceSeekBar;
     private SeekBar lineSeekBar;
 
-    private Button permutateButton;
-
     private int space = 0;
     private int line = 0;
 
+    private Button permutateButton;
     private PermuteString permuteString;
+    private List<String> permutationResult;
 
     private final int MAX_SEEKBAR = 20;
 
@@ -49,89 +49,66 @@ public class GUI_fragment_project_view_permutation extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_project_view_permutation, container, false);
+        cipherTextView = view.findViewById(R.id.perm_cTextView);
 
         framework = new App_Framework(view.getContext(), true);
 
-        permuteString = new PermuteString();
+        setSeekBars();
 
-        cipherTextView = view.findViewById(R.id.perm_cTextView);
+        calculatePermutation(cipherText);
+        return view;
+    }
 
-        /**Build the view here*/
-        spaceIndicator = (TextView) view.findViewById(R.id.seekBar_space_indicator);
-        lineIndicator = (TextView) view.findViewById(R.id.seekBar_line_indicator);
+    SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener()
+    {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b)
+        {
+            if(seekBar.getId() == R.id.seekBar_space)
+                space = spaceSeekBar.getProgress();
+            else
+                line = lineSeekBar.getProgress();
+
+            spaceIndicator.setText("chars per space: " + space);
+            lineIndicator.setText("words per line:" + line);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            refresh(cipherText, space, line);
+        }
+    };
+
+    private void setSeekBars()
+    {
+        spaceIndicator = view.findViewById(R.id.seekBar_space_indicator);
+        lineIndicator = view.findViewById(R.id.seekBar_line_indicator);
         spaceIndicator.setText("chars per space: " + space);
         lineIndicator.setText("words per line:" + line);
 
-        spaceSeekBar = (SeekBar) view.findViewById(R.id.seekBar_space);
-        lineSeekBar = (SeekBar) view.findViewById(R.id.seekBar_line);
+        spaceSeekBar = view.findViewById(R.id.seekBar_space);
+        lineSeekBar = view.findViewById(R.id.seekBar_line);
         spaceSeekBar.setProgress(space);
         lineSeekBar.setProgress(line);
         spaceSeekBar.setMax(MAX_SEEKBAR);
         lineSeekBar.setMax(MAX_SEEKBAR);
         spaceSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
         lineSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
-
-        permutateButton = (Button) view.findViewById(R.id.button_permutate);
-        permutateButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                framework.popup_getNumber_show("Permutate", "Enter permutation block size", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        int key = Integer.parseInt(framework.popup_getInput());
-
-                        /**Runs permutation on different thread, since the function is heavy AF*/
-                        getActivity().runOnUiThread(new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                String temp = permutation(cipherText, key);
-                                refresh(temp, space, line);
-                            }
-                        });
-                    }
-                }, 3);
-            }
-        });
-
-        return view;
-    };
-
-    /**USE THIS ONLY WHEN INITIALIZING THIS OBJECT AND WHEN THE USER CLICKS ON PERMUTATION VIEW TAB*/
-    public void setCipherText(String cipherText)
-    {
-        this.cipherText = cipherText;
-        refresh(this.cipherText, spaceSeekBar.getProgress(), lineSeekBar.getProgress());
     }
 
-    public void refresh(String val, int space, int line)
+    private void setPermutationButton()
     {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String temp = framework.stringNoWhiteSpace(val); /**DISPLAY temp! NOT cipherText*/
 
-                //do spacing here
-                if(space != 0)
-                    temp = spacing(temp, space);
-                //do lining here
-                if(line != 0)
-                    temp = lining(temp, line);
-
-                spaceIndicator.setText("chars per space: " + space);
-                lineIndicator.setText("words per line:" + line);
-                cipherTextView.setText(temp);
-            }
-        });
     }
 
-    private String permutation(String input, int blockSize)
+    private void calculatePermutation(String input)
     {
-        return permuteString.permute(framework.clean(input), blockSize);
+        permutationResult = new PermuteString().permute(input);
     }
 
     private String spacing(String input, int space)
@@ -175,27 +152,51 @@ public class GUI_fragment_project_view_permutation extends Fragment
         return temp;
     }
 
-    SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener()
+    /**USE THESE ONLY WHEN INITIALIZING THIS OBJECT AND WHEN THE USER CLICKS ON PERMUTATION VIEW TAB*/
+    public void setCipherText(String cipherText)
     {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int i, boolean b)
-        {
-            if(seekBar.getId() == R.id.seekBar_space)
-                space = spaceSeekBar.getProgress();
-            else
-                line = lineSeekBar.getProgress();
+        this.cipherText = cipherText;
+        refresh(this.cipherText, spaceSeekBar.getProgress(), lineSeekBar.getProgress());
+    }
 
-            refresh(cipherText, space, line);
-        }
+    public void setOriginalCipherText(String originalCipherText)
+    {
+        this.originalCipherText = originalCipherText;
+    }
 
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
+    public void refresh(String val, int space, int line)
+    {
+        getActivity().runOnUiThread(() -> {
+            cipherTextView.setText("");
 
-        }
+            String temp = framework.stringNoWhiteSpace(val); //display this variable
+            String tempOriginal = framework.stringNoWhiteSpace(originalCipherText);
 
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
+            if(space > 0) //spacing
+            {
+                temp = spacing(temp, space);
+                tempOriginal = spacing(tempOriginal, space);
+            }
+            if(line > 0) //lining
+            {
+                temp = lining(temp, line);
+                tempOriginal = lining(tempOriginal, line);
+            }
 
-        }
-    };
+            //cipherTextView.setText(temp);
+
+            if(temp.length() == tempOriginal.length())
+                for(int i = 0; i < temp.length(); i++)
+                {
+                    if(temp.charAt(i) == tempOriginal.charAt(i))
+                        cipherTextView.append(Character.toString(temp.charAt(i)));
+                    else
+                    {
+                        String html = "<font color='#EE0000'>"+ temp.charAt(i) +"</font>"; //set the text color to red
+                        cipherTextView.append(Html.fromHtml(html));
+                    }
+                }
+
+        });
+    }
 }

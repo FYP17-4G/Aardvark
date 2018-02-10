@@ -1,155 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_slide_up_panel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:gravity="bottom"
+    android:orientation="vertical"
+    app:umanoFadeColor="@color/TRANSPARENT"
+    app:umanoPanelHeight="30dp"
+    app:umanoShadowHeight="0dp"
+    app:umanoOverlay="false">
 
-    <FrameLayout
-        android:id="@+id/project_view_cipher_frame_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="385dp"
-        android:transitionName="cipherTextViewTransition">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/cipherNestedScroll"
+        <FrameLayout
+            android:id="@+id/project_view_cipher_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="374dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="319dp"
+            android:transitionName="cipherTextViewTransition">
 
-            <LinearLayout
-                android:id="@+id/nestedScrollViewLayout"
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/cipherNestedScroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/project_view_cipher_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/layout_undo_reset"
-        android:layout_width="match_parent"
-        android:layout_height="62dp">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/button_reset"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:text="reset"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/button_save"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@android:color/background_light"
-                android:text="Save"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button_undo"
-                app:layout_constraintStart_toEndOf="@+id/button_reset"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/button_undo"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="88dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:text="undo"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+                <LinearLayout
+                    android:id="@+id/nestedScrollViewLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="61dp">
+                    <TextView
+                        android:id="@+id/project_view_cipher_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_undo_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button_reset"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:text="reset"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button_save"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@android:color/background_light"
+                    android:text="Save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_undo"
+                    app:layout_constraintStart_toEndOf="@+id/button_reset"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button_undo"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="88dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:text="undo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+        </FrameLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button_subPopup"
-                style="@style/Widget.AppCompat.Button.Borderless"
+            <FrameLayout
+                android:id="@+id/generalInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/background_light"
-                android:text="Substitute Character" />
+                android:layout_height="match_parent"
+                android:visibility="visible">
 
-            <Button
-                android:id="@+id/button_stringSubstitution"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/background_light"
-                android:text="Substitute String" />
+                <include
+                    android:id="@+id/include_general"
+                    layout="@layout/project_view_general_text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
 
-            <Button
-                android:id="@+id/button_shiftPopup"
-                style="@style/Widget.AppCompat.Button.Borderless"
+            <FrameLayout
+                android:id="@+id/shiftLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/background_light"
-                android:text="Caesar Shift" />
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
-            <Button
-                android:id="@+id/button_normalTranspo"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/background_light"
-                android:text="Transposition" />
+                <include
+                    android:id="@+id/include_shift"
+                    layout="@layout/project_view_shift_cipher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
 
-            <Button
-                android:id="@+id/button_graphPopup"
-                style="@style/Widget.AppCompat.Button.Borderless"
+            <FrameLayout
+                android:id="@+id/subLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/background_light"
-                android:text="graph" />
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/include_sub"
+                    layout="@layout/project_view_substitution_char_cipher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
 
         </LinearLayout>
-    </HorizontalScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/slide_up_panel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+
+        <ViewFlipper
+            android:id="@+id/slidingUpPanelViewFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include
+                android:id="@+id/sliding_up_panel_content_include"
+                layout="@layout/project_view_sliding_up_panel_extra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/sliding_up_panel_content_tools_include"
+                layout="@layout/project_view_sliding_up_panel_content_tools_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ViewFlipper>
+    </FrameLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

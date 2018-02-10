@@ -5,15 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.content.Intent;
+import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class GUI_Splash_FullScreen extends AppCompatActivity
 {
     @Override
@@ -31,7 +28,6 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
 
     private void overrideTheme()
     {
-        //this function is just here to change the theme for this activity
         if(new App_Framework(this, false).isDarkTheme())
             this.setTheme(R.style.DarkTheme_NoActionBar);
         else
@@ -54,16 +50,11 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_splash__full_screen);
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                callDispatcher();
-            }
-        }, DELAY_TIME);
+
+        new Handler().postDelayed(() -> callDispatcher(), DELAY_TIME);
     }
 
+    /**This class reads the last opened activity from Shared preferences and open it*/
     private void callDispatcher()
     {
         Class<?> activityClass;
@@ -88,7 +79,7 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
             intent = new Intent(this, GUI_MainActivity.class);
         else
         {
-            //intent = new Intent(this, activityClass); //this will start 'GUI_Fragment_Project_View' with its corresponding ID and title
+            /**intent = new Intent(this, activityClass); //this will start 'GUI_Fragment_Project_View' with its corresponding ID and title*/
             intent = new Intent(this, activityClass);
 
             intent.putExtra("project_view_unique_ID", projectID);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
@@ -97,6 +88,6 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
 
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.anim_transition_slide_from_bottom, R.anim.anim_transition_slide_to_top);
+        //overridePendingTransition(R.anim.anim_transition_slide_from_bottom, R.anim.anim_transition_slide_to_top);
     }
 }

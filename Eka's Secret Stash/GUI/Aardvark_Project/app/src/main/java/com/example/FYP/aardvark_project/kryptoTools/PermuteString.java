@@ -1,21 +1,23 @@
 package com.example.FYP.aardvark_project.kryptoTools;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class PermuteString {
-    public String permute (String data, Integer blockSize) {
-        StringBuilder output = new StringBuilder();
-        ArrayList<String> splittedStrings;
+    public static List<String> permute (String input) {
+        List<String> splittedStrings;
+        Integer blockSize = input.length();
         Integer[] key = new Integer[blockSize];
+        StringBuilder output = new StringBuilder();
 
-        String returnValue = new String();
-
-        //populate the "key"
+        Collection<String> uniquePermutations = new HashSet<>();
+        //populate the "key" <- which is the number of characters in the input
+        //e.g. 6 characters: key -> [0, 1, 2, 3, 4, 5]
         for (int i = 0; i < blockSize; ++i) { key[i] = i; }
-
-        splittedStrings = splitIntoStrings(data, blockSize);
-
+        splittedStrings = Utility.splitStrings(input, blockSize);
         List<List <Integer>> permutations = getPermutations(key);
 
         for (List<Integer> p: permutations) {
@@ -23,45 +25,15 @@ public class PermuteString {
                 output.append(permuteOne(str, p));
             }
 
-            ArrayList<String> out = splitIntoStrings(output.toString(), blockSize);
-
-            for(int i = 0; i < out.size(); i++)
-                returnValue += (out.get(i));
+            List<String> out = Utility.splitStrings(output.toString(), blockSize);
+            uniquePermutations.addAll(out);
         }
 
-        return returnValue;
+        return new ArrayList<>(uniquePermutations);
     }
 
-    private static ArrayList<String> splitIntoStrings (String data, Integer blockSize) {
-        StringBuilder sb = new StringBuilder();
-        ArrayList<String> output = new ArrayList<>();
-        int count = 0;
-
-        data+="\n\n"; /**THIS LINE SPLITS EACH PERMUTATION*/
-
-        for (Character c: data.toCharArray()) {
-            sb.append(c);
-
-            ++count;
-            if (count == blockSize) {
-                count = 0;
-                output.add(sb.toString());
-
-                sb = new StringBuilder();
-            }
-        }
-
-        if (!sb.toString().equals("")) {
-            while ( (sb.toString().length() % blockSize) != 0 ) {
-                sb.append(" ");
-            }
-
-            output.add(sb.toString());
-        }
-
-        return output;
-    }
-
+    //rearrange the characters of the input block into the order defined by the key
+    //uses the output from getPermutations to do one permutation.
     private static String permuteOne (String block, List<Integer> key) {
         StringBuilder output = new StringBuilder();
 
@@ -72,7 +44,8 @@ public class PermuteString {
         return output.toString();
     }
 
-    //for permuting the key. probably need to move it to the appropriate function.
+    //gets all possible permutations of the key
+    //this is used in the main permute function as an easier way to manage each character in a string.
     private static List<List<Integer>> getPermutations(Integer[] key) {
         //use lists because they accept inserting stuff in the middle, unlike a normal array.
         List<List<Integer>> permutations = new ArrayList<>();

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.design.widget.NavigationView;
@@ -31,19 +30,15 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class GUI_MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class GUI_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int READ_REQUEST_CODE = 42;
 
     private App_Framework framework;
     private DatabaseFramework database = new DatabaseFramework(this);
 
-    private GUI_adaptr adapter;
+    private FrontPageAdapter adapter;
     private RecyclerView list; //the 'array' of project list
-
-    //this is the text file where the project list contents are stored. The contents will be used by recycler view in the main menu
-    private String projectDirectoryFileName = "projectDirectory.txt";
 
     //front page identifier = struct like class for the adapter to simplify the data reading
     private ArrayList<FrontPageIdentifier> projectTitle = new ArrayList();
@@ -58,160 +53,27 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private FloatingActionButton fab;
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-        framework = new App_Framework(this, false);
+        if(id == R.id.nav_frontPage)
+            launchFrontPageActivity();
 
-        overrideTheme();
+        else if (id == R.id.nav_encryption_decryption)
+            launchEncryptionDecryptionActivity();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        else if (id == R.id.nav_about_us)
+            launchAboutUsActivity();
 
-        newProjectView = getLayoutInflater().inflate(R.layout.pop_new_project, null);
-
-        clearSharedPrefs();
-
-        setFloatingActionButton();
-
-        setRecycler();
-        setNavDrawer();
-        setSearchBar();
-
-        setTitle("PROJECT MANAGER"); //change the title in the action bar
-        getListFromDB();
-    }
-
-    /**Functions for onCreate()*/
-
-    /**Use this because this class needs "no action bar" theme for it to work */
-    private void overrideTheme()
-    {
-        if(framework.isDarkTheme())
-            this.setTheme(R.style.DarkTheme_NoActionBar);
-        else
-            this.setTheme(R.style.AppTheme_NoActionBar);
-    }
-
-    private void clearSharedPrefs()
-    {
-        //clear shared preferenes
-        SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.commit();
-    }
-
-    private void setRecycler()
-    {
-        list = (RecyclerView) findViewById(R.id.rv_numbers);
-        LinearLayoutManager layout = new LinearLayoutManager(this);
-        list.setLayoutManager(layout);
-
-        list.setHasFixedSize(true);
-
-        /**
-         * This sets the view of the floating action button and the search bar.
-         * if the user is not at the top of the recycler view, both of them will not be visible
-         * */
-        list.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
-                final int MINIMUM_RECYCLERVIEW_ENTRY = 2;
-
-                if(layout.findFirstVisibleItemPosition() != 0 && projectTitle.size() >= MINIMUM_RECYCLERVIEW_ENTRY)
-                {
-                    searchBar.setVisibility(View.INVISIBLE);
-                    fab.setVisibility(View.GONE);
-
-                }
-                else
-                {
-                    searchBar.setVisibility(View.VISIBLE);
-                    fab.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-    }
-
-    private void setFloatingActionButton()
-    {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                createNewProject();
-            }
-        });
-
-        if(framework.isDarkTheme())
-            fab.setBackgroundTintList(getResources().getColorStateList(R.color.dark_secondaryColor));
-        else
-            fab.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
-    }
-
-    private void setNavDrawer()
-    {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        else if (id == R.id.nav_settings)
+            launchSettingsActivity();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private void setSearchBar()
-    {
-        //set up the search bar
-        searchBar = findViewById(R.id.searchBar);
-        searchBar.setHint("Search");
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                getListFromDB();
-
-                //make changes here
-                if(!editable.toString().isEmpty() || editable.toString() != null)
-                    filter(editable.toString());
-                else
-                    adapter.filterList(projectTitle);
-            }
-        });
-    }
-
-
-
-
-    private void filter(String input)
-    {
-        ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
-
-        for(FrontPageIdentifier item: projectTitle)
-        {
-            if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
-            {
-                filteredTitle.add(item);
-            }
-        }
-
-        adapter.filterList(filteredTitle);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
@@ -247,27 +109,179 @@ public class GUI_MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    /**This function will be executed on return from the device's file browser*/
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if(id == R.id.nav_frontPage)
-            launchFrontPageActivity();
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        {
+            if(data != null) {
+                //URI is the return value given by ACTION_OPEN_DOCUMENT intent
+                Uri uri = data.getData();
 
-        /*else*/if (id == R.id.nav_encryption_decryption)
-            launchEncryptionDecryptionActivity();
+                try
+                {
+                    cipherTextFromFile = framework.readTextFromUri(uri, context);
 
-        else if (id == R.id.nav_about_us)
-             launchAboutUsActivity();
+                } catch (IOException e)
+                {}
 
-        else if (id == R.id.nav_settings)
-            launchSettingsActivity();
+                if(!cipherTextFromFile.isEmpty())
+                {
+                    EditText editText = newProjectView.findViewById(R.id.editText_cipherInputField);
+                    editText.setText(cipherTextFromFile);
+                }
+                else
+                    framework.system_message_small("Error opening file (file could be empty)");
+            }
+        }
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        framework = new App_Framework(this, false);
+        overrideTheme();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        newProjectView = getLayoutInflater().inflate(R.layout.pop_new_project, null);
+
+        clearSharedPrefs();
+
+        setFloatingActionButton();
+
+        setRecycler(); //set the recycler view, recycler = container of the card view
+        setNavDrawer();
+        setSearchBar();
+
+        setTitle("PROJECT MANAGER");
+        getListFromDB();
+
+        getSupportActionBar().setElevation(0);
+    }
+
+    /**Functions for onCreate()*/
+    /**Use this because this class needs "no action bar" theme for it to work */
+    private void overrideTheme()
+    {
+        if(framework.isDarkTheme())
+            this.setTheme(R.style.DarkTheme_NoActionBar);
+        else
+            this.setTheme(R.style.AppTheme_NoActionBar);
+    }
+
+    private void clearSharedPrefs()
+    {
+        SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    private void setRecycler()
+    {
+        list = findViewById(R.id.rv_numbers);
+        LinearLayoutManager layout = new LinearLayoutManager(this);
+        list.setLayoutManager(layout);
+
+        list.setHasFixedSize(true);
+
+        /**
+         * This sets the view of the floating action button and the search bar.
+         * if the user is not at the top of the recycler view, both of them will not be visible
+         * */
+        list.setOnScrollChangeListener((View view, int x, int y, int oldX, int oldY) -> {
+                final int MINIMUM_RECYCLERVIEW_ENTRY = 2;
+
+                if(layout.findFirstVisibleItemPosition() != 0 && projectTitle.size() >= MINIMUM_RECYCLERVIEW_ENTRY)
+                {
+                    searchBar.setVisibility(View.GONE);
+                    fab.setVisibility(View.GONE);
+
+                }
+                else
+                {
+                    searchBar.setVisibility(View.VISIBLE);
+                    fab.setVisibility(View.VISIBLE);
+                }
+        });
+    }
+
+    private void setFloatingActionButton()
+    {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener((View view) ->
+                createNewProject());
+
+        if(framework.isDarkTheme())
+            fab.setBackgroundTintList(getResources().getColorStateList(R.color.dark_secondaryColor));
+        else
+            fab.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+    }
+
+    private void setNavDrawer()
+    {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(0).setChecked(true); //highlights "front page" item menu
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setSearchBar()
+    {
+        //set up the search bar
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.setHint("Search");
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getListFromDB();
+
+                //make changes here
+                if(!editable.toString().isEmpty() || editable.toString() != null)
+                    filter(editable.toString());
+                else
+                    adapter.filterList(projectTitle);
+            }
+        });
+    }
+
+
+
+    /**Filters the recycler view container to only contain words in the search bar*/
+    private void filter(String input)
+    {
+        ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
+
+        for(FrontPageIdentifier item: projectTitle)
+        {
+            if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
+            {
+                filteredTitle.add(item);
+            }
+        }
+
+        adapter.filterList(filteredTitle);
     }
 
     /**CALL THIS FUNCTION DURING STARTUP AND WHEN THERE IS ANY UPDATE TO THE DATABASE TABLE*/
@@ -278,7 +292,7 @@ public class GUI_MainActivity extends AppCompatActivity
         {
             findViewById(R.id.text_view_empty).setVisibility(View.GONE);
 
-            adapter = new GUI_adaptr(projectTitle);
+            adapter = new FrontPageAdapter(projectTitle);
 
             if(adapter.getItemCount() > 0)
                 list.setAdapter(adapter);
@@ -309,7 +323,6 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private void launchAboutUsActivity()
     {
-        //TODO()BUG HERE PLS FIX
         /**Just create empty activity with a paragraph of text and some contact info*/
         Intent intent = new Intent(this, GUI_aboutUs.class);
         this.startActivity(intent);
@@ -352,10 +365,11 @@ public class GUI_MainActivity extends AppCompatActivity
                             framework.system_message_small("Project title is still empty");
                         else if(cipherText.isEmpty())
                             framework.system_message_small("Cipher text input is still empty");
+                        else if(projectExist(projectTitle))
+                            framework.system_message_small("Project title already exist");
                         else
                         {
                             database.addNewComposite(Integer.toString(ID), projectTitle);
-                            //database.addData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
                             database.updateData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
 
                             getListFromDB();
@@ -365,7 +379,7 @@ public class GUI_MainActivity extends AppCompatActivity
             });
         }
 
-    /**THIS FUNCTION WILL BE USED IN "GUI_adaptr.java"*/
+    /**THIS FUNCTION WILL BE USED IN "FrontPageAdapter.java"*/
     protected void editProject(String ID, String title, String cText)
     {
         String viewTitle = "Edit Project";
@@ -398,6 +412,8 @@ public class GUI_MainActivity extends AppCompatActivity
                     framework.system_message_small("Project title is still empty");
                 else if(cipherText.isEmpty())
                     framework.system_message_small("Cipher text input is still empty");
+                else if(projectExist(projectTitle))
+                    framework.system_message_small("Project title already exist");
                 else
                 {
                     database.updateData(ID, title, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
@@ -412,8 +428,8 @@ public class GUI_MainActivity extends AppCompatActivity
 
     protected boolean projectExist(String newProjectTitle)
     {
-        for(int i = 0; i < projectTitle.size(); i++)
-            if(projectTitle.get(i).getTitle().equals(newProjectTitle))
+        for(FrontPageIdentifier fpi: projectTitle)
+            if(fpi.getTitle().toLowerCase().equals(newProjectTitle.toLowerCase()))
                 return true;
 
         return false;
@@ -422,41 +438,11 @@ public class GUI_MainActivity extends AppCompatActivity
 
     private void openFileBrowser()
     {
-        String returnVal = new String();
-
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT); //START INTENT TO CHOOSE FILE USING DEVICE' DEFAULT FILE BROWSER
         intent.addCategory(Intent.CATEGORY_OPENABLE);//SHOW ONLY FILES THAT CAN BE OPENED
         intent.setType("text/plain"); //only plain txt file can be accessed
 
         startActivityForResult(intent, READ_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK)
-        {
-            if(data != null) {
-                //URI is the return value given by ACTION_OPEN_DOCUMENT intent
-                Uri uri = data.getData();
-
-                try
-                {
-                    cipherTextFromFile = framework.readTextFromUri(uri, context);
-
-                } catch (IOException e)
-                {}
-
-                if(!cipherTextFromFile.isEmpty())
-                {
-                    EditText editText = newProjectView.findViewById(R.id.editText_cipherInputField);
-                    editText.setText(cipherTextFromFile);
-                }
-                else
-                    framework.system_message_small("Error opening file (file could be empty)");
-            }
-        }
     }
 
 }

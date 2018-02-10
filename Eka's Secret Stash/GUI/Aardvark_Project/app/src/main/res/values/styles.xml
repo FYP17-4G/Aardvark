@@ -3,14 +3,17 @@
     <!-- APPLICATION'S LIGHT THEME (DEFAULT) -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryTextColor</item>
-        <item name="colorPrimaryDark">@color/primaryTextColor</item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="colorPrimaryDark">@android:color/darker_gray</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/primaryTextColor</item>
-        <item name="android:navigationBarColor">@color/cardview_light_background</item>
-        <item name="android:colorBackground">@color/cardview_light_background</item>
+        <item name="android:statusBarColor">@android:color/darker_gray</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
+
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:textColorPrimaryInverse">@color/dark_primaryLightColor</item>
     </style>
 
     <!--APPLICATION'S DARK THEME-->
@@ -23,6 +26,8 @@
         <item name="android:colorBackground">@color/cardview_dark_background</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textColorPrimary">@color/dark_primaryTextColor</item>
+
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
     <!--===========================================================================================-->
@@ -54,6 +59,7 @@
     <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/darker_gray</item>
     </style>
     <style name="DarkTheme.NoActionBar" parent="@style/DarkTheme">
         <item name="windowActionBar">false</item>
@@ -74,6 +80,10 @@
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style parent="@android:style/Widget.Spinner" name="SpinnerwithNoArrow">
+        <item name="android:background">@android:drawable/edit_text</item>
     </style>
 
 </resources>

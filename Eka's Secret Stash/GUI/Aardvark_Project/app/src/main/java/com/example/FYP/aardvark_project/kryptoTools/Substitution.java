@@ -24,8 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Substitution implements Cipher {
-    private String DESC = "Substitution Cipher";
-    private String NAME = "Substitution Cipher";
+    private String DESC = "SubstitutionCipher Cipher";
+    private String NAME = "SubstitutionCipher Cipher";
     private String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
     //allows the user to substitute a single character

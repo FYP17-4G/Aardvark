@@ -1,62 +1,61 @@
 package com.example.FYP.aardvark_project;
 
 import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
+import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.view.View;
+import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.example.FYP.aardvark_project.Database.DatabaseFramework;
-import com.example.FYP.aardvark_project.analysisTools.CryptoAnalysis;
 import com.example.FYP.aardvark_project.kryptoTools.*;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class GUI_fragment_project_view extends Fragment {
 
+    /**Constants*/
     private final int INITIAL_CAESAR_SEEKBAR_VALUE = 26;
 
+    /**Project variables*/
     private App_Framework framework;
+
+    private TextView cipherTextView;
+
+    private List<String> changeHistory = new ArrayList<>();
 
     private String projectTitle = new String();
     private String projectID = new String();
-
-    /**[VARIABLE SECTION]*/
-    //Project cipher variables
-    private List<String> changeHistory = new ArrayList<>();
     private String cipherText = new String();
     private String originalCipherText = new String();
-    private TextView cipherTextView;
 
-    private String beforeShift = new String();
-
-    //Analysis variables
-    private CryptoAnalysis cryptoAnalysis;
-
-    /**Variables for Krypto tools*/
-    //CAESAR CIPHER
+    /**Caesar shift cipher*/
+    private Button caesar_popup_button;
     private SeekBar caesarSeekBar;
     private TextView indicator;
+
     private int shiftCipherBy = 0;
+    private String beforeShift = new String();
 
-    private Button caesar_popup_button;
-
-    //SUBSTITUTION
-    private Spinner charASpinner; //Replace charA with charB
+    /**SubstitutionCipher*/
+    private Spinner charASpinner;
     private Spinner charBSpinner;
     private Button charSubButton;
     private char charA;
@@ -64,81 +63,229 @@ public class GUI_fragment_project_view extends Fragment {
 
     private String beforeSub = new String();
 
-    //undo button and reset button
+    /**undo button and reset button*/
     private Button undoButton;
     private Button resetButton;
 
-    //database
+    /**database*/
     private DatabaseFramework database;
 
-    //<...>
-
-    /**TAB RELATED VARIABLES*/
-
+    /**Tab related varibles*/
     private View view;
     private FragmentActivity fragmentActivity;
+
+    private SlidingUpPanelLayout slidingUpPanelLayout;
+    private ImageView panelIndicator;
+
+    private GeneralTextInput generalTextInput;
+    private FrameLayout generalTextInputLayout;
+
+    /**Misc variables*/
+    private FrameLayout layoutSub;
+    private FrameLayout layoutShift;
+
+    private Button frequencyAnalysisButton;
+    private Button ICFrequencyButton;
+
+    private ViewFlipper slidingUpPanelViewFlipper; //use to change included xml view
+
+    private Button slidingUpPanelToolsButton; // Button to access list of tools
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        //set up the view
+        /**Setup this fragment view*/
         view = inflater.inflate(R.layout.fragment_project_view_main, container, false);
+        fragmentActivity = this.getActivity(); //This is important: use this to access activity related functions
+
+        getCompositeKeys();//gets ID and title, useful for looking up for related data from the database
 
         framework= new App_Framework(view.getContext(), true);
-
-        fragmentActivity = this.getActivity(); /**This is important: use this to access activity related functions*/
-
-        this.projectTitle = getArguments().getString("title");
-        this.projectID = getArguments().getString("id");
-
-        //set up the database
         database = new DatabaseFramework(view.getContext());
 
         setCipherTextView();
 
         getCipherTextFromDB();
 
-        //SET UP TOOLS FOR THE PROJECT
-        setCaesarTool(); //shift cipher
+        setShiftTool();
         setSubstitutionTool();
         setTranspoTools();
 
-        //SET OTHER TOOLS HERE<...>
-
-        //originalCipherText = cipherText;
-        originalCipherText = changeHistory.get(0); //since the originalCipherText will always be at the first entry
-        //changeHistory.add(originalCipherText);
+        originalCipherText = changeHistory.get(0); //sets the original cipher text to the very first entry in the change history
 
         setUndoButton();
         setResetButton();
 
-        setGraph();
+        setSlidingUpPanel();
+
+        setAnalysisTool();
+        setLetterFrequencyGraph();
+        setPeriodFrequencyGraph();
 
         setSaveButton();
+
+        generalTextInput = new GeneralTextInput(view.findViewById(R.id.include_general));
+
+        setInitialVisibility();
 
         return view;
     }
 
+    /**Sets which view is being shown or hide during this activity creation*/
+    private void setInitialVisibility()
+    {
+        layoutSub = view.findViewById(R.id.subLayout);
+        layoutShift = view.findViewById(R.id.shiftLayout);
+        generalTextInputLayout = view.findViewById(R.id.generalInputLayout);
+
+        layoutSub.setVisibility(View.VISIBLE);
+        layoutShift.setVisibility(View.GONE);
+        generalTextInputLayout.setVisibility(View.GONE);
+
+    }
+
+    /**
+     * This are the functions for tools that only needs an input text and one (or two) button to apply
+     * */
+    private void generalTextInputAppear(String hint, String positiveText, String negativeText, OnClickListener positiveListener, OnClickListener negativeListener)
+    {
+        generalTextInputLayout.setVisibility(View.VISIBLE);
+        layoutSub.setVisibility(View.GONE);
+        layoutShift.setVisibility(View.GONE);
+
+        generalTextInput.positiveButtonVisible();
+        generalTextInput.negativeButtonVisible();
+
+        generalTextInput.inputAcceptText();
+
+        generalTextInput.clearInput();
+        generalTextInput.setHint(hint);
+        generalTextInput.setPositiveButtonText(positiveText);
+        generalTextInput.setNegativeButtonText(negativeText);
+        generalTextInput.setPositiveButtonListener(positiveListener);
+        generalTextInput.setNegativeButtonListener(negativeListener);
+    }
+    private void generalTextInputAppear(String hint, String positiveText, OnClickListener positiveListener)
+    {
+        generalTextInputLayout.setVisibility(View.VISIBLE);
+        layoutSub.setVisibility(View.GONE);
+        layoutShift.setVisibility(View.GONE);
+
+        generalTextInput.positiveButtonVisible();
+        generalTextInput.negativeButtonGone();
+
+        generalTextInput.clearInput();
+        generalTextInput.setHint(hint);
+        generalTextInput.setPositiveButtonText(positiveText);
+        generalTextInput.setPositiveButtonListener(positiveListener);
+    }
+
+    /**
+     * Composite keys = the keys used to identify this project (ID, title)
+     * */
+    private void getCompositeKeys()
+    {
+        this.projectTitle = getArguments().getString("title");
+        this.projectID = getArguments().getString("id");
+    }
+
+    /**Functions for the sliding up panel*/
+    private void setSlidingUpPanel()
+    {
+        panelIndicator = view.findViewById(R.id.panel_arrow_indicator);
+        View tempView = view.findViewById(R.id.sliding_up_panel_content_tools_include);
+        ImageView panelIndicator2 = tempView.findViewById(R.id.panel_arrow_indicator);
+
+        slidingUpPanelLayout = view.findViewById(R.id.root_slide_up_panel);
+        slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                /*if(previousState == SlidingUpPanelLayout.PanelState.COLLAPSED)
+                    view.findViewById(R.id.project_view_cipher_frame_layout).startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.anim_scale_object_grow));
+                else if(previousState == SlidingUpPanelLayout.PanelState.EXPANDED)
+                    view.findViewById(R.id.project_view_cipher_frame_layout).startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.anim_scale_object_shrink));*/
+
+                if(newState == SlidingUpPanelLayout.PanelState.EXPANDED)
+                {
+                    panelIndicator.setImageResource(R.mipmap.ic_arrow_drop_down_circle_black_24dp); //change indicator to down arrow
+                    panelIndicator2.setImageResource(R.mipmap.ic_arrow_drop_down_circle_black_24dp); //change indicator to down arrow
+                }
+                else if(newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
+                {
+                    panelIndicator.setImageResource(R.mipmap.ic_arrow_drop_up_black_24dp); //change indicator to up arrow
+                    panelIndicator2.setImageResource(R.mipmap.ic_arrow_drop_up_black_24dp); //change indicator to up arrow
+                }
+            }
+        });
+
+        setSlidingUpPanelViewFlipper();
+        slidingUpPanelDisplayTools();
+    }
+    private void setSlidingUpPanelViewFlipper()
+    {
+        View slidingUpGeneralView = view.findViewById(R.id.sliding_up_panel_content_include);
+        View slidingUpToolsView = view.findViewById(R.id.sliding_up_panel_content_tools_include);
+
+        slidingUpPanelViewFlipper = view.findViewById(R.id.slidingUpPanelViewFlipper);
+
+        slidingUpPanelToolsButton = slidingUpGeneralView.findViewById(R.id.button_crypto_tools);
+        slidingUpPanelToolsButton.setOnClickListener(view -> slidingUpPanelDisplayTools());
+        Button slidingUpPanelBackButton = slidingUpToolsView.findViewById(R.id.slidingUpPanelBackButton);
+        slidingUpPanelBackButton.setOnClickListener(view -> slidingUpPanelDisplayExtra());
+    }
+
+    private void collapsePanel()
+    {
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+    private void expandPanel()
+    {
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+    }
+
+    private void changeCipherIcon(int iconID)
+    {
+        ImageView img = view.findViewById(R.id.sliding_up_panel_cipher_icon);
+        img.setImageResource(iconID);
+    }
+
+    private void slidingUpPanelDisplayTools()
+    {
+        slidingUpPanelViewFlipper.setInAnimation(view.getContext(), R.anim.anim_in_from_left);
+        slidingUpPanelViewFlipper.setOutAnimation(view.getContext(), R.anim.anim_out_to_right);
+        slidingUpPanelViewFlipper.setDisplayedChild(1);
+    }
+
+    private void slidingUpPanelDisplayExtra()
+    {
+        slidingUpPanelViewFlipper.setInAnimation(view.getContext(), R.anim.anim_in_from_right);
+        slidingUpPanelViewFlipper.setOutAnimation(view.getContext(), R.anim.anim_out_to_left);
+        slidingUpPanelViewFlipper.setDisplayedChild(0);
+    }
+
+    /**
+     * Get cipher text data from the database.
+     * This function also splits every cipher text changes and store it into
+     * change history array list
+     * */
     private void getCipherTextFromDB()
     {
-        //this.cipherText = framework.clean(framework.getTextFromFile(this.projectID + this.projectTitle + "cipherTextOriginal.txt"));
-
-         String ctext = database.getCipherText(projectID, projectTitle);
-        //split and add to change history
-        String[] split = ctext.split("\\|");
+        String ctext = database.getCipherText(projectID, projectTitle);
+        String[] split = ctext.split("\\|"); //split and add to change history
 
         changeHistory = new ArrayList<>(Arrays.asList(split));
-
         cipherText = changeHistory.get(changeHistory.size() - 1);
-        //cipherText = ctext;
-        cipherText = framework.format(cipherText);
         cipherTextView.setText(cipherText);
     }
 
     private void updateCipherTextToDB()
     {
-        //process the stuff from changeHistory
-        String data = new String();
+        String data = new String(); //process the stuff from changeHistory
 
         for(int i = 0; i < changeHistory.size(); i++)
         {
@@ -147,29 +294,6 @@ public class GUI_fragment_project_view extends Fragment {
                 data += "|";
         }
         database.updateCipherText(projectID, projectTitle, data);
-    }
-
-    public String getCipherText()
-    {
-        return this.cipherText;
-    }
-
-    private void setGraph()
-    {
-        Button graphButtonPopup = view.findViewById(R.id.button_graphPopup);
-        graphButtonPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //DO TRANSITION
-                Intent intent = new Intent(fragmentActivity, GUI_graph.class);
-                intent.putExtra("cipherText", cipherText);
-
-                FrameLayout targetFrame = getLayoutInflater().inflate(R.layout.activity_graph, null).findViewById(R.id.scrollable_cipher_layout);
-
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, targetFrame, ViewCompat.getTransitionName(targetFrame));
-                startActivity(intent, options.toBundle());
-            }
-        });
     }
 
     private void setCipherTextView()
@@ -186,128 +310,134 @@ public class GUI_fragment_project_view extends Fragment {
     {
         /**SET UP SAVE BUTTON*/
         Button saveButton = view.findViewById(R.id.button_save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateCipherTextToDB();
-                framework.system_message_small("Progress saved");
-            }
+        saveButton.setOnClickListener(view -> {
+            updateCipherTextToDB();
+            framework.system_message_small("Progress saved");
         });
     }
 
     private void setUndoButton()
     {
-        undoButton = (Button) view.findViewById(R.id.button_undo);
-
-        undoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                undo();
-            }
-        });
+        undoButton = view.findViewById(R.id.button_undo);
+        undoButton.setOnClickListener(view -> undo());
     }
 
     private void setResetButton()
     {
-        resetButton = (Button) view.findViewById(R.id.button_reset);
+        resetButton = view.findViewById(R.id.button_reset);
+        resetButton.setOnClickListener(view -> reset());
+    }
 
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                reset();
-            }
+    private void setAnalysisTool()
+    {
+        Button graphButtonPopup = view.findViewById(R.id.button_graphPopup);
+        graphButtonPopup.setOnClickListener(view -> {
+            Intent intent = new Intent(fragmentActivity, GUI_graph_Analysis.class);
+            intent.putExtra("cipherText", cipherText);
+
+            startActivity(intent);
+            collapsePanel();
         });
     }
 
+    private void setLetterFrequencyGraph()
+    {
+        frequencyAnalysisButton = view.findViewById(R.id.button_graph_frequency);
+        frequencyAnalysisButton.setOnClickListener(view -> {
+            Intent intent = new Intent(fragmentActivity, GUI_graph_frequency_letter.class);
+            intent.putExtra("cipherText", cipherText);
+            startActivity(intent);
+            collapsePanel();
+        });
+    }
+
+    private void setPeriodFrequencyGraph()
+    {
+        ICFrequencyButton = view.findViewById(R.id.frequency_graph_period);
+        ICFrequencyButton.setOnClickListener(view -> {
+            Intent intent = new Intent(fragmentActivity, GUI_graph_frequency_period.class);
+            intent.putExtra("cipherText", cipherText);
+            startActivity(intent);
+        });
+        collapsePanel();
+    }
 
     private void undo() //undo the cipher text into its previous state
     {
-
-        if(changeHistory.size() == 1)
+        if(changeHistory.size() <= 1)
+        {
             framework.system_message_small("Maximum undo attempt reached");
+            caesarSeekBar.setProgress(INITIAL_CAESAR_SEEKBAR_VALUE);
+        }
 
-        else if(!this.cipherText.equals(this.originalCipherText) && !changeHistory.isEmpty() && changeHistory.size() >1) //because the first entry == originalCipherText
+        else if(!cipherText.equals(originalCipherText) && !changeHistory.isEmpty() && changeHistory.size() >1) //because the first entry == originalCipherText
         {
             changeHistory.remove(changeHistory.size()-1); //remove the latest entry
             this.cipherText = changeHistory.get(changeHistory.size()-1);
-            cipherTextView.setText(framework.format(cipherText));
+            cipherTextView.setText(cipherText);
         }
     }
 
     private void reset() //reset the cipher text into its original state
     {
-        if(this.cipherText.equals(this.originalCipherText))
+        if(cipherText.equals(originalCipherText))
             framework.system_message_small("cipher text is already at its original state");
 
-        else if(!this.cipherText.equals(this.originalCipherText) && !changeHistory.isEmpty())
+        else if(!cipherText.equals(originalCipherText) && !changeHistory.isEmpty())
         {
             this.cipherText = originalCipherText;
-            cipherTextView.setText(framework.format(cipherText));
+            cipherTextView.setText(cipherText);
             changeHistory.clear(); //remove all items from the arraylist
         }
-    }
 
-    private void refresh()//refreshes the cipher text view
-    {
-        changeHistory.add(cipherText);
-        cipherTextView.setText(cipherText);
+        caesarSeekBar.setProgress(INITIAL_CAESAR_SEEKBAR_VALUE);
     }
 
     /**GUI SETUP*/
     /**for all functions that changes the value of variable cipherText, call function "refresh()" afterwards to refresh cipher text view on the GUI
      * example can be seen in functions "doShiftLeft()" and "doShiftRight()"
      * */
-    private void setCaesarTool()
+    private void setShiftTool()
     {
-        View shiftView = getLayoutInflater().inflate(R.layout.pop_shift_cipher, null);
+        View shiftView = view.findViewById(R.id.include_shift); //gets from the "include" view type in the xml file
 
-
-        final SeekBar.OnSeekBarChangeListener caesarSeekBarListener = new SeekBar.OnSeekBarChangeListener()
-        {
+        SeekBar.OnSeekBarChangeListener caesarSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b)
-            {
-
-                shiftCipherBy = (seekBar.getProgress() - 26);
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                shiftCipherBy = (seekBar.getProgress() - INITIAL_CAESAR_SEEKBAR_VALUE);
 
                 if(shiftCipherBy < 0)
                 {
                     doShiftLeft();
+                    indicator.setText("Current Shift: <" + ((seekBar.getProgress() - 26) * -1));
                 }
                 else
                 {
                     doShiftRight();
+                    indicator.setText("Current Shift: >" + (seekBar.getProgress() - 26));
                 }
+            }
 
-                indicator.setText("Current Shift: " + (seekBar.getProgress() - 26));
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
                 refresh();
-                //caesarSeekBar.dispatchDisplayHint(caesarSeekBar.getProgress());
-                //shiftCipherBy = caesarSeekBar.getProgress();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
-
+                beforeShift = cipherText;
             }
         };
 
-        caesarSeekBar = (SeekBar) shiftView.findViewById(R.id.seekBar_caesar);
-        indicator = (TextView) shiftView.findViewById(R.id.seekBar_indicator);
+        caesarSeekBar = shiftView.findViewById(R.id.seekBar_caesar);
+        indicator = shiftView.findViewById(R.id.seekBar_indicator);
 
         caesarSeekBar.setMax(52);
         caesarSeekBar.setProgress(INITIAL_CAESAR_SEEKBAR_VALUE);
         caesarSeekBar.setOnSeekBarChangeListener(caesarSeekBarListener);
 
-        indicator.setText("Current Shift: " + (caesarSeekBar.getProgress() - 26));
+        indicator.setText("Current Shift: " + (caesarSeekBar.getProgress() - INITIAL_CAESAR_SEEKBAR_VALUE));
 
         List<Integer> content = new ArrayList<>();
         for(int i = 0; i < 26; i++)
@@ -318,45 +448,59 @@ public class GUI_fragment_project_view extends Fragment {
 
         //caesar shift button in fragment project view
         caesar_popup_button = view.findViewById(R.id.button_shiftPopup);
-        caesar_popup_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        caesar_popup_button.setOnClickListener(view -> {
 
-                beforeShift = cipherText;
-                framework.popup_custom("Caesar Shift", shiftView).show();
-            }
+            beforeShift = cipherText;
+
+            layoutShift.setVisibility(View.VISIBLE);
+            layoutSub.setVisibility(View.GONE);
+            generalTextInputLayout.setVisibility(View.GONE);
+
+            collapsePanel();
+
+            changeCipherIcon(R.mipmap.shift);
         });
-
     }
+
+    /**
+     * Cipher calculation functions
+     * */
 
     private void doShiftLeft()
     {
+        framework.format(beforeShift); //sets framework.original_text to beforeShift
         try
         {
-            cipherText = new Shift().decrypt(beforeShift.toLowerCase(), Integer.toString(Math.abs(shiftCipherBy)));
+            framework.setMODIFIED_TEXT(new Shift().decrypt(framework.getMODIFIED_TEXT(), Integer.toString(Math.abs(shiftCipherBy))));
+            cipherText = framework.displayModifiedString();
         }catch(InvalidKeyException e)
-        {}
+        {
+            framework.system_message_small(e.getMessage());
+        }
     }
 
     private void doShiftRight()
     {
+        framework.format(beforeShift); //sets framework.original_text to beforeShift
         try
         {
-            cipherText = new Shift().encrypt(beforeShift.toLowerCase(), Integer.toString(Math.abs(shiftCipherBy)));
+            framework.setMODIFIED_TEXT(new Shift().encrypt(framework.getMODIFIED_TEXT(), Integer.toString(Math.abs(shiftCipherBy))));
+            cipherText = framework.displayModifiedString();
         }catch(InvalidKeyException e)
-        {}
+        {
+            framework.system_message_small(e.getMessage());
+        }
     }
 
     private void setSubstitutionTool()
     {
         Button stringSubButton;
 
-        View substitutionView = getLayoutInflater().inflate(R.layout.pop_substitution_cipher, null);
+        View substitutionView = view.findViewById(R.id.include_sub); //gets view from "include" element in xml file
 
-        /**Substitution by character*/
         Character[] alphabets = {'-', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-        //listener for charA spinner view
+        /**listener for charA spinner view*/
         AdapterView.OnItemSelectedListener charAListener = new AdapterView.OnItemSelectedListener()
         {
             @Override
@@ -370,7 +514,7 @@ public class GUI_fragment_project_view extends Fragment {
             {}
         };
 
-        //listener for charB spinner view
+        /**listener for charB spinner view*/
         AdapterView.OnItemSelectedListener charBListener = new AdapterView.OnItemSelectedListener()
         {
             @Override
@@ -384,128 +528,217 @@ public class GUI_fragment_project_view extends Fragment {
             {}
         };
 
-        View.OnClickListener charSubButtonListener = new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+        OnClickListener charSubButtonListener = v -> {
+            if((charA != '-') || (charB != '-'))
             {
-                if((charA != '-') || (charB != '-'))
-                {
-                    beforeSub = cipherText;
-                    doSubstitution(charA, charB);
-                    refresh();
-                }
+                beforeSub = originalCipherText;
+                doSubstitution(charA, charB);
+                refresh();
             }
         };
 
-        View.OnClickListener stringSubButtonListener = new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                DialogInterface.OnClickListener popupListener = new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        doSubstitution(framework.popup_getInput());
-                        refresh();
-                    }
-                };
-
-                framework.popup_show("Substitute by String", "String key value", popupListener);
-            }
+        OnClickListener stringSubButtonListener = (View view) -> {
+            collapsePanel();
+            changeCipherIcon(R.mipmap.substitution);
+            generalTextInputAppear("String substitution key", "Encrypt", "Despacito", view1 -> {
+                doSubstitution(generalTextInput.getInput(), true);
+                refresh();
+            }, view12 -> {
+                doSubstitution(generalTextInput.getInput(), true);
+                refresh();
+        });
         };
 
         /**Setup spinner for both charA and charB*/
-        charASpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charA);
-        charBSpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charB);
+        charASpinner = substitutionView.findViewById(R.id.spinner_charA);
+        charBSpinner = substitutionView.findViewById(R.id.spinner_charB);
 
         List<Character> content = new ArrayList<Character>(Arrays.asList(alphabets)); //assign 'alphabets' array as a list data type
 
-        //set spinner for charA
+        /**Setup spinner for charA and char B*/
         ArrayAdapter<Character> spinnerAdapterA = new ArrayAdapter<Character>(substitutionView.getContext(), android.R.layout.simple_spinner_item, content);
         spinnerAdapterA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         charASpinner.setAdapter(spinnerAdapterA);
 
-        //set spinner for charB
         ArrayAdapter<Character> spinnerAdapterB = new ArrayAdapter<Character>(substitutionView.getContext(), android.R.layout.simple_spinner_item, content);
         spinnerAdapterB.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         charBSpinner.setAdapter(spinnerAdapterB);
 
-        charASpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charA);
-        charBSpinner = (Spinner) substitutionView.findViewById(R.id.spinner_charB);
+        charASpinner = substitutionView.findViewById(R.id.spinner_charA);
+        charBSpinner = substitutionView.findViewById(R.id.spinner_charB);
         charASpinner.setOnItemSelectedListener(charAListener);
         charBSpinner.setOnItemSelectedListener(charBListener);
 
-        /**Setup button for Substitution by char*/
-        charSubButton = (Button) substitutionView.findViewById(R.id.button_charSubstitution);
+        /**Setup button for SubstitutionCipher by char*/
+        charSubButton = substitutionView.findViewById(R.id.button_charSubstitution);
         charSubButton.setOnClickListener(charSubButtonListener);
 
-        /**Setup button for Substitution by String*/
-        stringSubButton = (Button) view.findViewById(R.id.button_stringSubstitution);
+        /**Setup button for SubstitutionCipher by String*/
+        stringSubButton = view.findViewById(R.id.button_stringSubstitution);
         stringSubButton.setOnClickListener(stringSubButtonListener);
 
-
-
-        /**SETUP BUTTON IN VIEW*/
+        /**Setup button in the sliding up panel*/
         Button substitutionButton = view.findViewById(R.id.button_subPopup);
-        substitutionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                framework.popup_custom("Substitution", substitutionView).show();
-            }
+        substitutionButton.setOnClickListener(view -> {
+
+            layoutSub.setVisibility(View.VISIBLE);
+            layoutShift.setVisibility(View.GONE);
+            generalTextInputLayout.setVisibility(View.GONE);
+
+            collapsePanel();
+            changeCipherIcon(R.mipmap.substitution);
         });
 
     }
 
-    private void doSubstitution(String stringKey)
+    private void doSubstitution(String stringKey, boolean encrypt)
     {
-        /**ENCRYPT OR DECRYPT ????*/
+        //TODO() ENCRYPT OR DECRYPT ????
+        framework.format(cipherText);
         try
         {
-            cipherText = new Substitution().decrypt(cipherText, stringKey);
+            if(encrypt)
+                framework.setMODIFIED_TEXT(new Substitution().encrypt(framework.getMODIFIED_TEXT(), stringKey));
+            else
+                framework.setMODIFIED_TEXT(new Substitution().decrypt(framework.getMODIFIED_TEXT(), stringKey));
+
+            cipherText = framework.displayModifiedString();
         }catch(InvalidKeyException e)
-        {}
+        {
+            framework.system_message_small(e.getMessage());
+        }
     }
 
     private void doSubstitution(char a, char b) //replace charA with charB
     {
-        cipherText = new Substitution().byCharacter(a, b, cipherText, beforeSub);
+        framework.format(cipherText);
+        framework.setMODIFIED_TEXT(new Substitution().byCharacter(a, b, framework.getMODIFIED_TEXT(), beforeSub));
+        cipherText = framework.displayModifiedString();
     }
 
     private void setTranspoTools()
     {
-        Button TranspoButton = (Button) view.findViewById(R.id.button_normalTranspo);
+        Button TranspoButton = view.findViewById(R.id.button_normalTranspo);
 
-        TranspoButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                DialogInterface.OnClickListener ocl = new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        doTranspo(framework.popup_getInput());
-                        refresh();
-                    }
-                };
+        TranspoButton.setOnClickListener(view -> {
 
-                framework.popup_getNumber_show("Columnar Transposition", "Enter key", ocl, 100); /**CHANGE INPUT LENGTH LIMIT*/
-            }
+            collapsePanel();
+            changeCipherIcon(R.mipmap.transposition);
+            generalTextInputAppear("Columnar TranspositionCipher Key", "Encrypt", "Decrypt",
+                    view1 -> {
+                doTranspoEncrypt(generalTextInput.getInput());
+                refresh();
+
+                }, view2 -> {
+                doTranspoDecrypt(generalTextInput.getInput());
+                refresh();
+                });
         });
     }
 
-    private void doTranspo(String key)
+    private void doTranspoEncrypt(String key)
     {
+        framework.format(cipherText);
         try
         {
-            cipherText = new Transposition().encrypt(cipherText, key);
+            framework.setMODIFIED_TEXT(new Transposition().encrypt(framework.getMODIFIED_TEXT(), key));
+            cipherText = framework.displayModifiedString();
         }catch(InvalidKeyException e)
-        {}
+        {
+            framework.system_message_small(e.getMessage());
+        }
+    }
+    private void doTranspoDecrypt(String key)
+    {
+        framework.format(cipherText);
+        try
+        {
+            framework.setMODIFIED_TEXT(new Transposition().decrypt(framework.getMODIFIED_TEXT(), key));
+            cipherText = framework.displayModifiedString();
+        }catch(InvalidKeyException e)
+        {
+            framework.system_message_small(e.getMessage());
+        }
+    }
+
+    private void refresh()//refreshes the cipher text view
+    {
+        changeHistory.add(cipherText);
+        cipherTextView.setText(cipherText);
+    }
+
+    protected String getCipherText()
+    {
+        return this.cipherText;
+    }
+    protected String getOriginalCipherText()
+    {
+        return this.originalCipherText;
+    }
+/**
+ * THIS IS A CLASS FOR GENERAL INPUT TEXT IN THE PROJECT VIEW
+ * */
+    class GeneralTextInput
+    {
+        View view;
+        Button positiveButton;
+        Button negativeButton;
+        EditText textInput;
+
+        public GeneralTextInput(View parentView)
+        {
+            this.view = parentView;
+            this.positiveButton = view.findViewById(R.id.general_positive_button);
+            this.negativeButton = view.findViewById(R.id.general_negative_button);
+            this.textInput = view.findViewById(R.id.general_input);
+        }
+
+        /**Initialize input type*/
+        protected void inputAcceptText()
+        {
+            this.textInput.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
+        protected void inputAcceptNumbers() {this.textInput.setInputType(InputType.TYPE_CLASS_NUMBER);}
+
+        /**Setters and getters*/
+        protected void setPositiveButtonText(String s)
+        {
+            this.positiveButton.setText(s);
+        }
+        protected void setNegativeButtonText(String s)
+        {
+            this.negativeButton.setText(s);
+        }
+        protected void setHint(String s)
+        {
+            this.textInput.setHint(s);
+        }
+        protected void setPositiveButtonListener(OnClickListener ocl) {this.positiveButton.setOnClickListener(ocl);}
+        protected void setNegativeButtonListener(OnClickListener ocl) {this.negativeButton.setOnClickListener(ocl);}
+
+        protected void clearInput()
+        {
+            this.textInput.setText("");
+        }
+
+        protected String getInput()
+        {
+            return this.textInput.getText().toString();
+        }
+
+        protected void positiveButtonVisible()
+        {
+            this.positiveButton.setVisibility(View.VISIBLE);
+        }
+        protected void negativeButtonVisible()
+        {
+            this.positiveButton.setVisibility(View.VISIBLE);
+        }
+        protected void negativeButtonGone()
+        {
+            this.negativeButton.setVisibility(View.GONE);
+        }
     }
 }

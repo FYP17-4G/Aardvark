@@ -1,5 +1,6 @@
 package com.example.FYP.aardvark_project;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -7,7 +8,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,15 +33,11 @@ public class App_Framework
 {
     private Context context;
 
-    //Pop up window related variables
     private AlertDialog alertDialog;
     private AlertDialog.Builder popUpWindow;
     private TextView popup_textView;
 
-    //pop up view object variables
     private EditText popup_inputText;
-
-    private String popUpNumberInput = new String();
 
     public App_Framework(Context context, boolean overrideTheme)
     {
@@ -67,13 +63,12 @@ public class App_Framework
      * This function sets the theme of the application according to the shared preferences value defined
      * in the Settings activity
      *
+     * =====================================
      * Because setTheme() is called upon this object creation, this object must be called before super.OnCreate()
      * on each activity
      *
-     * Note: For fragment, this does not matter
+     * #Note: For fragment, the point above does not matter
      * */
-
-    //get settings menu preference for dark theme
     private boolean getThemePreference()
     {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -86,14 +81,11 @@ public class App_Framework
 
         if(!dark)
         {
-            //set context theme to light
-            context.setTheme(R.style.AppTheme);
-
+            context.setTheme(R.style.AppTheme); //set context theme to light
         }
         else
         {
-            //set context theme to dark
-            context.setTheme(R.style.DarkTheme);
+            context.setTheme(R.style.DarkTheme); //set context theme to dark
         }
 
         return dark;
@@ -104,10 +96,21 @@ public class App_Framework
         return getThemePreference();
     }
 
-    /**=========================GUI RELATED FUNCTIONS*/
 
-    //popup specifically for main activity use, when long pressed a card, this function will display the preview of the cipher text
-    public void popup_cipher_preview(String cipherText)
+
+    /**
+     * ==============POP UP MENU FUNCTIONS==============
+     * */
+
+    /**Use this method to get the user input in the popup dialogue*/
+    public String popup_getInput()
+    {
+        return popup_inputText.getText().toString();
+    }
+
+    /**popup function specifically for "main activity " use, when long pressed a card, this function will display the preview of the cipher text*/
+    @SuppressLint("ClickableViewAccessibility")
+    public AlertDialog popup_cipher_preview(String cipherText)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.pop_cipher_preview, null);
@@ -118,28 +121,23 @@ public class App_Framework
 
         popUpWindow.setView(view);
         alertDialog = popUpWindow.create();
-        alertDialog.show();
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
+        view.setOnTouchListener((view1, event) -> {
 
-                if(event.getAction() == MotionEvent.ACTION_UP)
-                {
-                    //cancel alert dialog on press release
-                    alertDialog.cancel();
-                }
-
-                return true;
+            if(event.getAction() == MotionEvent.ACTION_UP)
+            {
+                alertDialog.cancel(); //cancel alert dialog on press release
             }
+
+            return true;
         });
+
+        return alertDialog;
     }
 
-    //plain custom pop up container
-    public AlertDialog popup_custom(String title, View view)
+    public AlertDialog popup_custom(String title, View view) //plain custom pop up container
     {
-
-        if(view.getParent() != null)
+        if(view.getParent() != null) //checks if view already exist
         {
             ((ViewGroup)view.getParent()).removeView(view);
         }
@@ -157,8 +155,7 @@ public class App_Framework
     //custom popup with defined positive and negative button behaviour
     public void popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener)
     {
-
-        if(view.getParent() != null)
+        if(view.getParent() != null) //checks if view already exist
         {
             ((ViewGroup)view.getParent()).removeView(view);
         }
@@ -169,22 +166,14 @@ public class App_Framework
         popUpWindow.setView(view);
 
         popUpWindow.setPositiveButton(positiveText, clickListener);
-        popUpWindow.setNegativeButton(negativeText, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.cancel();
-            }
-        });
+        popUpWindow.setNegativeButton(negativeText, (dialogInterface, i) -> dialogInterface.cancel());
 
         popUpWindow.show();
     }
 
     public void popup_custom(String title, View view, DialogInterface.OnClickListener clickListener)
     {
-
-        if(view.getParent() != null)
+        if(view.getParent() != null) //checks if view already exist
         {
             ((ViewGroup)view.getParent()).removeView(view);
         }
@@ -195,77 +184,62 @@ public class App_Framework
         popUpWindow.setView(view);
 
         popUpWindow.setPositiveButton("OK", clickListener);
-        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.cancel();
-            }
-        });
+        popUpWindow.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
 
         popUpWindow.show();
     }
 
+    /**This changes the input type of the edit text field to number only*/
     public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener, int inputLengthLimit)
     {
-        //build popup dialogue
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
 
-        //set up the input field
+        /**set up the input field*/
         popup_inputText = new EditText(context);
         popup_inputText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
+        popup_inputText.setHint(popup_hint);
         popUpWindow.setView(popup_inputText);
 
-        //set up positive button
         popUpWindow.setPositiveButton("OK",clickListener);
-
-        //set up negative button
-        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.cancel();
-            }
-        });
+        popUpWindow.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
 
         popUpWindow.show();
     }
 
-    public String popup_getNumber_getResult()
+    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
     {
-        return popUpNumberInput;
+        reinstateBuilder();
+
+        popUpWindow.setTitle(popup_title);
+
+        /**set up the input field*/
+        popup_inputText = new EditText(context);
+        popup_inputText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        popup_inputText.setHint(popup_hint);
+        popUpWindow.setView(popup_inputText);
+
+        popUpWindow.setPositiveButton(positiveText, positiveOCL);
+        popUpWindow.setNegativeButton(negativeText, negativeOCL);
+
+        popUpWindow.show();
     }
 
     public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener)
     {
-        //build popup dialogue
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
 
-        //set up the input field
+        /**set up the input field*/
         popup_inputText = new EditText(context);
         popup_inputText.setInputType(InputType.TYPE_CLASS_TEXT);
-        popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
+        popup_inputText.setHint(popup_hint);
         popUpWindow.setView(popup_inputText);
 
-        //set up positive button
         popUpWindow.setPositiveButton("OK",clickListener);
-
-        //set up negative button
-        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.cancel();
-            }
-        });
+        popUpWindow.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
 
         popUpWindow.show();
     }
@@ -273,59 +247,24 @@ public class App_Framework
     /**CUSTOMIZEABLE pop up input text for positive button (right button) and negative button (left button)*/
     public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
     {
-        //build popup dialogue
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
 
-        //set up the input field
+        /**set up the input field*/
         popup_inputText = new EditText(context);
         popup_inputText.setInputType(InputType.TYPE_CLASS_TEXT);
-        popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
+        popup_inputText.setHint(popup_hint);
         popUpWindow.setView(popup_inputText);
 
-        //set up positive button
         popUpWindow.setPositiveButton(positiveText, positiveOCL);
-
-        //set up negative button
         popUpWindow.setNegativeButton(negativeText, negativeOCL);
 
         popUpWindow.show();
-    }
-
-    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
-    {
-        //by default, the pop up dialogue content is text input
-        //build popup dialogue
-        reinstateBuilder();
-
-        popUpWindow.setTitle(popup_title);
-
-        //set up the input field
-        popup_inputText = new EditText(context);
-        popup_inputText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        popup_inputText.setHint(popup_hint); //set hint on what value the user should enter
-        popUpWindow.setView(popup_inputText);
-
-        //set up positive button
-        popUpWindow.setPositiveButton(positiveText, positiveOCL);
-
-        //set up negative button
-        popUpWindow.setNegativeButton(negativeText, negativeOCL);
-
-        popUpWindow.show();
-    }
-
-    /**
-     * Use this method to get the user input in the popup dialogue
-     * */
-    public String popup_getInput()
-    {
-        return popup_inputText.getText().toString();
     }
 
     /**Use this for displaying small message, and error message as well*/
-    public void system_message_small(String message) //use TOASTBOX FOR THIS
+    public void system_message_small(String message) //Toastbox message
     {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
@@ -333,14 +272,7 @@ public class App_Framework
     /**Pop up error message to display lengthy message, this can be used to display error message as well*/
     public void system_message_popup(String popup_title, String popup_message, String popup_buttonMessage)
     {
-        DialogInterface.OnClickListener errMessageClickListener = new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.cancel();
-            }
-        };
+        DialogInterface.OnClickListener errMessageClickListener = (dialogInterface, i) -> dialogInterface.cancel();
 
         reinstateBuilder();
 
@@ -352,16 +284,9 @@ public class App_Framework
         popUpWindow.setView(popup_textView);
         popUpWindow.show();
     }
-    public void system_message_popup(String popup_title, String popup_message) //by default, the text message in the popup button is "OK"
+    public void system_message_popup(String popup_title, String popup_message)
     {
-        DialogInterface.OnClickListener errMessageClickListener = new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                dialogInterface.cancel();
-            }
-        };
+        DialogInterface.OnClickListener errMessageClickListener = (dialogInterface, i) -> dialogInterface.cancel();
 
         reinstateBuilder();
 
@@ -374,7 +299,7 @@ public class App_Framework
         popUpWindow.show();
     }
 
-    public void system_message_confirmAction(String popup_title, String popup_message, DialogInterface.OnClickListener ols) //by default, the text message in the popup button is "OK"
+    public void system_message_confirmAction(String popup_title, String popup_message, DialogInterface.OnClickListener ols)
     {
         reinstateBuilder();
 
@@ -387,38 +312,28 @@ public class App_Framework
         popup_textView.setGravity(Gravity.CENTER_HORIZONTAL);
         popup_textView.setTextSize(18);
         popUpWindow.setPositiveButton("OK", ols);
-        popUpWindow.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
+        popUpWindow.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
         popUpWindow.show();
     }
 
 
 
-
-
-
-    /**==============OTHER FRAMEWORK FUNCTIONS*/
-    //This will convert given String to the same string but without whitespace
-    public String stringNoWhiteSpace(String cText)
+    /**
+     * ==============OTHER FRAMEWORK FUNCTIONS==============
+     */
+    public String stringNoWhiteSpace(String cText) //This will convert given String to the same string but without whitespace
     {
         String temp = new String();
 
         for(int i = 0; i < cText.length(); i++)
             if(cText.charAt(i) != ' ')
-
-    temp+=cText.charAt(i);
+                temp+=cText.charAt(i);
 
         return temp;
     }
 
-
     /**
-     * Read data from URI returned by the "OPEN_FILE_BROWSER" intent
+     * Read text file from URI data type returned by the "OPEN_FILE_BROWSER" intent
      * */
     public String readTextFromUri(Uri uri, Context context) throws IOException
     {
@@ -433,7 +348,11 @@ public class App_Framework
     }
 
 
-    /**READ AND WRITE CODE (Mark)*/
+    /**Mark's Code
+     *
+     * These are the functions necessary to apply changes to the cipher text,
+     * while preserving the lines, symbols, and spaces of the original cipher text
+     * */
     private static Utility util = Utility.getInstance();
 
     private String ORIGINAL_TEXT;
@@ -444,7 +363,7 @@ public class App_Framework
         return ORIGINAL_TEXT;
     }
 
-    private String displayModifiedString () {
+    public String displayModifiedString () {
         StringBuilder output = new StringBuilder();
 
         int counter = 0;
@@ -494,19 +413,19 @@ public class App_Framework
         TEXT_COUNT = MODIFIED_TEXT.length();
     }
 
-    /**THIS FUNCTION "CLEANS" THE INPUT STRING SO IT WILL BE SAFE TO USE IN MARK'S CODES
-     * Delete stringNoWhiteSpace() later
-     * */
-    public String format (String input) {
-        input = input.toLowerCase();
-        input = input.replaceAll("[^A-Za-z]", "");
-        return input;
+    /**MY OWN DEFINED FUNCTION*/
+    public void setMODIFIED_TEXT(String s)
+    {
+        MODIFIED_TEXT = s;
+    }
+    public String getMODIFIED_TEXT()
+    {
+        return MODIFIED_TEXT;
     }
 
-    //MY OWN DEFINED FUNCTION
-    public String clean(String input)
+    public String format(String input)
     {
         init(input);
-        return displayModifiedString();
+        return MODIFIED_TEXT;
     }
 }

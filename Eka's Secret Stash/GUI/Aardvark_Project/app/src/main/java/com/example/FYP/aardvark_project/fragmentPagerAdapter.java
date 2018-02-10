@@ -7,13 +7,15 @@ import android.support.v4.app.FragmentManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class projectView_fragmentPagerAdapter extends FragmentPagerAdapter
+/**
+ * Fragment pager adapter is used to set up the tabbed view in Project View
+ * */
+public class fragmentPagerAdapter extends FragmentPagerAdapter
 {
-    //contains the lists necessary for the tab view
     private final List<String> tabTitleList = new ArrayList<>();
     private final List<Fragment> tabFragmentList = new ArrayList<>();
 
-    public projectView_fragmentPagerAdapter(FragmentManager fm)
+    public fragmentPagerAdapter(FragmentManager fm)
     {
         super(fm);
     }
@@ -33,8 +35,7 @@ public class projectView_fragmentPagerAdapter extends FragmentPagerAdapter
         return tabFragmentList.size();
     }
 
-    //creates a new tab, it takes in the content of the tab and the title
-    public void addFragment(Fragment fragment, String title)
+    public void addFragment(Fragment fragment, String title) //creates a new tab, it takes in the content of the tab and the title
     {
         tabFragmentList.add(fragment);
         tabTitleList.add(title);

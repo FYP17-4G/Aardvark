@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dragable_indicator"
+        android:layout_width="164dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="326dp"
+        android:layout_marginTop="1dp"
+        android:text="DRAG MESSAGES HERE"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/dragable_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/dragable_button_apply"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apply Kamasutra Cipher" />
+
+            <Button
+                android:id="@+id/dragable_button_reset"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reset"
+                android:textSize="8sp"
+                tools:layout_editor_absoluteY="511dp" />
+
+            <GridLayout
+                android:id="@+id/dragable_grid_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

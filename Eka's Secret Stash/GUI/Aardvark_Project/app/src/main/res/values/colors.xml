@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--LIGHT THEME-->
-    <color name="colorPrimary">#616161</color>
+    <color name="colorPrimary">#F8F7F4</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#000080</color>
     <color name="black_overlay">#66f0f0f0</color>
     <color name="lightwhite_overlay">#66bababa</color>
-    <color name="primaryTextColor">#4f5b62</color>
+    <color name="primaryTextColor">#343d46</color>
 
     <!--DARK THEME-->
     <color name="dark_primaryColor">#263238</color>
@@ -17,4 +17,32 @@
     <color name="dark_secondaryDarkColor">#870000</color>
     <color name="dark_primaryTextColor">#ffffff</color>
     <color name="dark_secondaryTextColor">#ffffff</color>
+
+    <!--TRANSPARENT-->
+    <!--
+    TRANSPARENCY INDEX (##000000)
+    Color solidity percentage = ##, replace with:
+    100% — FF
+    95% — F2
+    90% — E6
+    85% — D9
+    80% — CC
+    75% — BF
+    70% — B3
+    65% — A6
+    60% — 99
+    55% — 8C
+    50% — 80
+    45% — 73
+    40% — 66
+    35% — 59
+    30% — 4D
+    25% — 40
+    20% — 33
+    15% — 26
+    10% — 1A
+    5% — 0D
+    0% — 00
+    -->
+    <color name="TRANSPARENT">#00FFFFFF</color>
 </resources>

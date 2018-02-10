@@ -9,19 +9,14 @@ import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 
 public class GUI_note extends AppCompatActivity
 {
-
-    private App_Framework framework;
     private DatabaseFramework database;
 
     private EditText noteField;
 
-    //use these 2 for saving files
     private String title;
     private String id;
 
     private String noteVal;
-
-    //private String notefileName;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -41,10 +36,10 @@ public class GUI_note extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.framework = new App_Framework(this, true);
+        new App_Framework(this, true);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gui_note);
+        setContentView(R.layout.activity_note);
 
         database = new DatabaseFramework(this);
 
@@ -57,12 +52,9 @@ public class GUI_note extends AppCompatActivity
         this.title = getIntent().getStringExtra("title");
         this.id = getIntent().getStringExtra("id");
 
-        //this.notefileName = id+title+"notes.txt";
-
         noteField = findViewById(R.id.editText_noteField);
 
-        //set the title for this activity
-        setTitle("NOTE: "+this.title);
+        setTitle("NOTE: "+this.title); //set the title for this activity
     }
 
     private void saveNote()
@@ -70,12 +62,11 @@ public class GUI_note extends AppCompatActivity
         this.noteVal = noteField.getText().toString();
 
         if(!noteVal.isEmpty())
-            database.updateData(id, title, "PROJECT_NOTES", this.noteVal);//framework.saveAsTxt(notefileName, noteVal, false);
+            database.updateData(id, title, "PROJECT_NOTES", this.noteVal);
     }
 
     private void loadNote()
     {
-        //this.noteVal = framework.getTextFromFile(notefileName);
         this.noteVal = database.getNotesData(id, title);
 
         if(this.noteVal != null)

@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/layout_substitution"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -17,19 +17,24 @@
 
             <Spinner
                 android:id="@+id/spinner_charA"
+                style="@style/SpinnerwithNoArrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:spinnerMode="dropdown" />
 
             <Spinner
                 android:id="@+id/spinner_charB"
+                style="@style/SpinnerwithNoArrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:spinnerMode="dropdown" />
         </LinearLayout>
 
         <Button
             android:id="@+id/button_charSubstitution"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/background_light"

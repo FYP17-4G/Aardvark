@@ -3,12 +3,7 @@
 <<ITERATION 1>>
 
 <20 December 2017>
-+ Added some empty functions for Crypto functions:
-	(hint: look for keyword "TODO(***)")
-	- Transposition functions
-	- Substitution functions
-	- Shift functions
-	- Cipher Frequency calculation functions
++ Added some empty functions for Crypto functions
 + Refactored source files for easier naming conventions
 + Added folder "KryptoTools" for Krypto related .java files
 
@@ -146,7 +141,74 @@
 + Some minor UI fixes
 + Fixed a bug that causes the search bar to not return all project entry when it is empty (discovered today)
 
+<30 January 2018>
++ Repositioned some of the UI elements
++ Added an interface for the user to select common word occurrences length (Bigram, Trigram, Custom)
++ Added nav drawer to the project view menu (moving the tool buttons to the nav bar)
+
+<31 January 2018>
++ Added Slide up drawer (credit > https://github.com/umano/AndroidSlidingUpPanel)
+	- Slide up drawer is in the Project View, contains Krypto Tools
+
+<1 February 2018>
++ Added animation to the card view in the front page
++ Changed the character frequency calculation (since the resulting graph is not correct in the previous iteration (Discovered today))
+
+<2 February 2018>
++ Added Common word frequency graph (also functions as character frequency graph too, choose "Singular" from the drop down menu)
++ Makes shift cipher save Changes on seek bar touch release
++ Applying changes to the cipher text without affecting the new lines and spaces
++ Encryption - Decryption feature Redone
+	- Changed UI elements
+	- User can continue from where they left the input text off
+
+<3 February 2018>
++ Tidied up and optimised some of the code behaviour
++ Changed card view animation direction
+<4 January 2018>
+
+<6 February 2018>
++ moved Common word occurrences graph to different activity.
++ Moved crypto tools into one category, accessible by pressing "Tools" button in the sliding up panel
+
+<7 February 2018>
++ Added more cryptography cipher in Encryption/Decryption feature
+	- Periodic Transposition
+	- Rectangular Transposition
+	- Beaufort Cipher
+	- Beaufort variant Cipher
+	- One Time Pad
+	- Playfair
+
+<8 February 2018>
++ Changed Graph names:
+	- Frequency Graph => Frequency Analysis
+	- Common Word Occurrences Graph => Frequency Graph(Letter)
++ Added new Graph Activity:
+	- Frequency Graph(Period)
+
+<9 February 2018>
++ Figured out the drag and drop element swap
++ Finished Kamasutra Cipher in Encryption/Decryption feature (using drag and drop key input)
++ Updated Cipher code for Encryption/Decryption feature
+
+<10 February 2018>
+#Bug report:
+Encryption / Decryption feature
+	- Transposition Cipher > Out of bounds
+	- Rectangular transposition Cipher > No response
+	- Substitution Cipher > No response
+	- Beaufort > Out of bounds
+	- Beaufort Variant > Out of bounds
+	- Playfair (Decryption) > Arrays index out of bounds
+
++ Autoscroll works on kamasutra drag and drop input
++ In permutation view, the changed cipher text character is highlighted in red.
+
 /*NEXT UP: 
-> Allow user to determine the common word occurrences length
+> Figure out how to dynamically set the view of the drag and drop input
+> Work out the icons
+> Move permutation view to main view
+> Try using drag and drop for transposition by number and kamasutra
 > Add read from file function for encryption and decryption feature
 */

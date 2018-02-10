@@ -2,25 +2,32 @@ package com.example.FYP.aardvark_project;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 public class GUI_aboutUs extends AppCompatActivity {
 
-    App_Framework framework;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        framework = new App_Framework(this, true);
+     @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        overrideTheme();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gui_about_us);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_about_us);
 
-        String text = "We are a small team of University of Wollongong students, doing our Final Year Project on Krypto.exe. Our goal is to produce a new and improved Android app based on the original Krypto.exe created by Prof Willy Susilo.";
-        TextView aboutUsTextView = (TextView)findViewById(R.id.about_us_text_view);
-        aboutUsTextView.setText(text);
-        }
+        setAboutUsPage();
+    }
+
+   private void setAboutUsPage()
+   {
+       String text = "We are a small team of University of Wollongong students, doing our Final Year Project on Krypto.exe. Our goal is to produce a new and improved Android app based on the original Krypto.exe created by Prof Willy Susilo.";
+       TextView aboutUsTextView = findViewById(R.id.about_us_text_view);
+       aboutUsTextView.setText(text);
+   }
+    private void overrideTheme()
+    {
+        if(new App_Framework(this, false).isDarkTheme())
+            this.setTheme(R.style.DarkTheme_NoActionBar);
+        else
+            this.setTheme(R.style.AppTheme_NoActionBar);
+    }
 }

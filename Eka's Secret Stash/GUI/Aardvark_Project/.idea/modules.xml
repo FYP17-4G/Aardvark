@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Aardvark_Project.iml" filepath="$PROJECT_DIR$/Aardvark_Project.iml" />
-      <module fileurl="file://C:\Users\Lester\Dropbox\School\CSCI321 - FYP\Aardvark\Eka's Secret Stash\GUI\Aardvark_Project\Aardvark_Project.iml" filepath="C:\Users\Lester\Dropbox\School\CSCI321 - FYP\Aardvark\Eka's Secret Stash\GUI\Aardvark_Project\Aardvark_Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Lester\Dropbox\School\CSCI321 - FYP\Aardvark\Eka's Secret Stash\GUI\Aardvark_Project\app\app.iml" filepath="C:\Users\Lester\Dropbox\School\CSCI321 - FYP\Aardvark\Eka's Secret Stash\GUI\Aardvark_Project\app\app.iml" />
     </modules>
   </component>
 </project>

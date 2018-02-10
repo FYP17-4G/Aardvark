@@ -16,9 +16,7 @@
         <activity
             android:name=".GUI_project_view"
             android:label="@string/projectView_name"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".GUI_Splash_FullScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -34,15 +32,17 @@
         <activity
             android:name=".GUI_aboutUs"
             android:label="@string/title_activity_gui_about_us"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GUI_graph"
+            android:name=".GUI_graph_Analysis"
             android:label="Frequency Analysis"
             android:theme="@style/AppTheme" />
         <activity android:name=".GUI_note" />
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings" />
+        <activity android:name=".GUI_graph_frequency_letter" />
+        <activity android:name=".GUI_graph_frequency_period"></activity>
     </application>
 
 </manifest>

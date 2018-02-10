@@ -23,9 +23,9 @@ public interface Cipher {
     /* Ciphers
      * ---------------
      * Shift
-     * Transposition (columnar, rectangle, playfair)
+     * TranspositionCipher (columnar, rectangle, playfair)
      * Vigenere (+, -, inverse)
-     * Substitution
+     * SubstitutionCipher
      * OTP
      * --------------
      */
