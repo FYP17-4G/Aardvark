@@ -11,8 +11,8 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card"
-        android:layout_width="375dp"
-        android:layout_height="wrap_content"
+        android:layout_width="357dp"
+        android:layout_height="198dp"
 
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
@@ -32,13 +32,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.484">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/card_top_half"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <FrameLayout
@@ -46,14 +45,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="142dp">
 
-                <TextView
-                    android:id="@+id/card_preview"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="158dp"
-                    android:padding="16dp"
-                    android:paddingLeft="25dp"
-                    android:text="PREVIEW"
-                    android:textColor="@color/cardview_dark_background" />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/card_preview"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="PREVIEW"
+                        android:textColor="@color/cardview_dark_background"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+
             </FrameLayout>
 
             <LinearLayout
@@ -81,12 +92,12 @@
                     <Button
                         android:id="@+id/card_button_inner"
                         style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="19dp"
-                        android:layout_height="24dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginStart="22dp"
+                        android:layout_marginTop="16dp"
                         android:layout_weight="1"
                         android:background="@mipmap/ic_more_vert_black_24dp"
                         android:paddingRight="8dp"

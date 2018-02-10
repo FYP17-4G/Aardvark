@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -134,7 +135,11 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.view
                 /**
                  * previewCText variable is used when the user long pressed a card view, and the cipher text preview of that project will be shown
                  * */
-                previewCText = new DatabaseFramework(context).getCipherText(id, title); //gets the cipher text directly from the database
+                previewCText = new DatabaseFramework(context).getCipherText(id, title); //gets the cipher text directly from the database, similar to the formatting in change history
+                String[] split = previewCText.split("\\|"); //split and add to change history
+
+                ArrayList<String> temp = new ArrayList<>(Arrays.asList(split));
+                previewCText = temp.get(temp.size() - 1);
 
                 itemPreview.setText(processStringForPreview(previewCText));
                 itemTitle.setText("  " + projectTitle.get(idx).getTitle());

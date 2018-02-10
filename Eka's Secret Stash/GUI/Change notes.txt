@@ -204,6 +204,7 @@ Encryption / Decryption feature
 
 + Autoscroll works on kamasutra drag and drop input
 + In permutation view, the changed cipher text character is highlighted in red.
++ Fixed a bug in cipher text view when previewing the cipher text from card view
 
 /*NEXT UP: 
 > Figure out how to dynamically set the view of the drag and drop input

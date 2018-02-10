@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.content.Intent;
-import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,7 +35,7 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
 
     private void setBottomText(String text)
     {
-        View view = getLayoutInflater().inflate(R.layout.activity_splash__full_screen, null);
+        View view = getLayoutInflater().inflate(R.layout.activity_splash_full_screen, null);
         TextView bottomText = view.findViewById(R.id.copyright_text_view);
         bottomText.setText(text);
     }
@@ -49,7 +48,7 @@ public class GUI_Splash_FullScreen extends AppCompatActivity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_splash__full_screen);
+        setContentView(R.layout.activity_splash_full_screen);
 
         new Handler().postDelayed(() -> callDispatcher(), DELAY_TIME);
     }

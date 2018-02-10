@@ -266,8 +266,6 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         });
     }
 
-
-
     /**Filters the recycler view container to only contain words in the search bar*/
     private void filter(String input)
     {
