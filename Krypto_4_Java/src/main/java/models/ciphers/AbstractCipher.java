@@ -21,7 +21,7 @@ public abstract class AbstractCipher implements CipherInterface {
      * String containing all characters that will be considered.
      */
     public static final String ALPHABETS = "abcdefghijklmnopqrstuvwxyz";
-    
+
     /**
      * Returns the name of the cipher to identify the cipher after polymorphism.
      * @return name of the cipher (e.g. "Shift", "Transposition")
@@ -38,15 +38,21 @@ public abstract class AbstractCipher implements CipherInterface {
 
     /**
      * Checks if the key is in a valid format (e.g. numerical, alphabetical).
-     * Without overriding, this function returns false if it finds any 
+     * Without overriding, this function returns false if it finds any
      * non-alphabetic characters.
      * @param key String that will determine how input text is transformed
      * @return true if the key is valid for this cipher
      */
     public Boolean checkKey(String key) {
+      int originalLength = key.length();
+      key = key.replaceAll("[^A-Za-z]", "");
+
+      if (key.length() != originalLength) return false;
+
+      if (key.length() <= 0) return false;
         for (int i = 0; i < key.length(); i++) {
             char ch = key.charAt(i);
-            if (Character.isAlphabetic(ch)) {
+            if (!(Character.isAlphabetic(ch))) {
                 return false;
             }
         }
@@ -71,7 +77,7 @@ public abstract class AbstractCipher implements CipherInterface {
     public String removeDuplicates(String in) {
         Set<Character> temp = new HashSet<>();
         List<Character> revTemp = new ArrayList<>();
-        
+
         StringBuilder out = new StringBuilder();
 
         in = in.toLowerCase();

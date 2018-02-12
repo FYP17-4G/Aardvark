@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Aardvark-Krypto_4_Java.iml" filepath="$PROJECT_DIR$/.idea/modules/Aardvark-Krypto_4_Java.iml" />
       <module fileurl="file://$PROJECT_DIR$/Krypto_4_Java.iml" filepath="$PROJECT_DIR$/Krypto_4_Java.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Krypto_4_Java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Krypto_4_Java_main.iml" group="Krypto_4_Java" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Krypto_4_Java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Krypto_4_Java_test.iml" group="Krypto_4_Java" />

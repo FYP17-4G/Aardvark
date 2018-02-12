@@ -1,6 +1,5 @@
 package models.ciphers;
 
-
 public class Kamasutra extends AbstractCipher implements CipherInterface {
     @Override
     public String encrypt(String plaintext, String key)  {
