@@ -3,6 +3,7 @@ package com.example.FYP.aardvark_project;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.ContextThemeWrapper;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GUI_Enc_Dec extends AppCompatActivity {
+public class Activity_Enc_Dec extends AppCompatActivity {
 
     App_Framework framework;
 
@@ -97,7 +98,6 @@ public class GUI_Enc_Dec extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         saveInputText();
     }
 
@@ -139,8 +139,8 @@ public class GUI_Enc_Dec extends AppCompatActivity {
     };
 
     private void setCopyPasteButton() {
-        copyButton = (Button) findViewById(R.id.button_copy_to_clip);
-        pasteButton = (Button) findViewById(R.id.button_paste_from_clip);
+        copyButton = findViewById(R.id.button_copy_to_clip);
+        pasteButton = findViewById(R.id.button_paste_from_clip);
 
         copyButton.setOnClickListener(copyPasteButtonListener);
         pasteButton.setOnClickListener(copyPasteButtonListener);
@@ -174,7 +174,8 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         inputTextView.setText(inputText);
     }
 
-    private void setSpinner() {
+    private void setSpinner()
+    {
         toolSpinner = findViewById(R.id.tool_spinner);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tools);
@@ -277,7 +278,7 @@ public class GUI_Enc_Dec extends AppCompatActivity {
      * */
     private Button addDragableButton(int ID, String val)
     {
-        Button button = new Button(this);
+        Button button = new Button(new ContextThemeWrapper(this, R.style.Widget_AppCompat_Button_Borderless_Colored), null, R.style.Widget_AppCompat_Button_Borderless_Colored);
         button.setId(ID);
         button.setText(val);
 
@@ -324,19 +325,21 @@ public class GUI_Enc_Dec extends AppCompatActivity {
 
                     /**AutoScroll*/
 
+                    final int SCROLL_UP_BOUND = -200;
+                    final int SCROLL_DOWN_BOUND = 10;
+                    final int THRESHOLD = 10;
+                    final int MOVEMENT_SPEED = 5; //dpx
+
                     int y = Math.round(view.getY())+Math.round(dragEvent.getY());
                     int translatedY = y - SCROLL_DISTANCE;
-                    int threshold = 0 ;
 
-                    if (translatedY < 0) {
-                        // make a scroll up by 15 px
-                        dragableScrollView.smoothScrollBy(0, -5);
-                    }
+                    if (translatedY - THRESHOLD < SCROLL_UP_BOUND)
+                        dragableScrollView.smoothScrollBy(0, -MOVEMENT_SPEED); // make a scroll up by 5 px
 
-                    if (translatedY + threshold > dragableScrollView.getBottom()) {
-                        // make a scroll down by 15 px
-                        dragableScrollView.smoothScrollBy(0, 5);
-                    }
+                    if (translatedY + THRESHOLD > SCROLL_DOWN_BOUND)
+                        dragableScrollView.smoothScrollBy(0, MOVEMENT_SPEED); // make a scroll down by 5 px
+
+                    System.out.println("TranslatedY: " + translatedY + "; Upper Bound: " + SCROLL_UP_BOUND + "; Lower Bound: " + SCROLL_DOWN_BOUND);
 
                     break;
             }
@@ -373,53 +376,42 @@ public class GUI_Enc_Dec extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             String value = adapterView.getItemAtPosition(i).toString();
 
+            switchInput(true); //switch the key input method to regular text input or dragable buttons(used in kamasutra cipher)
             switch (value) {
                 case SHIFT_CIPHER:
-                    switchInput(true);
                     changeInput("Shift Cipher By", "Shift Right", "Shift left", caesarShiftListener, true);
                     break;
                 case VIG_ADDITIVE:
-                    switchInput(true);
                     changeInput("Vigenere Additive Key", "Encrypt", "Decrypt", vigenereAdditiveListener, false);
                     break;
                 case VIG_INVERSE:
-                    switchInput(true);
                     changeInput("Vigenere Inverse Key", "Encrypt", "Decrypt", vigenereInverseListener, false);
                     break;
                 case VIG_SUBSTRACTIVE:
-                    switchInput(true);
                     changeInput("Vigenere Substractive key", "Encrypt", "Decrypt", vigenereSubstractiveListener, false);
                     break;
                 case TRANSPO:
-                    switchInput(true);
                     changeInput("TranspositionCipher Key", "Encrypt", "Decrypt", transpositionListener, false);
                     break;
                 case TRANSPO_P:
-                    switchInput(true);
                     changeInput("Periodic TranspositionCipher Key", "Encrypt", "Decrypt", transpositionPeriodicListener, false);
                     break;
                 case TRANSPO_R:
-                    switchInput(true);
                     changeInput("Rectangular TranspositionCipher Key", "Encrypt"," Decrypt", transpositionRectangularListener, false);
                     break;
                 case SUBSTITUTION:
-                    switchInput(true);
                     changeInput("SubstitutionCipher by String key", "Encrypt", "Decrypt", substitutionListener, false);
                     break;
                 case BEAUFORT:
-                    switchInput(true);
                     changeInput("Beaufort Key", "Encrypt", "Decrypt", beaufortListener, false);
                     break;
                 case BEAUFORTVARIANT:
-                    switchInput(true);
                     changeInput("Beaufort Variant Key", "Encrypt", "Decrypt", beaufortVariantListener, false);
                     break;
                 case ONETIMEPAD:
-                    switchInput(true);
                     changeInput("One Time Pad key", "Encrypt", "Decrypt", oneTimePadListener, false);
                     break;
                 case PLAYFAIR:
-                    switchInput(true);
                     changeInput("Playfair Cipher key", "Encrypt", "Decrypt", playFairListener, false);
                     break;
                 case KAMASUTRA:
@@ -430,7 +422,6 @@ public class GUI_Enc_Dec extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-
         }
     };
 
@@ -449,7 +440,6 @@ public class GUI_Enc_Dec extends AppCompatActivity {
                 else
                     doCaesarShiftL(getKeyInput());
             }
-
         }
     };
 

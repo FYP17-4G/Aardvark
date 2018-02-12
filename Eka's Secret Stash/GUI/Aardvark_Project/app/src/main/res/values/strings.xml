@@ -19,7 +19,7 @@
     <string name="vertical_ellipsis">&#8942;</string>
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Strings related to Settings -->
+    <!-- Strings relatedActivity_Settingsings -->
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
@@ -93,4 +93,5 @@
 
     <!--Duration for card view animation-->
     <integer name="swing_anim_time">350</integer>
+    <string name="title_activity_introducton">Introducton</string>
 </resources>

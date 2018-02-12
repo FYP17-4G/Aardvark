@@ -48,6 +48,8 @@ dependencies {
     implementation files('libs/GraphView-4.2.1.jar')
     implementation 'com.android.support:cardview-v7:26.1.0'
 
+    compile 'com.github.msayan:tutorial-view:v1.0.3'
+
     repositories {
         mavenCentral()
     }

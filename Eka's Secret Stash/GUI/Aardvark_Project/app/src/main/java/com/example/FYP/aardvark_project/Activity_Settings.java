@@ -23,11 +23,11 @@ import java.util.List;
  * the list of settings.
  * <p>
  * See <a href="http://developer.android.com/design/patterns/settings.html">
- * Android Design: Settings</a> for design guidelines and the <a
- * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
- * API Guide</a> for more information on developing a Settings UI.
+ * Android Design: Activity_Settings</a> for design guidelines and the <a
+ * href="http://developer.android.com/guide/topics/ui/settings.html">Activity_Settings
+ * API Guide</a> for more information on developing a Activity_Settings UI.
  */
-public class Settings extends AppCompatPreferenceActivity {
+public class Activity_Settings extends AppCompatPreferenceActivity {
 
     /**
      * Variables below are the key name for the settings elements.
@@ -168,7 +168,7 @@ public class Settings extends AppCompatPreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), Settings.class));
+                startActivity(new Intent(getActivity(), Activity_Settings.class));
                 return true;
             }
             return super.onOptionsItemSelected(item);

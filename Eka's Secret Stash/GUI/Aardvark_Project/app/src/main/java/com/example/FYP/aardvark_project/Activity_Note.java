@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 
-public class GUI_note extends AppCompatActivity
+public class Activity_Note extends AppCompatActivity
 {
     private DatabaseFramework database;
 
@@ -30,7 +30,6 @@ public class GUI_note extends AppCompatActivity
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         saveNote();
     }
 
@@ -54,7 +53,7 @@ public class GUI_note extends AppCompatActivity
 
         noteField = findViewById(R.id.editText_noteField);
 
-        setTitle("NOTE: "+this.title); //set the title for this activity
+        setTitle("NOTE: "+this.title);
     }
 
     private void saveNote()

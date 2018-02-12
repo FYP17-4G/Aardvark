@@ -8,7 +8,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -29,7 +28,7 @@ import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 import com.example.FYP.aardvark_project.kryptoTools.*;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-public class GUI_fragment_project_view extends Fragment {
+public class fragment_project_view extends Fragment {
 
     /**Constants*/
     private final int INITIAL_CAESAR_SEEKBAR_VALUE = 26;
@@ -47,7 +46,7 @@ public class GUI_fragment_project_view extends Fragment {
     private String originalCipherText = new String();
 
     /**Caesar shift cipher*/
-    private Button caesar_popup_button;
+    private Button caesar_shift_button;
     private SeekBar caesarSeekBar;
     private TextView indicator;
 
@@ -75,7 +74,6 @@ public class GUI_fragment_project_view extends Fragment {
     private FragmentActivity fragmentActivity;
 
     private SlidingUpPanelLayout slidingUpPanelLayout;
-    private ImageView panelIndicator;
 
     private GeneralTextInput generalTextInput;
     private FrameLayout generalTextInputLayout;
@@ -192,7 +190,7 @@ public class GUI_fragment_project_view extends Fragment {
     /**Functions for the sliding up panel*/
     private void setSlidingUpPanel()
     {
-        panelIndicator = view.findViewById(R.id.panel_arrow_indicator);
+        ImageView panelIndicator = view.findViewById(R.id.panel_arrow_indicator);
         View tempView = view.findViewById(R.id.sliding_up_panel_content_tools_include);
         ImageView panelIndicator2 = tempView.findViewById(R.id.panel_arrow_indicator);
 
@@ -200,15 +198,10 @@ public class GUI_fragment_project_view extends Fragment {
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-
             }
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                /*if(previousState == SlidingUpPanelLayout.PanelState.COLLAPSED)
-                    view.findViewById(R.id.project_view_cipher_frame_layout).startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.anim_scale_object_grow));
-                else if(previousState == SlidingUpPanelLayout.PanelState.EXPANDED)
-                    view.findViewById(R.id.project_view_cipher_frame_layout).startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.anim_scale_object_shrink));*/
 
                 if(newState == SlidingUpPanelLayout.PanelState.EXPANDED)
                 {
@@ -299,7 +292,7 @@ public class GUI_fragment_project_view extends Fragment {
     private void setCipherTextView()
     {
         /**SET UP THE CIPHER TEXT VIEW AREA*/
-        cipherTextView = (TextView) view.findViewById(R.id.project_view_cipher_text);
+        cipherTextView = view.findViewById(R.id.project_view_cipher_text);
         if(framework.isDarkTheme())
             cipherTextView.setTextColor(getResources().getColor(R.color.dark_primaryTextColor));
         else
@@ -332,7 +325,7 @@ public class GUI_fragment_project_view extends Fragment {
     {
         Button graphButtonPopup = view.findViewById(R.id.button_graphPopup);
         graphButtonPopup.setOnClickListener(view -> {
-            Intent intent = new Intent(fragmentActivity, GUI_graph_Analysis.class);
+            Intent intent = new Intent(fragmentActivity, Activity_graph_Analysis.class);
             intent.putExtra("cipherText", cipherText);
 
             startActivity(intent);
@@ -344,7 +337,7 @@ public class GUI_fragment_project_view extends Fragment {
     {
         frequencyAnalysisButton = view.findViewById(R.id.button_graph_frequency);
         frequencyAnalysisButton.setOnClickListener(view -> {
-            Intent intent = new Intent(fragmentActivity, GUI_graph_frequency_letter.class);
+            Intent intent = new Intent(fragmentActivity, Activity_graph_frequency_letter.class);
             intent.putExtra("cipherText", cipherText);
             startActivity(intent);
             collapsePanel();
@@ -355,7 +348,7 @@ public class GUI_fragment_project_view extends Fragment {
     {
         ICFrequencyButton = view.findViewById(R.id.frequency_graph_period);
         ICFrequencyButton.setOnClickListener(view -> {
-            Intent intent = new Intent(fragmentActivity, GUI_graph_frequency_period.class);
+            Intent intent = new Intent(fragmentActivity, Activity_graph_frequency_period.class);
             intent.putExtra("cipherText", cipherText);
             startActivity(intent);
         });
@@ -446,9 +439,8 @@ public class GUI_fragment_project_view extends Fragment {
         ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter<Integer>(view.getContext(), android.R.layout.simple_spinner_item, content);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        //caesar shift button in fragment project view
-        caesar_popup_button = view.findViewById(R.id.button_shiftPopup);
-        caesar_popup_button.setOnClickListener(view -> {
+        caesar_shift_button = view.findViewById(R.id.button_shiftPopup);
+        caesar_shift_button.setOnClickListener(view -> {
 
             beforeShift = cipherText;
 
@@ -646,9 +638,7 @@ public class GUI_fragment_project_view extends Fragment {
             framework.setMODIFIED_TEXT(new Transposition().encrypt(framework.getMODIFIED_TEXT(), key));
             cipherText = framework.displayModifiedString();
         }catch(InvalidKeyException e)
-        {
-            framework.system_message_small(e.getMessage());
-        }
+            {framework.system_message_small(e.getMessage());}
     }
     private void doTranspoDecrypt(String key)
     {
@@ -658,9 +648,7 @@ public class GUI_fragment_project_view extends Fragment {
             framework.setMODIFIED_TEXT(new Transposition().decrypt(framework.getMODIFIED_TEXT(), key));
             cipherText = framework.displayModifiedString();
         }catch(InvalidKeyException e)
-        {
-            framework.system_message_small(e.getMessage());
-        }
+            {framework.system_message_small(e.getMessage());}
     }
 
     private void refresh()//refreshes the cipher text view

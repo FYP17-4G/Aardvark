@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.FYP.aardvark_project.kryptoTools.CalculateIC;
 import com.example.FYP.aardvark_project.kryptoTools.Graph;
+import com.example.FYP.aardvark_project.kryptoTools.InvalidKeyException;
+import com.example.FYP.aardvark_project.kryptoTools.Shift;
 import com.example.FYP.aardvark_project.kryptoTools.Utility;
 import com.example.FYP.aardvark_project.kryptoTools.mPair;
 import com.jjoe64.graphview.GraphView;
@@ -24,17 +26,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GUI_graph_Analysis extends AppCompatActivity
+public class Activity_graph_Analysis extends AppCompatActivity
 {
-    /**Constants*/
-    private final int DATA_LIMIT = 26;
-
     /**Other variables*/
     private int FREQUENCY_PERIOD_LIMIT;
 
     /**Graph related variables*/
     private String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
     private final double[] englishDistribution = {8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07};
+
+    private Button shiftLeftButton;
+    private Button shiftRightButton;
 
     private GraphView graph;
     private TextView graphPeriodIndicator;
@@ -44,6 +46,9 @@ public class GUI_graph_Analysis extends AppCompatActivity
     private List<String> cipherTextPeriodList = new ArrayList<>();
     private Button periodButton;
     private int period = 0;
+
+    private TextView keyValueTextView;
+    private String keyValue = new String();
 
     private String cipherTextWithCurrentPeriod = new String();
 
@@ -81,6 +86,72 @@ public class GUI_graph_Analysis extends AppCompatActivity
         getSupportActionBar().setElevation(0);
 
         this.setTitle("Frequency Analysis");
+
+        keyValueTextView = findViewById(R.id.analysis_key_value);
+
+        setAnalysisShiftButtons();
+    }
+
+    private void setAnalysisShiftButtons()
+    {
+        shiftLeftButton = findViewById(R.id.button_analysis_shift_left);
+        shiftRightButton = findViewById(R.id.button_analysis_shift_right);
+
+        shiftLeftButton.setOnClickListener(view -> {
+            try
+            {
+                cipherTextWithCurrentPeriod = new Shift().decrypt(framework.format(cipherTextWithCurrentPeriod).toLowerCase(), "1"); //shift the graph to the right
+                DataPoint[] dp = plotGraph(cipherTextWithCurrentPeriod);
+                periodCipherTextSeries.resetData(dp);
+
+                if(graphSeekBar.getProgress() > 0)
+                {
+                    int charIdx = graphSeekBar.getProgress() - 1;
+                    char target = keyValue.charAt(charIdx);
+                    cipherTextPeriodList.set(charIdx, cipherTextWithCurrentPeriod);
+
+                    int val = (int)target - 1;
+                    target = (char)val;
+                    if(target < 'A')
+                        target = 'Z';
+
+                    StringBuilder sb = new StringBuilder(keyValue);
+                    sb.setCharAt(charIdx, target);
+
+                    keyValue = new String(sb);
+                    keyValueTextView.setText(keyValue);
+                }
+            }catch(InvalidKeyException e)
+                {framework.system_message_small(e.getMessage());}
+        });
+
+        shiftRightButton.setOnClickListener(view -> {
+            try
+            {
+                cipherTextWithCurrentPeriod = new Shift().encrypt(framework.format(cipherTextWithCurrentPeriod).toLowerCase(), "1"); //shift the graph to the left
+                DataPoint[] dp = plotGraph(cipherTextWithCurrentPeriod);
+                periodCipherTextSeries.resetData(dp);
+
+                if(graphSeekBar.getProgress() > 0)
+                {
+                    int charIdx = graphSeekBar.getProgress() - 1;
+                    char target = keyValue.charAt(charIdx);
+                    cipherTextPeriodList.set(charIdx, cipherTextWithCurrentPeriod);
+
+                    int val = (int)target + 1;
+                    target = (char)val;
+                    if(target > 'Z')
+                        target = 'A';
+
+                    StringBuilder sb = new StringBuilder(keyValue);
+                    sb.setCharAt(charIdx, target);
+
+                    keyValue = new String(sb);
+                    keyValueTextView.setText(keyValue);
+                }
+            }catch(InvalidKeyException e)
+                {framework.system_message_small(e.getMessage());}
+        });
     }
 
     /**IC and FREQUENCY RELATED FUNCTIONS*/
@@ -117,15 +188,11 @@ public class GUI_graph_Analysis extends AppCompatActivity
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
-
+            public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
-
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         };
 
@@ -163,8 +230,18 @@ public class GUI_graph_Analysis extends AppCompatActivity
                 periodButton.setText("Period: " + period);
                 graphSeekBar.setMax(period);
 
-                    graphSeekBar.setVisibility(View.VISIBLE);
-                    graphPeriodIndicator.setVisibility(View.VISIBLE);
+                graphSeekBar.setVisibility(View.VISIBLE);
+                graphPeriodIndicator.setVisibility(View.VISIBLE);
+
+                /**Set new key*/
+
+                String newKey = new String();
+
+                for(int z = 0; z < period; z++)
+                    newKey += "A";
+
+                keyValue = newKey;
+                keyValueTextView.setText(newKey);
             }
         }, 0));
 
@@ -176,8 +253,6 @@ public class GUI_graph_Analysis extends AppCompatActivity
 
         graph.addSeries(cipherTextSeries);
         graph.addSeries(periodCipherTextSeries);
-
-        graph.setTitle("IC Graph");
     }
 
     private void fillCipherTextPeriodList(int period)
@@ -214,8 +289,8 @@ public class GUI_graph_Analysis extends AppCompatActivity
 
         DataPoint[] dp = new DataPoint[MAX_DATA_POINTS];
 
-        for(int x = 0; x < MAX_DATA_POINTS; x++)
-            dp[x] = new DataPoint(x, englishDistribution[x]);
+        for(int x = 1; x < MAX_DATA_POINTS + 1; x++)
+            dp[x - 1] = new DataPoint(x, englishDistribution[x - 1]);
 
         return dp;
     }
@@ -231,8 +306,8 @@ public class GUI_graph_Analysis extends AppCompatActivity
 
         Integer[] frequency = Graph.displayGraph(framework.format(textOfPeriod));
 
-        for(int x = 0; x < MAX_DATA_POINTS; x++)
-            dp[x] = new DataPoint(x, frequencyFormula((double)frequency[x], (double)divisor));
+        for(int x = 1; x < MAX_DATA_POINTS + 1; x++)
+            dp[x - 1] = new DataPoint(x, frequencyFormula((double)frequency[x - 1], (double)divisor));
 
         return dp;
     }

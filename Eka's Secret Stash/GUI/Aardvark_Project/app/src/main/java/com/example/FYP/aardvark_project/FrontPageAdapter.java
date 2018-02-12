@@ -97,8 +97,6 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.view
             private String title;
             private String previewCText;
 
-            private int idx; //entry index in the recycler component
-
             /**this will get the context from the caller of this class (in this case is the main activity)
              * so can start a new activity which is connected to the caller via the Manifest*/
             Context context;
@@ -116,13 +114,11 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.view
             private final View.OnClickListener editButtonListener = v -> showEditProject();
             private final View.OnClickListener cardClickListener = view -> launchProjectView();
 
-            private final View.OnLongClickListener cardLongClickListener = new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
+            private final View.OnLongClickListener cardLongClickListener = view -> {
+
                     AlertDialog alertDialog = framework.popup_cipher_preview(previewCText);
                     alertDialog.show();
                     return true;
-                }
             };
 
             /**this function will be called by member of interface onBindViewHolder from recycler extension*/
@@ -178,7 +174,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.view
             }
 
             /**
-             * Adjusts the theme to what theme is being selected at the Settings menu
+             * Adjusts the theme to what theme is being selected at the Activity_Settings menu
              * */
             private void adjustTheme()
             {
@@ -231,7 +227,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.view
                 editButton.setOnClickListener(view1 -> {
 
                     /**EDIT function reuses the layout for creating a new project,*/
-                    GUI_MainActivity mainActivity = (GUI_MainActivity)context;
+                    Activity_Main mainActivity = (Activity_Main)context;
                     String cipherText = database.getCipherText(id, title);
 
                     /**Use pop up menu function from Main Activity*/
@@ -257,7 +253,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.view
                 database.deleteEntry(id, title);
                 projectTitle = database.getAllTitle();
 
-                GUI_MainActivity mainActivity = (GUI_MainActivity)context;
+                Activity_Main mainActivity = (Activity_Main)context;
                 mainActivity.getListFromDB();
 
                 notifyDataSetChanged();
@@ -266,7 +262,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.view
             private void launchProjectView()//put the passed value as parameter
             {
                 /**Start a new activity, and passes some variables: project ID & project Title*/
-                Intent intent = new Intent(context, GUI_project_view.class);
+                Intent intent = new Intent(context, Activity_Project_View.class);
                 intent.putExtra("project_view_unique_ID", id);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
                 intent.putExtra("project_view_title", title);
 

@@ -206,10 +206,14 @@ Encryption / Decryption feature
 + In permutation view, the changed cipher text character is highlighted in red.
 + Fixed a bug in cipher text view when previewing the cipher text from card view
 
+<11 February 2018>
++ Added shift functionality to the frequency analysis tool
+
+<12 February 2018>
++ Added Introduction activity (Courtesy: https://github.com/msayan/tutorial-view)
+
 /*NEXT UP: 
-> Figure out how to dynamically set the view of the drag and drop input
 > Work out the icons
-> Move permutation view to main view
-> Try using drag and drop for transposition by number and kamasutra
+> Move permutation view somewhere else
 > Add read from file function for encryption and decryption feature
 */

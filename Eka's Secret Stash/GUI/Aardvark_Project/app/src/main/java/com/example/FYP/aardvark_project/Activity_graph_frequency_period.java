@@ -19,7 +19,7 @@ import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
 
-public class GUI_graph_frequency_period extends AppCompatActivity {
+public class Activity_graph_frequency_period extends AppCompatActivity {
 
     private final int DATA_LIMIT = 26; // A - Z
 
@@ -101,7 +101,6 @@ public class GUI_graph_frequency_period extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -110,21 +109,13 @@ public class GUI_graph_frequency_period extends AppCompatActivity {
             }
         });
 
-        periodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                framework.popup_getNumber_show("Set Period", "Period key", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        int newVal = Integer.parseInt(framework.popup_getInput());
+        periodButton.setOnClickListener(view -> framework.popup_getNumber_show("Set Period", "Period key", (dialogInterface, i) -> {
+            int newVal = Integer.parseInt(framework.popup_getInput());
 
-                        periodButton.setText("Max period: " + newVal);
-                        seekBar.setMax(newVal);
-                        seekBar.setProgress(0);
-                    }
-                }, 0);
-            }
-        });
+            periodButton.setText("Max period: " + newVal);
+            seekBar.setMax(newVal);
+            seekBar.setProgress(0);
+        }, 0));
     }
 
     private String getCipherTextPeriodOf(String input, int startFrom, int periodValue)
@@ -151,9 +142,6 @@ public class GUI_graph_frequency_period extends AppCompatActivity {
 
     private DataPoint[] calculateLetterFrequency(String input, int SEQUENCE_LENGTH)
     {
-        Utility util = Utility.getInstance();
-        String cipherText = util.processText(this.displayedCipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
-
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(input, SEQUENCE_LENGTH);
 
         frequencyAnalysisTextView = findViewById(R.id.graph_period_detail);

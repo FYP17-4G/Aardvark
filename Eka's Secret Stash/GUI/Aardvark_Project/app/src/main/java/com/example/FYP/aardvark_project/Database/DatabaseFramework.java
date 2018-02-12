@@ -13,7 +13,6 @@ import com.example.FYP.aardvark_project.FrontPageIdentifier;
 
 public class DatabaseFramework extends SQLiteOpenHelper
 {
-
     /**
      * Things needed for column:
      *

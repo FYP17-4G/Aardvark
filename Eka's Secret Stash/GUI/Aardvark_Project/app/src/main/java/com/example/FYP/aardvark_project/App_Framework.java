@@ -61,7 +61,7 @@ public class App_Framework
 
     /**
      * This function sets the theme of the application according to the shared preferences value defined
-     * in the Settings activity
+     * in the Activity_Settings activity
      *
      * =====================================
      * Because setTheme() is called upon this object creation, this object must be called before super.OnCreate()
@@ -72,7 +72,7 @@ public class App_Framework
     private boolean getThemePreference()
     {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getBoolean(Settings.DARK_THEME_SWITCH, false);
+        return sharedPreferences.getBoolean(Activity_Settings.DARK_THEME_SWITCH, false);
     }
 
     public boolean setTheme()

@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class GUI_MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Activity_Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int READ_REQUEST_CODE = 42;
 
@@ -56,7 +56,6 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if(id == R.id.nav_frontPage)
@@ -71,14 +70,14 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         else if (id == R.id.nav_settings)
             launchSettingsActivity();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -89,24 +88,8 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu); // Inflate the menu; this adds items to the action bar if it is present.
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            return true;
-        }*/
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**This function will be executed on return from the device's file browser*/
@@ -117,15 +100,13 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK)
         {
             if(data != null) {
-                //URI is the return value given by ACTION_OPEN_DOCUMENT intent
-                Uri uri = data.getData();
+                Uri uri = data.getData(); //URI is the return value given by ACTION_OPEN_DOCUMENT intent
 
                 try
                 {
                     cipherTextFromFile = framework.readTextFromUri(uri, context);
-
                 } catch (IOException e)
-                {}
+                {framework.system_message_small(e.getMessage());}
 
                 if(!cipherTextFromFile.isEmpty())
                 {
@@ -157,7 +138,7 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         setNavDrawer();
         setSearchBar();
 
-        setTitle("PROJECT MANAGER");
+        setTitle("Project Manager");
         getListFromDB();
 
         getSupportActionBar().setElevation(0);
@@ -200,7 +181,6 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
                 {
                     searchBar.setVisibility(View.GONE);
                     fab.setVisibility(View.GONE);
-
                 }
                 else
                 {
@@ -212,9 +192,8 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
 
     private void setFloatingActionButton()
     {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener((View view) ->
-                createNewProject());
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener((View view) -> createNewProject());
 
         if(framework.isDarkTheme())
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.dark_secondaryColor));
@@ -239,25 +218,22 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
 
     private void setSearchBar()
     {
-        //set up the search bar
+        /**set up the search bar*/
         searchBar = findViewById(R.id.searchBar);
         searchBar.setHint("Search");
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 getListFromDB();
 
-                //make changes here
                 if(!editable.toString().isEmpty() || editable.toString() != null)
                     filter(editable.toString());
                 else
@@ -272,12 +248,8 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
 
         for(FrontPageIdentifier item: projectTitle)
-        {
             if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
-            {
                 filteredTitle.add(item);
-            }
-        }
 
         adapter.filterList(filteredTitle);
     }
@@ -300,7 +272,6 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
 
         /**SET THE VISIBILITY OF THE SEARCH BAR, IF THERE IS NOTHING IN THE ADAPTER, DONT DISPLAY THE SEARCH BAR
          * */
-
         if(projectTitle.isEmpty())
             searchBar.setVisibility(View.GONE);
         else
@@ -309,71 +280,55 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
 
     private void launchFrontPageActivity()
     {
-        Intent intent = new Intent(this, GUI_MainActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, Activity_Main.class));
     }
 
     private void launchEncryptionDecryptionActivity()
     {
-        Intent intent = new Intent(this, GUI_Enc_Dec.class);
-        startActivity(intent);
+        startActivity(new Intent(this, Activity_Enc_Dec.class));
     }
 
     private void launchAboutUsActivity()
     {
-        /**Just create empty activity with a paragraph of text and some contact info*/
-        Intent intent = new Intent(this, GUI_aboutUs.class);
-        this.startActivity(intent);
+        this.startActivity(new Intent(this, Activity_About_Us.class));
     }
     private void launchSettingsActivity()
     {
-        /**For settings, use "Settings template"*/
-        Intent intent = new Intent(this, Settings.class);
-        this.startActivity(intent);
+        this.startActivity(new Intent(this, Activity_Settings.class));
     }
 
     private void createNewProject()
     {
-            int ID = new Random().nextInt(999)+1;
+        int ID = new Random().nextInt(999)+1;
 
-           //SETUP NEWP ROJECT POPUP ELEMENT HERE
-           EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
-           EditText cipherTextInput = newProjectView.findViewById(R.id.editText_cipherInputField);
+        EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
+        EditText cipherTextInput = newProjectView.findViewById(R.id.editText_cipherInputField);
 
-           newProjectTitle.setText("");
-           cipherTextInput.setText("");
+        newProjectTitle.setText("");
+        cipherTextInput.setText("");
 
-           Button getFromFile = newProjectView.findViewById(R.id.button_getCipherTextFromFile);
-           getFromFile.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   openFileBrowser(); //this function will call default device file browser
-               }
-           });
+        Button getFromFile = newProjectView.findViewById(R.id.button_getCipherTextFromFile);
+        getFromFile.setOnClickListener(view -> openFileBrowser()); //this function will call default device file browser
 
-            framework.popup_custom("Create new project", newProjectView, "create", "cancel", new DialogInterface.OnClickListener() {
-                //get the cipher text input from input field
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+        framework.popup_custom("Create new project", newProjectView, "create", "cancel", (dialogInterface, i) -> {
 
-                        String projectTitle = newProjectTitle.getText().toString();
-                        String cipherText = cipherTextInput.getText().toString();
+            String projectTitle = newProjectTitle.getText().toString();
+            String cipherText = cipherTextInput.getText().toString();
 
-                        if(projectTitle.isEmpty())
-                            framework.system_message_small("Project title is still empty");
-                        else if(cipherText.isEmpty())
-                            framework.system_message_small("Cipher text input is still empty");
-                        else if(projectExist(projectTitle))
-                            framework.system_message_small("Project title already exist");
-                        else
-                        {
-                            database.addNewComposite(Integer.toString(ID), projectTitle);
-                            database.updateData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
+            if(projectTitle.isEmpty())
+                framework.system_message_small("Project title is still empty");
+            else if(cipherText.isEmpty())
+                framework.system_message_small("Cipher text input is still empty");
+            else if(projectExist(projectTitle))
+                framework.system_message_small("Project title already exist");
+            else
+            {
+                database.addNewComposite(Integer.toString(ID), projectTitle);
+                database.updateData(Integer.toString(ID), projectTitle, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
 
-                            getListFromDB();
-                            adapter.notifyDataSetChanged();//refresh the adapter
-                        }
-                }
+                getListFromDB();
+                adapter.notifyDataSetChanged();//refresh the adapter
+            }
             });
         }
 
@@ -383,7 +338,6 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         String viewTitle = "Edit Project";
         String positiveButtonText = "Save Changes";
 
-        //SETUP NEWP ROJECT POPUP ELEMENT HERE
         EditText newProjectTitle = newProjectView.findViewById(R.id.editText_newProjectNameField);
         EditText cipherTextInput = newProjectView.findViewById(R.id.editText_cipherInputField);
 
@@ -391,35 +345,27 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         cipherTextInput.setText(cText);
 
         Button getFromFile = newProjectView.findViewById(R.id.button_getCipherTextFromFile);
-        getFromFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFileBrowser(); //this function will call default device file browser
-            }
-        });
+        getFromFile.setOnClickListener(view -> openFileBrowser());
 
-        framework.popup_custom(viewTitle, newProjectView, positiveButtonText, "cancel", new DialogInterface.OnClickListener() {
-            //get the cipher text input from input field
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        /**get the cipher text input from input field*/
+        framework.popup_custom(viewTitle, newProjectView, positiveButtonText, "cancel", (dialogInterface, i) -> {
 
-                String projectTitle = newProjectTitle.getText().toString();
-                String cipherText = cipherTextInput.getText().toString();
+            String projectTitle = newProjectTitle.getText().toString();
+            String cipherText = cipherTextInput.getText().toString();
 
-                if(projectTitle.isEmpty())
-                    framework.system_message_small("Project title is still empty");
-                else if(cipherText.isEmpty())
-                    framework.system_message_small("Cipher text input is still empty");
-                else if(projectExist(projectTitle))
-                    framework.system_message_small("Project title already exist");
-                else
-                {
-                    database.updateData(ID, title, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
-                    database.updateData(ID, title, "PROJECT_TITLE", projectTitle);
+            if(projectTitle.isEmpty())
+                framework.system_message_small("Project title is still empty");
+            else if(cipherText.isEmpty())
+                framework.system_message_small("Cipher text input is still empty");
+            else if(projectExist(projectTitle))
+                framework.system_message_small("Project title already exist");
+            else
+            {
+                database.updateData(ID, title, "PROJECT_ORIGINAL_CIPHER_TEXT", cipherText);
+                database.updateData(ID, title, "PROJECT_TITLE", projectTitle);
 
-                    getListFromDB();
-                    adapter.notifyDataSetChanged();//refresh the adapter
-                }
+                getListFromDB();
+                adapter.notifyDataSetChanged();//refresh the adapter
             }
         });
     }
@@ -433,7 +379,9 @@ public class GUI_MainActivity extends AppCompatActivity implements NavigationVie
         return false;
     }
 
-
+    /**
+     * This opens device's default file browser
+     * */
     private void openFileBrowser()
     {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT); //START INTENT TO CHOOSE FILE USING DEVICE' DEFAULT FILE BROWSER

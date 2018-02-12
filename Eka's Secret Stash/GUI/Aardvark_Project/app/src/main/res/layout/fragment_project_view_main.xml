@@ -20,7 +20,7 @@
         <FrameLayout
             android:id="@+id/project_view_cipher_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="319dp"
+            android:layout_height="298dp"
             android:transitionName="cipherTextViewTransition">
 
             <android.support.v4.widget.NestedScrollView

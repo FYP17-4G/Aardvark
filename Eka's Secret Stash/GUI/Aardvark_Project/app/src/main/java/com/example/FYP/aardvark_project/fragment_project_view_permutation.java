@@ -19,7 +19,7 @@ import java.util.List;
  * Another fragment is "GUI_rpojectView"
  */
 
-public class GUI_fragment_project_view_permutation extends Fragment
+public class fragment_project_view_permutation extends Fragment
 {
     private App_Framework framework;
 
@@ -156,7 +156,8 @@ public class GUI_fragment_project_view_permutation extends Fragment
     public void setCipherText(String cipherText)
     {
         this.cipherText = cipherText;
-        refresh(this.cipherText, spaceSeekBar.getProgress(), lineSeekBar.getProgress());
+        spaceSeekBar.setProgress(0);
+        lineSeekBar.setProgress(0);
     }
 
     public void setOriginalCipherText(String originalCipherText)
@@ -183,18 +184,13 @@ public class GUI_fragment_project_view_permutation extends Fragment
                 tempOriginal = lining(tempOriginal, line);
             }
 
-            //cipherTextView.setText(temp);
-
             if(temp.length() == tempOriginal.length())
                 for(int i = 0; i < temp.length(); i++)
                 {
                     if(temp.charAt(i) == tempOriginal.charAt(i))
                         cipherTextView.append(Character.toString(temp.charAt(i)));
                     else
-                    {
-                        String html = "<font color='#EE0000'>"+ temp.charAt(i) +"</font>"; //set the text color to red
-                        cipherTextView.append(Html.fromHtml(html));
-                    }
+                        cipherTextView.append(Html.fromHtml("<font color='#EE0000'>"+ temp.charAt(i) +"</font>")); //set the text color to red
                 }
 
         });

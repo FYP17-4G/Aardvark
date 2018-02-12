@@ -4,7 +4,7 @@
     android:id="@+id/Splash_Frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.FYP.aardvark_project.GUI_Splash_FullScreen">
+    tools:context="com.example.FYP.aardvark_project.Activity_Splash_Screen">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,

@@ -61,6 +61,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/darker_gray</item>
     </style>
+
     <style name="DarkTheme.NoActionBar" parent="@style/DarkTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -82,7 +83,7 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style parent="@android:style/Widget.Spinner" name="SpinnerwithNoArrow">
+    <style name="SpinnerwithNoArrow" parent="@android:style/Widget.Spinner">
         <item name="android:background">@android:drawable/edit_text</item>
     </style>
 

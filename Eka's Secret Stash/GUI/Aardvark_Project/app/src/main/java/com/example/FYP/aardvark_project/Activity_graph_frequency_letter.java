@@ -20,7 +20,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import java.util.ArrayList;
 
 
-public class GUI_graph_frequency_letter extends AppCompatActivity {
+public class Activity_graph_frequency_letter extends AppCompatActivity {
     private final int DATA_LIMIT = 26;
 
     private final int SINGULAR = 1;
@@ -38,7 +38,6 @@ public class GUI_graph_frequency_letter extends AppCompatActivity {
      * */
     private Analysis frequencyAnalysis;
     private TextView frequencyAnalysisTextView;
-
 
     private Spinner frequencySpinner;
 
@@ -100,7 +99,6 @@ public class GUI_graph_frequency_letter extends AppCompatActivity {
         String cipherText = util.processText(this.cipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
 
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(cipherText, SEQUENCE_LENGTH);
-
         frequencyAnalysisTextView = findViewById(R.id.graph_frequency_detailed_text_view);
 
         int dataLen = frequencyAnalysis.dataLength();
@@ -157,7 +155,6 @@ public class GUI_graph_frequency_letter extends AppCompatActivity {
 
                     graph.getGridLabelRenderer().setTextSize(30);
                     graph.getGridLabelRenderer().reloadStyles();
-
                 }
                 else if(value.equals(list[2])) //TRIGRAM
                 {
@@ -165,19 +162,15 @@ public class GUI_graph_frequency_letter extends AppCompatActivity {
 
                     graph.getGridLabelRenderer().setTextSize(20);
                     graph.getGridLabelRenderer().reloadStyles();
-
                 }
                 else if(value.equals(list[3])) // CUSTOM
-                {
                     framework.popup_getNumber_show("Custom Char length", "Char length", (dialogInterface, i) -> commonOccurenceSeries.resetData(calculateLetterFrequency(Integer.parseInt(framework.popup_getInput()))), 10);
-                }
 
                 setGraphLabel(commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }

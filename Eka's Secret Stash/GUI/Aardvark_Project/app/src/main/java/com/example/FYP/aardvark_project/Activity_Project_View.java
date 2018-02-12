@@ -2,6 +2,7 @@ package com.example.FYP.aardvark_project;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -10,7 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class GUI_project_view extends AppCompatActivity
+public class Activity_Project_View extends AppCompatActivity
 {
     private String projectUniqueID = new String();
     private String projectTitle = new String();
@@ -18,8 +19,8 @@ public class GUI_project_view extends AppCompatActivity
     private fragmentPagerAdapter projectViewFragmentAdapter;
     private ViewPager viewPager;
 
-    private GUI_fragment_project_view mainView = new GUI_fragment_project_view();
-    private GUI_fragment_project_view_permutation permView = new GUI_fragment_project_view_permutation();
+    private fragment_project_view mainView = new fragment_project_view();
+    private fragment_project_view_permutation permView = new fragment_project_view_permutation();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,19 +88,22 @@ public class GUI_project_view extends AppCompatActivity
         @Override
         public void onTabSelected(TabLayout.Tab tab)
         {
-            permView.setCipherText(mainView.getCipherText());
-            permView.setOriginalCipherText(mainView.getOriginalCipherText());
-            permView.refresh(mainView.getCipherText(), 0, 0);
+            if(tab.getPosition() == 1) //if permutation view is selected
+            {
+                AsyncTask.execute(() -> {
+                    permView.setCipherText(mainView.getCipherText());
+                    permView.setOriginalCipherText(mainView.getOriginalCipherText());
+                    permView.refresh(mainView.getCipherText(), 0, 0);
+                });
+            }
         }
 
         @Override
         public void onTabUnselected(TabLayout.Tab tab) {
-
         }
 
         @Override
         public void onTabReselected(TabLayout.Tab tab) {
-
         }
     };
 
@@ -135,7 +139,7 @@ public class GUI_project_view extends AppCompatActivity
 
     private void launchNote()
     {
-        Intent intent = new Intent(this, GUI_note.class);
+        Intent intent = new Intent(this, Activity_Note.class);
         intent.putExtra("title", projectTitle);
         intent.putExtra("id", projectUniqueID);
         startActivity(intent);
@@ -143,6 +147,6 @@ public class GUI_project_view extends AppCompatActivity
 
     private void backToList()
     {
-        startActivity(new Intent(this, GUI_MainActivity.class));
+        startActivity(new Intent(this, Activity_Main.class));
     }
 }
