@@ -5,10 +5,11 @@
  * @author fyp17.4g
  */
 
-package models.ciphers;
+package java.models.ciphers;
 
 //CHECKSTYLE:OFF
-import static org.junit.Assert.*;
+import models.ciphers.*;
+import models.ciphers.CipherTestConstants;
 import org.junit.*;
 //CHECKSTYLE:ON
 

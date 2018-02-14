@@ -14,7 +14,7 @@
 
 package models.ciphers;
 
-public class BeaufortCipher extends AbstractCipher implements CipherInterface{
+public class BeaufortCipher extends AbstractCipher implements CipherInterface {
     private static final String DESC = "Subtractive Vigenere Cipher";
     private static final String NAME = "Subtractive Vigenere Cipher";
 

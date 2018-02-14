@@ -2,8 +2,6 @@ package models.ciphers;
 
 import org.junit.*;
 
-import static org.junit.Assert.*;
-
 public class BeaufortVariantCipherTest {
   private CipherInterface cipher;
   private final String NUM              = "1234567890";

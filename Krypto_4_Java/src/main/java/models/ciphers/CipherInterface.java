@@ -9,7 +9,7 @@ package models.ciphers;
 /**
  * Defines all the common methods a Cipher should have.
  */
-interface CipherInterface {
+public interface CipherInterface {
 
     /**
      * Returns the name of the cipher to identify the cipher after polymorphism.

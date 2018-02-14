@@ -1,5 +1,6 @@
-package models.ciphers;
+package java.models.ciphers;
 
+import models.ciphers.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

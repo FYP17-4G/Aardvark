@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PlayfairCipherTest   {
+public class TranspositionTest {
   private CipherInterface cipher;
   private final String NUM              = "1234567890";
   private final String SHORT_ALPHA      = "abc";
@@ -15,20 +15,11 @@ public class PlayfairCipherTest   {
   private final String SYMBOLS          = "!@#$%^&*()";
   private final String SPACES           = "          ";
   private final String EMPTY            = "";
-
-  private final String PF_KEY           = "SECRET";
+  private final String TR_KEY           = "SECRET";
 
   @Before
-  public void init() { cipher = new PlayfairCipher(); }
-
-  @Test
-  public void checkKey_LongAlpha() {
-    Assert.assertTrue(cipher.checkKey(LONG_ALPHA));
-  }
-
-  @Test
-  public void checkKey_ShortAlpha() {
-    Assert.assertTrue(cipher.checkKey(SHORT_ALPHA));
+  public void init() {
+    cipher = new Transposition();
   }
 
   @Test
@@ -61,47 +52,27 @@ public class PlayfairCipherTest   {
     Assert.assertFalse(cipher.checkKey(EMPTY));
   }
 
-  /*
-  * PLAYFAIR RULES:
-  * 1. Same Row -> Take character directly below, mod if necessary.
-  * 2. Same Col -> Take character directly left,  mod if necessary.
-  * 3. Else     -> Anti-Clockwise Rectangle.
-  *
-  * S E C R T
-  * A B D F G
-  * H I K L M
-  * N O P Q U
-  * V W X Y Z
-  *
-  * DE FX
-  * CB DY
-  *
-  * AB CD EF GH IX JX KL MN OP QR ST UV WX YZ
-  * HI RF BR AM WK WK PQ HU WX UT AG NZ EC RT
-   */
-
   @Test
   public void encrypt_ShortAlpha() {
-    String answer = cipher.encrypt(SHORT_ALPHA_ALT, PF_KEY);
-    Assert.assertEquals("cbdy", answer);
+    String answer = cipher.encrypt(SHORT_ALPHA_ALT, TR_KEY);
+    Assert.assertEquals("fed", answer);
   }
 
   @Test
   public void encrypt_LongAlpha() {
-    String answer = cipher.encrypt(LONG_ALPHA, PF_KEY);
-    Assert.assertEquals("hirfbramwkwkpqhuwxutagnzecrt", answer );
+    String answer = cipher.encrypt(LONG_ALPHA_ALT, TR_KEY);
+    Assert.assertEquals("xyvwzurspqtolmjknifgdehcab", answer);
   }
 
   @Test
   public void decrypt_ShortAlpha() {
-    String answer = cipher.decrypt("cbdy", PF_KEY);
+    String answer = cipher.decrypt("fed", TR_KEY);
     Assert.assertEquals(SHORT_ALPHA_ALT, answer);
   }
 
   @Test
   public void decrypt_LongAlpha() {
-    String answer = cipher.decrypt("hirfbramwkwkpqhuwxutagnzecrt", PF_KEY);
-    Assert.assertEquals(LONG_ALPHA, answer);
+    String answer = cipher.decrypt("xyvwzurspqtolmjknifgdehcab", TR_KEY);
+    Assert.assertEquals(LONG_ALPHA_ALT, answer);
   }
-
 }

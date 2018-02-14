@@ -1,12 +1,11 @@
-
 package models.ciphers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TranspositionPeriodic 
-    extends AbstractBlockCipher 
+public class TranspositionPeriodic
+    extends AbstractBlockCipher
         implements CipherInterface {
 
 
@@ -42,7 +41,6 @@ public class TranspositionPeriodic
 
         //System.out.println("plaintext = " + plaintext);
         return plaintext.toString();
-        
     }
 
     @Override
