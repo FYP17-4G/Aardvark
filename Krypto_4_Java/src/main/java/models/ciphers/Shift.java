@@ -58,39 +58,52 @@ public class Shift extends AbstractCipher implements CipherInterface {
 
     @Override
     public String encrypt (String plaintext, String key)  {
+      key = key.trim();
+
+      if (checkKey(key)) {
         StringBuilder sb = new StringBuilder();
 
         Integer offset = Integer.parseInt(key);
         int output;
-        for (Character c: plaintext.toCharArray()) {
-            output = c - 'a' + offset;
-            output %= 26;
+        for (Character c : plaintext.toCharArray()) {
+          output = c - 'a' + offset;
+          output %= 26;
 
-            sb.append(ALPHABETS.charAt(output));
+          sb.append(ALPHABETS.charAt(output));
         }
-
         return sb.toString();
+      }
+
+      return "failed.";
     }
 
     @Override
     public String decrypt (String ciphertext, String key)  {
+      key = key.trim();
+      if (checkKey(key)) {
         StringBuilder sb = new StringBuilder();
 
         Integer offset = Integer.parseInt(key);
         int output;
 
-        for (Character c: ciphertext.toCharArray()) {
-            output = c - 'a' - offset;
+        for (Character c : ciphertext.toCharArray()) {
+          output = c - 'a' - offset;
 
-            if (output < 0) {
-                output += 26;
-            }
-            output %= 26;
+          if (output < 0) {
+            output += 26;
+          }
+          output %= 26;
 
-            sb.append(ALPHABETS.charAt(output));
+          sb.append(ALPHABETS.charAt(output));
         }
 
         return sb.toString();
+      }
+
+      return "failed.";
+
+//      key = String.valueOf(Integer.parseInt(key) * (-1));
+//      return encrypt(ciphertext, key);
     }
 
     @Override
@@ -107,8 +120,8 @@ public class Shift extends AbstractCipher implements CipherInterface {
     @Override
     public Boolean checkKey(String key)  {
 
-        try { 
-            Integer.parseInt(key); 
+        try {
+            Integer.parseInt(key);
         } catch (NumberFormatException nfe) {
             return false;
         }
