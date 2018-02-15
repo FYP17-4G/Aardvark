@@ -53,6 +53,14 @@ public class Kamasutra extends AbstractCipher implements CipherInterface {
         return null;
     }
 
+    @Override
+    public Boolean checkKey(String key) {
+      if ( !(removeDuplicates(key).equals(key)) ) return false;
+      if (key.length() != ALPHABETS.length()) return false;
+
+      return super.checkKey(key);
+    }
+
     private int find(Character in, String data) {
         int index = 0;
         for (Character c: data.toCharArray()) {

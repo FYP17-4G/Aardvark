@@ -1,5 +1,6 @@
 import models.Project;
 import models.ciphers.AbstractCipher;
+import models.ciphers.PlayfairCipher;
 import models.ciphers.VigenereCipher;
 
 /**
@@ -28,7 +29,7 @@ public final class Main {
     public static void main(final String[] args) {
 
         //Initialization
-        AbstractCipher cipher = new VigenereCipher();
+        AbstractCipher cipher = new PlayfairCipher();
         String projectName = "TEST_PROJECT";
         //CHECKSTYLE:OFF
         int identifier = 1234;
@@ -52,7 +53,12 @@ public final class Main {
         System.out.println("AFTER");
         System.out.println("=====");
         System.out.println(project.toString());
-        
+
+        project.setModifiedText(cipher.decrypt(project.getModifiedText(), key));
+      //Display results
+      System.out.println("AFTER");
+      System.out.println("=====");
+      System.out.println(project.toString());
     }
 
 }

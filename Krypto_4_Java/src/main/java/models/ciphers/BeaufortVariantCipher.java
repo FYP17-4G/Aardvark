@@ -15,98 +15,108 @@
 package models.ciphers;
 
 public class BeaufortVariantCipher
-    extends AbstractCipher
-    implements CipherInterface {
-        
-    private static final String DESC = "Inverse Vigenere Cipher";
-    private static final String NAME = "Inverse Vigenere Cipher";
+  extends AbstractCipher
+  implements CipherInterface {
 
-    @Override
-    public String encrypt(String plaintext, String key)  {
-        key = key.toLowerCase();
-        if (checkKey(key)) {
-            StringBuilder out = new StringBuilder();
-            int position = 0;
+  private static final String DESC = "Inverse Vigenere Cipher";
+  private static final String NAME = "Inverse Vigenere Cipher";
 
-            for (Character c: plaintext.toCharArray()) {
+  @Override
+  public String encrypt(String plaintext, String key) {
+    key = key.toLowerCase();
+    if (checkKey(key)) {
+      StringBuilder out = new StringBuilder();
+      int position = 0;
 
-                if (position >= (key.length())) {
-                    position = 0;
-                }
+      for (Character c : plaintext.toCharArray()) {
 
-                if (Character.isAlphabetic(c)) {
-                    out.append(encryptOne(c, key.charAt(position++)));
-                } else {
-                    out.append(c);
-                }
-            }
-
-            return out.toString();
+        if (position >= (key.length())) {
+          position = 0;
         }
 
-        return "Failed.";
+        if (Character.isAlphabetic(c)) {
+          out.append(encryptOne(c, key.charAt(position++)));
+        } else {
+          out.append(c);
+        }
+      }
+
+      return out.toString();
     }
 
-    @Override
-    public String decrypt(String ciphertext, String key)  {
-        key = key.toLowerCase();
-        if (checkKey(key)) {
-            StringBuilder out = new StringBuilder();
-            int position = 0;
-            for (Character c: ciphertext.toCharArray()) {
-                if (position >= (key.length())) {
-                    position = 0;
-                }
+    return "Failed.";
+  }
 
-                if (Character.isAlphabetic(c)) {
-                    out.append(decryptOne(c, key.charAt(position++)));
-                } else {
-                    out.append(c);
-                }
-            }
-
-            return out.toString();
+  @Override
+  public String decrypt(String ciphertext, String key) {
+    key = key.toLowerCase();
+    if (checkKey(key)) {
+      StringBuilder out = new StringBuilder();
+      int position = 0;
+      for (Character c : ciphertext.toCharArray()) {
+        if (position >= (key.length())) {
+          position = 0;
         }
 
-        return "Failed.";
+        if (Character.isAlphabetic(c)) {
+          out.append(decryptOne(c, key.charAt(position++)));
+        } else {
+          out.append(c);
+        }
+      }
+
+      return out.toString();
     }
 
-    @Override
-    public String getDescription() {
-        return null;
-    }
+    return "Failed.";
+  }
 
-    @Override
-    public String getName() {
-        return null;
-    }
+  @Override
+  public String getDescription() {
+    return null;
+  }
 
-    //encrypt ONE character
-    private static Character encryptOne (Character plaintext, Character key) {
-        int res, k;
-        k = key - 'a';
+  @Override
+  public String getName() {
+    return null;
+  }
 
-        res = plaintext - 'a';
-        res -= k;
+  //encrypt ONE character
+  private static Character encryptOne(Character plaintext, Character key) {
+    int res, k;
+    k = key - 'a';
 
-        if (res < 0)
-            res += 26;
+    res = plaintext - 'a';
+    res -= k;
 
-        res %= ALPHABETS.length();
+    if (res < 0)
+      res += 26;
 
-        return ALPHABETS.charAt(res);
-    }
+    res %= ALPHABETS.length();
 
-    //decrypt ONE character
-    private static Character decryptOne (Character plaintext, Character key) {
-        int res, k;
-        k = key - 'a';
+    return ALPHABETS.charAt(res);
+  }
 
-        res = plaintext - 'a';
-        res += k;
+  //decrypt ONE character
+  private static Character decryptOne(Character plaintext, Character key) {
+    int res, k;
+    k = key - 'a';
 
-        res %= ALPHABETS.length();
+    res = plaintext - 'a';
+    res += k;
 
-        return ALPHABETS.charAt(res);
-    }
+    res %= ALPHABETS.length();
+
+    return ALPHABETS.charAt(res);
+  }
+
+  @Override
+  public Boolean checkKey(String key) {
+    int originalLength = key.length();
+    key = key.replaceAll("[^A-Za-z]", "");
+
+    if (key.length() != originalLength) return false;
+
+    return super.checkKey(key);
+  }
 }

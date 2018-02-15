@@ -44,11 +44,6 @@ public abstract class AbstractCipher implements CipherInterface {
      * @return true if the key is valid for this cipher
      */
     public Boolean checkKey(String key) {
-      int originalLength = key.length();
-      key = key.replaceAll("[^A-Za-z]", "");
-
-      if (key.length() != originalLength) return false;
-
       if (key.length() <= 0) return false;
         for (int i = 0; i < key.length(); i++) {
             char ch = key.charAt(i);
