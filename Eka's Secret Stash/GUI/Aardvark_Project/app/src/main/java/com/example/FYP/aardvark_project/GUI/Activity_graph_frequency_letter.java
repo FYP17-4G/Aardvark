@@ -62,8 +62,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         this.setTitle("Frequency Graph (Letter)");
     }
 
-    private void setGraph()
-    {
+    private void setGraph() {
         graph = findViewById(R.id.graph_freq_lot);
         setTextFrequencyTool();
 
@@ -76,8 +75,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         graph.getViewport().setMinY(0);
     }
 
-    private void setGraphLabel(String[] label)
-    {
+    private void setGraphLabel(String[] label) {
         /**set the graph to be scrollable*/
         graph.getViewport().setScrollable(true); //horizontal
         graph.getViewport().setScrollableY(true); //vertical
@@ -88,8 +86,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         graph.getGridLabelRenderer().setLabelFormatter(staticLabels);
     }
 
-    private DataPoint[] calculateLetterFrequency(int SEQUENCE_LENGTH)
-    {
+    private DataPoint[] calculateLetterFrequency(int SEQUENCE_LENGTH) {
         Utility util = Utility.getInstance();
         String cipherText = util.processText(this.cipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
 
@@ -104,8 +101,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.frequency_letter_linear_layout);
         layout.removeAllViews();
         commonOccurenceWords.clear();
-        for(int i = 0; i < dataLen; i++)
-        {
+        for(int i = 0; i < dataLen; i++) {
             String val = frequencyAnalysis.getFrequencyAt(i);
 
             String[] split = val.split("\\:");
@@ -122,8 +118,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
     }
 
     /**Display the detailed information using an xml layout*/
-    private void addDetailList(LinearLayout layout, String word, String value)
-    {
+    private void addDetailList(LinearLayout layout, String word, String value) {
         View detailView = getLayoutInflater().inflate(R.layout.detail_list_view, null);
         TextView textViewWord = detailView.findViewById(R.id.detail_name);
         textViewWord.setText(word);
@@ -134,8 +129,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         layout.addView(detailView);
     }
 
-    private void setTextFrequencyTool()
-    {
+    private void setTextFrequencyTool() {
         String[] list = {"Singular", "Bigram", "Trigram", "Custom..."};
 
         frequencySpinner = findViewById(R.id.graph_frequency_spinner);
@@ -149,22 +143,19 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 String value = list[position];
 
-                if(value.equals(list[0])) //SINGULAR
-                {
+                if(value.equals(list[0])) { //SINGULAR
                     commonOccurenceSeries.resetData(calculateLetterFrequency(SINGULAR));
 
                     graph.getGridLabelRenderer().resetStyles();
                 }
 
-                else if(value.equals(list[1])) //BIGRAM
-                {
+                else if(value.equals(list[1])) { //BIGRAM
                     commonOccurenceSeries.resetData(calculateLetterFrequency(BIGRAM));
 
                     graph.getGridLabelRenderer().setTextSize(30);
                     graph.getGridLabelRenderer().reloadStyles();
                 }
-                else if(value.equals(list[2])) //TRIGRAM
-                {
+                else if(value.equals(list[2])) { //TRIGRAM
                     commonOccurenceSeries.resetData(calculateLetterFrequency(TRIGRAM));
 
                     graph.getGridLabelRenderer().setTextSize(20);

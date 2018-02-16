@@ -66,8 +66,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         this.setTitle("Frequency Graph (Period)");
     }
 
-    private void setGraph()
-    {
+    private void setGraph() {
         cipherText = getIntent().getStringExtra("cipherText");
 
         graph = findViewById(R.id.graph_period_lot);
@@ -79,8 +78,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         graph.getViewport().setMinY(0);
     }
 
-    private void setSeekBar()
-    {
+    private void setSeekBar() {
         seekBar = findViewById(R.id.period_seekBar);
         seekBarIndicator = findViewById(R.id.period_indicator);
         periodButton = findViewById(R.id.period_button);
@@ -94,8 +92,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if(seekBar.getProgress() > 0)
-                {
+                if(seekBar.getProgress() > 0) {
                     displayedCipherText = getCipherTextPeriodOf(cipherText, seekBar.getProgress(), seekBar.getProgress());
                     seekBarIndicator.setText("Period: " + seekBar.getProgress());
                     sign.setVisibility(View.GONE);
@@ -124,8 +121,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         }, 0));
     }
 
-    private String getCipherTextPeriodOf(String input, int startFrom, int periodValue)
-    {
+    private String getCipherTextPeriodOf(String input, int startFrom, int periodValue) {
         String returnVal = new String();
 
         for(int i = startFrom; i < cipherText.length(); i += periodValue)
@@ -134,8 +130,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         return returnVal;
     }
 
-    private void setGraphLabel(String[] label)
-    {
+    private void setGraphLabel(String[] label) {
         /**set the graph to be scrollable*/
         graph.getViewport().setScrollable(true); //horizontal
         graph.getViewport().setScrollableY(true); //vertical
@@ -146,8 +141,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         graph.getGridLabelRenderer().setLabelFormatter(staticLabels);
     }
 
-    private DataPoint[] calculateLetterFrequency(String input, int SEQUENCE_LENGTH)
-    {
+    private DataPoint[] calculateLetterFrequency(String input, int SEQUENCE_LENGTH) {
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(input, SEQUENCE_LENGTH);
 
         int dataLen = frequencyAnalysis.dataLength();
@@ -159,8 +153,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.frequency_period_linear_layout);
         layout.removeAllViews();
         commonOccurenceWords.clear();
-        for(int i = 0; i < dataLen; i++)
-        {
+        for(int i = 0; i < dataLen; i++) {
             String val = frequencyAnalysis.getFrequencyAt(i);
 
             String[] split = val.split("\\:");
@@ -177,8 +170,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
     }
 
     /**Display the detailed information using an xml layout*/
-    private void addDetailList(LinearLayout layout, String word, String value)
-    {
+    private void addDetailList(LinearLayout layout, String word, String value) {
         View detailView = getLayoutInflater().inflate(R.layout.detail_list_view, null);
         TextView textViewWord = detailView.findViewById(R.id.detail_name);
         textViewWord.setText(word);
@@ -189,10 +181,8 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         layout.addView(detailView);
     }
 
-    private void refresh()
-    {
-        if(seekBar.getProgress() > 0)
-        {
+    private void refresh() {
+        if(seekBar.getProgress() > 0) {
             framework.format(displayedCipherText);
 
             if(!displayedCipherText.isEmpty())

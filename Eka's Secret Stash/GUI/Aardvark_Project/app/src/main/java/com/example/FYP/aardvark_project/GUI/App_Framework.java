@@ -42,8 +42,7 @@ public class App_Framework
 
     private EditText popup_inputText;
 
-    public App_Framework(Context context, boolean overrideTheme)
-    {
+    public App_Framework(Context context, boolean overrideTheme) {
         this.context = context;
 
         if(overrideTheme)
@@ -55,8 +54,7 @@ public class App_Framework
     /**
      * This function reinstate the alert dialog builder and applies theme accordingly
      * */
-    private void reinstateBuilder()
-    {
+    private void reinstateBuilder() {
         if(isDarkTheme()) //is dark theme
             popUpWindow = new AlertDialog.Builder(context, R.style.DarkDialogTheme);
 
@@ -74,24 +72,18 @@ public class App_Framework
      *
      * #Note: For fragment, the point above does not matter
      * */
-    private boolean getThemePreference()
-    {
+    private boolean getThemePreference() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean(Activity_Settings.DARK_THEME_SWITCH, false);
     }
 
-    public boolean setTheme()
-    {
+    public boolean setTheme() {
         Boolean dark = getThemePreference();
 
         if(!dark)
-        {
             context.setTheme(R.style.AppTheme); //set context theme to light
-        }
         else
-        {
             context.setTheme(R.style.DarkTheme); //set context theme to dark
-        }
 
         return dark;
     }
@@ -115,8 +107,7 @@ public class App_Framework
 
     /**popup function specifically for "main activity " use, when long pressed a card, this function will display the preview of the cipher text*/
     @SuppressLint("ClickableViewAccessibility")
-    public AlertDialog popup_cipher_preview(String cipherText)
-    {
+    public AlertDialog popup_cipher_preview(String cipherText) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.pop_cipher_preview, null);
         TextView previewCipherText = view.findViewById(R.id.previewCText);
@@ -130,9 +121,7 @@ public class App_Framework
         view.setOnTouchListener((view1, event) -> {
 
             if(event.getAction() == MotionEvent.ACTION_UP)
-            {
                 alertDialog.cancel(); //cancel alert dialog on press release
-            }
 
             return true;
         });
@@ -140,12 +129,9 @@ public class App_Framework
         return alertDialog;
     }
 
-    public AlertDialog popup_custom(String title, View view) //plain custom pop up container
-    {
+    public AlertDialog popup_custom(String title, View view) { //plain custom pop up container
         if(view.getParent() != null) //checks if view already exist
-        {
             ((ViewGroup)view.getParent()).removeView(view);
-        }
 
         reinstateBuilder();
 
@@ -158,12 +144,9 @@ public class App_Framework
     }
 
     //custom popup with defined positive and negative button behaviour
-    public AlertDialog popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener)
-    {
+    public AlertDialog popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener) {
         if(view.getParent() != null) //checks if view already exist
-        {
             ((ViewGroup)view.getParent()).removeView(view);
-        }
 
         reinstateBuilder();
 
@@ -177,12 +160,9 @@ public class App_Framework
         return alertDialog;
     }
 
-    public void popup_custom(String title, View view, DialogInterface.OnClickListener clickListener)
-    {
+    public void popup_custom(String title, View view, DialogInterface.OnClickListener clickListener) {
         if(view.getParent() != null) //checks if view already exist
-        {
             ((ViewGroup)view.getParent()).removeView(view);
-        }
 
         reinstateBuilder();
 
@@ -196,8 +176,7 @@ public class App_Framework
     }
 
     /**This changes the input type of the edit text field to number only*/
-    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener, int inputLengthLimit)
-    {
+    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener, int inputLengthLimit) {
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
@@ -214,8 +193,7 @@ public class App_Framework
         popUpWindow.show();
     }
 
-    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
-    {
+    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText) {
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
@@ -232,8 +210,7 @@ public class App_Framework
         popUpWindow.show();
     }
 
-    public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener)
-    {
+    public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener) {
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
@@ -251,8 +228,7 @@ public class App_Framework
     }
 
     /**CUSTOMIZEABLE pop up input text for positive button (right button) and negative button (left button)*/
-    public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText)
-    {
+    public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText) {
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
@@ -270,15 +246,13 @@ public class App_Framework
     }
 
     /**Use this for displaying small message, and error message as well*/
-    public void system_message_small(String message) //Toastbox message
-    {
+    public void system_message_small(String message){
         toast.setText(message);
         toast.show();
     }
 
     /**Pop up error message to display lengthy message, this can be used to display error message as well*/
-    public void system_message_popup(String popup_title, String popup_message, String popup_buttonMessage)
-    {
+    public void system_message_popup(String popup_title, String popup_message, String popup_buttonMessage) {
         DialogInterface.OnClickListener errMessageClickListener = (dialogInterface, i) -> dialogInterface.cancel();
 
         reinstateBuilder();
@@ -291,8 +265,7 @@ public class App_Framework
         popUpWindow.setView(popup_textView);
         popUpWindow.show();
     }
-    public void system_message_popup(String popup_title, String popup_message)
-    {
+    public void system_message_popup(String popup_title, String popup_message) {
         DialogInterface.OnClickListener errMessageClickListener = (dialogInterface, i) -> dialogInterface.cancel();
 
         reinstateBuilder();
@@ -306,8 +279,7 @@ public class App_Framework
         popUpWindow.show();
     }
 
-    public void system_message_confirmAction(String popup_title, String popup_message, DialogInterface.OnClickListener ols)
-    {
+    public void system_message_confirmAction(String popup_title, String popup_message, DialogInterface.OnClickListener ols){
         reinstateBuilder();
 
         popup_textView = new TextView(context);
@@ -328,8 +300,9 @@ public class App_Framework
     /**
      * ==============OTHER FRAMEWORK FUNCTIONS==============
      */
-    public String stringNoWhiteSpace(String cText) //This will convert given String to the same string but without whitespace
-    {
+
+    /**This will convert given String to the same string but without whitespace*/
+    public String stringNoWhiteSpace(String cText) {
         String temp = new String();
 
         for(int i = 0; i < cText.length(); i++)
@@ -342,8 +315,7 @@ public class App_Framework
     /**
      * Read text file from URI data type returned by the "OPEN_FILE_BROWSER" intent
      * */
-    public String readTextFromUri(Uri uri, Context context) throws IOException
-    {
+    public String readTextFromUri(Uri uri, Context context) throws IOException {
         InputStream inputStream = context.getContentResolver().openInputStream(uri);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
@@ -430,8 +402,7 @@ public class App_Framework
         return MODIFIED_TEXT;
     }
 
-    public String format(String input)
-    {
+    public String format(String input) {
         init(input);
         return MODIFIED_TEXT;
     }

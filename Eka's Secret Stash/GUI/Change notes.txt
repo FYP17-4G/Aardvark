@@ -240,8 +240,6 @@ Encryption / Decryption feature
 
 /*NEXT UP: 
 > Work out the icons
-> Move permutation view somewhere else
-> Delete fragment_project_view_permutation.java
 > Keep the pop up view when the project exist to prevent the user to re enter the cipher text again
 > Re check all margins 
 > Error at char frequency

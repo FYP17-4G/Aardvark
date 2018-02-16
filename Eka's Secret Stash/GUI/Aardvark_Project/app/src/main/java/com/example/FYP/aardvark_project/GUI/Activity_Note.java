@@ -47,8 +47,7 @@ public class Activity_Note extends AppCompatActivity
         loadNote();
     }
 
-    private void setup()
-    {
+    private void setup() {
         this.title = getIntent().getStringExtra("title");
         this.id = getIntent().getStringExtra("id");
 
@@ -57,16 +56,14 @@ public class Activity_Note extends AppCompatActivity
         setTitle("NOTE: "+this.title);
     }
 
-    private void saveNote()
-    {
+    private void saveNote() {
         this.noteVal = noteField.getText().toString();
 
         if(!noteVal.isEmpty())
             database.updateData(id, title, "PROJECT_NOTES", this.noteVal);
     }
 
-    private void loadNote()
-    {
+    private void loadNote() {
         this.noteVal = database.getNotesData(id, title);
 
         if(this.noteVal != null)

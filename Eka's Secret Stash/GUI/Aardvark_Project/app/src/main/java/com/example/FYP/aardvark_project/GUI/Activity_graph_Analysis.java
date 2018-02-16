@@ -69,8 +69,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
     private App_Framework framework;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         framework= new App_Framework(this, true);
 
         super.onCreate(savedInstanceState);
@@ -99,20 +98,17 @@ public class Activity_graph_Analysis extends AppCompatActivity
         setAnalysisShiftButtons();
     }
 
-    private void setAnalysisShiftButtons()
-    {
+    private void setAnalysisShiftButtons() {
         shiftLeftButton = findViewById(R.id.button_analysis_shift_left);
         shiftRightButton = findViewById(R.id.button_analysis_shift_right);
 
         shiftLeftButton.setOnClickListener(view -> {
-            try
-            {
+            try {
                 cipherTextWithCurrentPeriod = new Shift().decrypt(framework.format(cipherTextWithCurrentPeriod).toLowerCase(), "1"); //shift the graph to the right
                 DataPoint[] dp = plotGraph(cipherTextWithCurrentPeriod);
                 periodCipherTextSeries.resetData(dp);
 
-                if(graphSeekBar.getProgress() > 0)
-                {
+                if(graphSeekBar.getProgress() > 0) {
                     int charIdx = graphSeekBar.getProgress() - 1;
                     char target = keyValue.charAt(charIdx);
                     cipherTextPeriodList.set(charIdx, cipherTextWithCurrentPeriod);
@@ -133,14 +129,12 @@ public class Activity_graph_Analysis extends AppCompatActivity
         });
 
         shiftRightButton.setOnClickListener(view -> {
-            try
-            {
+            try {
                 cipherTextWithCurrentPeriod = new Shift().encrypt(framework.format(cipherTextWithCurrentPeriod).toLowerCase(), "1"); //shift the graph to the left
                 DataPoint[] dp = plotGraph(cipherTextWithCurrentPeriod);
                 periodCipherTextSeries.resetData(dp);
 
-                if(graphSeekBar.getProgress() > 0)
-                {
+                if(graphSeekBar.getProgress() > 0) {
                     int charIdx = graphSeekBar.getProgress() - 1;
                     char target = keyValue.charAt(charIdx);
                     cipherTextPeriodList.set(charIdx, cipherTextWithCurrentPeriod);
@@ -162,8 +156,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
     }
 
     /**IC and FREQUENCY RELATED FUNCTIONS*/
-    private void setGraphLabel(String[] label)
-    {
+    private void setGraphLabel(String[] label) {
         /**set the graph to be scrollable*/
         graph.getViewport().setScrollable(true); //horizontal
         graph.getViewport().setScrollableY(true); //vertical
@@ -174,17 +167,13 @@ public class Activity_graph_Analysis extends AppCompatActivity
         graph.getGridLabelRenderer().setLabelFormatter(staticLabels);
     }
 
-    private void setGraph()
-    {
-        final SeekBar.OnSeekBarChangeListener graphPeriodListener = new SeekBar.OnSeekBarChangeListener()
-        {
+    private void setGraph() {
+        final SeekBar.OnSeekBarChangeListener graphPeriodListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b)
-            {
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 int prog = graphSeekBar.getProgress();
 
-                if(prog > 0)
-                {
+                if(prog > 0) {
                     cipherTextWithCurrentPeriod = cipherTextPeriodList.get(prog - 1); // minus one because it gets its data from an array list
                     rePlotGraph();
                 }
@@ -232,8 +221,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
     }
 
     /**Set the seek bar max value according to the specified period*/
-    private void calculatePeriodOf(int n)
-    {
+    private void calculatePeriodOf(int n) {
         period = n;
 
         if(period <= 0)
@@ -241,8 +229,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
         else if(period > FREQUENCY_PERIOD_LIMIT)
             framework.system_message_small("Period value cannot be more than " + FREQUENCY_PERIOD_LIMIT);
-        else
-        {
+        else {
             fillCipherTextPeriodList(period);
             periodButton.setText("Period: " + period);
             graphSeekBar.setMax(period);
@@ -261,16 +248,14 @@ public class Activity_graph_Analysis extends AppCompatActivity
         }
     }
 
-    private void fillCipherTextPeriodList(int period)
-    {
+    private void fillCipherTextPeriodList(int period) {
         cipherTextPeriodList.clear();
 
         for(int i = 0; i < period; i++)
             cipherTextPeriodList.add(getCipherTextPeriodOf(i, period));
     }
 
-    private String getCipherTextPeriodOf(int startFrom, int periodValue)
-    {
+    private String getCipherTextPeriodOf(int startFrom, int periodValue) {
         String returnVal = new String();
 
         for(int i = startFrom; i < cipherText.length(); i += periodValue)
@@ -279,8 +264,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
         return returnVal;
     }
 
-    private void rePlotGraph()
-    {
+    private void rePlotGraph() {
         runOnUiThread(() -> {
 
             cipherTextSeries.resetData(plotGraph()); //remove the data sets and series
@@ -289,8 +273,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
                 periodCipherTextSeries.resetData(plotGraph(cipherTextWithCurrentPeriod));
         });
     }
-    private DataPoint[] plotGraph() //use this to plot graph for english distribution
-    {
+    private DataPoint[] plotGraph() { //use this to plot graph for english distribution
         final int MAX_DATA_POINTS = 26;
 
         DataPoint[] dp = new DataPoint[MAX_DATA_POINTS];
@@ -300,8 +283,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
         return dp;
     }
-    private DataPoint[] plotGraph(String textOfPeriod) //plot the graph for a given text, the value of the given text should be a string of period N
-    {
+    private DataPoint[] plotGraph(String textOfPeriod) { //plot the graph for a given text, the value of the given text should be a string of period N
         int divisor = textOfPeriod.length();
 
         textOfPeriod = framework.format(textOfPeriod).toLowerCase();
@@ -324,8 +306,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
         return (n/divisor) * 100;
     }
 
-    private void calculateCipherIC(int n)
-    {
+    private void calculateCipherIC(int n) {
         if(n > 20)
             n = 20;
 
@@ -335,13 +316,11 @@ public class Activity_graph_Analysis extends AppCompatActivity
         cipherICofN = new ArrayList<Double>();
 
         cipherIC = getCipherIC(cipherText);
-        //cipherICTV.setText("[IC: " + Double.toString(cipherIC) + "]\n");
 
         ArrayList<mPair<Integer, Double>> averageICList = new ArrayList<>();
 
         /**calculate IC of period 2...n, and calculate its average*/
-        for(int i = 2; i < n; i++)
-        {
+        for(int i = 2; i < n; i++) {
             double averageIC = 0;
 
             cipherICofN = getCipherIC(cipherText, i);
@@ -357,8 +336,8 @@ public class Activity_graph_Analysis extends AppCompatActivity
         averageICList.sort((t0, t1) -> t1.second.compareTo(t0.second)); //sort the average IC list (DESCENDING)
 
         LinearLayout ICViewLinearLayout = findViewById(R.id.IC_view_linear_layout);
-        for(int i = 0; i < averageICList.size(); i++) //append the texts to the interface
-        {
+        for(int i = 0; i < averageICList.size(); i++) { //append the texts to the interface
+
             View detailView = getLayoutInflater().inflate(R.layout.detail_list_view, null);
             TextView detailName = detailView.findViewById(R.id.detail_name);
             TextView detailValue = detailView.findViewById(R.id.detail_value);
@@ -390,8 +369,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
         return ic.getIC(cText);
     }
 
-    protected ArrayList<Double> getCipherIC(String cText, int n) //get cipher IC for period of 2 until N
-    {
+    protected ArrayList<Double> getCipherIC(String cText, int n) { //get cipher IC for period of 2 until N
         return ic.getIC(n, cText);
     }
 }

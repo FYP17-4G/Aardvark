@@ -48,8 +48,7 @@ public class Activity_Introduction extends TutorialActivity {
         addIntroFragment(HEADER3, CONTENT3, HEX3, IMAGE3, SUMMARY3); //layout 3
     }
 
-    private void addIntroFragment(String title, String content, String hexBGColor, int drawable, String summary)
-    {
+    private void addIntroFragment(String title, String content, String hexBGColor, int drawable, String summary) {
         addFragment(new Step.Builder().setTitle(title)
                 .setContent(content)
                 .setBackgroundColor(Color.parseColor(hexBGColor)) // int background color
@@ -61,10 +60,10 @@ public class Activity_Introduction extends TutorialActivity {
     }
 
     /**
-     *Set shared preference as true, meaning the user has seen introduction activity
+     * Set shared preference of this activity as true, meaning the user has seen introduction activity
+     * and wont be shown this activity again upon opening the application
      * */
-    private void seenByUser()
-    {
+    private void seenByUser() {
         final String ON_BOARDING_SHARED_PREFS = "On boarding shared preference";
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

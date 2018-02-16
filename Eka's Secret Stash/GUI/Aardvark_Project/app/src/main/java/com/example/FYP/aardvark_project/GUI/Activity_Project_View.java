@@ -27,7 +27,6 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     private String projectTitle = new String();
 
     private fragmentPagerAdapter projectViewFragmentAdapter;
-    private ViewPager viewPager;
 
     private fragment_project_view mainView = new fragment_project_view();
 
@@ -66,7 +65,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         if(item.getItemId() == R.id.home)
             backToList();
         else if(item.getItemId() == R.id.menu_item_note)
-            launchNote();
+            launchNoteActivity();
         else if(item.getItemId() == R.id.menu_item_reset)
             mainView.reset();
         else if(item.getItemId() == R.id.menu_item_save)
@@ -80,6 +79,11 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         backToList();
     }
 
+    /**
+     * If the user pauses the app(e.g: pressing home button), the app will save the state of which
+     * activity the user was at last.So the user will be able to continue from where they left off
+     * even after the user exits the app
+     * */
     @Override
     protected void onPause() {
         super.onPause();
@@ -93,50 +97,40 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         framework = new App_Framework(this, false);
         overrideTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_view);
 
-        getValuesFromSharedPrefs();
-
+        getCompositeParams(); //get this project ID and title (the composite params) passed from main activity
         setTitle(this.projectTitle);
 
         setNavDrawer();
 
-        setBundleForMainView();
-
+        setBundleForMainView(); //set parameters to be transferred to project view fragment
         projectViewFragmentAdapter = new fragmentPagerAdapter(getSupportFragmentManager());
-
-        viewPager = findViewById(R.id.viewPager_projectView);
-        setupViewPager(viewPager);
-
-        //getSupportActionBar().setElevation(0); //disable toolbar drop down shadow
+        setupViewPager(findViewById(R.id.viewPager_projectView));
 
         initializeAutosave();
     }
     /**Use this because this class needs "no action bar" theme for it to work */
-    private void overrideTheme()
-    {
+    private void overrideTheme() {
         if(framework.isDarkTheme())
             this.setTheme(R.style.DarkTheme_NoActionBar);
         else
             this.setTheme(R.style.AppTheme_NoActionBar);
     }
 
-    private void initializeAutosave()
-    {
+    private void initializeAutosave() {
         final Handler handler = new Handler();
-        Timer    timer = new Timer();
+        Timer timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
             @Override
             public void run() {
                 handler.post(() -> {
-                    try
-                    {
+                    try {
                         mainView.updateCipherTextToDB();
                         framework.system_message_small("Progress saved (autosave)");
                     }
@@ -151,21 +145,20 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     }
 
     /**Functions for onCreate()*/
-    private void getValuesFromSharedPrefs()
-    {
+    private void getCompositeParams() {
         this.projectUniqueID = getIntent().getStringExtra("project_view_unique_ID");
         this.projectTitle = getIntent().getStringExtra("project_view_title");
 
-        if(this.projectUniqueID.isEmpty() || this.projectTitle.isEmpty()) //check if the value of ID and title is null, if so, exit the application and output error message
-        {
-            Log.e("GUI_Project_View ERROR", "Project Title or ID is NULL");
-            System.out.println("Project Title or ID is NULL");
+        if(this.projectUniqueID.isEmpty() || this.projectTitle.isEmpty()) { //check if the value of ID and title is null, if so, exit the application and output error message
             finish();
             System.exit(0);
         }
     }
-    private void setBundleForMainView()
-    {
+
+    /**
+     * This function sets project title and ID to a bundle object, and will be used in project view fragment
+     * */
+    private void setBundleForMainView() {
         Bundle bundle = new Bundle();
         bundle.putString("title", this.projectTitle);
         bundle.putString("id", this.projectUniqueID);
@@ -173,33 +166,26 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     }
 
     /**Setup Tab view pager*/
-    private void setupViewPager(ViewPager viewPager)
-    {
+    private void setupViewPager(ViewPager viewPager) {
         projectViewFragmentAdapter.addFragment(mainView, "Main View");
-        //projectViewFragmentAdapter.addFragment(permView, "Permutation View");
         viewPager.setAdapter(projectViewFragmentAdapter);
     }
 
-    private void launchNote()
-    {
+    private void launchNoteActivity() {
         Intent intent = new Intent(this, Activity_Note.class);
         intent.putExtra("title", projectTitle);
         intent.putExtra("id", projectUniqueID);
         startActivity(intent);
     }
 
+    /**Navigate to the main menu activity*/
     private void backToList()
     {
         startActivity(new Intent(this, Activity_Main.class));
     }
 
-
-
-
-
     /**Navigation panel functions*/
-    private void setNavDrawer()
-    {
+    private void setNavDrawer() {
         View toolBarView = findViewById(R.id.project_view_app_bar_include);
         Toolbar toolbar = toolBarView.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -219,17 +205,14 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         startActivity(new Intent(this, Activity_Main.class));
     }
 
-    private void launchEncryptionDecryptionActivity()
-    {
+    private void launchEncryptionDecryptionActivity() {
         startActivity(new Intent(this, Activity_Enc_Dec.class));
     }
 
-    private void launchAboutUsActivity()
-    {
+    private void launchAboutUsActivity() {
         this.startActivity(new Intent(this, Activity_About_Us.class));
     }
-    private void launchSettingsActivity()
-    {
+    private void launchSettingsActivity() {
         this.startActivity(new Intent(this, Activity_Settings.class));
     }
 }

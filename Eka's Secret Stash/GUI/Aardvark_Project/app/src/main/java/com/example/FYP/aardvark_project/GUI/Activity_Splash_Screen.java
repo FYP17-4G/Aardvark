@@ -16,8 +16,7 @@ import com.example.FYP.aardvark_project.R;
 public class Activity_Splash_Screen extends AppCompatActivity
 {
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         overrideTheme();
 
         super.onCreate(savedInstanceState);
@@ -28,23 +27,20 @@ public class Activity_Splash_Screen extends AppCompatActivity
         launchApp();
     }
 
-    private void overrideTheme()
-    {
+    private void overrideTheme() {
         if(new App_Framework(this, false).isDarkTheme())
             this.setTheme(R.style.DarkTheme_NoActionBar);
         else
             this.setTheme(R.style.AppTheme_NoActionBar);
     }
 
-    private void setBottomText(String text)
-    {
+    private void setBottomText(String text) {
         View view = getLayoutInflater().inflate(R.layout.activity_splash_full_screen, null);
         TextView bottomText = view.findViewById(R.id.copyright_text_view);
         bottomText.setText(text);
     }
 
-    private void launchApp()
-    {
+    private void launchApp() {
         int DELAY_TIME = 2000;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE); //remove title
@@ -56,15 +52,13 @@ public class Activity_Splash_Screen extends AppCompatActivity
     }
 
     /**This class reads the last opened activity from Shared preferences and open it*/
-    private void callDispatcher()
-    {
+    private void callDispatcher() {
         Class<?> activityClass;
 
         String projectName = new String();
         String projectID = new String();
 
-        if(!callOnBoardActivity())
-        {
+        if(!callOnBoardActivity()) {
             try {
                 SharedPreferences prefs = getSharedPreferences("PREF_SESSION", MODE_PRIVATE);
                 activityClass = Class.forName(
@@ -80,8 +74,7 @@ public class Activity_Splash_Screen extends AppCompatActivity
 
             if(projectName.equals("**NO TITLE**") && projectID.equals("**NO ID**"))
                 intent = new Intent(this, Activity_Main.class);
-            else
-            {
+            else {
                 /**intent = new Intent(this, activityClass); //this will start 'GUI_Fragment_Project_View' with its corresponding ID and title*/
                 intent = new Intent(this, activityClass);
 
@@ -100,8 +93,7 @@ public class Activity_Splash_Screen extends AppCompatActivity
      * This will call Activity_Introduction activity when the user opens the app
      * for the very first time
      * */
-    private boolean callOnBoardActivity()
-    {
+    private boolean callOnBoardActivity() {
         final String ON_BOARDING_SHARED_PREFS = "On boarding shared preference";
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

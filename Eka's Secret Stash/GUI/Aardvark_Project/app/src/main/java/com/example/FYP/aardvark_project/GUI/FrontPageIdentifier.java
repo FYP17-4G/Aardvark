@@ -10,11 +10,10 @@ public class FrontPageIdentifier
     private String ID;
     private String title;
 
-    public FrontPageIdentifier(String ID, String title)
-        {
+    public FrontPageIdentifier(String ID, String title) {
         this.ID = ID;
         this.title = title;
-        }
+    }
 
     public String getID()
         {

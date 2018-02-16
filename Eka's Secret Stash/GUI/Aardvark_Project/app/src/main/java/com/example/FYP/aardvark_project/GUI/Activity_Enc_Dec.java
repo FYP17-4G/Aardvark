@@ -1,5 +1,6 @@
 package com.example.FYP.aardvark_project.GUI;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -97,6 +98,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         saveInputText();
+        startActivity(new Intent(this, Activity_Main.class)); //navigate to front page on back pressed
     }
 
     @Override
@@ -172,8 +174,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         inputTextView.setText(inputText);
     }
 
-    private void setSpinner()
-    {
+    private void setSpinner() {
         toolSpinner = findViewById(R.id.tool_spinner);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tools);
@@ -211,8 +212,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
     /**
      * Element setters for Kamasutra Cipher
      * */
-    private void setKamasutra()
-    {
+    private void setKamasutra() {
         /**Set dragable input*/
         dragableLayout = findViewById(R.id.dragable_layout);
 
@@ -228,15 +228,14 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         resetKamasutraButton = v.findViewById(R.id.dragable_button_reset);
         resetKamasutraButton.setOnClickListener(view -> resetKamasutra());
 
-        dragableScrollView= (ScrollView) v.findViewById(R.id.dragable_scroll_view);
+        dragableScrollView= v.findViewById(R.id.dragable_scroll_view);
         dragableScrollView.setOnScrollChangeListener((view, i, i1, i2, i3) -> SCROLL_DISTANCE = dragableScrollView.getScrollY());
 
         fillDragableButtonList(ALPHABET_LENGTH);
     }
 
     /**Fill the array list to be used for linear layout view*/
-    private void fillDragableButtonList(int N)
-    {
+    private void fillDragableButtonList(int N) {
         dragableButtonList = new ArrayList<>();
         dragableGridView.removeAllViews();
 
@@ -249,18 +248,15 @@ public class Activity_Enc_Dec extends AppCompatActivity {
 
     /**Changes input view between "general text input" with encrypt and decrypt button
      * and "dragable buttons" for Kamasutra cipher use*/
-    private void switchInput(boolean generalInput)
-    {
-        if(!generalInput)
-        {
+    private void switchInput(boolean generalInput) {
+        if(!generalInput) {
             keyInput.setVisibility(View.GONE);
             positiveButton.setVisibility(View.GONE);
             negativeButton.setVisibility(View.GONE);
 
             dragableLayout.setVisibility(View.VISIBLE);
         }
-        else if(generalInput)
-        {
+        else if(generalInput) {
             keyInput.setVisibility(View.VISIBLE);
             positiveButton.setVisibility(View.VISIBLE);
             negativeButton.setVisibility(View.VISIBLE);
@@ -274,8 +270,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
      * ID = the identification of the object
      * val = value displayed on the object
      * */
-    private Button addDragableButton(int ID, String val)
-    {
+    private Button addDragableButton(int ID, String val) {
         Button button = new Button(new ContextThemeWrapper(this, R.style.Widget_AppCompat_Button_Borderless_Colored), null, R.style.Widget_AppCompat_Button_Borderless_Colored);
         button.setId(ID);
         button.setText(val);
@@ -350,16 +345,14 @@ public class Activity_Enc_Dec extends AppCompatActivity {
     }
 
     /**Re - order the alphabet arrangement in Kamasutra input view*/
-    private void resetKamasutra()
-    {
+    private void resetKamasutra() {
         fillDragableButtonList(ALPHABET_LENGTH);
         resetKamasutraInputView();
         framework.system_message_small("Key reset");
     }
 
     /**Reset the view with the values in "dragableButtonList"*/
-    private void resetKamasutraInputView()
-    {
+    private void resetKamasutraInputView() {
         dragableGridView.removeAllViews();
 
         for(Button b: dragableButtonList)
@@ -435,9 +428,9 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 framework.system_message_small("Shift Key must be between 1 and 25");
             else {
                 if (view.getId() == R.id.positive_button) //encrypt
-                    doCaesarShiftR(getKeyInput());
+                    doShiftR(getKeyInput());
                 else
-                    doCaesarShiftL(getKeyInput());
+                    doShiftL(getKeyInput());
             }
         }
     };
@@ -513,8 +506,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
             else if (inputKeyEmpty())
                 framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else
-            {
+            else {
                 if(view.getId() == R.id.positive_button) //encrypt
                     doRectangularTranspo(true, getKeyInput());
                 else
@@ -530,8 +522,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
             else if (inputKeyEmpty())
                 framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else
-            {
+            else {
                 if(view.getId() == R.id.positive_button) // encrypt
                     doPeriodicTranspo(true, getKeyInput());
                 else
@@ -563,8 +554,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
             else if (inputKeyEmpty())
                 framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else
-            {
+            else {
                 if(view.getId() == R.id.positive_button) //encrypt
                     doBeaufortCipher(true, getKeyInput());
                 else
@@ -580,8 +570,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
             else if (inputKeyEmpty())
                 framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else
-            {
+            else {
                 if(view.getId() == R.id.positive_button) // encrypt
                     doBeaufortVariant(true, getKeyInput());
                 else
@@ -597,8 +586,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
             else if (inputKeyEmpty())
                 framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else
-            {
+            else {
                 if(view.getId() == R.id.positive_button) // encrypt
                     doOneTimePad(true, getKeyInput());
                 else
@@ -614,8 +602,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
             else if (inputKeyEmpty())
                 framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else
-            {
+            else {
                 if(view.getId() == R.id.positive_button) // encrypt
                     doPlayFair(true, getKeyInput());
                 else
@@ -643,8 +630,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
      *
      * new Shift() uses the algorithm in kryptoTools.Shift.java
      */
-    private void doCaesarShiftR(String key) //shift ENCRYPT
-    {
+    private void doShiftR(String key) { //shift Encrypt
         framework.format(inputText);
         try {
             framework.setMODIFIED_TEXT(new Shift().encrypt(framework.getMODIFIED_TEXT(), key));
@@ -655,8 +641,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    private void doCaesarShiftL(String key) //shift DECRYPT
-    {
+    private void doShiftL(String key) { //shift Decrypt
         framework.format(inputText);
         try {
             framework.setMODIFIED_TEXT(new Shift().decrypt(framework.getMODIFIED_TEXT(), key));
@@ -719,12 +704,10 @@ public class Activity_Enc_Dec extends AppCompatActivity {
             else
                 framework.setMODIFIED_TEXT(new TranspositionCipher().decrypt(framework.getMODIFIED_TEXT(), key));
 
-
         refresh();
     }
 
-    private void doPeriodicTranspo(boolean encrypt, String key)
-    {
+    private void doPeriodicTranspo(boolean encrypt, String key) {
         framework.format(inputText);
             if(encrypt)
                 framework.setMODIFIED_TEXT(new TranspositionPeriodic().encrypt(framework.getMODIFIED_TEXT(), key));
@@ -734,8 +717,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    private void doRectangularTranspo(boolean encrypt, String key)
-    {
+    private void doRectangularTranspo(boolean encrypt, String key) {
         framework.format(inputText);
             if(encrypt)
                 framework.setMODIFIED_TEXT(new RectangularKeyTransposition().encrypt(framework.getMODIFIED_TEXT(), key));
@@ -755,8 +737,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    private void doBeaufortCipher(boolean encrypt, String key)
-    {
+    private void doBeaufortCipher(boolean encrypt, String key) {
     framework.format(inputText);
         if(encrypt)
             framework.setMODIFIED_TEXT(new BeaufortCipher().encrypt(framework.getMODIFIED_TEXT(), key));
@@ -766,8 +747,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    private void doBeaufortVariant(boolean encrypt, String key)
-    {
+    private void doBeaufortVariant(boolean encrypt, String key) {
         framework.format(inputText);
             if(encrypt)
                 framework.setMODIFIED_TEXT(new BeaufortVariantCipher().encrypt(framework.getMODIFIED_TEXT(), key));
@@ -777,8 +757,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    private void doOneTimePad(boolean encrypt, String key)
-    {
+    private void doOneTimePad(boolean encrypt, String key) {
         framework.format(inputText);
             if(encrypt)
                 framework.setMODIFIED_TEXT(new OneTimePad().encrypt(framework.getMODIFIED_TEXT(), key));
@@ -788,8 +767,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    private void doPlayFair(boolean encrypt, String key)
-    {
+    private void doPlayFair(boolean encrypt, String key) {
         framework.format(inputText);
             if(encrypt)
                 framework.setMODIFIED_TEXT(new PlayfairCipher().encrypt(framework.getMODIFIED_TEXT(), key));
@@ -799,18 +777,15 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         refresh();
     }
 
-    private void doKamasutra(String key)
-    {
+    private void doKamasutra(String key) {
         framework.format(inputText);
         framework.setMODIFIED_TEXT(new Kamasutra().encrypt(framework.getMODIFIED_TEXT(), key));
         refresh();
     }
 
     /**Saving and Loading latest input text*/
-    private void saveInputText()
-    {
-        if(!inputTextEmpty())
-        {
+    private void saveInputText() {
+        if(!inputTextEmpty()) {
             try {
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(this.openFileOutput(INPUT_TEXT_FILE_NAME, this.MODE_PRIVATE));
                 outputStreamWriter.write(inputText);
@@ -820,8 +795,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 {}
         }
     }
-    private String loadInputText()
-    {
+    private String loadInputText() {
         String ret = "";
 
         try {
@@ -842,9 +816,9 @@ public class Activity_Enc_Dec extends AppCompatActivity {
             }
         }
         catch (FileNotFoundException e)
-            {}
+            {framework.system_message_small(e.getMessage());}
         catch (IOException e)
-            {}
+            {framework.system_message_small(e.getMessage());}
 
         return ret;
     }
@@ -858,14 +832,12 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         return keyInput.getText().toString().isEmpty();
     }
 
-    private void refresh()
-    {
-        try
-        {
+    private void refresh() {
+        try {
             inputText = framework.displayModifiedString();
             inputTextView.setText(inputText);
         }catch(IndexOutOfBoundsException e)
-        {framework.system_message_small("Out of bounds " + e.getMessage());}
+        {framework.system_message_small(e.getMessage());}
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fragment pager adapter is used to set up the tabbed view in Project View
+ * Responsible for managing tabbed view in Project View Activity
  * */
 public class fragmentPagerAdapter extends FragmentPagerAdapter
 {
@@ -35,8 +35,8 @@ public class fragmentPagerAdapter extends FragmentPagerAdapter
         return tabFragmentList.size();
     }
 
-    public void addFragment(Fragment fragment, String title) //creates a new tab, it takes in the content of the tab and the title
-    {
+    /**creates a new tab, it takes in the content of the tab and the title*/
+    public void addFragment(Fragment fragment, String title) {
         tabFragmentList.add(fragment);
         tabTitleList.add(title);
     }
