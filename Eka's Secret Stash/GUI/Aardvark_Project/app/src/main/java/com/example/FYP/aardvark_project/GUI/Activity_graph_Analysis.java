@@ -2,6 +2,7 @@ package com.example.FYP.aardvark_project.GUI;
 
 import android.animation.AnimatorInflater;
 import android.animation.StateListAnimator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,12 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Activity_graph_Analysis extends AppCompatActivity
-{
-    /**Other variables*/
+public class Activity_graph_Analysis extends AppCompatActivity {
+    /**
+     * Other variables
+     */
     private int FREQUENCY_PERIOD_LIMIT;
 
-    /**Graph related variables*/
+    /**
+     * Graph related variables
+     */
     private String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
     private final double[] englishDistribution = {8.12, 1.49, 2.71, 4.32, 12.02, 2.30, 2.03, 5.92, 7.31, 0.10, 0.69, 3.98, 2.61, 6.95, 7.68, 1.82, 0.11, 6.02, 6.28, 9.10, 2.88, 1.11, 2.09, 0.17, 2.11, 0.07};
 
@@ -60,7 +64,9 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
     private CardView analysisPeriodCardView;
 
-    /**IC related variables*/
+    /**
+     * IC related variables
+     */
     protected CalculateIC ic;
     private double cipherIC = 0;
 
@@ -70,7 +76,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        framework= new App_Framework(this, true);
+        framework = new App_Framework(this, true);
 
         super.onCreate(savedInstanceState);
 
@@ -80,7 +86,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
         cipherText = getIntent().getStringExtra("cipherText");
 
-        FREQUENCY_PERIOD_LIMIT = cipherText.length()/2;
+        FREQUENCY_PERIOD_LIMIT = cipherText.length() / 2;
 
         setGraph();
         rePlotGraph();
@@ -108,14 +114,14 @@ public class Activity_graph_Analysis extends AppCompatActivity
                 DataPoint[] dp = plotGraph(cipherTextWithCurrentPeriod);
                 periodCipherTextSeries.resetData(dp);
 
-                if(graphSeekBar.getProgress() > 0) {
+                if (graphSeekBar.getProgress() > 0) {
                     int charIdx = graphSeekBar.getProgress() - 1;
                     char target = keyValue.charAt(charIdx);
                     cipherTextPeriodList.set(charIdx, cipherTextWithCurrentPeriod);
 
-                    int val = (int)target - 1;
-                    target = (char)val;
-                    if(target < 'A')
+                    int val = (int) target - 1;
+                    target = (char) val;
+                    if (target < 'A')
                         target = 'Z';
 
                     StringBuilder sb = new StringBuilder(keyValue);
@@ -124,8 +130,9 @@ public class Activity_graph_Analysis extends AppCompatActivity
                     keyValue = new String(sb);
                     keyValueTextView.setText(keyValue);
                 }
-            }catch(InvalidKeyException e)
-                {framework.system_message_small(e.getMessage());}
+            } catch (InvalidKeyException e) {
+                framework.system_message_small(e.getMessage());
+            }
         });
 
         shiftRightButton.setOnClickListener(view -> {
@@ -134,14 +141,14 @@ public class Activity_graph_Analysis extends AppCompatActivity
                 DataPoint[] dp = plotGraph(cipherTextWithCurrentPeriod);
                 periodCipherTextSeries.resetData(dp);
 
-                if(graphSeekBar.getProgress() > 0) {
+                if (graphSeekBar.getProgress() > 0) {
                     int charIdx = graphSeekBar.getProgress() - 1;
                     char target = keyValue.charAt(charIdx);
                     cipherTextPeriodList.set(charIdx, cipherTextWithCurrentPeriod);
 
-                    int val = (int)target + 1;
-                    target = (char)val;
-                    if(target > 'Z')
+                    int val = (int) target + 1;
+                    target = (char) val;
+                    if (target > 'Z')
                         target = 'A';
 
                     StringBuilder sb = new StringBuilder(keyValue);
@@ -150,12 +157,15 @@ public class Activity_graph_Analysis extends AppCompatActivity
                     keyValue = new String(sb);
                     keyValueTextView.setText(keyValue);
                 }
-            }catch(InvalidKeyException e)
-                {framework.system_message_small(e.getMessage());}
+            } catch (InvalidKeyException e) {
+                framework.system_message_small(e.getMessage());
+            }
         });
     }
 
-    /**IC and FREQUENCY RELATED FUNCTIONS*/
+    /**
+     * IC and FREQUENCY RELATED FUNCTIONS
+     */
     private void setGraphLabel(String[] label) {
         /**set the graph to be scrollable*/
         graph.getViewport().setScrollable(true); //horizontal
@@ -173,14 +183,13 @@ public class Activity_graph_Analysis extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 int prog = graphSeekBar.getProgress();
 
-                if(prog > 0) {
+                if (prog > 0) {
                     cipherTextWithCurrentPeriod = cipherTextPeriodList.get(prog - 1); // minus one because it gets its data from an array list
                     rePlotGraph();
-                }
-                else if(prog <= 0)
+                } else if (prog <= 0)
                     periodCipherTextSeries.resetData(plotGraph("")); //reset the data to contain no data
 
-                graphPeriodIndicator.setText("IC of every N letters: "+ prog);
+                graphPeriodIndicator.setText("IC of every N letters: " + prog);
             }
 
             @Override
@@ -220,14 +229,16 @@ public class Activity_graph_Analysis extends AppCompatActivity
         graph.addSeries(periodCipherTextSeries);
     }
 
-    /**Set the seek bar max value according to the specified period*/
+    /**
+     * Set the seek bar max value according to the specified period
+     */
     private void calculatePeriodOf(int n) {
         period = n;
 
-        if(period <= 0)
+        if (period <= 0)
             framework.system_message_small("Period value is invalid");
 
-        else if(period > FREQUENCY_PERIOD_LIMIT)
+        else if (period > FREQUENCY_PERIOD_LIMIT)
             framework.system_message_small("Period value cannot be more than " + FREQUENCY_PERIOD_LIMIT);
         else {
             fillCipherTextPeriodList(period);
@@ -240,7 +251,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
             String newKey = new String();
 
-            for(int z = 0; z < period; z++)
+            for (int z = 0; z < period; z++)
                 newKey += "A";
 
             keyValue = newKey;
@@ -248,11 +259,17 @@ public class Activity_graph_Analysis extends AppCompatActivity
         }
     }
 
+    /**
+     * Populate the array list that contains substring of cipher text for Kasiski test
+     * The program will then read from this array list and represent it in the graph
+     * */
     private void fillCipherTextPeriodList(int period) {
         cipherTextPeriodList.clear();
 
-        for(int i = 0; i < period; i++)
-            cipherTextPeriodList.add(getCipherTextPeriodOf(i, period));
+        ArrayList<StringBuilder> temp = CalculateIC.getEveryNthLetter(period, cipherText);
+        
+        for (int i = 0; i < period; i++)
+            cipherTextPeriodList.add(new String(temp.get(i)));
     }
 
     private String getCipherTextPeriodOf(int startFrom, int periodValue) {

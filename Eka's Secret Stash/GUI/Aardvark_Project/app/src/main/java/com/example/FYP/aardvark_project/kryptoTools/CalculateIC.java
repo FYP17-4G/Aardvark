@@ -73,7 +73,7 @@ public class CalculateIC {
     //e.g. getEveryNthLetter (4, hello world!) results in:
     //1. hol    2. ewd
     //3. lo     4. lr
-    private static ArrayList<StringBuilder> getEveryNthLetter(Integer n, String data) {
+    public static ArrayList<StringBuilder> getEveryNthLetter(Integer n, String data) {
         data = data.replaceAll("[^A-Za-z]", "");
         ArrayList<StringBuilder> split = new ArrayList<>(n);
         int counter = 0;

@@ -90,6 +90,12 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         Utility util = Utility.getInstance();
         String cipherText = util.processText(this.cipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
 
+        /**
+         * Gets frequency of occurence of letter with length N
+         * eg:
+         * "The quick brown fox jumps over the lazy dog and another fox"
+         * frequencyAnalysis(text, 3) >>> the:2, fox: 2, dog: 1, <etc>;
+         * */
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(cipherText, SEQUENCE_LENGTH);
 
         int dataLen = frequencyAnalysis.dataLength();
