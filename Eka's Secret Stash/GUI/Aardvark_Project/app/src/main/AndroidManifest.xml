@@ -16,7 +16,7 @@
         <activity
             android:name=".Activity_Project_View"
             android:label="@string/projectView_name"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity_Splash_Screen"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -6,6 +6,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,7 +38,6 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
      * 'sequenceLength' should be determinable by the user
      * */
     private Analysis frequencyAnalysis;
-    private TextView frequencyAnalysisTextView;
 
     private Spinner frequencySpinner;
 
@@ -67,18 +67,13 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         graph = findViewById(R.id.graph_freq_lot);
         setTextFrequencyTool();
 
+        commonOccurenceSeries.setSpacing(50);
+
         graph.addSeries(commonOccurenceSeries);
         commonOccurenceSeries.resetData(calculateLetterFrequency(SINGULAR));
         setGraphLabel(commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]));
 
-        setGraphYAxisHeight();
-    }
-
-    private void setGraphYAxisHeight()
-    {
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
-        graph.getViewport().setYAxisBoundsManual(true);
     }
 
     private void setGraphLabel(String[] label)
@@ -99,7 +94,6 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         String cipherText = util.processText(this.cipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
 
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(cipherText, SEQUENCE_LENGTH);
-        frequencyAnalysisTextView = findViewById(R.id.graph_frequency_detailed_text_view);
 
         int dataLen = frequencyAnalysis.dataLength();
         if(dataLen > DATA_LIMIT)
@@ -107,24 +101,37 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
 
         DataPoint[] dp = new DataPoint[dataLen];
 
-        frequencyAnalysisTextView.setText("[Common word occurences]\n");
-
+        LinearLayout layout = findViewById(R.id.frequency_letter_linear_layout);
+        layout.removeAllViews();
         commonOccurenceWords.clear();
         for(int i = 0; i < dataLen; i++)
         {
             String val = frequencyAnalysis.getFrequencyAt(i);
-            frequencyAnalysisTextView.append(val + "\n");
+
             String[] split = val.split("\\:");
             dp[i] = new DataPoint(i, Integer.parseInt(split[1])); //add the frequency of a word
             commonOccurenceWords.add(split[0]); // add the word
+
+            addDetailList(layout, split[0], split[1]);
 
             if(Integer.parseInt(split[1]) > LARGEST_FREQUENCY_VALUE)
                 LARGEST_FREQUENCY_VALUE = Integer.parseInt(split[1]);
         }
 
-        frequencyAnalysisTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
-
         return dp;
+    }
+
+    /**Display the detailed information using an xml layout*/
+    private void addDetailList(LinearLayout layout, String word, String value)
+    {
+        View detailView = getLayoutInflater().inflate(R.layout.detail_list_view, null);
+        TextView textViewWord = detailView.findViewById(R.id.detail_name);
+        textViewWord.setText(word);
+
+        TextView textViewValue = detailView.findViewById(R.id.detail_value);
+        textViewValue.setText(value);
+
+        layout.addView(detailView);
     }
 
     private void setTextFrequencyTool()

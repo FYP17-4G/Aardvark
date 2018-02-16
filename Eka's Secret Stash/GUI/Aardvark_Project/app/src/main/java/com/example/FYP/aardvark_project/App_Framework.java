@@ -37,6 +37,8 @@ public class App_Framework
     private AlertDialog.Builder popUpWindow;
     private TextView popup_textView;
 
+    private Toast toast;
+
     private EditText popup_inputText;
 
     public App_Framework(Context context, boolean overrideTheme)
@@ -45,6 +47,8 @@ public class App_Framework
 
         if(overrideTheme)
             setTheme();
+
+        toast = Toast.makeText(context, "dummy", Toast.LENGTH_SHORT); //create new Toast object
     }
 
     /**
@@ -153,7 +157,7 @@ public class App_Framework
     }
 
     //custom popup with defined positive and negative button behaviour
-    public void popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener)
+    public AlertDialog popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener)
     {
         if(view.getParent() != null) //checks if view already exist
         {
@@ -168,7 +172,8 @@ public class App_Framework
         popUpWindow.setPositiveButton(positiveText, clickListener);
         popUpWindow.setNegativeButton(negativeText, (dialogInterface, i) -> dialogInterface.cancel());
 
-        popUpWindow.show();
+        alertDialog = popUpWindow.create();
+        return alertDialog;
     }
 
     public void popup_custom(String title, View view, DialogInterface.OnClickListener clickListener)
@@ -266,7 +271,8 @@ public class App_Framework
     /**Use this for displaying small message, and error message as well*/
     public void system_message_small(String message) //Toastbox message
     {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        toast.setText(message);
+        toast.show();
     }
 
     /**Pop up error message to display lengthy message, this can be used to display error message as well*/
