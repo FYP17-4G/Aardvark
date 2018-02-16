@@ -27,6 +27,21 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/shift_left"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Shift left" />
+
+            <Button
+                android:id="@+id/shift_right"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Shift right" />
         </LinearLayout>
 
     </LinearLayout>

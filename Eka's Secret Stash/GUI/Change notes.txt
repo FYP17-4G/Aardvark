@@ -212,8 +212,41 @@ Encryption / Decryption feature
 <12 February 2018>
 + Added Introduction activity (Courtesy: https://github.com/msayan/tutorial-view)
 
+<13 February 2018>
++ Fixed bug in edit project function (#discovered today)
++ Changed sliding up panel layout
++ Moved crypto tools into spinner view (for scalability)
++ Moved the input view into the sliding up view panel
+
+<14 February 2018>
++ Minor UI changes and updates
+	- Moved the reset button to the top right menu (to prevent user accidentally reset the cipher text progress)
+	- Moved the save button to the top right menu
+	- Moved permutation view slider to sliding up panel
++ Added autosave feature (untested)
+
+<15 February 2018>
++ Removed the former tabbed layout space in action bar
++ Changed the frequency details view representation (in frequency analysis and frequency tables activity) to look better
++ The user can now click on the IC card view to conveniently set the period value
++ Re-worked some of encryption and decryption UI elements
++ Minor bug fixes
++ Beaufort, Beaufort Variant , and Rectangular Transposition cipher now works (From Mark's latest code)
+
+<16 February 2018>
++ Added hamburger button into project view activity
++ Changed the shift cipher input method to the previous version due to consistency problem
++ Refactoring on packages and file names
+
 /*NEXT UP: 
 > Work out the icons
 > Move permutation view somewhere else
+> Delete fragment_project_view_permutation.java
+> Keep the pop up view when the project exist to prevent the user to re enter the cipher text again
+> Re check all margins 
+> Error at char frequency
+> Add to Krypto tools:
+	Kamasutra <?>
+	PlayfairCipher <?>
 > Add read from file function for encryption and decryption feature
 */

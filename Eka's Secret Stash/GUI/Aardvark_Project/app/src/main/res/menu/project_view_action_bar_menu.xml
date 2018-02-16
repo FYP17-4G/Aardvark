@@ -4,4 +4,10 @@
     <item
         android:id="@+id/menu_item_note"
         android:title="Notes" />
+    <item
+        android:id="@+id/menu_item_save"
+        android:title="Save progress" />
+    <item
+        android:id="@+id/menu_item_reset"
+        android:title="Reset Cipher" />
 </menu>
