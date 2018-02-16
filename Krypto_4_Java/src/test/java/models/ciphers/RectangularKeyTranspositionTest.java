@@ -24,7 +24,7 @@ public class RectangularKeyTranspositionTest {
   }
   @Test
   public void checkKey_Duplicates() {
-    Assert.assertTrue(cipher.checkKey(LONG_ALPHA + SHORT_ALPHA));
+    Assert.assertFalse(cipher.checkKey(LONG_ALPHA + SHORT_ALPHA));
   }
 
   @Test

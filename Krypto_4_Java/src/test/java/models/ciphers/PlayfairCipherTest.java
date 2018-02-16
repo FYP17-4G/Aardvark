@@ -83,7 +83,7 @@ public class PlayfairCipherTest   {
   @Test
   public void encrypt_ShortAlpha() {
     String answer = cipher.encrypt(SHORT_ALPHA_ALT, PF_KEY);
-    Assert.assertEquals("cbdy", answer);
+    Assert.assertEquals("bcyd", answer);
   }
 
   @Test

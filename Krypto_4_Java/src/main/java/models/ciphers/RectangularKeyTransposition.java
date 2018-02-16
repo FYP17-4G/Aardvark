@@ -29,112 +29,112 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RectangularKeyTransposition 
-    extends AbstractBlockCipher 
-    implements CipherInterface {
+public class RectangularKeyTransposition
+  extends AbstractBlockCipher
+  implements CipherInterface {
 
 
-    @Override
-    public String encrypt(String plaintext, String key)  {
-        key = key.toLowerCase();
-        checkKey(key);
+  @Override
+  public String encrypt(String plaintext, String key) {
+    key = key.toLowerCase();
+    key = removeDuplicates(key);
+    checkKey(key);
 
-        key = generateOTP(key);
-        System.out.println("key = " + key);
-        AbstractCipher sub = new Substitution();
+    key = generateOTP(key);
+    System.out.println("key = " + key);
+    AbstractCipher sub = new Substitution();
 
-        return sub.encrypt(plaintext, key);
+    return sub.encrypt(plaintext, key);
+  }
+
+  @Override
+  public String decrypt(String ciphertext, String key) {
+    key = key.toLowerCase();
+    key = removeDuplicates(key);
+    checkKey(key);
+
+    key = generateOTP(key);
+    AbstractCipher sub = new Substitution();
+
+    return sub.decrypt(ciphertext, key);
+  }
+
+  @Override
+  public String getDescription() {
+    return null;
+  }
+
+  @Override
+  public String getName() {
+    return null;
+  }
+
+  private String generateOTP(String key) {
+    List<List<Character>> rectangle = new ArrayList<>();
+    StringBuilder out = new StringBuilder(key);
+    for (Character c : ALPHABETS.toCharArray()) {
+      if (!out.toString().contains(c.toString())) {
+        out.append(c);
+      }
     }
 
-    @Override
-    public String decrypt(String ciphertext, String key)  {
-        key = key.toLowerCase();
-        checkKey(key);
+    System.out.println("out.toString() = " + out.toString());
 
-        key = generateOTP(key);
-        AbstractCipher sub = new Substitution();
+    List<Character> row = new ArrayList<>();
+    for (Character c : out.toString().toCharArray()) {
+      row.add(c);
 
-        return sub.decrypt(ciphertext, key);
+      if (row.size() >= key.length()) {
+        rectangle.add(row);
+        row = new ArrayList<>();
+      }
     }
 
-    @Override
-    public String getDescription() {
-        return null;
+    if (row.size() != 0)
+      rectangle.add(row);
+
+    out = new StringBuilder();
+    rectangle = flip(rectangle);
+    for (List<Character> r : rectangle) {
+      for (Character c : r) {
+        out.append(c);
+      }
     }
 
-    @Override
-    public String getName() {
-        return null;
+    return out.toString();
+  }
+
+  @Override
+  public Boolean checkKey(String key) {
+    //not sure if i should do this or allow duplicates and remove them myself.
+    if (removeDuplicates(key).length() != key.length()) {
+      return false;
     }
 
-    private String generateOTP (String key) {
-        List<List<Character>> rectangle = new ArrayList<>();
-        StringBuilder out = new StringBuilder(key);
-        for (Character c: ALPHABETS.toCharArray()) {
-            if (!out.toString().contains(c.toString())) {
-                out.append(c);
-            }
-        }
-
-        System.out.println("out.toString() = " + out.toString());
-
-        List<Character> row = new ArrayList<>();
-        for (Character c: out.toString().toCharArray()) {
-            row.add(c);
-
-            if (row.size() >= key.length()) {
-                rectangle.add(row);
-                row = new ArrayList<>();
-            }
-        }
-
-        if (row.size() != 0)
-            rectangle.add(row);
-
-        out = new StringBuilder();
-        rectangle = flip(rectangle);
-        for (List<Character> r: rectangle) {
-            for (Character c: r) {
-                out.append(c);
-            }
-        }
-
-        return out.toString();
+    if (key.length() < 2) {
+      return false;
     }
 
-    @Override
-    public Boolean checkKey(String key)  {
-        //not sure if i should do this or allow duplicates and remove them myself.
-        if (removeDuplicates(key).length() != key.length()) {
-            // throw new InvalidKeyException("Key cannot have duplicates!");
-            return false;
-        }
+    return super.checkKey(key);
+  }
 
-        if (key.length() < 2) {
-            // throw new InvalidKeyException("Key is too short!");
-            return false;
-        }
+  private List<List<Character>> flip(List<List<Character>> input) {
+    List<List<Character>> output = new ArrayList<>();
+    List<Character> newRow;
 
-        return true;
+    int maxCols = input.get(0).size();
+
+    for (int i = 0; i < maxCols; ++i) {
+      newRow = new ArrayList<>();
+
+      for (List<Character> row : input) {
+        if (i < row.size())
+          newRow.add(row.get(i));
+      }
+
+      output.add(newRow);
     }
 
-    private List<List<Character>> flip(List<List<Character>> input) {
-        List<List<Character>> output = new ArrayList<>();
-        List<Character> newRow;
-
-        int maxCols = input.get(0).size();
-
-        for (int i = 0; i < maxCols; ++i) {
-            newRow = new ArrayList<>();
-
-            for (List<Character> row : input) {
-                if (i < row.size())
-                    newRow.add(row.get(i));
-            }
-
-            output.add(newRow);
-        }
-
-        return output;
-    }
+    return output;
+  }
 }
