@@ -10,15 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activity_Main"
+            android:name=".GUI.Activity_Main"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity_Project_View"
+            android:name=".GUI.Activity_Project_View"
             android:label="@string/projectView_name"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity_Splash_Screen"
+            android:name=".GUI.Activity_Splash_Screen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -28,22 +28,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity_Enc_Dec" />
+        <activity android:name=".GUI.Activity_Enc_Dec" />
         <activity
-            android:name=".Activity_About_Us"
+            android:name=".GUI.Activity_About_Us"
             android:label="@string/title_activity_gui_about_us"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity_graph_Analysis"
+            android:name=".GUI.Activity_graph_Analysis"
             android:label="Frequency Analysis"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activity_Note" />
+        <activity android:name=".GUI.Activity_Note" />
         <activity
-            android:name=".Activity_Settings"
+            android:name=".GUI.Activity_Settings"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".Activity_graph_frequency_letter" />
-        <activity android:name=".Activity_graph_frequency_period" />
-        <activity android:name=".Activity_Introduction"></activity>
+        <activity android:name=".GUI.Activity_graph_frequency_letter" />
+        <activity android:name=".GUI.Activity_graph_frequency_period" />
+        <activity android:name=".GUI.Activity_Introduction"></activity>
     </application>
 
 </manifest>

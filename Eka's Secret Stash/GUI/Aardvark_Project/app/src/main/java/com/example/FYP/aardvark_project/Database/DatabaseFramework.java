@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-import com.example.FYP.aardvark_project.FrontPageIdentifier;
+import com.example.FYP.aardvark_project.GUI.FrontPageIdentifier;
 
 /**MAKE FUNCTIONS STATIC*/
 

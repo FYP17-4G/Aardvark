@@ -1,184 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_slide_up_panel"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="bottom"
     android:orientation="vertical"
     app:umanoFadeColor="@color/TRANSPARENT"
-    app:umanoPanelHeight="30dp"
-    app:umanoShadowHeight="0dp"
-    app:umanoOverlay="false">
+    app:umanoOverlay="false"
+    app:umanoPanelHeight="30dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/project_view_cipher_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="298dp"
-            android:transitionName="cipherTextViewTransition">
-
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/cipherNestedScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:id="@+id/nestedScrollViewLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/project_view_cipher_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                </LinearLayout>
-            </android.support.v4.widget.NestedScrollView>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/layout_undo_reset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:id="@+id/button_reset"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:text="reset"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/button_save"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@android:color/background_light"
-                    android:text="Save"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button_undo"
-                    app:layout_constraintStart_toEndOf="@+id/button_reset"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/button_undo"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="88dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:text="undo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/generalInputLayout"
+        <FrameLayout
+                android:id="@+id/project_view_cipher_frame_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
+                android:layout_height="503dp"
+                android:transitionName="cipherTextViewTransition">
 
-                <include
-                    android:id="@+id/include_general"
-                    layout="@layout/project_view_general_text_input"
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/cipherNestedScroll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <FrameLayout
-                android:id="@+id/shiftLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+                    <LinearLayout
+                        android:id="@+id/nestedScrollViewLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                <include
-                    android:id="@+id/include_shift"
-                    layout="@layout/project_view_shift_cipher"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
+                        <TextView
+                            android:id="@+id/project_view_cipher_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
-            <FrameLayout
-                android:id="@+id/subLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+                    </LinearLayout>
 
-                <include
-                    android:id="@+id/include_sub"
-                    layout="@layout/project_view_substitution_char_cipher"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                </android.support.v4.widget.NestedScrollView>
             </FrameLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 
-
-    <FrameLayout
-        android:id="@+id/slide_up_panel_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
-
-        <ViewFlipper
-            android:id="@+id/slidingUpPanelViewFlipper"
+        <FrameLayout
+            android:id="@+id/slide_up_panel_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:gravity="center">
 
-            <include
-                android:id="@+id/sliding_up_panel_content_include"
-                layout="@layout/project_view_sliding_up_panel_extra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
-            <include
-                android:id="@+id/sliding_up_panel_content_tools_include"
-                layout="@layout/project_view_sliding_up_panel_content_tools_list"
+            <ViewFlipper
+                android:id="@+id/slidingUpPanelViewFlipper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ViewFlipper>
-    </FrameLayout>
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/sliding_up_panel_content_include"
+                    layout="@layout/project_view_sliding_up_panel_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/sliding_up_panel_content_tools_include"
+                    layout="@layout/project_view_sliding_up_panel_content_tools_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/sliding_up_panel_content_permutation_include"
+                    layout="@layout/project_view_sliding_up_panel_permutation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </ViewFlipper>
+        </FrameLayout>
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

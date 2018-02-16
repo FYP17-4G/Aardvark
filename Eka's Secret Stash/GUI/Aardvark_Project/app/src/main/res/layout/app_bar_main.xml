@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.FYP.aardvark_project.Activity_Main"
+    tools:context="com.example.FYP.aardvark_project.GUI.Activity_Main"
 
     android:animateLayoutChanges="true">
 
