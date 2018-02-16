@@ -5,102 +5,105 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/slidingUpPanelBackButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sliding_up_panel_tool_spinner">
-
-        <FrameLayout
-            android:id="@+id/generalInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible">
-
-            <include
-                android:id="@+id/include_general"
-                layout="@layout/project_view_general_text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/shiftLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <include
-                android:id="@+id/include_shift"
-                layout="@layout/project_view_shift_cipher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/subLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <include
-                android:id="@+id/include_sub"
-                layout="@layout/project_view_substitution_char_cipher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-
-    </LinearLayout>
-
     <ImageView
         android:id="@+id/panel_arrow_indicator"
         android:layout_width="31dp"
         android:layout_height="28dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/sliding_up_panel_cipher_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_arrow_drop_up_black_24dp" />
 
-    <Spinner
-        android:id="@+id/sliding_up_panel_tool_spinner"
+    <Button
+        android:id="@+id/button_normalTranspo"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/background_light"
+        android:text="Transposition"
+        app:layout_constraintBottom_toTopOf="@+id/button_shiftPopup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/panel_arrow_indicator" />
+        app:layout_constraintTop_toBottomOf="@+id/button_stringSubstitution" />
+
+    <Button
+        android:id="@+id/button_subPopup"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/background_light"
+        android:text="Substitute Character"
+        app:layout_constraintBottom_toTopOf="@+id/button_stringSubstitution"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sliding_up_panel_cipher_icon" />
+
+    <Button
+        android:id="@+id/button_shiftPopup"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/background_light"
+        android:text="Caesar Shift"
+        app:layout_constraintBottom_toTopOf="@+id/slidingUpPanelBackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_normalTranspo" />
+
+    <Button
+        android:id="@+id/button_stringSubstitution"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/background_light"
+        android:text="Substitute String"
+        app:layout_constraintBottom_toTopOf="@+id/button_normalTranspo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_subPopup" />
 
     <Button
         android:id="@+id/slidingUpPanelBackButton"
-        style="@style/Widget.AppCompat.Button.Colored"
-
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        android:layout_marginEnd="148dp"
-        android:layout_marginStart="148dp"
         android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:text="back"
-        android:textColor="#ffffff"
-        android:textSize="10sp"
+        android:text="more..."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/button_shiftPopup" />
+
+    <ImageView
+        android:id="@+id/sliding_up_panel_cipher_icon"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_subPopup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/panel_arrow_indicator"
+        app:srcCompat="@mipmap/substitution" />
 
 </android.support.constraint.ConstraintLayout>

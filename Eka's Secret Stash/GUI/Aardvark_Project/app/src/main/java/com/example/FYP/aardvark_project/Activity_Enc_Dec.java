@@ -64,8 +64,8 @@ public class Activity_Enc_Dec extends AppCompatActivity {
     private final String INPUT_TEXT_FILE_NAME = "latestInputText.txt";
 
     private final int ALPHABET_LENGTH = 26;
-    private final int GRID_COLUMN = 6;
-    private final int GRID_ROW = 5;
+    private final int GRID_COLUMN = 4;
+    private final int GRID_ROW = 7;
 
     private int SCROLL_DISTANCE;
 
@@ -281,7 +281,6 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         Button button = new Button(new ContextThemeWrapper(this, R.style.Widget_AppCompat_Button_Borderless_Colored), null, R.style.Widget_AppCompat_Button_Borderless_Colored);
         button.setId(ID);
         button.setText(val);
-        button.setTextSize(10);
 
         /**Build the drag shadow, its a "floating" copy of itself and follows user' finger*/
         button.setOnLongClickListener(view -> {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
@@ -24,40 +24,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/dragable_button_apply"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Apply Kamasutra Cipher" />
-
-            <Button
-                android:id="@+id/dragable_button_reset"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Reset"
-                android:textSize="8sp"
-                tools:layout_editor_absoluteY="511dp" />
-
-            <GridLayout
-                android:id="@+id/dragable_grid_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </GridLayout>
-        </LinearLayout>
-
         <ScrollView
             android:id="@+id/dragable_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/dragable_button_apply"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Apply Kamasutra Cipher" />
+
+                <Button
+                    android:id="@+id/dragable_button_reset"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Reset"
+                    android:textSize="8sp"
+                    tools:layout_editor_absoluteY="511dp" />
+
+                <GridLayout
+                    android:id="@+id/dragable_grid_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </GridLayout>
+            </LinearLayout>
         </ScrollView>
     </FrameLayout>
 

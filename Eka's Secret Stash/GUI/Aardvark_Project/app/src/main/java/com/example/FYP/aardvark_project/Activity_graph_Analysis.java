@@ -1,16 +1,12 @@
 package com.example.FYP.aardvark_project;
 
-import android.animation.AnimatorInflater;
-import android.animation.StateListAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,8 +20,6 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -60,10 +54,9 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
     private String cipherText = new String();
 
-    private CardView analysisPeriodCardView;
-
     /**IC related variables*/
     protected CalculateIC ic;
+    private TextView cipherICTV;
     private double cipherIC = 0;
 
     private ArrayList<Double> cipherICofN;
@@ -78,8 +71,6 @@ public class Activity_graph_Analysis extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_graph_analysis);
-
-        analysisPeriodCardView = findViewById(R.id.analysis_period_card_view);
 
         cipherText = getIntent().getStringExtra("cipherText");
 
@@ -205,6 +196,8 @@ public class Activity_graph_Analysis extends AppCompatActivity
             }
         };
 
+        cipherICTV = findViewById(R.id.cipherICTextView);
+
         /**Set the graph view seek bar and the indicator*/
         graphSeekBar = findViewById(R.id.seekBar_period);
         graphSeekBar.setMax(0);
@@ -219,9 +212,38 @@ public class Activity_graph_Analysis extends AppCompatActivity
         periodButton = findViewById(R.id.button_period);
         periodButton.setText("Period: " + period);
 
-        analysisPeriodCardView.setVisibility(View.GONE);
+        graphPeriodIndicator.setVisibility(View.INVISIBLE);
+        graphSeekBar.setVisibility(View.INVISIBLE);
 
-        periodButton.setOnClickListener(view -> framework.popup_getNumber_show("Set period", "Max period: " + FREQUENCY_PERIOD_LIMIT, (dialogInterface, i) -> calculatePeriodOf(Integer.parseInt(framework.popup_getInput())), 0));
+        periodButton.setOnClickListener(view -> framework.popup_getNumber_show("Set period", "Max period: " + FREQUENCY_PERIOD_LIMIT, (dialogInterface, i) -> {
+
+            period = Integer.parseInt(framework.popup_getInput());
+
+            if(period <= 0)
+                framework.system_message_small("Period value is invalid");
+
+            else if(period > FREQUENCY_PERIOD_LIMIT)
+                framework.system_message_small("Period value cannot be more than " + FREQUENCY_PERIOD_LIMIT);
+            else
+            {
+                fillCipherTextPeriodList(period);
+                periodButton.setText("Period: " + period);
+                graphSeekBar.setMax(period);
+
+                graphSeekBar.setVisibility(View.VISIBLE);
+                graphPeriodIndicator.setVisibility(View.VISIBLE);
+
+                /**Set new key*/
+
+                String newKey = new String();
+
+                for(int z = 0; z < period; z++)
+                    newKey += "A";
+
+                keyValue = newKey;
+                keyValueTextView.setText(newKey);
+            }
+        }, 0));
 
         graph.setForegroundGravity(Gravity.CENTER);
 
@@ -231,36 +253,6 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
         graph.addSeries(cipherTextSeries);
         graph.addSeries(periodCipherTextSeries);
-    }
-
-    /**Set the seek bar max value according to the specified period*/
-    private void calculatePeriodOf(int n)
-    {
-        period = n;
-
-        if(period <= 0)
-            framework.system_message_small("Period value is invalid");
-
-        else if(period > FREQUENCY_PERIOD_LIMIT)
-            framework.system_message_small("Period value cannot be more than " + FREQUENCY_PERIOD_LIMIT);
-        else
-        {
-            fillCipherTextPeriodList(period);
-            periodButton.setText("Period: " + period);
-            graphSeekBar.setMax(period);
-
-            analysisPeriodCardView.setVisibility(View.VISIBLE);
-
-            /**Set new key*/
-
-            String newKey = new String();
-
-            for(int z = 0; z < period; z++)
-                newKey += "A";
-
-            keyValue = newKey;
-            keyValueTextView.setText(newKey);
-        }
     }
 
     private void fillCipherTextPeriodList(int period)
@@ -337,7 +329,7 @@ public class Activity_graph_Analysis extends AppCompatActivity
         cipherICofN = new ArrayList<Double>();
 
         cipherIC = getCipherIC(cipherText);
-        //cipherICTV.setText("[IC: " + Double.toString(cipherIC) + "]\n");
+        cipherICTV.setText("[IC: " + Double.toString(cipherIC) + "]\n");
 
         ArrayList<mPair<Integer, Double>> averageICList = new ArrayList<>();
 
@@ -358,33 +350,10 @@ public class Activity_graph_Analysis extends AppCompatActivity
 
         averageICList.sort((t0, t1) -> t1.second.compareTo(t0.second)); //sort the average IC list (DESCENDING)
 
-        LinearLayout ICViewLinearLayout = findViewById(R.id.IC_view_linear_layout);
         for(int i = 0; i < averageICList.size(); i++) //append the texts to the interface
-        {
-            View detailView = getLayoutInflater().inflate(R.layout.detail_list_view, null);
-            TextView detailName = detailView.findViewById(R.id.detail_name);
-            TextView detailValue = detailView.findViewById(R.id.detail_value);
+            cipherICTV.append("IC of period " + (averageICList.get(i).first) + ": " + new DecimalFormat("0.0000").format(averageICList.get(i).second) + "\n");
 
-            detailName.setText("IC of period: " + averageICList.get(i).first.toString());
-            detailValue.setText(new DecimalFormat("0.0000").format(averageICList.get(i).second).toString());
-
-            CardView cardView = detailView.findViewById(R.id.detail_list_card_view);
-            cardView.setClickable(true);
-
-            /**Set card view on touch animation*/
-            StateListAnimator stateListAnimator = AnimatorInflater.loadStateListAnimator(this, R.anim.lift_on_touch);
-            cardView.setStateListAnimator(stateListAnimator);
-
-            /**Clicking on the card view will change the period being set*/
-            int period = averageICList.get(i).first;
-            cardView.setOnClickListener(view -> {
-                calculatePeriodOf(period);
-                periodButton.setText("Period: " + period);
-                framework.system_message_small("Current period is set to: " + period);
-            });
-
-            ICViewLinearLayout.addView(detailView);
-        }
+        cipherICTV.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     protected double getCipherIC(String cText)

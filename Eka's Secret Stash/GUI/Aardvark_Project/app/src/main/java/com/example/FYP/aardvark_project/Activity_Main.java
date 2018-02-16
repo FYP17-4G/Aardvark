@@ -1,8 +1,8 @@
 package com.example.FYP.aardvark_project;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,7 +37,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private App_Framework framework;
     private DatabaseFramework database = new DatabaseFramework(this);
 
-    private MainActivityAdapter adapter;
+    private FrontPageAdapter adapter;
     private RecyclerView list; //the 'array' of project list
 
     //front page identifier = struct like class for the adapter to simplify the data reading
@@ -262,7 +262,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         {
             findViewById(R.id.text_view_empty).setVisibility(View.GONE);
 
-            adapter = new MainActivityAdapter(projectTitle);
+            adapter = new FrontPageAdapter(projectTitle);
 
             if(adapter.getItemCount() > 0)
                 list.setAdapter(adapter);
@@ -310,7 +310,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         Button getFromFile = newProjectView.findViewById(R.id.button_getCipherTextFromFile);
         getFromFile.setOnClickListener(view -> openFileBrowser()); //this function will call default device file browser
 
-        AlertDialog alertDialog = framework.popup_custom("Create new project", newProjectView, "create", "cancel", (dialogInterface, i) -> {
+        framework.popup_custom("Create new project", newProjectView, "create", "cancel", (dialogInterface, i) -> {
 
             String projectTitle = newProjectTitle.getText().toString();
             String cipherText = cipherTextInput.getText().toString();
@@ -330,10 +330,9 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 adapter.notifyDataSetChanged();//refresh the adapter
             }
             });
-        alertDialog.show();
         }
 
-    /**THIS FUNCTION WILL BE USED IN "MainActivityAdapter.java"*/
+    /**THIS FUNCTION WILL BE USED IN "FrontPageAdapter.java"*/
     protected void editProject(String ID, String title, String cText)
     {
         String viewTitle = "Edit Project";
@@ -349,7 +348,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         getFromFile.setOnClickListener(view -> openFileBrowser());
 
         /**get the cipher text input from input field*/
-        AlertDialog alertDialog = framework.popup_custom(viewTitle, newProjectView, positiveButtonText, "cancel", (dialogInterface, i) -> {
+        framework.popup_custom(viewTitle, newProjectView, positiveButtonText, "cancel", (dialogInterface, i) -> {
 
             String projectTitle = newProjectTitle.getText().toString();
             String cipherText = cipherTextInput.getText().toString();
@@ -358,7 +357,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 framework.system_message_small("Project title is still empty");
             else if(cipherText.isEmpty())
                 framework.system_message_small("Cipher text input is still empty");
-            else if(projectExist(projectTitle) && !projectTitle.equals(title))
+            else if(projectExist(projectTitle))
                 framework.system_message_small("Project title already exist");
             else
             {
@@ -369,7 +368,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 adapter.notifyDataSetChanged();//refresh the adapter
             }
         });
-        alertDialog.show();
     }
 
     protected boolean projectExist(String newProjectTitle)

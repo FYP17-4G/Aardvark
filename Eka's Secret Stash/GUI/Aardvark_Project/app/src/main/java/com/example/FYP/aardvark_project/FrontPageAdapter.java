@@ -29,7 +29,7 @@ import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 * viewholder = an element in adapter
 * */
 
-public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.viewHolder>
+public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.viewHolder>
 {
     private int INITIAL_CARD_ANIM_DURATION = 450;
     private final int CARD_ANIM_DURATION_INCREMENT = 100;
@@ -45,7 +45,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     private View view;
 
-    public MainActivityAdapter(ArrayList<FrontPageIdentifier> n)
+    public FrontPageAdapter(ArrayList<FrontPageIdentifier> n)
         {
             this.projectTitle = n;
         }
@@ -237,9 +237,8 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
                     notifyDataSetChanged();
                 });
 
-                String DELETE_TITLE = "Delete '" + title + "'";
-                String DELETE_MESSAGE = "Deleted projects cannot be recovered. Are you sure?";
-                deleteButton.setOnClickListener(view12 -> framework.system_message_confirmAction(DELETE_TITLE, DELETE_MESSAGE, (dialogInterface, i) -> {
+                String delete_message = "Delete '" + title + "'?";
+                deleteButton.setOnClickListener(view12 -> framework.system_message_confirmAction("Delete Project", delete_message, (dialogInterface, i) -> {
 
                     deleteProject();
 
