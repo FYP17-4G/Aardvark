@@ -50,8 +50,8 @@ public class TranspositionTest {
   public void checkKey_EmptyString () {
     Assert.assertFalse(cipher.checkKey(EMPTY));
   }
-//  TODO
-//  Find a way to test padding and unpadding.
+
+//   TODO : Find a way to test padding and unpadding.
 //  @Test
 //  public void misc_Padding () {
 //    String plaintext  = "ovnoncojndsouvpiq";

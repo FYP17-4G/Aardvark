@@ -4,14 +4,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+//TODO: Test Padding/Unpadding
+
 public class TranspositionPeriodicTest {
   private CipherInterface cipher;
   private final String NUM              = "1234567890";
   private final String SHORT_ALPHA      = "abc";
-  private final String SHORT_ALPHA_ALT  = "def";
+  private final String SHORT_ALPHA_ALT  = "defjks";
   private final String LONG_ALPHA       = "abcdefghijklmnopqrstuvwxyz";
-  private final String LONG_ALPHA_ALT   = "zyxwvutsrqponmlkjihgfedcba";
-  private final String UNIQUE_KEY       = "GHAJRIOBESQCLFVZTYKMXWNUDP".toLowerCase();
+  private final String LONG_ALPHA_ALT   = "zyxwvutsrqponmlkhgfedcba";
   private final String SYMBOLS          = "!@#$%^&*()";
   private final String SPACES           = "          ";
   private final String EMPTY            = "";
@@ -55,24 +56,24 @@ public class TranspositionPeriodicTest {
   @Test
   public void encrypt_ShortAlpha() {
     String answer = cipher.encrypt(SHORT_ALPHA_ALT, TR_KEY);
-    Assert.assertEquals("fed", answer);
+    Assert.assertEquals("kedjfs", answer);
   }
 
   @Test
   public void encrypt_LongAlpha() {
     String answer = cipher.encrypt(LONG_ALPHA_ALT, TR_KEY);
-    Assert.assertEquals("xyvwzurspqtolmjknifgdehcab", answer);
+    Assert.assertEquals("vyzwxupstqrohmnklgbefcda", answer);
   }
 
   @Test
   public void decrypt_ShortAlpha() {
-    String answer = cipher.decrypt("fed", TR_KEY);
+    String answer = cipher.decrypt("kedjfs", TR_KEY);
     Assert.assertEquals(SHORT_ALPHA_ALT, answer);
   }
 
   @Test
   public void decrypt_LongAlpha() {
-    String answer = cipher.decrypt("xyvwzurspqtolmjknifgdehcab", TR_KEY);
+    String answer = cipher.decrypt("vyzwxupstqrohmnklgbefcda", TR_KEY);
     Assert.assertEquals(LONG_ALPHA_ALT, answer);
   }
 }
