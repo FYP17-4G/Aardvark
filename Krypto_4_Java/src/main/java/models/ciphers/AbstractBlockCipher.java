@@ -16,8 +16,8 @@ import java.util.List;
 public abstract class AbstractBlockCipher
     extends AbstractCipher
     implements CipherInterface {
-    
-    String pad(String plaintext, int keylength) {
+
+    public String pad(String plaintext, int keylength) {
         StringBuilder sb = new StringBuilder(plaintext);
 
         while ((sb.length() % keylength) != 0)
