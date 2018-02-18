@@ -1,11 +1,15 @@
 package com.example.FYP.aardvark_project.GUI;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -13,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
@@ -38,16 +44,18 @@ import com.example.FYP.aardvark_project.R;
 import com.example.FYP.aardvark_project.kryptoTools.*;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.w3c.dom.Text;
+
 public class fragment_project_view extends Fragment {
 
     /**Constants*/
     private final int INITIAL_CAESAR_SEEKBAR_VALUE = 26;
 
     private final String SUBSTITUTION_CHARACTER = "Substution (Character)";
+    private final String SHIFT_CIPHER = "Shift Cipher";
     private final String TRANSPOSITION = "Transposition";
     private final String TRANSPOSITION_PERIODIC = "Periodic Transposition";
     private final String TRANSPOSITION_RECTANGULAR = "Rectangular Transposition";
-    private final String SHIFT_CIPHER = "Shift Cipher";
     private final String BEAUFORT = "Beaufort Cipher";
     private final String BEAUFORT_VARIANT = "Beaufort Variant";
     private final String VIGENERE = "Vigenere Cipher";
@@ -79,7 +87,7 @@ public class fragment_project_view extends Fragment {
 
     /**Tab related varibles*/
     private View view;
-    private FragmentActivity fragmentActivity;
+    private FragmentActivity fragmentActivity; // fragmentActivity == context
 
     private SlidingUpPanelLayout slidingUpPanelLayout;
 
@@ -90,7 +98,7 @@ public class fragment_project_view extends Fragment {
     private Spinner toolSpinner;
     private String[] spinnerList = {SUBSTITUTION_CHARACTER, SHIFT_CIPHER, TRANSPOSITION, TRANSPOSITION_PERIODIC, TRANSPOSITION_RECTANGULAR, BEAUFORT, BEAUFORT_VARIANT, VIGENERE};
 
-    /**Permutation view in Sliding up panel*/
+    /**Block edit variables*/
     private final int MAX_SEEKBAR = 20;
 
     private TextView spaceIndicator;
@@ -132,11 +140,6 @@ public class fragment_project_view extends Fragment {
 
         setSlidingUpPanel();
 
-        setAnalysisTool();
-        setLetterFrequencyGraph();
-        setPeriodFrequencyGraph();
-
-
         generalTextInput = new GeneralTextInput(view.findViewById(R.id.include_general));
 
         setInitialVisibility();
@@ -154,8 +157,8 @@ public class fragment_project_view extends Fragment {
             else
                 line = lineSeekBar.getProgress();
 
-            spaceIndicator.setText("characters per block: " + space);
-            lineIndicator.setText("blocks per line:" + line);
+            spaceIndicator.setText("Characters per block: " + space);
+            lineIndicator.setText("Blocks per line: " + line);
         }
 
         @Override
@@ -165,7 +168,8 @@ public class fragment_project_view extends Fragment {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            refreshPermutation(cipherText, space, line);
+            cipherText = refreshPermutation(cipherText, space, line);
+            changeHistory.add(cipherText); //append cipher text progress to change history
         }
     };
 
@@ -353,8 +357,8 @@ public class fragment_project_view extends Fragment {
         ImageView panelIndicator = view.findViewById(R.id.panel_arrow_indicator);
         View cipherToolView = view.findViewById(R.id.sliding_up_panel_content_tools_include);
         ImageView panelIndicator2 = cipherToolView.findViewById(R.id.panel_arrow_indicator);
-        View permutationView = view.findViewById(R.id.sliding_up_panel_content_permutation_include);
-        ImageView panelIndicator3 = permutationView.findViewById(R.id.panel_arrow_indicator);
+        View blockEditView = view.findViewById(R.id.sliding_up_panel_content_block_edit_include);
+        ImageView panelIndicator3 = blockEditView.findViewById(R.id.panel_arrow_indicator);
 
         slidingUpPanelLayout = view.findViewById(R.id.root_slide_up_panel);
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -380,11 +384,89 @@ public class fragment_project_view extends Fragment {
 
         setSlidingUpPanelViewFlipper();
         slidingUpPanelDisplayMain();
+
+        setAnalysisTool();
+        setLetterFrequencyGraph();
+        setPeriodFrequencyGraph();
+        setPermutationTool();
     }
+
+    private void setPermutationTool()
+    {
+        /**Permute text specified in the input field*/
+        DialogInterface.OnClickListener positiveListener = (dialogInterface, i) -> {
+            if(framework.popup_getInput().isEmpty())
+                framework.system_message_small("Input cannot be empty");
+            else if(!cipherText.contains(framework.popup_getInput()))
+                framework.system_message_small("There is no occurrence of the specified text in the cipher text");
+            else
+                displayPermutationPopup(framework.popup_getInput());
+        };
+
+        /**Cancel dialog interface*/
+        DialogInterface.OnClickListener negativeListener = (dialogInterface, i) -> dialogInterface.cancel();
+
+        /**Permute the entire cipher text*/
+        DialogInterface.OnClickListener neutralListener = (dialogInterface, i) -> displayPermutationPopup(cipherText);
+
+        View mainView = view.findViewById(R.id.sliding_up_panel_content_include);
+        Button permutationButton = mainView.findViewById(R.id.button_permutation);
+        permutationButton.setOnClickListener(view -> framework.popup_show("Permutation", "Text to permute", positiveListener, negativeListener, neutralListener, "Permute", "Cancel", "Permute All").show());
+    }
+
+    private void displayPermutationPopup(String input)
+    {
+        framework.format(input);
+        List<String> perm = PermuteString.permute(framework.getMODIFIED_TEXT()); //calculate the permutation
+
+        ScrollView rootScrollView = new ScrollView(fragmentActivity);
+        LinearLayout linearLayout = new LinearLayout(fragmentActivity);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        /**Display custom permutation pop up*/
+        for(String s: perm) {
+            View permLayout = getLayoutInflater().inflate(R.layout.pop_permutation, null);
+            CardView cardView = permLayout.findViewById(R.id.permutation_card_view);
+            TextView textView = permLayout.findViewById(R.id.permutation_text_view);
+
+            textView.setText(displayNLetter(s, 30));
+
+            cardView.setOnClickListener(view1 -> {
+                cipherText = cipherText.replaceAll(input, s); //replaces all occurences of the input to the specified permutation
+                refresh();
+                framework.system_message_small("Permutation applied");
+            });
+            cardView.setOnLongClickListener(view12 -> {
+                framework.popup_cipher_preview(s).show();
+                return true;
+            });
+
+            linearLayout.addView(permLayout);
+        }
+
+        rootScrollView.addView(linearLayout);
+
+        framework.popup_custom("Permutation", rootScrollView).show();
+    }
+
+    /**
+     * This displays N characters from given text
+     * */
+    private String displayNLetter(String text, int n) {
+        String returnVal = new String();
+        if(text.length() < n)
+            n = text.length();
+
+        for(int i = 0; i < n; i++)
+            returnVal += text.charAt(i);
+
+        return returnVal;
+    }
+
     private void setSlidingUpPanelViewFlipper() {
         View slidingUpGeneralView = view.findViewById(R.id.sliding_up_panel_content_include);
         View slidingUpToolsView = view.findViewById(R.id.sliding_up_panel_content_tools_include);
-        View slidingUpPermutationView = view.findViewById(R.id.sliding_up_panel_content_permutation_include);
+        View slidingUpPermutationView = view.findViewById(R.id.sliding_up_panel_content_block_edit_include);
 
         slidingUpPanelViewFlipper = view.findViewById(R.id.slidingUpPanelViewFlipper);
 
@@ -396,10 +478,10 @@ public class fragment_project_view extends Fragment {
         slidingUpPanelToolsBackButton.setOnClickListener(view -> slidingUpPanelDisplayMain());
 
         /**Set permutation view button*/
-        Button permutationButton = view.findViewById(R.id.button_permutation);
+        Button permutationButton = view.findViewById(R.id.button_block_edit);
         permutationButton.setOnClickListener(view -> slidingUpPanelDisplayPermutation());
 
-        Button permutationBack = slidingUpPermutationView.findViewById(R.id.button_permutation_back);
+        Button permutationBack = slidingUpPermutationView.findViewById(R.id.permutation_back);
         permutationBack.setOnClickListener(view -> slidingUpPanelDisplayMain());
         setPermutationSeekBars();
     }
@@ -418,31 +500,30 @@ public class fragment_project_view extends Fragment {
         lineSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
     }
 
-    public void refreshPermutation(String val, int space, int line) {
-        getActivity().runOnUiThread(() -> {
-            cipherTextView.setText("");
+    public String refreshPermutation(String val, int space, int line) {
+        cipherTextView.setText("");
 
-            String temp = framework.stringNoWhiteSpace(val); //display this variable
-            String tempOriginal = framework.stringNoWhiteSpace(originalCipherText);
+        String temp = framework.stringNoWhiteSpace(val); //display this variable
+        String tempOriginal = framework.stringNoWhiteSpace(originalCipherText);
 
-            if(space > 0){ //spacing
-                temp = spacing(temp, space);
-                tempOriginal = spacing(tempOriginal, space);
+        if(space > 0){ //spacing
+            temp = spacing(temp, space);
+            tempOriginal = spacing(tempOriginal, space);
+        }
+        if(line > 0) { //lining
+            temp = lining(temp, line);
+            tempOriginal = lining(tempOriginal, line);
+        }
+
+        if(temp.length() == tempOriginal.length())
+            for(int i = 0; i < temp.length(); i++) {
+                if(temp.charAt(i) == tempOriginal.charAt(i))
+                    cipherTextView.append(Character.toString(temp.charAt(i)));
+                else
+                    cipherTextView.append(Html.fromHtml("<font color='#EE0000'>"+ temp.charAt(i) +"</font>")); //set the text color to red
             }
-            if(line > 0) { //lining
-                temp = lining(temp, line);
-                tempOriginal = lining(tempOriginal, line);
-            }
 
-            if(temp.length() == tempOriginal.length())
-                for(int i = 0; i < temp.length(); i++) {
-                    if(temp.charAt(i) == tempOriginal.charAt(i))
-                        cipherTextView.append(Character.toString(temp.charAt(i)));
-                    else
-                        cipherTextView.append(Html.fromHtml("<font color='#EE0000'>"+ temp.charAt(i) +"</font>")); //set the text color to red
-                }
-
-        });
+        return temp;
     }
 
     private String spacing(String input, int space) {
@@ -555,7 +636,7 @@ public class fragment_project_view extends Fragment {
     }
 
     private void setLetterFrequencyGraph() {
-        Button frequencyAnalysisButton = view.findViewById(R.id.button_permutation_back);
+        Button frequencyAnalysisButton = view.findViewById(R.id.frequency_graph_letter);
         frequencyAnalysisButton.setOnClickListener(view -> {
             Intent intent = new Intent(fragmentActivity, Activity_graph_frequency_letter.class);
             intent.putExtra("cipherText", cipherText);
@@ -567,11 +648,11 @@ public class fragment_project_view extends Fragment {
     private void setPeriodFrequencyGraph() {
         Button ICFrequencyButton = view.findViewById(R.id.frequency_graph_period);
         ICFrequencyButton.setOnClickListener(view -> {
+            collapsePanel();
             Intent intent = new Intent(fragmentActivity, Activity_graph_frequency_period.class);
             intent.putExtra("cipherText", cipherText);
             startActivity(intent);
         });
-        collapsePanel();
     }
 
     private void undo(){ //undo the cipher text into its previous state

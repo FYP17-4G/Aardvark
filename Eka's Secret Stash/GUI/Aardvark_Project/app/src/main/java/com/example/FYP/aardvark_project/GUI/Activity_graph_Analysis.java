@@ -10,6 +10,7 @@ import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -102,6 +103,15 @@ public class Activity_graph_Analysis extends AppCompatActivity {
         keyValueTextView = findViewById(R.id.analysis_key_value);
 
         setAnalysisShiftButtons();
+        setInfoButton();
+    }
+
+    private void setInfoButton()
+    {
+        String message = "Press on the top button to set period manually, press on individual card to set the period automatically";
+
+        ImageView infoButton = findViewById(R.id.graph_analysis_info);
+        infoButton.setOnClickListener(view -> framework.system_message_popup("Info", message, "Got it"));
     }
 
     private void setAnalysisShiftButtons() {
@@ -267,18 +277,9 @@ public class Activity_graph_Analysis extends AppCompatActivity {
         cipherTextPeriodList.clear();
 
         ArrayList<StringBuilder> temp = CalculateIC.getEveryNthLetter(period, cipherText);
-        
+
         for (int i = 0; i < period; i++)
             cipherTextPeriodList.add(new String(temp.get(i)));
-    }
-
-    private String getCipherTextPeriodOf(int startFrom, int periodValue) {
-        String returnVal = new String();
-
-        for(int i = startFrom; i < cipherText.length(); i += periodValue)
-            returnVal += cipherText.charAt(i);
-
-        return returnVal;
     }
 
     private void rePlotGraph() {

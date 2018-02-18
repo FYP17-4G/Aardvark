@@ -177,6 +177,13 @@
                     android:layout_margin="7dp"
                     android:orientation="vertical">
 
+                    <ImageView
+                        android:id="@+id/graph_analysis_info"
+                        android:layout_gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_info_black_24dp" />
+
                     <Button
                         android:id="@+id/button_period"
                         style="@style/Widget.AppCompat.Button.Colored"
@@ -193,6 +200,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="packed" />
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>

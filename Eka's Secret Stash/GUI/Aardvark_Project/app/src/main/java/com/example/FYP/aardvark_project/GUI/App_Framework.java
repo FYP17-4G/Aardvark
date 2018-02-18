@@ -99,13 +99,9 @@ public class App_Framework
      * ==============POP UP MENU FUNCTIONS==============
      * */
 
-    /**Use this method to get the user input in the popup dialogue*/
-    public String popup_getInput()
-    {
-        return popup_inputText.getText().toString();
-    }
-
-    /**popup function specifically for "main activity " use, when long pressed a card, this function will display the preview of the cipher text*/
+    /**
+     * popup function specifically for "main activity " use, when long pressed a card, this function will display the preview of the cipher text
+     * */
     @SuppressLint("ClickableViewAccessibility")
     public AlertDialog popup_cipher_preview(String cipherText) {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -129,6 +125,12 @@ public class App_Framework
         return alertDialog;
     }
 
+
+
+    /**
+     * Pop ups with customizeable views
+     * */
+    /**Custom pop up with no configurable buttons*/
     public AlertDialog popup_custom(String title, View view) { //plain custom pop up container
         if(view.getParent() != null) //checks if view already exist
             ((ViewGroup)view.getParent()).removeView(view);
@@ -142,8 +144,25 @@ public class App_Framework
 
         return alertDialog;
     }
+    /**Custom pop up with 3 customizeable buttons*/
+    public AlertDialog popup_custom(String title, View view, String positiveText, String negativeText, String neutralText, DialogInterface.OnClickListener listenerPositive, DialogInterface.OnClickListener listenerNegative, DialogInterface.OnClickListener listenerNeutral) {
+        if(view.getParent() != null) //checks if view already exist
+            ((ViewGroup)view.getParent()).removeView(view);
 
-    //custom popup with defined positive and negative button behaviour
+        reinstateBuilder();
+
+        popUpWindow.setTitle(title);
+        popUpWindow.setView(view);
+
+        popUpWindow.setPositiveButton(positiveText, listenerPositive);
+        popUpWindow.setNegativeButton(negativeText, listenerNegative);
+        popUpWindow.setNeutralButton(neutralText, listenerNeutral);
+
+        alertDialog = popUpWindow.create();
+        return alertDialog;
+    }
+
+    /**Custom pop up with 2 fully customizeable buttons (except for negative button's behaviour)*/
     public AlertDialog popup_custom(String title, View view,String positiveText, String negativeText, DialogInterface.OnClickListener clickListener) {
         if(view.getParent() != null) //checks if view already exist
             ((ViewGroup)view.getParent()).removeView(view);
@@ -160,7 +179,8 @@ public class App_Framework
         return alertDialog;
     }
 
-    public void popup_custom(String title, View view, DialogInterface.OnClickListener clickListener) {
+    /**Custom pop up with customizeable positive button behaviour*/
+    public AlertDialog popup_custom(String title, View view, DialogInterface.OnClickListener clickListener) {
         if(view.getParent() != null) //checks if view already exist
             ((ViewGroup)view.getParent()).removeView(view);
 
@@ -172,7 +192,18 @@ public class App_Framework
         popUpWindow.setPositiveButton("OK", clickListener);
         popUpWindow.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
 
-        popUpWindow.show();
+        alertDialog = popUpWindow.create();
+
+        return alertDialog;
+    }
+
+    /**
+     * Pop up text inputs
+     * */
+    /**Use this method to get the user input for this Pop up set only*/
+    public String popup_getInput()
+    {
+        return popup_inputText.getText().toString();
     }
 
     /**This changes the input type of the edit text field to number only*/
@@ -193,7 +224,8 @@ public class App_Framework
         popUpWindow.show();
     }
 
-    public void popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText) {
+    /**Gets number input instead of a text*/
+    public AlertDialog popup_getNumber_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText) {
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
@@ -207,10 +239,12 @@ public class App_Framework
         popUpWindow.setPositiveButton(positiveText, positiveOCL);
         popUpWindow.setNegativeButton(negativeText, negativeOCL);
 
-        popUpWindow.show();
+        alertDialog = popUpWindow.create();
+        return alertDialog;
     }
 
-    public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener) {
+    /**Pop up text input with customizeable positive button behaviour*/
+    public AlertDialog popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener clickListener) {
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
@@ -224,11 +258,12 @@ public class App_Framework
         popUpWindow.setPositiveButton("OK",clickListener);
         popUpWindow.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
 
-        popUpWindow.show();
+        alertDialog = popUpWindow.create();
+        return alertDialog;
     }
 
-    /**CUSTOMIZEABLE pop up input text for positive button (right button) and negative button (left button)*/
-    public void popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText) {
+    /**Pop up input text with 2 fully customizeable buttons*/
+    public AlertDialog popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, String positiveText, String negativeText) {
         reinstateBuilder();
 
         popUpWindow.setTitle(popup_title);
@@ -242,9 +277,34 @@ public class App_Framework
         popUpWindow.setPositiveButton(positiveText, positiveOCL);
         popUpWindow.setNegativeButton(negativeText, negativeOCL);
 
-        popUpWindow.show();
+        alertDialog = popUpWindow.create();
+        return alertDialog;
     }
 
+    /**Pop up input text with 3 fully customizeable buttons*/
+    public AlertDialog popup_show(String popup_title, String popup_hint, DialogInterface.OnClickListener positiveOCL,DialogInterface.OnClickListener negativeOCL, DialogInterface.OnClickListener neutralOCL, String positiveText, String negativeText, String neutralText) {
+        reinstateBuilder();
+
+        popUpWindow.setTitle(popup_title);
+
+        /**set up the input field*/
+        popup_inputText = new EditText(context);
+        popup_inputText.setInputType(InputType.TYPE_CLASS_TEXT);
+        popup_inputText.setHint(popup_hint);
+        popUpWindow.setView(popup_inputText);
+
+        popUpWindow.setPositiveButton(positiveText, positiveOCL);
+        popUpWindow.setNegativeButton(negativeText, negativeOCL);
+        popUpWindow.setNeutralButton(neutralText, neutralOCL);
+
+        alertDialog = popUpWindow.create();
+        return alertDialog;
+    }
+
+
+    /**
+     * System messages pop ups
+     * */
     /**Use this for displaying small message, and error message as well*/
     public void system_message_small(String message){
         toast.setText(message);
@@ -258,6 +318,7 @@ public class App_Framework
         reinstateBuilder();
 
         popup_textView = new TextView(context);
+        popup_textView.setPadding(12, 12, 12, 12);
 
         popUpWindow.setTitle(popup_title);
         popup_textView.setText(popup_message);
@@ -271,6 +332,7 @@ public class App_Framework
         reinstateBuilder();
 
         popup_textView = new TextView(context);
+        popup_textView.setPadding(12, 12, 12, 12);
 
         popUpWindow.setView(popup_textView);
         popUpWindow.setTitle(popup_title);

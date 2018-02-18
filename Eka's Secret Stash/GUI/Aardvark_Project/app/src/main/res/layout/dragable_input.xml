@@ -29,20 +29,50 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/dragable_button_apply"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Apply Kamasutra Cipher" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/dragable_button_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="180dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.897"
+                    app:layout_constraintStart_toStartOf="@+id/dragable_button_apply"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_info_black_24dp" />
+
+                <Button
+                    android:id="@+id/dragable_button_apply"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="215dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_horizontal"
+                    android:text="Apply Kamasutra Cipher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.503"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+            </android.support.constraint.ConstraintLayout>
 
             <Button
                 android:id="@+id/dragable_button_reset"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reset"
                 android:textSize="8sp"
+                android:layout_gravity="center_horizontal|center_vertical"
                 tools:layout_editor_absoluteY="511dp" />
 
             <GridLayout
@@ -53,12 +83,6 @@
             </GridLayout>
         </LinearLayout>
 
-        <ScrollView
-            android:id="@+id/dragable_scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </ScrollView>
     </FrameLayout>
 
 </LinearLayout>

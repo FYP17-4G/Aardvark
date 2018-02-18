@@ -13,14 +13,11 @@ import java.util.List;
 /**
  * Defines all the common methods a Cipher should have.
  */
-/**
- * Defines all the common methods a Cipher should have.
- */
 public abstract class AbstractBlockCipher
         extends AbstractCipher
         implements CipherInterface {
 
-    String pad(String plaintext, int keylength) {
+    public String pad(String plaintext, int keylength) {
         StringBuilder sb = new StringBuilder(plaintext);
 
         while ((sb.length() % keylength) != 0)
@@ -55,6 +52,5 @@ public abstract class AbstractBlockCipher
         }
         return out;
     }
-
 }
 

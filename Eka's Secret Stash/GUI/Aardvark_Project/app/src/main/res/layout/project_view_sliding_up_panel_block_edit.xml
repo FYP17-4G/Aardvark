@@ -24,7 +24,7 @@
         android:layout_marginBottom="24dp"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button_permutation_back"
+        app:layout_constraintBottom_toTopOf="@+id/permutation_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/panel_arrow_indicator">
@@ -33,6 +33,7 @@
             android:id="@+id/seekBar_space_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Characters per block: -"
             android:textColor="@color/primaryTextColor" />
 
         <SeekBar
@@ -44,6 +45,7 @@
             android:id="@+id/seekBar_line_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Blocks per line: -"
             android:textColor="@color/primaryTextColor" />
 
         <SeekBar
@@ -54,7 +56,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_permutation_back"
+        android:id="@+id/permutation_back"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

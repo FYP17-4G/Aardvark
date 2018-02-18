@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -89,8 +90,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
     private GridLayout dragableGridView;
     private Button applyKamasutraButton;
     private Button resetKamasutraButton;
-
-    private ScrollView dragableScrollView;
+    private ImageView infoKamasutraButton;
 
     private ArrayList<Button> dragableButtonList;
 
@@ -228,8 +228,9 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         resetKamasutraButton = v.findViewById(R.id.dragable_button_reset);
         resetKamasutraButton.setOnClickListener(view -> resetKamasutra());
 
-        dragableScrollView= v.findViewById(R.id.dragable_scroll_view);
-        dragableScrollView.setOnScrollChangeListener((view, i, i1, i2, i3) -> SCROLL_DISTANCE = dragableScrollView.getScrollY());
+        String infoMessage = "Drag and drop the alphabets to re arrange the key";
+        infoKamasutraButton = v.findViewById(R.id.dragable_button_info);
+        infoKamasutraButton.setOnClickListener(view -> framework.system_message_popup("Info", infoMessage, "Got it"));
 
         fillDragableButtonList(ALPHABET_LENGTH);
     }
@@ -286,8 +287,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
         });
         button.setOnDragListener((view, dragEvent) -> {
 
-            switch(dragEvent.getAction())
-            {
+            switch(dragEvent.getAction()) {
                 case DragEvent.ACTION_DRAG_STARTED:
                     break;
                 case DragEvent.ACTION_DRAG_ENTERED:
@@ -301,8 +301,7 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                     int idxHover = 0; //index of the view being dragged
                     int idxGround = 0; //index of the view below it
 
-                    for(int i = 0; i < dragableButtonList.size(); i++)
-                    {
+                    for(int i = 0; i < dragableButtonList.size(); i++) {
                         if(dragableButtonList.get(i).getId() == v.getId())
                             idxHover = i;
                         if(dragableButtonList.get(i).getId() == ID)
@@ -316,25 +315,6 @@ public class Activity_Enc_Dec extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENDED:
                     break;
                 case DragEvent.ACTION_DRAG_LOCATION:
-
-                    /**AutoScroll*/
-
-                    final int SCROLL_UP_BOUND = -200;
-                    final int SCROLL_DOWN_BOUND = 10;
-                    final int THRESHOLD = 10;
-                    final int MOVEMENT_SPEED = 5; //dpx
-
-                    int y = Math.round(view.getY())+Math.round(dragEvent.getY());
-                    int translatedY = y - SCROLL_DISTANCE;
-
-                    if (translatedY - THRESHOLD < SCROLL_UP_BOUND)
-                        dragableScrollView.smoothScrollBy(0, -MOVEMENT_SPEED); // make a scroll up by 5 px
-
-                    if (translatedY + THRESHOLD > SCROLL_DOWN_BOUND)
-                        dragableScrollView.smoothScrollBy(0, MOVEMENT_SPEED); // make a scroll down by 5 px
-
-                    System.out.println("TranslatedY: " + translatedY + "; Upper Bound: " + SCROLL_UP_BOUND + "; Lower Bound: " + SCROLL_DOWN_BOUND);
-
                     break;
             }
 

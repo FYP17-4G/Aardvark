@@ -210,7 +210,7 @@ Encryption / Decryption feature
 + Added shift functionality to the frequency analysis tool
 
 <12 February 2018>
-+ Added Introduction activity (Courtesy: https://github.com/msayan/tutorial-view)
++ Added Introduction activity (https://github.com/msayan/tutorial-view)
 
 <13 February 2018>
 + Fixed bug in edit project function (#discovered today)
@@ -237,6 +237,18 @@ Encryption / Decryption feature
 + Added hamburger button into project view activity
 + Changed the shift cipher input method to the previous version due to consistency problem
 + Refactoring on packages and file names
+
+<17 February 2018>
+#Bug report: Transposition decryption out of bounds when key "KEY" is entered
+
++ More bug and layout fixes
++ Added "info" button in various activities
++ Changed former "Permutation" button to "Block edit" button
+
+<18 February 2018>
++ Finished the actual permutation tool (probably need some more tweaks)
+	- Added an option to permute specified word/text instead of the entire cipher text
+
 
 /*NEXT UP: 
 > Work out the icons

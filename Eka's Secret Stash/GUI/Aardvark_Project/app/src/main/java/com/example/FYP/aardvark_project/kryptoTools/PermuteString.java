@@ -17,7 +17,7 @@ public class PermuteString {
         //populate the "key" <- which is the number of characters in the input
         //e.g. 6 characters: key -> [0, 1, 2, 3, 4, 5]
         for (int i = 0; i < blockSize; ++i) { key[i] = i; }
-        splittedStrings = Utility.splitStrings(input, blockSize);
+        splittedStrings = splitStrings(input, blockSize);
         List<List <Integer>> permutations = getPermutations(key);
 
         for (List<Integer> p: permutations) {
@@ -25,7 +25,7 @@ public class PermuteString {
                 output.append(permuteOne(str, p));
             }
 
-            List<String> out = Utility.splitStrings(output.toString(), blockSize);
+            List<String> out = splitStrings(output.toString(), blockSize);
             uniquePermutations.addAll(out);
         }
 
@@ -69,5 +69,23 @@ public class PermuteString {
         }
 
         return permutations;
+    }
+
+    public static List<String> splitStrings(String input, int keylength) {
+        StringBuilder temp = new StringBuilder();
+        List<String> out = new ArrayList<>();
+        int currentCount = 0;
+
+        for (Character c : input.toCharArray()) {
+            temp.append(c);
+            ++currentCount;
+
+            if (currentCount >= keylength) {
+                out.add(temp.toString());
+                temp = new StringBuilder();
+                currentCount = 0;
+            }
+        }
+        return out;
     }
 }

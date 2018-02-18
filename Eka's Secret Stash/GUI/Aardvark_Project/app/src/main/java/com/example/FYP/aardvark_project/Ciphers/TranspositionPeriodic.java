@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TranspositionPeriodic 
-    extends AbstractBlockCipher 
+public class TranspositionPeriodic
+        extends AbstractBlockCipher
         implements CipherInterface {
 
 
-    private static final String DESC = "Periodic TranspositionCipher Cipher";
-    private static final String NAME = "Periodic TranspositionCipher Cipher";
+    private static final String DESC = "Periodic Transposition Cipher";
+    private static final String NAME = "Periodic Transposition Cipher";
 
     @Override
     public String encrypt(String plaintext, String key) {
@@ -42,7 +42,6 @@ public class TranspositionPeriodic
 
         //System.out.println("plaintext = " + plaintext);
         return plaintext.toString();
-        
     }
 
     @Override
