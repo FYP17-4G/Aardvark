@@ -1,3 +1,11 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for the Main activity (or the front page)
+ *
+ * This activity contains list of crypto projects
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.app.Activity;

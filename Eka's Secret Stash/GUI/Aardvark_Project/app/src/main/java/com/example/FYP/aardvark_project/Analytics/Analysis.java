@@ -1,4 +1,4 @@
-package com.example.FYP.aardvark_project.kryptoTools;
+package com.example.FYP.aardvark_project.Analytics;
 
 import java.util.*;
 
@@ -22,10 +22,28 @@ public class Analysis {
             SORTEDLIST.put(SEQUENCE.get(i), FREQUENCY.get(i));
         }
 
-
-
-        /**----MODIFIED CODE STARTS HERE----*/
         setPairList();
+    }
+
+    public void sortPairList()
+    {
+        //sort the list
+        Collections.sort(pairList, (t1, t2) -> {
+            //contains sorting logic
+            //this sorts from highest to lowest
+            return t2.getFreq() - t1.getFreq();
+        });
+    }
+    public void sortPairListAlphabet()
+    {
+        //sort the list
+        Collections.sort(pairList, (t1, t2) -> {
+            //contains sorting logic
+            //this sorts from highest to lowest
+            return t2.getSeq().charAt(0) - t1.getSeq().charAt(0);
+        });
+
+        Collections.reverse(pairList);
     }
 
     private void setPairList()
@@ -36,15 +54,7 @@ public class Analysis {
         for(int i = 0; i < dataLength(); i++)
             pairList.add(new Pair(SEQUENCE.get(i), FREQUENCY.get(i)));
 
-        //sort the list
-        Collections.sort(pairList, new Comparator<Pair>() {
-            @Override
-            public int compare(Pair t1, Pair t2) {
-                //contains sorting logic
-                //this sorts from highest to lowest
-                return t2.getFreq() - t1.getFreq();
-            }
-        });
+        //sortPairList();
     }
 
     private void setSEQUENCE(List<String> SEQUENCE) { this.SEQUENCE = SEQUENCE; }

@@ -1,3 +1,9 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for Frequency letter activity that does the mapping of specified letter length (Singular character, bigram, trigram)
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.FYP.aardvark_project.R;
-import com.example.FYP.aardvark_project.kryptoTools.Analysis;
-import com.example.FYP.aardvark_project.kryptoTools.FrequencyAnalysis;
-import com.example.FYP.aardvark_project.kryptoTools.Utility;
+import com.example.FYP.aardvark_project.Analytics.Analysis;
+import com.example.FYP.aardvark_project.Analytics.FrequencyAnalysis;
+import com.example.FYP.aardvark_project.Common.Utility;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -72,6 +78,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         commonOccurenceSeries.resetData(calculateLetterFrequency(SINGULAR));
         setGraphLabel(commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]));
 
+        graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
     }
 
@@ -86,17 +93,18 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         graph.getGridLabelRenderer().setLabelFormatter(staticLabels);
     }
 
+    /**
+     * Gets frequency of occurence of letter with given length
+     * eg:
+     * "The quick brown fox jumps over the lazy dog and another fox"
+     * frequencyAnalysis(text, 3) >>> the:3, fox: 2, dog: 1, <etc>;
+     * */
     private DataPoint[] calculateLetterFrequency(int SEQUENCE_LENGTH) {
         Utility util = Utility.getInstance();
         String cipherText = util.processText(this.cipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
 
-        /**
-         * Gets frequency of occurence of letter with length N
-         * eg:
-         * "The quick brown fox jumps over the lazy dog and another fox"
-         * frequencyAnalysis(text, 3) >>> the:2, fox: 2, dog: 1, <etc>;
-         * */
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(cipherText, SEQUENCE_LENGTH);
+        frequencyAnalysis.sortPairList();
 
         int dataLen = frequencyAnalysis.dataLength();
         if(dataLen > DATA_LIMIT)
@@ -123,7 +131,7 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         return dp;
     }
 
-    /**Display the detailed information using an xml layout*/
+    /**add the detailed information view using predefined an xml layout*/
     private void addDetailList(LinearLayout layout, String word, String value) {
         View detailView = getLayoutInflater().inflate(R.layout.detail_list_view, null);
         TextView textViewWord = detailView.findViewById(R.id.detail_name);
@@ -149,6 +157,8 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 String value = list[position];
 
+                LARGEST_FREQUENCY_VALUE = 0;
+
                 if(value.equals(list[0])) { //SINGULAR
                     commonOccurenceSeries.resetData(calculateLetterFrequency(SINGULAR));
 
@@ -169,6 +179,11 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
                 }
                 else if(value.equals(list[3])) // CUSTOM
                     framework.popup_getNumber_show("Custom Char length", "Char length", (dialogInterface, i) -> commonOccurenceSeries.resetData(calculateLetterFrequency(Integer.parseInt(framework.popup_getInput()))), 10);
+
+                /**Re adjust Graph' Y axis minimum and maximum value*/
+                graph.getViewport().setYAxisBoundsManual(true);
+                graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
+                graph.getViewport().setMinY(0);
 
                 setGraphLabel(commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]));
             }

@@ -14,9 +14,9 @@
 package com.example.FYP.aardvark_project.Ciphers;
 
 
-import com.example.FYP.aardvark_project.kryptoTools.Cipher;
-import com.example.FYP.aardvark_project.kryptoTools.InvalidKeyException;
-import com.example.FYP.aardvark_project.kryptoTools.Utility;
+import com.example.FYP.aardvark_project.Analytics.Cipher;
+import com.example.FYP.aardvark_project.Analytics.InvalidKeyException;
+import com.example.FYP.aardvark_project.Common.Utility;
 
 public class Shift implements Cipher {
     private final String cipherDescription = "Shifts the input by 'key'. Allows encryption & decryption.";

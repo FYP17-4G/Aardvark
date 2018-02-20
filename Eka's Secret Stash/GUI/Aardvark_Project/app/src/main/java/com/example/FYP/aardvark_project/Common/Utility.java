@@ -1,4 +1,4 @@
-package com.example.FYP.aardvark_project.kryptoTools;
+package com.example.FYP.aardvark_project.Common;
 
 import java.io.*;
 import java.util.*;

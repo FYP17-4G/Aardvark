@@ -80,12 +80,12 @@ public class TranspositionCipher
 
     @Override
     public String getDescription() {
-        return null;
+        return DESC;
     }
 
     @Override
     public String getName() {
-        return null;
+        return NAME;
     }
 
     private List<List<Character>> getRectangle(String plaintext, int keylength) {
