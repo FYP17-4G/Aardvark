@@ -16,7 +16,7 @@
  *          originalData -> the data which controls the modification, to ensure there aren't any conflicts.
  * Allows the user to substitute a character with another, making sure we don't overwrite any previous changes.
  * ---------
-*/
+ */
 
 package models.ciphers;
 
@@ -24,67 +24,72 @@ package models.ciphers;
 // import java.util.regex.Pattern;
 
 public class Substitution extends AbstractCipher implements CipherInterface {
-    private static final String DESC = "Substitution Cipher";
-    private static final String NAME = "Substitution Cipher";
+  private static final String NAME = "Substitution Cipher";
+  private static final String DESC = "A substitution cipher simply replaces a character with another character." + "\n" +
+    "EXAMPLE" + "\n" +
+    "-------" + "\n" +
+    "Replace 'T' with 'H" + "\n" +
+    "PT:  THIS IS THE PLAINTEXT" + "\n" +
+    "CT:  HHIS IS HHE PLAINHEXH";
 
-    //allows the user to substitute a single character
-    //returns a String with all the oldCharacters changed to the newCharacters.
-    //modifiedData = String that will be modified
-    //originalData = String that will be used as a control, so there aren't any conflicts when subbing.
-    public String byCharacter (Character oldCharacter, Character newCharacter,
-                             String modifiedData, String originalData) {
-        char[] original = originalData.toLowerCase()
-                .replaceAll("[^A-Za-z]", "").toCharArray();
-        char[] modified = modifiedData.toCharArray();
+  //allows the user to substitute a single character
+  //returns a String with all the oldCharacters changed to the newCharacters.
+  //modifiedData = String that will be modified
+  //originalData = String that will be used as a control, so there aren't any conflicts when subbing.
+  public String byCharacter(Character oldCharacter, Character newCharacter,
+                            String modifiedData, String originalData) {
+    char[] original = originalData.toLowerCase()
+      .replaceAll("[^A-Za-z]", "").toCharArray();
+    char[] modified = modifiedData.toCharArray();
 
-        for (int i = 0; i < modified.length; ++i) {
-            if (oldCharacter == modified[i] && modified[i] == original[i]) {
-                modified[i] = newCharacter;
-            }
-        }
-
-        return new String (modified);
+    for (int i = 0; i < modified.length; ++i) {
+      if (oldCharacter == modified[i] && modified[i] == original[i]) {
+        modified[i] = newCharacter;
+      }
     }
 
-    @Override
-    public String encrypt(String plaintext, String key)  {
-        String output = plaintext;
+    return new String(modified);
+  }
 
-        if (checkKey(key)) {
-            for (int i = 0; i < ALPHABETS.length(); ++i) {
-                char currLetter = ALPHABETS.charAt(i);
-                char currKey    = key.charAt(i);
+  @Override
+  public String encrypt(String plaintext, String key) {
+    String output = plaintext;
 
-                output = byCharacter(currLetter, currKey, output, plaintext);
-            }
-        }
+    if (checkKey(key)) {
+      for (int i = 0; i < ALPHABETS.length(); ++i) {
+        char currLetter = ALPHABETS.charAt(i);
+        char currKey = key.charAt(i);
 
-        return output;
+        output = byCharacter(currLetter, currKey, output, plaintext);
+      }
     }
 
-    @Override
-    public String decrypt(String ciphertext, String key)  {
-        String output = ciphertext;
+    return output;
+  }
 
-        if (checkKey(key)) {
-            for (int i = 0; i < ALPHABETS.length(); ++i) {
-                char currLetter = ALPHABETS.charAt(i);
-                char currKey    = key.charAt(i);
+  @Override
+  public String decrypt(String ciphertext, String key) {
+    String output = ciphertext;
 
-                output = byCharacter(currKey, currLetter, output, ciphertext);
-            }
-        }
+    if (checkKey(key)) {
+      for (int i = 0; i < ALPHABETS.length(); ++i) {
+        char currLetter = ALPHABETS.charAt(i);
+        char currKey = key.charAt(i);
 
-        return output;
+        output = byCharacter(currKey, currLetter, output, ciphertext);
+      }
     }
 
-    @Override
-    public String getDescription() {
-        return DESC;
-    }
+    return output;
+  }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
+  @Override
+  public String getDescription() {
+    return DESC;
+  }
+
+  @Override
+  public String getName() {
+    return NAME;
+  }
 }
