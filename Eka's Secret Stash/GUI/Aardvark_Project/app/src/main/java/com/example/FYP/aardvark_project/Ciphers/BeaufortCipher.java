@@ -15,8 +15,13 @@
 package com.example.FYP.aardvark_project.Ciphers;
 
 public class BeaufortCipher extends AbstractCipher implements CipherInterface {
-    private static final String DESC = "Subtractive Vigenere Cipher";
-    private static final String NAME = "Subtractive Vigenere Cipher";
+    private static final String NAME = "Beaufort Cipher";
+    private static final String DESC = "The Beaufort Cipher is a substitution cipher, similar to the Vigenere Cipher.\n" +
+            "EXAMPLE" + "\n" +
+            "-------" + "\n" +
+            "PT:  THIS IS THE PLAINTEXT" + "\n" +
+            "KEY: BEAU FO RTB EAUFORTBE" + "\n" +
+            "CT:  UXSC XW YNX PPUXBYPEL";
 
     @Override
     public String encrypt(String plaintext, String key) {

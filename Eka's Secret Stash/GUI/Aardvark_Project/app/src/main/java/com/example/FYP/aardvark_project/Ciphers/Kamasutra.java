@@ -2,6 +2,18 @@ package com.example.FYP.aardvark_project.Ciphers;
 
 
 public class Kamasutra extends AbstractCipher implements CipherInterface {
+
+    private static final String NAME = "Kamasutra Cipher";
+    private static final String DESC = "The Kamasutra Cipher is a substitution cipher, and involves randomly pairing " +
+            "letters of the alphabet, and then substituting each letter in the original message with its partner." + "\n" +
+            "EXAMPLE" + "\n" +
+            "-------" + "\n" +
+            "KEY: " + "\n" +
+            "A B C D E F G H I J K L M " + "\n" +
+            "N O P Q R S T U V W X Y Z" + "\n" +
+            "PT:  THIS IS THE PLAINTEXT" + "\n" +
+            "CT:  GUVF VF GUR CYNVAGRKG";
+
     @Override
     public String encrypt(String plaintext, String key)  {
         key = key.toLowerCase();
@@ -46,12 +58,12 @@ public class Kamasutra extends AbstractCipher implements CipherInterface {
 
     @Override
     public String getDescription() {
-        return null;
+        return DESC;
     }
 
     @Override
     public String getName() {
-        return null;
+        return NAME;
     }
 
     private int find(Character in, String data) {

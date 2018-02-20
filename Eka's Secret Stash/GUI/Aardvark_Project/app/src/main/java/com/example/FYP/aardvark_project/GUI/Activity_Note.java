@@ -1,3 +1,10 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for Notes (so the user can write their own notes for specified cryto project they are on).
+ * This activity is accessible through the project view
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v7.app.AppCompatActivity;

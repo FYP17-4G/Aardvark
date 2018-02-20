@@ -1,3 +1,12 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * This is the activity for crypto projects. This activity only does the initialization of the view layout behaviour (e.g: navigation panel, the "triple dot" button
+ * at the upper left of the screen, etc)
+ *
+ * For the source code that does the set up of the actual crypto tools, see "Fragment_project_view"
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.Intent;
@@ -11,7 +20,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +34,9 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     private String projectUniqueID = new String();
     private String projectTitle = new String();
 
-    private fragmentPagerAdapter projectViewFragmentAdapter;
+    private FragmentPagerAdapter projectViewFragmentAdapter;
 
-    private fragment_project_view mainView = new fragment_project_view();
+    private Fragment_project_view mainView = new Fragment_project_view();
 
     private App_Framework framework;
 
@@ -110,7 +118,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         setNavDrawer();
 
         setBundleForMainView(); //set parameters to be transferred to project view fragment
-        projectViewFragmentAdapter = new fragmentPagerAdapter(getSupportFragmentManager());
+        projectViewFragmentAdapter = new FragmentPagerAdapter(getSupportFragmentManager());
         setupViewPager(findViewById(R.id.viewPager_projectView));
 
         initializeAutosave();

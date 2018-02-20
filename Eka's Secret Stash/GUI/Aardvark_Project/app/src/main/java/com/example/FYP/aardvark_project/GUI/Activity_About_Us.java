@@ -1,3 +1,9 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for "About us" activity
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.os.Bundle;
