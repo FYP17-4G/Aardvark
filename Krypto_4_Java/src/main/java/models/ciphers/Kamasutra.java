@@ -1,8 +1,8 @@
 package models.ciphers;
 
 public class Kamasutra extends AbstractCipher implements CipherInterface {
-  private static final String DESC = "Kamasutra Cipher";
-  private static final String NAME = "The Kamasutra Cipher is a substitution cipher, and involves randomly pairing " +
+  private static final String NAME = "Kamasutra Cipher";
+  private static final String DESC = "The Kamasutra Cipher is a substitution cipher, and involves randomly pairing " +
     "letters of the alphabet, and then substituting each letter in the original message with its partner." + "\n" +
     "EXAMPLE" + "\n" +
     "-------" + "\n" +

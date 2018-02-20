@@ -33,8 +33,8 @@ public class RectangularKeyTransposition
   extends AbstractBlockCipher
   implements CipherInterface {
 
-  private static final String DESC = "Rectangular Key Transposition Cipher";
-  private static final String NAME = "The Rectangular Key Transposition Cipher is a combination of the regular " +
+  private static final String NAME = "Rectangular Key Transposition Cipher";
+  private static final String DESC = "The Rectangular Key Transposition Cipher is a combination of the regular " +
     "Transposition Cipher and the Substitution Cipher." + "\n" +
     "EXAMPLE" + "\n" +
     "-------" + "\n" +

@@ -14,8 +14,8 @@
 package models.ciphers;
 
 public class Shift extends AbstractCipher implements CipherInterface {
-    private final String cipherDescription = "Shifts the input by 'key'. Allows encryption & decryption.";
-    private final String cipherName = "Shift Cipher";
+    private final String NAME = "Shift Cipher";
+  private final String DESC = "Shifts the input by 'key'. Allows encryption & decryption.";
 
 //    //so it can't be instantiated
 //    private Shift(){}

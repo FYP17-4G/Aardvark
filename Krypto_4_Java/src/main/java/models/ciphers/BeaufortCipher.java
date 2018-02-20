@@ -15,8 +15,8 @@
 package models.ciphers;
 
 public class BeaufortCipher extends AbstractCipher implements CipherInterface {
-  private static final String DESC = "Beaufort Cipher";
-  private static final String NAME = "The Beaufort Cipher is a substitution cipher, similar to the Vigenere Cipher.\n" +
+  private static final String NAME = "Beaufort Cipher";
+  private static final String DESC = "The Beaufort Cipher is a substitution cipher, similar to the Vigenere Cipher.\n" +
     "EXAMPLE" + "\n" +
     "-------" + "\n" +
     "PT:  THIS IS THE PLAINTEXT" + "\n" +
