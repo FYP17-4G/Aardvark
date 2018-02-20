@@ -276,5 +276,52 @@ public class Project {
 
     }
 
+    public String getModifiedText(int blockSize) {
+      StringBuilder output = new StringBuilder();
+
+      int currentIndex = 0, originalIndex = 0;
+      Character currentChar, currentOriginal;
+
+      while (originalIndex < originalText.length()) {
+        currentChar = modifiedText.charAt(currentIndex);
+        currentOriginal = originalText.charAt(originalIndex);
+
+        if (Character.isLowerCase(currentOriginal)) {
+          output.append(currentChar);
+          ++currentIndex;
+          ++originalIndex;
+        } else if (Character.isUpperCase(currentOriginal)) {
+          output.append(Character.toUpperCase(currentChar));
+          ++currentIndex;
+          ++originalIndex;
+        } else {
+          output.append(currentOriginal);
+          ++originalIndex;
+        }
+      }
+
+      //0 is default, just print as it was originally.
+      //Jack and Jill ran up the hill.
+
+      //if blockSize is provided (3 for example), the output will be provided as:
+      //Jac kan dJi llr anu pth ehi ll.
+      if (blockSize > 0) {
+        StringBuilder temp = new StringBuilder();
+        String tempString = output.toString().replaceAll(" ", "");
+
+        int counter = 0;
+        for (Character c: tempString.toCharArray()) {
+          temp.append(c);
+          if (++counter == blockSize) {
+            temp.append(" ");
+            counter = 0;
+          }
+        }
+
+        output = temp;
+      }
+
+      return output.toString();
+    }
 }
 

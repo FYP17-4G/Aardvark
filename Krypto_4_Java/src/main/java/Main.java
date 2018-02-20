@@ -1,8 +1,5 @@
 import models.Project;
-import models.ciphers.AbstractCipher;
-import models.ciphers.PlayfairCipher;
-import models.ciphers.Shift;
-import models.ciphers.VigenereCipher;
+import models.ciphers.*;
 
 /**
  * Copyright (C) 2018 Krypto.
@@ -32,13 +29,13 @@ public final class Main {
   public static void main(final String[] args) {
 
     //Initialization
-    AbstractCipher cipher = new Shift();
+    AbstractCipher cipher = new TranspositionPeriodic();
     String projectName = "TEST_PROJECT";
     //CHECKSTYLE:OFF
     int identifier = 1234;
     //CHECKSTYLE:ON
-    String key = "3";
-    String ciphertext = "CIPHERTEXT BELONG IN HERE, PUNKS!";
+    String key = "sEcret";
+    String ciphertext = "Jack and Jill ran up the hill.";
     Project project = new Project(projectName, identifier, ciphertext);
 
     //Show BEFORE state
@@ -54,13 +51,15 @@ public final class Main {
 
     //Display results
     System.out.println("AFTER");
-    System.out.println("=====");
-    System.out.println(project.toString());
+    System.out.println("=$$===");
+    System.out.println(project.getModifiedText(3));
 
     //Perform decryption
     project.setModifiedText(
       cipher.decrypt(project.getModifiedText(), key)
     );
+
+    System.out.println(project.getModifiedText(3));
 
     //Display results
     System.out.println("AFTER");
