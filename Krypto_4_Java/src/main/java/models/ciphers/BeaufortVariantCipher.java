@@ -18,8 +18,14 @@ public class BeaufortVariantCipher
   extends AbstractCipher
   implements CipherInterface {
 
-  private static final String DESC = "Inverse Vigenere Cipher";
-  private static final String NAME = "Inverse Vigenere Cipher";
+  private static final String DESC = "Variant Beaufort Cipher";
+  private static final String NAME = "The Variant Beaufort Cipher is a substitution cipher, similar to the Vigenere " +
+    "Cipher, and is a variant on the usual Beaufort." + "\n" +
+    "EXAMPLE" + "\n" +
+    "-------" + "\n" +
+    "PT:  THIS IS THE PLAINTEXT" + "\n" +
+    "KEY: BEAU FO RTB EAUFORTBE" + "\n" +
+    "CT:  SDIY DE COD LLGDZCLWP";
 
   @Override
   public String encrypt(String plaintext, String key) {
