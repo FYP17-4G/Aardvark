@@ -34,13 +34,19 @@ public class RectangularKeyTransposition
   implements CipherInterface {
 
   private static final String DESC = "Rectangular Key Transposition Cipher";
-  private static final String NAME = "The Variant Beaufort Cipher is a substitution cipher, similar to the Vigenere " +
-    "Cipher, and is a variant on the usual Beaufort." + "\n" +
+  private static final String NAME = "The Rectangular Key Transposition Cipher is a combination of the regular " +
+    "Transposition Cipher and the Substitution Cipher." + "\n" +
     "EXAMPLE" + "\n" +
     "-------" + "\n" +
+    "KEY -> RECTANGLE" + "\n" +
+    "R E C T A N G L" + "\n" +
+    "B D F H I J K M" + "\n" +
+    "O P Q S U V W X" + "\n" +
+    "Y Z" + "\n" +
+    "ALP: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" + "\n" +
+    "KEY: R B O Y E D P Z C F Q T H S A I U N J V G K W L M X" + "\n" +
     "PT:  THIS IS THE PLAINTEXT" + "\n" +
-    "KEY: BEAU FO RTB EAUFORTBE" + "\n" +
-    "CT:  SDIY DE COD LLGDZCLWP";
+    "CT:  VZCJ CJ VZE ITRCSVELV";
 
   @Override
   public String encrypt(String plaintext, String key) {
