@@ -9,9 +9,27 @@ public class Transposition
   extends AbstractBlockCipher
   implements CipherInterface {
 
-
-  private static final String DESC = "Transposition Cipher";
   private static final String NAME = "Transposition Cipher";
+  private static final String DESC = "Transposition cipher is a method of encryption by which the plaintext are shifted" +
+    "according to a regular system, so that the ciphertext constitutes a permutation of the plaintext. " +
+    "The order of the characters is changed, resulting in a complex cipher." + "\n" +
+    "EXAMPLE" + "\n" +
+    "-------" + "\n" +
+    "       7 5 1 2 6 4 3" + "\n" +
+    "KEY  = T R A N S P O" + "\n" +
+    "PT   = THIS IS THE PLAINTEXT" + "\n" +
+    "7 5 1 2 6 4 3" + "\n" +
+    "-------------" + "\n" +
+    "T H I S I S T" + "\n" +
+    "H E P L A I N" + "\n" +
+    "T E X T X X X" + "\n" +
+
+    "1 2 3 4 5 6 7" + "\n" +
+    "-------------" + "\n" +
+    "I S T S H I T" + "\n" +
+    "P L N I E A H" + "\n" +
+    "X T X X E X T" + "\n" +
+    "CT = IPXS LT TNX SIXHEEIAX THT";
 
   @Override
   public String encrypt(String plaintext, String key) {
