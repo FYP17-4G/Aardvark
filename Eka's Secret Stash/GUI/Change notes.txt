@@ -249,21 +249,14 @@ Encryption / Decryption feature
 + Finished the actual permutation tool (probably need some more tweaks)
 	- Added an option to permute specified word/text instead of the entire cipher text
 
-<19 February 2018>
-+ Fixed bugs in graph elements (the lowest value initially always starts at the lowest value in the data set)
-+ Animated some elements
-
-<20 February 2018>
-+ Removed permutation tool (Due to time constraint)
-+ Removed Playfair cipher and one time pad cipher
-+ Added Cipher Description button
-+ Added read from file functionality in encryption/decryption feature
-+ Added hamburger button to encryption / decryption activity
-+ Encryption / Decryption input view is now editable
-+ Added description to some of the ciphers
 
 /*NEXT UP: 
 > Work out the icons
 > Keep the pop up view when the project exist to prevent the user to re enter the cipher text again
-> Re check all margins
+> Re check all margins 
+> Error at char frequency
+> Add to Krypto tools:
+	Kamasutra <?>
+	PlayfairCipher <?>
+> Add read from file function for encryption and decryption feature
 */

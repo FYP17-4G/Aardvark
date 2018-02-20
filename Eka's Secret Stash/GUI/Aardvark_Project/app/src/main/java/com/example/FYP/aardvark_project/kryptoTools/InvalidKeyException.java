@@ -1,4 +1,4 @@
-package com.example.FYP.aardvark_project.Analytics;
+package com.example.FYP.aardvark_project.kryptoTools;
 
 public class InvalidKeyException extends Exception {
     public InvalidKeyException() {}

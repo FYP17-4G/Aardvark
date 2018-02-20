@@ -5,7 +5,7 @@
  * ---------
 */
 
-package com.example.FYP.aardvark_project.Analytics;
+package com.example.FYP.aardvark_project.kryptoTools;
 
 public interface Cipher {
     //basic encryption/decryption

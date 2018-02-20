@@ -1,9 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama, Mark Christian Klass
- *
- * App_Framework contains the source code for GUI routines like "pop up window", "Toast message", as well as functions used by many different java files
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.annotation.SuppressLint;
@@ -25,7 +19,7 @@ import android.widget.TextView;
 import android.content.Context;
 
 import com.example.FYP.aardvark_project.R;
-import com.example.FYP.aardvark_project.Common.Utility;
+import com.example.FYP.aardvark_project.kryptoTools.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,7 +70,7 @@ public class App_Framework
      * Because setTheme() is called upon this object creation, this object must be called before super.OnCreate()
      * on each activity
      *
-     * #Note: For fragment classes, the point above does not matter
+     * #Note: For fragment, the point above does not matter
      * */
     private boolean getThemePreference() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -395,9 +389,7 @@ public class App_Framework
     }
 
 
-    /**
-     *
-     * Programmer: Mark Christian Klass
+    /**Mark's Code
      *
      * These are the functions necessary to apply changes to the cipher text,
      * while preserving the lines, symbols, and spaces of the original cipher text
@@ -462,11 +454,7 @@ public class App_Framework
         TEXT_COUNT = MODIFIED_TEXT.length();
     }
 
-    /**
-     * Programmer: Eka Nugraha Pratama
-     *
-     * The functions below are my own defined function for using Mark's code in GUI activity
-     * */
+    /**MY OWN DEFINED FUNCTION*/
     public void setMODIFIED_TEXT(String s)
     {
         MODIFIED_TEXT = s;

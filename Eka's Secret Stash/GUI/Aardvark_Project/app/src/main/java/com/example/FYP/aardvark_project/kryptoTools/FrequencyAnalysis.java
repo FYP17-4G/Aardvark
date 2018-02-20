@@ -12,7 +12,7 @@
  * ---------
  */
 
-package com.example.FYP.aardvark_project.Analytics;
+package com.example.FYP.aardvark_project.kryptoTools;
 
 import java.util.*;
 

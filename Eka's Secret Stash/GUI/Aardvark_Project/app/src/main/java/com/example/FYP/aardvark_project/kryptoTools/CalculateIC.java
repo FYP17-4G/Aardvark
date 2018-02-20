@@ -10,7 +10,7 @@
  * ---------
  */
 
-package com.example.FYP.aardvark_project.Analytics;
+package com.example.FYP.aardvark_project.kryptoTools;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

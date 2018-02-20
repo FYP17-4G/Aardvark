@@ -1,9 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Contains the source code for Frequency period activity that does the mapping of each character frequency of a given period
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +10,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.FYP.aardvark_project.R;
-import com.example.FYP.aardvark_project.Analytics.Analysis;
-import com.example.FYP.aardvark_project.Analytics.FrequencyAnalysis;
+import com.example.FYP.aardvark_project.kryptoTools.Analysis;
+import com.example.FYP.aardvark_project.kryptoTools.FrequencyAnalysis;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -81,8 +75,6 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
 
         setGraphLabel(alphabet);
         graph.addSeries(commonOccurenceSeries);
-
-        graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
     }
 
@@ -90,9 +82,6 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         seekBar = findViewById(R.id.period_seekBar);
         seekBarIndicator = findViewById(R.id.period_indicator);
         periodButton = findViewById(R.id.period_button);
-
-        seekBarIndicator.setVisibility(View.GONE);
-        seekBar.setVisibility(View.GONE);
 
         seekBarIndicator.setText("Period: 0");
         periodButton.setText("Max Period: 0");
@@ -118,34 +107,17 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                LARGEST_FREQUENCY_VALUE = 0;
-
                 refresh();
-
-                /**Re adjust Graph' Y axis minimum and maximum value*/
-                graph.getViewport().setYAxisBoundsManual(true);
-                graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
-                graph.getViewport().setMinY(0);
             }
         });
 
         periodButton.setOnClickListener(view -> framework.popup_getNumber_show("Set Period", "Period key", (dialogInterface, i) -> {
             int newVal = Integer.parseInt(framework.popup_getInput());
 
-            if(framework.popup_getInput().isEmpty())
-                framework.system_message_small("Input cannot be empty");
-            else if(newVal < 1)
-                framework.system_message_small("Invalid key input, the key value must be 1 or more");
-            else
-            {
-                periodButton.setText("Max period: " + newVal);
-                seekBar.setMax(newVal);
-                seekBar.setProgress(0);
-
-                lowerCardView.setVisibility(View.VISIBLE);
-                seekBarIndicator.setVisibility(View.VISIBLE);
-                seekBar.setVisibility(View.VISIBLE);
-            }
+            periodButton.setText("Max period: " + newVal);
+            seekBar.setMax(newVal);
+            seekBar.setProgress(0);
+            lowerCardView.setVisibility(View.VISIBLE);
         }, 0));
     }
 
@@ -171,7 +143,6 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
 
     private DataPoint[] calculateLetterFrequency(String input, int SEQUENCE_LENGTH) {
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(input, SEQUENCE_LENGTH);
-        frequencyAnalysis.sortPairListAlphabet();
 
         int dataLen = frequencyAnalysis.dataLength();
         if(dataLen > DATA_LIMIT)

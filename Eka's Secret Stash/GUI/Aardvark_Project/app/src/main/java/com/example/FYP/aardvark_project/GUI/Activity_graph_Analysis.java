@@ -1,15 +1,8 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Contains the source code for Frequency analysis
- * By comparing the text IC of a certain period against normal distribution of english letter
- * to figure out monoalphabetic cipher key (such as vigenere and beaufort)
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.animation.AnimatorInflater;
 import android.animation.StateListAnimator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +16,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.FYP.aardvark_project.R;
-import com.example.FYP.aardvark_project.Analytics.CalculateIC;
-import com.example.FYP.aardvark_project.Analytics.Graph;
-import com.example.FYP.aardvark_project.Analytics.InvalidKeyException;
+import com.example.FYP.aardvark_project.kryptoTools.CalculateIC;
+import com.example.FYP.aardvark_project.kryptoTools.Graph;
+import com.example.FYP.aardvark_project.kryptoTools.InvalidKeyException;
 import com.example.FYP.aardvark_project.Ciphers.Shift;
-import com.example.FYP.aardvark_project.Common.Utility;
-import com.example.FYP.aardvark_project.Common.mPair;
+import com.example.FYP.aardvark_project.kryptoTools.Utility;
+import com.example.FYP.aardvark_project.kryptoTools.mPair;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -234,15 +227,7 @@ public class Activity_graph_Analysis extends AppCompatActivity {
 
         analysisPeriodCardView.setVisibility(View.GONE);
 
-        periodButton.setOnClickListener(view -> framework.popup_getNumber_show("Set period", "Max period: " + FREQUENCY_PERIOD_LIMIT,
-                (dialogInterface, i) -> {
-            if(framework.popup_getInput().isEmpty())
-                framework.system_message_small("Input cannot be empty");
-            else if(Integer.parseInt(framework.popup_getInput()) < 1)
-                framework.system_message_small("Input value must be '1' or more");
-            else
-                calculatePeriodOf(Integer.parseInt(framework.popup_getInput()));
-        }, 0));
+        periodButton.setOnClickListener(view -> framework.popup_getNumber_show("Set period", "Max period: " + FREQUENCY_PERIOD_LIMIT, (dialogInterface, i) -> calculatePeriodOf(Integer.parseInt(framework.popup_getInput())), 0));
 
         graph.setForegroundGravity(Gravity.CENTER);
 
