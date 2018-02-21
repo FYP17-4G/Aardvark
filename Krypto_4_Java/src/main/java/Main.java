@@ -35,7 +35,8 @@ public final class Main {
     int identifier = 1234;
     //CHECKSTYLE:ON
     String key = "sEcret";
-    String ciphertext = "Jack and Jill ran up the hill.";
+    String ciphertext = "Jack and Jill ran up the hill to fetch a pail of water, Jack fell down and broke his crown, " +
+      "and Jill came tumbling after.";
     Project project = new Project(projectName, identifier, ciphertext);
 
     //Show BEFORE state
@@ -52,19 +53,29 @@ public final class Main {
     //Display results
     System.out.println("AFTER");
     System.out.println("=$$===");
-    System.out.println(project.getModifiedText(3));
+//    System.out.println(project.getModifiedText(3));
+    System.out.println("project.print(5, 5, true)");
+    System.out.println(project.print(5, 5, true));
+    System.out.println("project.print(5, 5, false)");
+    System.out.println(project.print(5, 5, false));
+    System.out.println("project.print(0, 0, true)");
+    System.out.println(project.print(0, 0, true) + "\n");
+    System.out.println("project.print(5, 5, false)");
+    System.out.println(project.print(0, 0, false) + "\n");
 
-    //Perform decryption
-    project.setModifiedText(
-      cipher.decrypt(project.getModifiedText(), key)
-    );
+//    //Perform decryption
+//    project.setModifiedText(
+//      cipher.decrypt(project.getModifiedText(), key)
+//    );
 
-    System.out.println(project.getModifiedText(3));
+//    System.out.println(project.print(3, 5));
 
-    //Display results
-    System.out.println("AFTER");
-    System.out.println("=====");
-    System.out.println(project.toString());
+//    System.out.println(project.getModifiedText(3));
+
+//    //Display results
+//    System.out.println("AFTER");
+//    System.out.println("=====");
+//    System.out.println(project.toString());
   }
 
 }
