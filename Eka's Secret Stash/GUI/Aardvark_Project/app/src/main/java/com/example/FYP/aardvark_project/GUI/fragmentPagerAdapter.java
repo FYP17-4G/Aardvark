@@ -1,21 +1,25 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Responsible for managing tabbed view in Project View Activity
+ *
+ * ## Tabbed view only has "Fragment_project_view"
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Responsible for managing tabbed view in Project View Activity
- * */
-public class fragmentPagerAdapter extends FragmentPagerAdapter
+public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter
 {
     private final List<String> tabTitleList = new ArrayList<>();
     private final List<Fragment> tabFragmentList = new ArrayList<>();
 
-    public fragmentPagerAdapter(FragmentManager fm)
+    public FragmentPagerAdapter(FragmentManager fm)
     {
         super(fm);
     }

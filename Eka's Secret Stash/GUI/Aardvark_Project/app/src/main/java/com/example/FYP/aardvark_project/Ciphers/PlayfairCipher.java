@@ -8,6 +8,9 @@ public class PlayfairCipher extends AbstractCipher implements CipherInterface {
     private static final String PLAYFAIR_ALPHABET = "abcdefghiklmnopqrstuvwxyz";
     private Character[][] playfairSquare;
 
+    private static final String DESC = "PlayFair cipher";
+    private static final String NAME = "PlayFair cipher";
+
     @Override
     public String encrypt(String plaintext, String key)  {
 
@@ -273,12 +276,12 @@ public class PlayfairCipher extends AbstractCipher implements CipherInterface {
 
     @Override
     public String getDescription() {
-        return null;
+        return DESC;
     }
 
     @Override
     public String getName() {
-        return null;
+        return NAME;
     }
 
     private Character getRandAlphabet() {

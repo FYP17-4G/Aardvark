@@ -24,8 +24,13 @@ package com.example.FYP.aardvark_project.Ciphers;
 // import java.util.regex.Pattern;
 
 public class SubstitutionCipher extends AbstractCipher implements CipherInterface {
-    private static final String DESC = "SubstitutionCipher Cipher";
-    private static final String NAME = "SubstitutionCipher Cipher";
+    private static final String NAME = "Substitution Cipher";
+    private static final String DESC = "A substitution cipher simply replaces a character with another character." + "\n" +
+            "EXAMPLE" + "\n" +
+            "-------" + "\n" +
+            "Replace 'T' with 'H" + "\n" +
+            "PT:  THIS IS THE PLAINTEXT" + "\n" +
+            "CT:  HHIS IS HHE PLAINHEXH";
 
     //allows the user to substitute a single character
     //returns a String with all the oldCharacters changed to the newCharacters.

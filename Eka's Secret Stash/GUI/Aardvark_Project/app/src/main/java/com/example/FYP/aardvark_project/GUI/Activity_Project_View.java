@@ -1,3 +1,12 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * This is the activity for crypto projects. This activity only does the initialization of the view layout behaviour (e.g: navigation panel, the "triple dot" button
+ * at the upper left of the screen, etc)
+ *
+ * For the source code that does the set up of the actual crypto tools, see "Fragment_project_view"
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.Intent;
@@ -11,11 +20,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.FYP.aardvark_project.Common.AppFramework;
 import com.example.FYP.aardvark_project.R;
 
 import java.util.Timer;
@@ -26,11 +35,11 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     private String projectUniqueID = new String();
     private String projectTitle = new String();
 
-    private fragmentPagerAdapter projectViewFragmentAdapter;
+    private FragmentPagerAdapter projectViewFragmentAdapter;
 
-    private fragment_project_view mainView = new fragment_project_view();
+    private Fragment_project_view mainView = new Fragment_project_view();
 
-    private App_Framework framework;
+    private AppFramework framework;
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -46,8 +55,6 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         else if (id == R.id.nav_about_us)
             launchAboutUsActivity();
 
-        else if (id == R.id.nav_settings)
-            launchSettingsActivity();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -67,7 +74,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         else if(item.getItemId() == R.id.menu_item_note)
             launchNoteActivity();
         else if(item.getItemId() == R.id.menu_item_reset)
-            mainView.reset();
+            framework.system_message_confirmAction("Reset Cipher text", "Resetting the cipher text is not reverseable, carry on?", (dialogInterface, i) -> mainView.reset());
         else if(item.getItemId() == R.id.menu_item_save)
             mainView.updateCipherTextToDB();
         return true;
@@ -98,7 +105,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        framework = new App_Framework(this, false);
+        framework = new AppFramework(this, false);
         overrideTheme();
 
         super.onCreate(savedInstanceState);
@@ -110,7 +117,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         setNavDrawer();
 
         setBundleForMainView(); //set parameters to be transferred to project view fragment
-        projectViewFragmentAdapter = new fragmentPagerAdapter(getSupportFragmentManager());
+        projectViewFragmentAdapter = new FragmentPagerAdapter(getSupportFragmentManager());
         setupViewPager(findViewById(R.id.viewPager_projectView));
 
         initializeAutosave();

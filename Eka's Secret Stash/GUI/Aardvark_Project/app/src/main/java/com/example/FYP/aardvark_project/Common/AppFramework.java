@@ -1,4 +1,10 @@
-package com.example.FYP.aardvark_project.GUI;
+/**
+ * Programmer: Eka Nugraha Pratama, Mark Christian Klass
+ *
+ * AppFramework contains the source code for GUI routines like "pop up window", "Toast message", as well as functions used by many different java files
+ * */
+
+package com.example.FYP.aardvark_project.Common;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -18,8 +24,9 @@ import android.widget.Toast;
 import android.widget.TextView;
 import android.content.Context;
 
+import com.example.FYP.aardvark_project.GUI.Activity_Settings;
 import com.example.FYP.aardvark_project.R;
-import com.example.FYP.aardvark_project.kryptoTools.Utility;
+import com.example.FYP.aardvark_project.Common.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +37,7 @@ import java.io.InputStreamReader;
  * This is class contains methods that simplifies the process of building the application
  */
 
-public class App_Framework
+public class AppFramework
 {
     private Context context;
 
@@ -42,7 +49,7 @@ public class App_Framework
 
     private EditText popup_inputText;
 
-    public App_Framework(Context context, boolean overrideTheme) {
+    public AppFramework(Context context, boolean overrideTheme) {
         this.context = context;
 
         if(overrideTheme)
@@ -70,7 +77,7 @@ public class App_Framework
      * Because setTheme() is called upon this object creation, this object must be called before super.OnCreate()
      * on each activity
      *
-     * #Note: For fragment, the point above does not matter
+     * #Note: For fragment classes, the point above does not matter
      * */
     private boolean getThemePreference() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -389,7 +396,9 @@ public class App_Framework
     }
 
 
-    /**Mark's Code
+    /**
+     *
+     * Programmer: Mark Christian Klass
      *
      * These are the functions necessary to apply changes to the cipher text,
      * while preserving the lines, symbols, and spaces of the original cipher text
@@ -454,7 +463,11 @@ public class App_Framework
         TEXT_COUNT = MODIFIED_TEXT.length();
     }
 
-    /**MY OWN DEFINED FUNCTION*/
+    /**
+     * Programmer: Eka Nugraha Pratama
+     *
+     * The functions below are my own defined function for using Mark's code in GUI activity
+     * */
     public void setMODIFIED_TEXT(String s)
     {
         MODIFIED_TEXT = s;

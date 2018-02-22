@@ -14,13 +14,19 @@
 package com.example.FYP.aardvark_project.Ciphers;
 
 
-import com.example.FYP.aardvark_project.kryptoTools.Cipher;
-import com.example.FYP.aardvark_project.kryptoTools.InvalidKeyException;
-import com.example.FYP.aardvark_project.kryptoTools.Utility;
+import com.example.FYP.aardvark_project.Analytics.Cipher;
+import com.example.FYP.aardvark_project.Analytics.InvalidKeyException;
+import com.example.FYP.aardvark_project.Common.Utility;
 
 public class Shift implements Cipher {
-    private final String cipherDescription = "Shifts the input by 'key'. Allows encryption & decryption.";
-    private final String cipherName = "Shift Cipher";
+    private final String NAME = "Shift Cipher";
+    private static final String DESC = "A common example of the Shift Cipher is the CAESAR CIPHER. It works by shifting" +
+            " the characters <x> characters to the right to encrypt it, and <x> characters to the left to decrypt." + "\n" +
+            "EXAMPLE" + "\n" +
+            "-------" + "\n" +
+            "KEY: 3" + "\n" +
+            "PT:  THIS IS THE PLAINTEXT" + "\n" +
+            "CT:  WKLV LV WKH SODLQWHAW";
 
     //public Shift(){}
 
@@ -102,11 +108,11 @@ public class Shift implements Cipher {
     }
 
     @Override
-    public String getDescription() { return cipherDescription; }
+    public String getDescription() { return DESC; }
 
     @Override
     public String getName() {
-        return cipherName;
+        return NAME;
     }
 
     @Override

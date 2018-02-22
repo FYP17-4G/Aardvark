@@ -1,3 +1,11 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for Introduction activity
+ * This activity is only called once upon fresh instalation of the application.
+ * (like a short application info and app tour guide)
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.Intent;
@@ -12,23 +20,17 @@ import com.hololo.tutorial.library.TutorialActivity;
 
 public class Activity_Introduction extends TutorialActivity {
 
-    private final String HEADER1 = "Welcome to CRYPTOAW";
-    private final String CONTENT1 = "Thank you for downloading CRYPTOAW.\n This application is developed by a team of students from University of Wollongong as our final year project";
-    private final String HEX1 = "#000080"; //navy blue
-    private final int IMAGE1 = R.drawable.ic_menu_camera;
-    private final String SUMMARY1 = "Lets get started!";
+    private final int IMG1 = R.mipmap.intro_welcome;
+    private final String HEX1 = "#9D9ABF";
 
-    private final String HEADER2 = "What this app has for you";
-    private final String CONTENT2 = "This application helps you analyze and break classical cryptography ciphers, with intuitive UI <more on this>";
-    private final String HEX2 = "#dcd9cd"; // milk white
-    private final int IMAGE2 = R.drawable.ic_menu_gallery;
-    private final String SUMMARY2 = "<Summary 2>";
+    private final int IMG2 = R.mipmap.intro_projects;
+    private final String HEX2 = "#E8C04F";
 
-    private final String HEADER3 = "Anything else?";
-    private final String CONTENT3 = "You can Encrypt and Decrypt texts and messages using various classical cryptography ciphers too";
-    private final String HEX3 = "#228B22"; //forest green
-    private final int IMAGE3 = R.drawable.ic_action_action_search;
-    private final String SUMMARY3 = "Use this to amaze your friends!";
+    private final int IMG3 = R.mipmap.intro_analytical_tools;
+    private final String HEX3 = "#D2514B";
+
+    private final int IMG4 = R.mipmap.intro_enc_dec;
+    private final String HEX4 = "#66A4C6";
 
     @Override
     public void finishTutorial() {
@@ -43,9 +45,11 @@ public class Activity_Introduction extends TutorialActivity {
 
         seenByUser();
 
-        addIntroFragment(HEADER1, CONTENT1, HEX1, IMAGE1, SUMMARY1); //layout 1
-        addIntroFragment(HEADER2, CONTENT2, HEX2, IMAGE2, SUMMARY2); //layout 2
-        addIntroFragment(HEADER3, CONTENT3, HEX3, IMAGE3, SUMMARY3); //layout 3
+        addIntroFragment(IMG1, HEX1);
+        addIntroFragment(IMG2, HEX2);
+        addIntroFragment(IMG3, HEX3);
+        addIntroFragment(IMG4, HEX4);
+
     }
 
     private void addIntroFragment(String title, String content, String hexBGColor, int drawable, String summary) {
@@ -57,6 +61,10 @@ public class Activity_Introduction extends TutorialActivity {
                 .build());
 
         super.getWindow().setNavigationBarColor(Color.parseColor(hexBGColor));
+    }
+
+    private void addIntroFragment(int drawable, String hex){
+        addFragment(new Step.Builder().setDrawable(drawable).setBackgroundColor(Color.parseColor(hex)).build());
     }
 
     /**

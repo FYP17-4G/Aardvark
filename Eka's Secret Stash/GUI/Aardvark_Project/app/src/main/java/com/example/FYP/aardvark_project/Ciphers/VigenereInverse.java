@@ -14,9 +14,9 @@
 
 package com.example.FYP.aardvark_project.Ciphers;
 
-import com.example.FYP.aardvark_project.kryptoTools.Cipher;
-import com.example.FYP.aardvark_project.kryptoTools.InvalidKeyException;
-import com.example.FYP.aardvark_project.kryptoTools.Utility;
+import com.example.FYP.aardvark_project.Analytics.Cipher;
+import com.example.FYP.aardvark_project.Analytics.InvalidKeyException;
+import com.example.FYP.aardvark_project.Common.Utility;
 
 public class VigenereInverse implements Cipher {
     private static final String DESC = "Inverse Vigenere Cipher";
@@ -74,12 +74,12 @@ public class VigenereInverse implements Cipher {
 
     @Override
     public String getDescription() {
-        return null;
+        return DESC;
     }
 
     @Override
     public String getName() {
-        return null;
+        return NAME;
     }
 
     @Override

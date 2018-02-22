@@ -1,9 +1,19 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * This class is responsible for managing the Recycler View in the Front page menu.
+ * RecyclerView = A "List" view that only renders entries if it is visible in the device's screen. This is good to prevent memory crash
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.animation.AnimatorInflater;
 import android.animation.StateListAnimator;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -20,6 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.example.FYP.aardvark_project.Common.AppFramework;
 import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 import com.example.FYP.aardvark_project.R;
 
@@ -39,7 +50,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     private Context context;
 
-    private App_Framework framework;
+    private AppFramework framework;
     private DatabaseFramework database;
 
     private Animation cardAnim;
@@ -54,7 +65,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
      @Override
      public viewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             context = viewGroup.getContext();
-            framework = new App_Framework(context, true);
+            framework = new AppFramework(context, true);
             database = new DatabaseFramework(context);
 
             LayoutInflater inflater = LayoutInflater.from(context);
@@ -89,7 +100,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         private TextView itemPreview;
         private TextView itemTitle; //this displays the project title, TextView is an xml element
         private FrameLayout itemContentFrame; //the CARD
-        private ConstraintLayout projectEditButton;
+        private FrameLayout projectEditButton;
         private Button projectEditButtonInner;
 
         private String id;
@@ -172,7 +183,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
          **/
         private void adjustTheme() {
             //set the card theme
-            if(new App_Framework(context, true).setTheme())
+            if(new AppFramework(context, true).setTheme())
             {
                 itemContentFrame.setBackgroundColor(context.getResources().getColor(R.color.cardview_dark_background));
                 itemTitle.setTextColor(context.getResources().getColor(R.color.dark_primaryTextColor));
@@ -253,7 +264,9 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             intent.putExtra("project_view_unique_ID", id);//this will pass on variables to the new activity, access it using the "name" (first param in this function)
             intent.putExtra("project_view_title", title);
 
-            context.startActivity(intent);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, itemPreview, ViewCompat.getTransitionName(itemPreview));
+
+            context.startActivity(intent, options.toBundle());
         }
 
         private void setOnTouchAnimation() {

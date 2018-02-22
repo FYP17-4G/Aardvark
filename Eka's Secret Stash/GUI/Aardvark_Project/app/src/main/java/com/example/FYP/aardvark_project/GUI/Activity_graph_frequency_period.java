@@ -1,3 +1,9 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for Frequency period activity that does the mapping of each character frequency of a given period
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.FYP.aardvark_project.Common.AppFramework;
 import com.example.FYP.aardvark_project.R;
-import com.example.FYP.aardvark_project.kryptoTools.Analysis;
-import com.example.FYP.aardvark_project.kryptoTools.FrequencyAnalysis;
+import com.example.FYP.aardvark_project.Analytics.Analysis;
+import com.example.FYP.aardvark_project.Analytics.FrequencyAnalysis;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -41,7 +48,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
 
     private String[] alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
-    private App_Framework framework;
+    private AppFramework framework;
 
     private CardView lowerCardView;
     private TextView sign;
@@ -51,7 +58,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_frequency_period);
 
-        framework = new App_Framework(this, true);
+        framework = new AppFramework(this, true);
 
         setGraph();
         setSeekBar();
@@ -75,6 +82,8 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
 
         setGraphLabel(alphabet);
         graph.addSeries(commonOccurenceSeries);
+
+        graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
     }
 
@@ -83,8 +92,10 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         seekBarIndicator = findViewById(R.id.period_indicator);
         periodButton = findViewById(R.id.period_button);
 
-        seekBarIndicator.setText("Period: 0");
-        periodButton.setText("Max Period: 0");
+        seekBarIndicator.setVisibility(View.GONE);
+        seekBar.setVisibility(View.GONE);
+
+        periodButton.setText("Set Period");
 
         seekBar.setProgress(0);
         seekBar.setMax(0);
@@ -92,13 +103,20 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if(seekBar.getProgress() > 0) {
-                    displayedCipherText = getCipherTextPeriodOf(cipherText, seekBar.getProgress(), seekBar.getProgress());
-                    seekBarIndicator.setText("Period: " + seekBar.getProgress());
-                    sign.setVisibility(View.GONE);
-                }
-                else
-                    sign.setVisibility(View.VISIBLE);
+                int progress = seekBar.getProgress() + 1;
+
+                displayedCipherText = getCipherTextPeriodOf(cipherText, progress, progress);
+                seekBarIndicator.setText("Period: " + progress);
+                sign.setVisibility(View.GONE);
+
+                LARGEST_FREQUENCY_VALUE = 0;
+
+                refresh();
+
+                /**Re adjust Graph' Y axis minimum and maximum value*/
+                graph.getViewport().setYAxisBoundsManual(true);
+                graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
+                graph.getViewport().setMinY(0);
             }
 
             @Override
@@ -107,17 +125,32 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                refresh();
             }
         });
 
         periodButton.setOnClickListener(view -> framework.popup_getNumber_show("Set Period", "Period key", (dialogInterface, i) -> {
-            int newVal = Integer.parseInt(framework.popup_getInput());
 
-            periodButton.setText("Max period: " + newVal);
-            seekBar.setMax(newVal);
-            seekBar.setProgress(0);
-            lowerCardView.setVisibility(View.VISIBLE);
+            if(framework.popup_getInput().isEmpty())
+                framework.system_message_small("Input cannot be empty");
+            else
+            {
+                int newVal = Integer.parseInt(framework.popup_getInput());
+                if(newVal > 1)
+                    newVal -= 1;
+
+                if(newVal < 1)
+                    framework.system_message_small("Invalid key input, the key value must be 1 or more");
+                else
+                {
+                    periodButton.setText("Period: " + newVal);
+                    seekBar.setMax(newVal);
+                    seekBar.setProgress(0);
+
+                    lowerCardView.setVisibility(View.VISIBLE);
+                    seekBarIndicator.setVisibility(View.VISIBLE);
+                    seekBar.setVisibility(View.VISIBLE);
+                }
+            }
         }, 0));
     }
 
@@ -141,8 +174,10 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         graph.getGridLabelRenderer().setLabelFormatter(staticLabels);
     }
 
+    /**This calculates letter frequency as well as displaying the results on screen*/
     private DataPoint[] calculateLetterFrequency(String input, int SEQUENCE_LENGTH) {
         frequencyAnalysis = FrequencyAnalysis.frequencyAnalysis(input, SEQUENCE_LENGTH);
+        frequencyAnalysis.sortPairListAlphabet();
 
         int dataLen = frequencyAnalysis.dataLength();
         if(dataLen > DATA_LIMIT)
@@ -182,14 +217,12 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
     }
 
     private void refresh() {
-        if(seekBar.getProgress() > 0) {
-            framework.format(displayedCipherText);
+        framework.format(displayedCipherText);
 
-            if(!displayedCipherText.isEmpty())
-                commonOccurenceSeries.resetData(calculateLetterFrequency(framework.getMODIFIED_TEXT(), 1)); //sequence length is 1 because we are mapping each character
+        if(!displayedCipherText.isEmpty())
+            commonOccurenceSeries.resetData(calculateLetterFrequency(framework.getMODIFIED_TEXT(), 1)); //sequence length is 1 because we are mapping each character
 
-            String[] temp = commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]);
-            setGraphLabel(temp);
-        }
+        String[] temp = commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]);
+        setGraphLabel(temp);
     }
 }

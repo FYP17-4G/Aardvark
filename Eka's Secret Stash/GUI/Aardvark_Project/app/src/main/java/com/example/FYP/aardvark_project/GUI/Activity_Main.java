@@ -1,9 +1,18 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for the Main activity (or the front page)
+ *
+ * This activity contains list of crypto projects
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +33,7 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.FYP.aardvark_project.Common.AppFramework;
 import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 import com.example.FYP.aardvark_project.R;
 
@@ -35,7 +45,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
     private static final int READ_REQUEST_CODE = 42;
 
-    private App_Framework framework;
+    private AppFramework framework;
     private DatabaseFramework database = new DatabaseFramework(this);
 
     private MainActivityAdapter adapter;
@@ -68,9 +78,6 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         else if (id == R.id.nav_about_us)
             launchAboutUsActivity();
 
-        else if (id == R.id.nav_settings)
-            launchSettingsActivity();
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -83,6 +90,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finish();
             System.exit(0); // EXIT THE APPLICATION NORMALLY
         }
     }
@@ -123,7 +131,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        framework = new App_Framework(this, false);
+        framework = new AppFramework(this, false);
         overrideTheme();
 
         super.onCreate(savedInstanceState);
@@ -212,7 +220,9 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
     private void setSearchBar() {
         /**set up the search bar*/
-        searchBar = findViewById(R.id.searchBar);
+        View searchBarView = findViewById(R.id.app_bar_include);
+
+        searchBar = searchBarView.findViewById(R.id.searchBar);
         searchBar.setHint("Search");
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -295,7 +305,32 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         Button getFromFile = newProjectView.findViewById(R.id.button_getCipherTextFromFile);
         getFromFile.setOnClickListener(view -> openFileBrowser()); //this function will call default device file browser
 
-        AlertDialog alertDialog = framework.popup_custom("Create new project", newProjectView, "create", "cancel", (dialogInterface, i) -> {
+        /**App will check if the title already exist on text change*/
+        newProjectTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(projectExist(newProjectTitle.getText().toString()))
+                {
+                    framework.system_message_small("Project title already exist");
+                    newProjectTitle.setTextColor(Color.RED);
+                }
+                else
+                    newProjectTitle.setTextColor(Color.BLACK);
+
+            }
+        });
+
+        framework.popup_custom("Create new project", newProjectView, "create", "cancel", (dialogInterface, i) -> {
 
             String projectTitle = newProjectTitle.getText().toString();
             String cipherText = cipherTextInput.getText().toString();
@@ -313,8 +348,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 getListFromDB();
                 adapter.notifyDataSetChanged();//refresh the adapter
             }
-            });
-        alertDialog.show();
+            }).show();
         }
 
     /**THIS FUNCTION WILL BE USED IN "MainActivityAdapter.java"*/

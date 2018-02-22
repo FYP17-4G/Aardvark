@@ -23,39 +23,41 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="108dp"
         android:layout_height="54dp"
-        android:layout_marginEnd="126dp"
-        android:layout_marginStart="126dp"
+        android:layout_marginBottom="62dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Undo"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_block_edit" />
+        app:layout_constraintStart_toEndOf="@+id/button_block_edit"
+        app:layout_constraintTop_toBottomOf="@+id/frequency_graph_period"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_block_edit"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="108dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="62dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Block Edit"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_undo"
-        app:layout_constraintEnd_toStartOf="@+id/button_permutation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_undo"
         app:layout_constraintStart_toEndOf="@+id/button_crypto_tools"
         app:layout_constraintTop_toBottomOf="@+id/frequency_graph_letter" />
 
     <Button
         android:id="@+id/button_crypto_tools"
-        style="@style/Widget.AppCompat.Button.Colored"
 
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="108dp"
-        android:layout_height="54dp"
 
+        android:layout_height="54dp"
         android:layout_marginBottom="62dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -63,12 +65,12 @@
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:text="Ciphers"
-        android:textColor="#ffffff"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_block_edit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_graphPopup" />
+        app:layout_constraintTop_toBottomOf="@+id/button_graphPopup"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_graphPopup"
@@ -80,7 +82,7 @@
         android:layout_marginTop="44dp"
         android:layout_weight="1"
         android:backgroundTint="@android:color/background_light"
-        android:text="Frequency Analysis"
+        android:text="Calculate IC"
         android:textSize="10sp"
         app:layout_constraintEnd_toStartOf="@+id/permutation_back"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +97,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Frequency Graph (Letter)"
+        android:text="N-gram Analysis"
         android:textSize="10sp"
         app:layout_constraintEnd_toStartOf="@+id/frequency_graph_period"
         app:layout_constraintStart_toEndOf="@+id/button_graphPopup"
@@ -109,26 +111,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
-        android:text="Frequency Graph (Period)"
+        android:text="Character frequency"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/permutation_back"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_permutation"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="108dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="62dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Permutation"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_block_edit"
-        app:layout_constraintTop_toBottomOf="@+id/frequency_graph_period" />
 
 </android.support.constraint.ConstraintLayout>

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import com.example.FYP.aardvark_project.GUI.FrontPageIdentifier;
 
-/**MAKE FUNCTIONS STATIC*/
 
 public class DatabaseFramework extends SQLiteOpenHelper
 {
@@ -53,8 +52,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
 
     }
 
-    private String command_CreateTable()
-    {
+    private String command_CreateTable() {
         return  "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " +
                     PROJECT_ID + " INT NOT NULL, " + // COLUMN 0
                     PROJECT_TITLE + " VARCHAR(20) NOT NULL, " + // COLUMN 1
@@ -64,8 +62,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
     }
 
     /**INSERT DATA INTO A COLUMN, THIS WILL CREATE ID+TITLE COMPOSITE*/
-    public void addNewComposite(String id, String title)
-    {
+    public void addNewComposite(String id, String title) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "INSERT INTO " + TABLE_NAME + "(" + PROJECT_ID + ", " + PROJECT_TITLE +") VALUES ( '" + id + "', '"+ title +"');";
@@ -74,8 +71,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
     }
 
     /**ADDS DATA INTO AN ALREADY EXISTING COLUMN*/
-    public void addData(String id, String title, String columnName, String data)
-    {
+    public void addData(String id, String title, String columnName, String data) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -88,8 +84,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
         db.execSQL(query);
     }
 
-    public void updateData(String id, String title, String columnName, String newData)
-    {
+    public void updateData(String id, String title, String columnName, String newData) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         columnName = checkColumnNaming(columnName);
@@ -99,8 +94,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
         db.execSQL(query);
     }
 
-    public void deleteEntry(String id, String title)
-    {
+    public void deleteEntry(String id, String title) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "DELETE FROM " + TABLE_NAME + " WHERE " +
@@ -111,8 +105,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
     /**
      * For adapter use, call this function to adapter use
      * */
-    public ArrayList<FrontPageIdentifier> getAllTitle()
-    {
+    public ArrayList<FrontPageIdentifier> getAllTitle() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //SELECT PROJECT_ID AND PROJECT_TITLE FROM TABLE_NAME
@@ -142,8 +135,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
     /**
      * THIS WILL RETURN THE NOTES DATA
      * */
-    public String getNotesData(String id, String title)
-    {
+    public String getNotesData(String id, String title) {
         Cursor cursor = getRawData(id, title, PROJECT_NOTES);
         cursor.moveToFirst();
         return cursor.getString(0);
@@ -154,24 +146,23 @@ public class DatabaseFramework extends SQLiteOpenHelper
      *
      * OriginalCText||change1||change2||change3
      * */
-    public String getCipherText(String id, String title)
-    {
+    public String getCipherText(String id, String title) {
         Cursor cursor = getRawData(id, title, PROJECT_ORIGINAL_CIPHER_TEXT);
         cursor.moveToFirst();
         return cursor.getString(0);
     }
 
-    public void updateCipherText(String id, String title, String newCText)
-    {
+    public void updateCipherText(String id, String title, String newCText) {
         updateData(id, title, "PROJECT_ORIGINAL_CIPHER_TEXT", newCText);
     }
 
     /**
      * This selects all column from the ID and the title
      * Do note this will always return ONE entry since (ID + title) is a composite
+     *
+     * Cursor = "Pointer" to the selected database column
      * */
-    private Cursor getRawData(String id, String title)
-    {
+    private Cursor getRawData(String id, String title) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "SELECT * FROM " + TABLE_NAME +
@@ -179,10 +170,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
                         "' AND " + PROJECT_TITLE +"='"+ title + "'";
         return db.rawQuery(query, null);
     }
-
-    //return
-    private Cursor getRawData(String id, String title, String columnName)
-    {
+    private Cursor getRawData(String id, String title, String columnName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "SELECT "+ columnName +" FROM " + TABLE_NAME +
@@ -192,8 +180,7 @@ public class DatabaseFramework extends SQLiteOpenHelper
         return db.rawQuery(query, null);
     }
 
-    private String checkColumnNaming(String columnName)
-    {
+    private String checkColumnNaming(String columnName) {
         String col = new String();
 
         switch(columnName)

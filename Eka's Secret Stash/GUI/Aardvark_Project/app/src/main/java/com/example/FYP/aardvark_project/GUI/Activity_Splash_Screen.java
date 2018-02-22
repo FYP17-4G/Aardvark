@@ -1,3 +1,11 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * This file contains the source code for splash screen. It displays a "picture" upon opening the application while
+ * other thread does the heavy lifting to set up the rest of the program. Once its done, the user will be navigated to the front page or the last project
+ * the user was at.
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.SharedPreferences;
@@ -11,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.FYP.aardvark_project.Common.AppFramework;
 import com.example.FYP.aardvark_project.R;
 
 public class Activity_Splash_Screen extends AppCompatActivity
@@ -18,7 +27,6 @@ public class Activity_Splash_Screen extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overrideTheme();
-
         super.onCreate(savedInstanceState);
 
         String text = "Krypto.exeⓒ: By Dr.Willy Susilo, University of Wollongong, This application is intended for School's Final Year Project <...more...>";
@@ -28,7 +36,7 @@ public class Activity_Splash_Screen extends AppCompatActivity
     }
 
     private void overrideTheme() {
-        if(new App_Framework(this, false).isDarkTheme())
+        if(new AppFramework(this, false).isDarkTheme())
             this.setTheme(R.style.DarkTheme_NoActionBar);
         else
             this.setTheme(R.style.AppTheme_NoActionBar);

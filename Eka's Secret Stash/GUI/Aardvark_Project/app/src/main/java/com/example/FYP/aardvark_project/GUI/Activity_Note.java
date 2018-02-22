@@ -1,3 +1,10 @@
+/**
+ * Programmer: Eka Nugraha Pratama
+ *
+ * Contains the source code for Notes (so the user can write their own notes for specified cryto project they are on).
+ * This activity is accessible through the project view
+ * */
+
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v7.app.AppCompatActivity;
@@ -5,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.example.FYP.aardvark_project.Common.AppFramework;
 import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 import com.example.FYP.aardvark_project.R;
 
@@ -36,7 +44,7 @@ public class Activity_Note extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new App_Framework(this, true);
+        new AppFramework(this, true);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
@@ -53,7 +61,7 @@ public class Activity_Note extends AppCompatActivity
 
         noteField = findViewById(R.id.editText_noteField);
 
-        setTitle("NOTE: "+this.title);
+        setTitle(this.title + " Notes");
     }
 
     private void saveNote() {
