@@ -226,15 +226,15 @@ public class Transposition
     return new String(temp);
   }
 
-  @Override
-  public Boolean checkKey(String key) {
-    int original = key.length();
-    key = removeDuplicates(key).trim();
-
-//    System.out.println("original = " + original);
-//    System.out.println("key.length() = " + key.length());
-    if (original != key.length()) return false;
-
-    return super.checkKey(key);
-  }
+//  @Override
+//  public Boolean checkKey(String key) {
+//    int original = key.length();
+//    key = removeDuplicates(key).trim();
+//
+////    System.out.println("original = " + original);
+////    System.out.println("key.length() = " + key.length());
+//    if (original != key.length()) return false;
+//
+//    return super.checkKey(key);
+//  }
 }

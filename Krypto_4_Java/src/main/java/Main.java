@@ -53,14 +53,17 @@ public final class Main {
     //Display results
     System.out.println("AFTER");
     System.out.println("=$$===");
-//    System.out.println(project.getModifiedText(3));
+
     System.out.println("project.print(5, 5, true)");
     System.out.println(project.print(5, 5, true));
+
     System.out.println("project.print(5, 5, false)");
     System.out.println(project.print(5, 5, false));
+
     System.out.println("project.print(0, 0, true)");
     System.out.println(project.print(0, 0, true) + "\n");
-    System.out.println("project.print(5, 5, false)");
+
+    System.out.println("project.print(0, 0, false)");
     System.out.println(project.print(0, 0, false) + "\n");
 
 //    //Perform decryption
