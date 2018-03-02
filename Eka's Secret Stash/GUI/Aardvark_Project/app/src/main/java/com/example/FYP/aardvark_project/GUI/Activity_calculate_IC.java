@@ -60,7 +60,6 @@ public class Activity_calculate_IC extends AppCompatActivity {
     private int period = 0;
 
     private TextView keyValueTextView;
-    private TextView keyInverseValueTextView;
     private String keyValue = new String();
 
     private String cipherTextWithCurrentPeriod = new String();
@@ -111,18 +110,6 @@ public class Activity_calculate_IC extends AppCompatActivity {
             if(!text.equals("[KEY]")){
                 copyToClip(text);
                 framework.system_message_small("Key copied to clipboard");
-                return true;
-            }
-            return false;
-        });
-
-        keyInverseValueTextView = findViewById(R.id.analysis_inverse_key_value);
-        keyInverseValueTextView.setOnLongClickListener(view -> {
-            String text = keyInverseValueTextView.getText().toString();
-
-            if(!text.equals("[KEY INVERSE]")){
-                copyToClip(text);
-                framework.system_message_small("Key Inverse copied to clipboard");
                 return true;
             }
             return false;
@@ -244,7 +231,6 @@ public class Activity_calculate_IC extends AppCompatActivity {
                         }
 
                         keyValueTextView.setText(out.toString().toUpperCase());
-                        keyInverseValueTextView.setText(keyValue);
                     }
                 } catch (InvalidKeyException e) {
                     framework.system_message_small(e.getMessage());
@@ -341,7 +327,6 @@ public class Activity_calculate_IC extends AppCompatActivity {
 
             keyValue = newKey;
             keyValueTextView.setText(newKey);
-            keyInverseValueTextView.setText(newKey);
         }
     }
 
