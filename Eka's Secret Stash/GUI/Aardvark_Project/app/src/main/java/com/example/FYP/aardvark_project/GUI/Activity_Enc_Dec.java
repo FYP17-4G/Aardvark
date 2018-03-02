@@ -1,9 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Contains the source code for "Encryption / Decryption" feature activity
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.app.Activity;

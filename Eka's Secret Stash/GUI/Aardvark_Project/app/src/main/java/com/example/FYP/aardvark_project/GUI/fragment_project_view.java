@@ -1,11 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * (This object is also instantiated in "Activity_Project_View")
- *
- * Contains the source code to set up the behavior and logic of Project view elements, sliding up view panel, and crypto tools
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.Intent;
@@ -857,13 +849,11 @@ public class Fragment_project_view extends Fragment {
     private void refresh(String val, int space, int line, boolean b) {
 
         Project project = new Project("", 0, originalCipherText);
-//        System.out.println("val = " + val);
         project.setModifiedText(val);
 
         System.out.println("VAL: " + val);
         System.out.println(" MT: " +  project.getModifiedText());
 
-//        System.out.println(cipherText);
         cipherText = project.print(space, line, b); //space == block size, line == blocks per line
         refresh();
     }

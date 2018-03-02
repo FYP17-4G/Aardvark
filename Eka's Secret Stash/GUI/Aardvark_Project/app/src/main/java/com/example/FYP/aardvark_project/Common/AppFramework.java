@@ -1,9 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama, Mark Christian Klass
- *
- * AppFramework contains the source code for GUI routines like "pop up window", "Toast message", as well as functions used by many different java files
- * */
-
 package com.example.FYP.aardvark_project.Common;
 
 import android.annotation.SuppressLint;

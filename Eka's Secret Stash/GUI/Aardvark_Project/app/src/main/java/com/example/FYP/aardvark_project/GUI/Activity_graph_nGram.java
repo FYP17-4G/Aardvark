@@ -1,9 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Contains the source code for Frequency letter activity that does the mapping of specified letter length (Singular character, bigram, trigram)
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +28,6 @@ import java.util.Collections;
 public class Activity_graph_nGram extends AppCompatActivity {
 
     private final int GRAPH_DATA_SERIES_LIMIT = 26;
-    private final int GRAPH_MAX_X = 26;
 
     private final int SINGULAR = 1;
     private final int BIGRAM = 2;
@@ -64,7 +57,7 @@ public class Activity_graph_nGram extends AppCompatActivity {
         framework = new AppFramework(this, true);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph_frequency_letter);
+        setContentView(R.layout.activity_graph_ngram);
 
         cipherText = getIntent().getStringExtra("cipherText");
 
@@ -89,38 +82,25 @@ public class Activity_graph_nGram extends AppCompatActivity {
 
         graph.getGridLabelRenderer().setTextSize(25);
 
-        graph.getViewport().setXAxisBoundsManual(false);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(GRAPH_MAX_X);
-
+        graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
+
         graph.getViewport().setMinY(0);
 
-        graph.getViewport().setScrollable(true); //enables horizontal scrolling
+        //graph.getViewport().setScrollable(true); //enables horizontal scrolling
 
         graph.setTitle("Top 26 N-Gram frequency");
     }
 
     private void setGraphLabel(String[] label) {
 
-        /*graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX)
-                    return label[(int)value];
-                else
-                    return super.formatLabel(value, isValueX);
-            }
-        });*/
-
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(label);
 
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
-        graph.getGridLabelRenderer().setHorizontalLabelsAngle(40);
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(90);
+        graph.getGridLabelRenderer().setLabelsSpace(20);
     }
 
     /**
@@ -141,15 +121,10 @@ public class Activity_graph_nGram extends AppCompatActivity {
 
         int dataLen = frequencyAnalysis.dataLength();
 
-        if(dataLen > GRAPH_DATA_SERIES_LIMIT)
-            dataLen = GRAPH_DATA_SERIES_LIMIT;
-
-        DataPoint[] dp = new DataPoint[dataLen];
 
         LinearLayout layout = findViewById(R.id.frequency_letter_linear_layout);
 
         layout.removeAllViews();
-        commonOccurenceWords.clear();
         tempList.clear();
 
         for(int i = 0; i < dataLen; i++) {
@@ -168,14 +143,30 @@ public class Activity_graph_nGram extends AppCompatActivity {
                 if(Integer.parseInt(tempList.get(j).second) > Integer.parseInt(tempList.get(i).second))
                     Collections.swap(tempList, i, j);
 
+        /**
+         * Add the frequency result to the detail list (the bottom card view)
+         * */
+        for(mPair<String, String> pair: tempList)
+            addDetailList(layout, pair.first, pair.second); //add to details view layout
+
+        /**
+         * Add the frequency result to the graph view
+         * but only shows the top 26 results (26 == the value of GRAPH_DATA_SERIES_LIMIT)
+         * */
         commonOccurenceWords.clear();
-        dp = new DataPoint[dataLen];
+        DataPoint[] dp = new DataPoint[GRAPH_DATA_SERIES_LIMIT - 1];
+
+        if(dataLen < GRAPH_DATA_SERIES_LIMIT)
+            dp = new DataPoint[dataLen];
+
         int count = 0;
         for(mPair<String, String> pair: tempList){
-            addDetailList(layout, pair.first, pair.second); //add to details view layout
+            if(count >= GRAPH_DATA_SERIES_LIMIT - 1)
+                break;
+
             dp[count] = new DataPoint(count, Integer.parseInt(pair.second)); //add the FREQUENCY of a word
             commonOccurenceWords.add(pair.first); //add the word
-            count ++;
+            count++;
         }
 
         graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);

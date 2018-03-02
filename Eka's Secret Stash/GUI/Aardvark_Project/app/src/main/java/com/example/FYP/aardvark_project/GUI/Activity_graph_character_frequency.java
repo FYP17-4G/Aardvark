@@ -1,9 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Contains the source code for Frequency period activity that does the mapping of each character frequency of a given period
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v7.app.AppCompatActivity;
@@ -56,7 +50,7 @@ public class Activity_graph_character_frequency extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph_frequency_period);
+        setContentView(R.layout.activity_graph_char_frequency);
 
         framework = new AppFramework(this, true);
 

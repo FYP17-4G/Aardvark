@@ -1,11 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * This file contains the source code for splash screen. It displays a "picture" upon opening the application while
- * other thread does the heavy lifting to set up the rest of the program. Once its done, the user will be navigated to the front page or the last project
- * the user was at.
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.SharedPreferences;

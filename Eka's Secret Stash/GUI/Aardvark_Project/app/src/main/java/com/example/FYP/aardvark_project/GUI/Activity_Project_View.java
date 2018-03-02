@@ -1,12 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * This is the activity for crypto projects. This activity only does the initialization of the view layout behaviour (e.g: navigation panel, the "triple dot" button
- * at the upper left of the screen, etc)
- *
- * For the source code that does the set up of the actual crypto tools, see "Fragment_project_view"
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.Intent;
@@ -32,7 +23,7 @@ import java.util.TimerTask;
 
 public class Activity_Project_View extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-    private final int AUTOSAVE_DURATION_MILISECOND = 60000*3; // one minute 60000
+    private final int AUTOSAVE_DURATION_MILISECOND = 60000; // one minute 60000
 
     private final Handler handler = new Handler(); //autosave thread handler
     private Timer timer = new Timer(); //timer autosvaes scheduling, timer is inside the handler

@@ -1,11 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Contains the source code for Frequency analysis
- * By comparing the text IC of a certain period against normal distribution of english letter
- * to figure out monoalphabetic cipher key (such as vigenere and beaufort)
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.animation.AnimatorInflater;
@@ -19,9 +11,7 @@ import android.support.v7.widget.CardView;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -93,7 +83,7 @@ public class Activity_calculate_IC extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_graph_analysis);
+        setContentView(R.layout.activity_graph_calculate_ic);
 
         analysisPeriodCardView = findViewById(R.id.analysis_period_card_view);
 

@@ -1,11 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Contains the source code for Introduction activity
- * This activity is only called once upon fresh instalation of the application.
- * (like a short application info and app tour guide)
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.Intent;

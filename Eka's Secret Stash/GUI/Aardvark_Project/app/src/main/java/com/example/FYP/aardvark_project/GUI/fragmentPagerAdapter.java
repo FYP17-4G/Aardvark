@@ -1,11 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * Responsible for managing tabbed view in Project View Activity
- *
- * ## Tabbed view only has "Fragment_project_view"
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.support.v4.app.Fragment;

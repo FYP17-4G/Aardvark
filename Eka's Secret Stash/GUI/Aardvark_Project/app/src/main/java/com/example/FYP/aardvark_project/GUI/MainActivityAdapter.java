@@ -1,10 +1,3 @@
-/**
- * Programmer: Eka Nugraha Pratama
- *
- * This class is responsible for managing the Recycler View in the Front page menu.
- * RecyclerView = A "List" view that only renders entries if it is visible in the device's screen. This is good to prevent memory crash
- * */
-
 package com.example.FYP.aardvark_project.GUI;
 
 import android.animation.AnimatorInflater;
