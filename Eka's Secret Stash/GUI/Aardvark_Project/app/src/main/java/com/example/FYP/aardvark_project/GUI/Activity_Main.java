@@ -241,13 +241,15 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
     /**Filters the recycler view container to only contain words in the search bar*/
     private void filter(String input) {
-        ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
+        if(!input.isEmpty()){
+            ArrayList<FrontPageIdentifier> filteredTitle = new ArrayList();
 
-        for(FrontPageIdentifier item: projectTitle)
-            if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
-                filteredTitle.add(item);
+            for(FrontPageIdentifier item: projectTitle)
+                if(item.getTitle().toLowerCase().contains(input.toLowerCase()))
+                    filteredTitle.add(item);
 
-        adapter.filterList(filteredTitle);
+            adapter.filterList(filteredTitle);
+        }
     }
 
     /**CALL THIS FUNCTION DURING STARTUP AND WHEN THERE IS ANY UPDATE TO THE DATABASE TABLE*/
