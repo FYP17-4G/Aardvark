@@ -165,6 +165,8 @@ public class Project {
    */
   public void setModifiedText(final String newModifiedText) {
     modifiedText = sanitizeString(newModifiedText);
+//        modifiedText = newModifiedText;
+
   }
 
   /**
@@ -323,6 +325,8 @@ public class Project {
     } else {
       data = modifiedText;
 
+      System.out.println("DATA = "+ data);
+
       int currentCharacter = 0;
       int counter = 0;
       int lineCounter = 0;
@@ -330,8 +334,10 @@ public class Project {
       StringBuilder modifiedLine = new StringBuilder();
 
       for (Character c : sanitizedText.toCharArray()) {
-        originalLine.append(c);
-        modifiedLine.append(data.charAt(currentCharacter++));
+        originalLine.append(sanitizedText.charAt(currentCharacter));
+        modifiedLine.append(data.charAt(currentCharacter));
+
+        ++currentCharacter;
 
         if (++counter == blockSize) {
           if (showOriginalText)

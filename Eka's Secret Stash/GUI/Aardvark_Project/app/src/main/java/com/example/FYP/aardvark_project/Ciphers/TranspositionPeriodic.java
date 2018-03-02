@@ -10,8 +10,8 @@ public class TranspositionPeriodic
         implements CipherInterface {
 
 
-    private static final String DESC = "Periodic Transposition Cipher";
     private static final String NAME = "Periodic Transposition Cipher";
+    private static final String DESC = "Characters are split into blocks, the re-arranged according to the permutations described by either the permutation or key (whichever is being provided).";
 
     @Override
     public String encrypt(String plaintext, String key) {

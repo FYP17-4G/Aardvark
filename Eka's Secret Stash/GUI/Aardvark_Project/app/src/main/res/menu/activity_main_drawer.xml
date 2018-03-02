@@ -6,15 +6,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_frontPage"
-            android:icon="@mipmap/ic_home_black_24dp"
-            android:title="Front Page" />
+            android:title="Project Manager" />
         <item
             android:id="@+id/nav_encryption_decryption"
-            android:icon="?android:attr/fingerprintAuthDrawable"
             android:title="Quick Encryption / Decryption" />
         <item
             android:id="@+id/nav_about_us"
-            android:icon="@android:drawable/ic_dialog_info"
-            android:title="About us" />
+            android:title="Credits" />
+        <item
+            android:id="@+id/nav_intro_page"
+            android:title="Introduction page" />
     </group>
 </menu>

@@ -264,3 +264,25 @@ Encryption / Decryption feature
 + Minor UI tweaks and error handlings
 	- Changed font family on some of the text view elements
 + Updated the Introduction activity UI elements 
+
+<23 February 2018>
++ Bug fixes
++ Changed colour schemes and some UI elements
+
+<25 February 2018>
++ Re changed the colour schemes
++ Tidied up some of the codes
+
+<26 February 2018>
++ Fixed a bug at "Calculate IC" analysis tool that causes incorrect value
++ Fixed a bug when adding and removing IC of period N card view
++ Fixed typo in some activity title
++ Updated Splash screen image
++ Added "Launch introduction activity" to navigation bar
+
+<28 February 2018>
++ Some minor UI tweaks and changes
+
+<1 March 2018>
++ Added share button function on quick encryption / decryption
++ added sort by frequency on the N-gram analysis

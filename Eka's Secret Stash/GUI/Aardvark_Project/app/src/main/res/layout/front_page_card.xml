@@ -14,6 +14,8 @@
         android:layout_width="0dp"
         android:layout_height="190dp"
 
+        android:backgroundTint="@color/charcoalLight"
+
         android:layout_marginBottom="4dp"
 
         android:layout_marginTop="4dp"
@@ -43,7 +45,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="monospace"
                 android:text="PREVIEW"
-                android:textColor="@color/cardview_dark_background"
+                android:textColor="@color/dark_primaryTextColor"
                 android:textSize="10sp"
                 android:transitionName="project_view_transition"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
@@ -55,7 +57,6 @@
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#36454f"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/card_preview">
 
@@ -68,7 +69,7 @@
                     android:padding="16dp"
                     android:text="TITLE"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/dark_primaryTextColor"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +86,7 @@
                     <Button
                         android:id="@+id/card_button_inner"
                         style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="28dp"
+                        android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="16dp"
@@ -93,7 +94,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:layout_weight="1"
-                        android:background="@mipmap/ic_more_vert_white_24dp"
+                        android:background="@mipmap/ic_more_vert_black_24dp"
                         android:paddingRight="8dp"
                         android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
                         android:textSize="8sp"

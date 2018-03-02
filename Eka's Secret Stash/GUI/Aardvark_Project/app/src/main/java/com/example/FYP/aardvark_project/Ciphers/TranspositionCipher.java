@@ -8,8 +8,6 @@ import java.util.List;
 public class TranspositionCipher
         extends AbstractBlockCipher
         implements CipherInterface {
-
-
     private static final String NAME = "Transposition Cipher";
     private static final String DESC = "Transposition cipher is a method of encryption by which the plaintext are shifted" +
             "according to a regular system, so that the ciphertext constitutes a permutation of the plaintext. " +
@@ -227,15 +225,15 @@ public class TranspositionCipher
         return new String(temp);
     }
 
-    @Override
-    public Boolean checkKey(String key) {
-        int original = key.length();
-        key = removeDuplicates(key).trim();
+  @Override
+  public Boolean checkKey(String key) {
+    int original = key.length();
+    key = removeDuplicates(key).trim();
 
-//    System.out.println("original = " + original);
-//    System.out.println("key.length() = " + key.length());
-        if (original != key.length()) return false;
+    System.out.println("original = " + original);
+    System.out.println("key.length() = " + key.length());
+    if (original != key.length()) return false;
 
-        return super.checkKey(key);
-    }
+    return super.checkKey(key);
+  }
 }

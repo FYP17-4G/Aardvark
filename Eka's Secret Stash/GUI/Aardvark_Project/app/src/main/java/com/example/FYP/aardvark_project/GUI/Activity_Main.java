@@ -77,6 +77,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
 
         else if (id == R.id.nav_about_us)
             launchAboutUsActivity();
+        else if(id == R.id.nav_intro_page)
+            launchIntroActivity();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -260,7 +262,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     protected void getListFromDB() {
         projectTitle = database.getAllTitle();
         if(!projectTitle.isEmpty()) {
-            findViewById(R.id.text_view_empty).setVisibility(View.GONE);
+            findViewById(R.id.image_empty).setVisibility(View.GONE);
 
             adapter = new MainActivityAdapter(projectTitle);
 
@@ -268,7 +270,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 list.setAdapter(adapter);
         }
         else if(projectTitle.isEmpty())
-            findViewById(R.id.text_view_empty).setVisibility(View.VISIBLE);
+            findViewById(R.id.image_empty).setVisibility(View.VISIBLE);
 
         /**SET THE VISIBILITY OF THE SEARCH BAR, IF THERE IS NOTHING IN THE ADAPTER, DONT DISPLAY THE SEARCH BAR
          * */
@@ -289,8 +291,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private void launchAboutUsActivity() {
         this.startActivity(new Intent(this, Activity_About_Us.class));
     }
-    private void launchSettingsActivity() {
-        this.startActivity(new Intent(this, Activity_Settings.class));
+    private void launchIntroActivity(){
+        this.startActivity(new Intent(this, Activity_Introduction.class));
     }
 
     private void createNewProject() {
@@ -325,7 +327,7 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                     newProjectTitle.setTextColor(Color.RED);
                 }
                 else
-                    newProjectTitle.setTextColor(Color.BLACK);
+                    newProjectTitle.setTextColor(getResources().getColor(R.color.dark_primaryTextColor));
 
             }
         });

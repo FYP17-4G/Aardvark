@@ -26,7 +26,7 @@ import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
 
-public class Activity_graph_frequency_period extends AppCompatActivity {
+public class Activity_graph_character_frequency extends AppCompatActivity {
 
     private final int DATA_LIMIT = 26; // A - Z
 
@@ -69,8 +69,11 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         sign = findViewById(R.id.frequency_period_sign);
         sign.setVisibility(View.VISIBLE);
 
-        graph.setTitle("Frequency Graph (Period)");
-        this.setTitle("Frequency Graph (Period)");
+        this.setTitle("Character Frequency");
+
+        /**set the default period to 1*/
+        calculatePeriod(1);
+        displayPeriodOnGraph(1);
     }
 
     private void setGraph() {
@@ -95,7 +98,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         seekBarIndicator.setVisibility(View.GONE);
         seekBar.setVisibility(View.GONE);
 
-        periodButton.setText("Set Period");
+        periodButton.setText("Period: 1");
 
         seekBar.setProgress(0);
         seekBar.setMax(0);
@@ -103,20 +106,7 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int progress = seekBar.getProgress() + 1;
-
-                displayedCipherText = getCipherTextPeriodOf(cipherText, progress, progress);
-                seekBarIndicator.setText("Period: " + progress);
-                sign.setVisibility(View.GONE);
-
-                LARGEST_FREQUENCY_VALUE = 0;
-
-                refresh();
-
-                /**Re adjust Graph' Y axis minimum and maximum value*/
-                graph.getViewport().setYAxisBoundsManual(true);
-                graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
-                graph.getViewport().setMinY(0);
+                displayPeriodOnGraph(seekBar.getProgress() + 1);
             }
 
             @Override
@@ -133,25 +123,40 @@ public class Activity_graph_frequency_period extends AppCompatActivity {
             if(framework.popup_getInput().isEmpty())
                 framework.system_message_small("Input cannot be empty");
             else
-            {
-                int newVal = Integer.parseInt(framework.popup_getInput());
-                if(newVal > 1)
-                    newVal -= 1;
-
-                if(newVal < 1)
-                    framework.system_message_small("Invalid key input, the key value must be 1 or more");
-                else
-                {
-                    periodButton.setText("Period: " + newVal);
-                    seekBar.setMax(newVal);
-                    seekBar.setProgress(0);
-
-                    lowerCardView.setVisibility(View.VISIBLE);
-                    seekBarIndicator.setVisibility(View.VISIBLE);
-                    seekBar.setVisibility(View.VISIBLE);
-                }
-            }
+                calculatePeriod(Integer.parseInt(framework.popup_getInput()));
         }, 0));
+    }
+
+    private void displayPeriodOnGraph(int progress){
+        displayedCipherText = getCipherTextPeriodOf(cipherText, progress, progress);
+        seekBarIndicator.setText("Period: " + progress);
+        sign.setVisibility(View.GONE);
+
+        LARGEST_FREQUENCY_VALUE = 0;
+
+        refresh();
+
+        /**Re adjust Graph' Y axis minimum and maximum value*/
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
+        graph.getViewport().setMinY(0);
+    }
+
+    private void calculatePeriod(int newVal){
+        if(newVal < 1)
+            framework.system_message_small("Invalid key input, the key value must be 1 or more");
+        else
+        {
+            periodButton.setText("Period: " + newVal);
+
+            seekBar.setMax(newVal - 1);
+
+            seekBar.setProgress(0);
+
+            lowerCardView.setVisibility(View.VISIBLE);
+            seekBarIndicator.setVisibility(View.VISIBLE);
+            seekBar.setVisibility(View.VISIBLE);
+        }
     }
 
     private String getCipherTextPeriodOf(String input, int startFrom, int periodValue) {

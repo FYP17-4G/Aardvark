@@ -2,6 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/enc_dec_menu_copy_to_clipboard"
+        android:title="Copy to Clipboard" />
+    <item
+        android:id="@+id/enc_dec_menu_paste_from_clipboard"
+        android:title="Paste from clipboard" />
+    <item
         android:id="@+id/enc_dec_menu_read_from_file"
         android:title="Read from text file" />
+    <item
+        android:id="@+id/enc_dec_menu_share"
+        android:title="Share cipher text" />
 </menu>

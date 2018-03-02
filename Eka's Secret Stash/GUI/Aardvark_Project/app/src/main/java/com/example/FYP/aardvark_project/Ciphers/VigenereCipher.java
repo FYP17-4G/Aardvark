@@ -21,11 +21,11 @@ public class VigenereCipher extends AbstractCipher implements CipherInterface {
     /**
      * Holds the description of the Viginere Cipher.
      */
-    private static final String DESC = "Additive Vigenere Cipher";
+    private static final String DESC = "Performs modulo addition on the value of each plaintext character with the corresponding value of the character in the key, where the key is repeated to provide enough characters.";
     /**
      * Holds the name of the Viginere Cipher.
      */
-    private static final String NAME = "Additive Vigenere Cipher";
+    private static final String NAME = "Vigenere Cipher";
 
     @Override
     public String encrypt(String plaintext, String key) {

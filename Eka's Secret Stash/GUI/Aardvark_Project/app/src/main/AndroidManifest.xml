@@ -34,15 +34,15 @@
             android:label="@string/title_activity_gui_about_us"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GUI.Activity_graph_Analysis"
+            android:name=".GUI.Activity_calculate_IC"
             android:label="Frequency Analysis"
             android:theme="@style/AppTheme" />
         <activity android:name=".GUI.Activity_Note" />
         <activity
             android:name=".GUI.Activity_Settings"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".GUI.Activity_graph_frequency_letter" />
-        <activity android:name=".GUI.Activity_graph_frequency_period" />
+        <activity android:name=".GUI.Activity_graph_nGram" />
+        <activity android:name=".GUI.Activity_graph_character_frequency" />
         <activity android:name=".GUI.Activity_Introduction"></activity>
     </application>
 

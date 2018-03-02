@@ -43,6 +43,7 @@ import com.example.FYP.aardvark_project.R;
 
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.viewHolder>
 {
+    private int ORIGINAL_CARD_ANIM_DURATION;
     private int INITIAL_CARD_ANIM_DURATION = 450;
     private final int CARD_ANIM_DURATION_INCREMENT = 100;
 
@@ -57,10 +58,10 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     private View view;
 
-    public MainActivityAdapter(ArrayList<FrontPageIdentifier> n)
-        {
+    public MainActivityAdapter(ArrayList<FrontPageIdentifier> n) {
             this.projectTitle = n;
-        }
+            ORIGINAL_CARD_ANIM_DURATION = INITIAL_CARD_ANIM_DURATION;
+    }
 
      @Override
      public viewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -77,10 +78,9 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
 
     @Override
-    public void onBindViewHolder(viewHolder holder, int position)
-        {
-            holder.bind(position);
-        }
+    public void onBindViewHolder(viewHolder holder, int position) {
+        holder.bind(position);
+    }
 
     @Override
     public int getItemCount()
@@ -91,6 +91,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
     /**Accepts filtered list container(from a function that does this in the Main View), and assign it this class's FrontPageIdentifier list*/
     public void filterList(ArrayList<FrontPageIdentifier> filteredList) {
         projectTitle = filteredList;
+        INITIAL_CARD_ANIM_DURATION = ORIGINAL_CARD_ANIM_DURATION;
         notifyDataSetChanged();
     }
 

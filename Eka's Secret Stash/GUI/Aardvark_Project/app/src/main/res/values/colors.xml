@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--LIGHT THEME-->
-    <color name="colorPrimary">#F8F7F4</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#000080</color>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
+    <color name="colorAccent">#FF5252</color>
     <color name="black_overlay">#66f0f0f0</color>
     <color name="lightwhite_overlay">#66bababa</color>
-    <color name="primaryTextColor">#343d46</color>
+    <color name="primaryTextColor">#36454f</color>
+
+    <!--Original Charcoal: #bdbdbd-->
+    <color name="charcoal">#bdbdbd</color>
+    <color name="charcoalLight">#ededed</color>>
 
     <!--DARK THEME-->
-    <color name="dark_primaryColor">#263238</color>
-    <color name="dark_primaryLightColor">#4f5b62</color>
+    <color name="dark_primaryColor">#36454f</color>
+    <color name="dark_primaryLightColor">#757575</color>
     <color name="dark_primaryDarkColor">#000a12</color>
-    <color name="dark_secondaryColor">#bf360c</color>
-    <color name="dark_secondaryLightColor">#f9683a</color>
-    <color name="dark_secondaryDarkColor">#870000</color>
-    <color name="dark_primaryTextColor">#ffffff</color>
-    <color name="dark_secondaryTextColor">#ffffff</color>
+    <color name="dark_secondaryColor">#FFA500</color>
+    <color name="dark_secondaryLightColor">#FFA500</color>
+    <color name="dark_secondaryDarkColor">#FFA500</color>
+    <color name="dark_primaryTextColor">#36454f</color>
+    <color name="dark_secondaryTextColor">#36454f</color>
 
     <!--TRANSPARENT-->
     <!--

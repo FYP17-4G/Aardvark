@@ -18,7 +18,7 @@ public class BeaufortVariantCipher
         extends AbstractCipher
         implements CipherInterface {
 
-    private static final String NAME = "Variant Beaufort Cipher";
+    private static final String NAME = "Beaufort Variant Cipher";
     private static final String DESC = "The Variant Beaufort Cipher is a substitution cipher, similar to the Vigenere " +
             "Cipher, and is a variant on the usual Beaufort." + "\n" +
             "EXAMPLE" + "\n" +

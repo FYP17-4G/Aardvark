@@ -32,6 +32,11 @@ import java.util.TimerTask;
 
 public class Activity_Project_View extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
+    private final int AUTOSAVE_DURATION_MILISECOND = 60000*3; // one minute 60000
+
+    private final Handler handler = new Handler(); //autosave thread handler
+    private Timer timer = new Timer(); //timer autosvaes scheduling, timer is inside the handler
+
     private String projectUniqueID = new String();
     private String projectTitle = new String();
 
@@ -54,7 +59,8 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
 
         else if (id == R.id.nav_about_us)
             launchAboutUsActivity();
-
+        else if(id == R.id.nav_intro_page)
+            launchIntroActivity();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -74,7 +80,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
         else if(item.getItemId() == R.id.menu_item_note)
             launchNoteActivity();
         else if(item.getItemId() == R.id.menu_item_reset)
-            framework.system_message_confirmAction("Reset Cipher text", "Resetting the cipher text is not reverseable, carry on?", (dialogInterface, i) -> mainView.reset());
+            framework.system_message_confirmAction("Reset Cipher text", "Resetting the cipher text is not reversible, carry on?", (dialogInterface, i) -> mainView.reset());
         else if(item.getItemId() == R.id.menu_item_save)
             mainView.updateCipherTextToDB();
         return true;
@@ -83,6 +89,9 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mainView.updateCipherTextToDB();
+        handler.removeCallbacks(null); //stops the autosave thread
+        timer.cancel();
         backToList();
     }
 
@@ -131,8 +140,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     }
 
     private void initializeAutosave() {
-        final Handler handler = new Handler();
-        Timer timer = new Timer();
+
         TimerTask doAsynchronousTask = new TimerTask() {
             @Override
             public void run() {
@@ -148,7 +156,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
             }
         };
 
-        timer.schedule(doAsynchronousTask, 600000); //autosaves every 10 minutes
+        timer.schedule(doAsynchronousTask, AUTOSAVE_DURATION_MILISECOND); //perform autosaves every N miliseconds
     }
 
     /**Functions for onCreate()*/
@@ -219,7 +227,7 @@ public class Activity_Project_View extends AppCompatActivity implements Navigati
     private void launchAboutUsActivity() {
         this.startActivity(new Intent(this, Activity_About_Us.class));
     }
-    private void launchSettingsActivity() {
-        this.startActivity(new Intent(this, Activity_Settings.class));
+    private void launchIntroActivity(){
+        this.startActivity(new Intent(this, Activity_Introduction.class));
     }
 }

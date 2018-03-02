@@ -27,11 +27,11 @@ package com.example.FYP.aardvark_project.Ciphers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RectangularKeyTransposition 
+public class RectangularKeySubstitution
     extends AbstractBlockCipher 
     implements CipherInterface {
 
-    private static final String NAME = "Rectangular Key Transposition Cipher";
+    private static final String NAME = "Rectangular Key Substitution Cipher";
     private static final String DESC = "The Variant Beaufort Cipher is a substitution cipher, similar to the Vigenere " +
             "Cipher, and is a variant on the usual Beaufort." + "\n" +
             "EXAMPLE" + "\n" +

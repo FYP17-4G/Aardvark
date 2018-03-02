@@ -9,6 +9,7 @@
 package com.example.FYP.aardvark_project.GUI;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,8 +30,7 @@ public class Activity_Splash_Screen extends AppCompatActivity
         overrideTheme();
         super.onCreate(savedInstanceState);
 
-        String text = "Krypto.exeⓒ: By Dr.Willy Susilo, University of Wollongong, This application is intended for School's Final Year Project <...more...>";
-        setBottomText(text);
+        getWindow().setNavigationBarColor(Color.WHITE);
 
         launchApp();
     }
@@ -40,12 +40,6 @@ public class Activity_Splash_Screen extends AppCompatActivity
             this.setTheme(R.style.DarkTheme_NoActionBar);
         else
             this.setTheme(R.style.AppTheme_NoActionBar);
-    }
-
-    private void setBottomText(String text) {
-        View view = getLayoutInflater().inflate(R.layout.activity_splash_full_screen, null);
-        TextView bottomText = view.findViewById(R.id.copyright_text_view);
-        bottomText.setText(text);
     }
 
     private void launchApp() {

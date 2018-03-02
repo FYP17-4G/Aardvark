@@ -72,7 +72,7 @@ public class BeaufortCipher extends AbstractCipher implements CipherInterface {
             return out.toString();
         }
 
-        return "Failed";
+        return "Failed.";
     }
 
     @Override

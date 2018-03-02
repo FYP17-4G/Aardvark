@@ -17,7 +17,6 @@ package com.example.FYP.aardvark_project.Analytics;
 import java.util.*;
 
 public class FrequencyAnalysis {
-
     public static Analysis frequencyAnalysis (String data, Integer sequenceLength) {
         String checkSequence, currentSequence;
         Set<String> sequenceSet = new HashSet<>();
@@ -49,6 +48,8 @@ public class FrequencyAnalysis {
             }
         }
 
+        //quick and dirty fix, since the last element isn't updating.
+        ++seqCounter[seqCounter.length - 1];
         ArrayList<Integer> sequenceCounter = new ArrayList<>(Arrays.asList(seqCounter));
 
         analysis = new Analysis(data, sequences, sequenceCounter);

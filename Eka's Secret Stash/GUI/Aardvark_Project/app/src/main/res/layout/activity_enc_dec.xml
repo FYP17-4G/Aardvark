@@ -15,7 +15,6 @@
 
         <include
             layout="@layout/project_view_app_bar"
-            layout_width="match_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -25,6 +24,7 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/enc_dec_top_card_view"
+                android:backgroundTint="@color/charcoalLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -65,41 +65,18 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
-                                    android:fontFamily="monospace"
-                                    android:padding="18dp" />
+                                    android:fontFamily="monospace" />
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
 
                     </FrameLayout>
 
-                    <Button
-                        android:id="@+id/button_paste_from_clip"
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:background="?android:attr/actionModePasteDrawable"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/upperLayout" />
-
-                    <Button
-                        android:id="@+id/button_copy_to_clip"
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="16dp"
-                        android:background="?android:attr/actionModeCopyDrawable"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/upperLayout" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/enc_dec_bottom_card_view"
+                android:backgroundTint="@color/charcoalLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/enc_dec_top_card_view"
@@ -133,7 +110,10 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:ems="10"
-                        android:inputType="textPersonName"
+
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                        android:inputType="textFilter"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"

@@ -36,7 +36,7 @@ import android.content.ClipboardManager;
 import android.content.ClipData;
 
 import com.example.FYP.aardvark_project.Ciphers.*;
-import com.example.FYP.aardvark_project.Ciphers.RectangularKeyTransposition;
+import com.example.FYP.aardvark_project.Ciphers.RectangularKeySubstitution;
 import com.example.FYP.aardvark_project.Common.AppFramework;
 import com.example.FYP.aardvark_project.R;
 import com.example.FYP.aardvark_project.Analytics.*;
@@ -49,6 +49,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class Activity_Enc_Dec extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -64,8 +65,6 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
 
     private final String SHIFT_CIPHER = "Shift Cipher";
     private final String VIG_ADDITIVE = "Vigenere Additive";
-    private final String VIG_INVERSE = "Vigenere Inverse";
-    private final String VIG_SUBSTRACTIVE = "Vigenere Substractive";
     private final String TRANSPO = "Transposition Cipher";
     private final String TRANSPO_R = "Rectangular Transposition Cipher";
     private final String TRANSPO_P = "Periodic Transposition Cipher";
@@ -74,8 +73,9 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
     private final String ONETIMEPAD = "One Time Pad";
     private final String KAMASUTRA = "Kamasutra Cipher";
 
-    private final String INPUT_TEXT_EMPTY_MESSAGE = "Input TEXT is still empty!";
-    private final String INPUT_KEY_EMPTY_MESSAGE = "Input KEY is still empty!";
+    private final String INPUT_TEXT_EMPTY_MESSAGE = "Input TEXT is still empty";
+    private final String INPUT_KEY_EMPTY_MESSAGE = "Input KEY is still empty";
+    private final String INPUT_KEY_HAS_WHITE_SPACE_MESSAGE = "Input KEY cannot contain any white spaces";
 
     private final String INPUT_TEXT_FILE_NAME = "latestInputText.txt";
 
@@ -89,10 +89,7 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
     private String inputText = new String();
     private EditText inputTextView;
 
-    private Button copyButton; //copy to clipboard
-    private Button pasteButton; //paste from clipboard
-
-    private String[] tools = {SHIFT_CIPHER, VIG_ADDITIVE, VIG_INVERSE, VIG_SUBSTRACTIVE, TRANSPO, TRANSPO_P, TRANSPO_R, BEAUFORT, BEAUFORTVARIANT, ONETIMEPAD, KAMASUTRA};
+    private String[] tools = {SHIFT_CIPHER, VIG_ADDITIVE, TRANSPO, TRANSPO_P, TRANSPO_R, BEAUFORT, BEAUFORTVARIANT, ONETIMEPAD, KAMASUTRA};
     private Spinner toolSpinner;
 
     private EditText keyInput;
@@ -121,6 +118,8 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
 
         else if (id == R.id.nav_about_us)
             launchAboutUsActivity();
+        else if(id == R.id.nav_intro_page)
+            launchIntroActivity();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -145,6 +144,21 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.enc_dec_menu_read_from_file)
             openFileBrowser();
+
+        else if(item.getItemId() == R.id.enc_dec_menu_copy_to_clipboard){
+            if (!inputText.isEmpty())
+                copyToClip();
+
+            else
+                framework.system_message_small("Error: Text is still empty");
+        }
+
+        else if(item.getItemId() == R.id.enc_dec_menu_paste_from_clipboard)
+            pasteFromClip();
+
+        else if(item.getItemId() == R.id.enc_dec_menu_share)
+            shareCipherText();
+
         return true;
     }
 
@@ -169,7 +183,7 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
                 if(!cipherTextFromFile.isEmpty())
                 {
                     inputText = cipherTextFromFile;
-                    refresh();
+                    inputTextView.setText(inputText);
                 }
                 else
                     framework.system_message_small("Error opening file (file could be empty)");
@@ -189,7 +203,6 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
 
         setInputTextView();
 
-        setCopyPasteButton();
         setSpinner();
         setKeyInputView();
 
@@ -218,33 +231,16 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(true); //highlights "front page" item menu
+        navigationView.getMenu().getItem(1).setChecked(true); //highlights "Quick encryption / decryption" item menu
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    /**
-     * Copy and paste mechanism
-     */
-    View.OnClickListener copyPasteButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (view.getId() == R.id.button_copy_to_clip) {
-                if (!inputText.isEmpty())
-                    copyToClip();
-
-                else
-                    framework.system_message_small("Error: Text is still empty");
-            } else
-                pasteFromClip();
-        }
-    };
-
-    private void setCopyPasteButton() {
-        copyButton = findViewById(R.id.button_copy_to_clip);
-        pasteButton = findViewById(R.id.button_paste_from_clip);
-
-        copyButton.setOnClickListener(copyPasteButtonListener);
-        pasteButton.setOnClickListener(copyPasteButtonListener);
+    private void shareCipherText(){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, inputText);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     private void pasteFromClip() {
@@ -306,10 +302,6 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
         keyInput = findViewById(R.id.key_input);
         positiveButton = findViewById(R.id.positive_button);
         negativeButton = findViewById(R.id.negative_button);
-    }
-
-    private String getKeyInput() {
-        return keyInput.getText().toString();
     }
 
     private void changeInput(String hint, String positiveButtonText, String negativeButtonText, View.OnClickListener buttonListener, boolean isNumberInput) {
@@ -475,12 +467,6 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
                 case VIG_ADDITIVE:
                     changeInput("Vigenere Additive Key", "Encrypt", "Decrypt", vigenereAdditiveListener, false);
                     break;
-                case VIG_INVERSE:
-                    changeInput("Vigenere Inverse Key", "Encrypt", "Decrypt", vigenereInverseListener, false);
-                    break;
-                case VIG_SUBSTRACTIVE:
-                    changeInput("Vigenere Substractive key", "Encrypt", "Decrypt", vigenereSubstractiveListener, false);
-                    break;
                 case TRANSPO:
                     changeInput("TranspositionCipher Key", "Encrypt", "Decrypt", transpositionListener, false);
                     break;
@@ -513,162 +499,133 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
     View.OnClickListener shiftListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else if(Integer.parseInt(keyInput.getText().toString()) >= 26 || Integer.parseInt(keyInput.getText().toString()) < 1)
+            String s = getKeyInput();
+
+            if(Integer.parseInt(s) >= 26 || Integer.parseInt(s) < 1)
                 framework.system_message_small("Shift Key must be between 1 and 25");
-            else {
+
+            if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if (view.getId() == R.id.positive_button) //encrypt
-                    doShiftR(getKeyInput());
+                    doShiftR(s);
                 else
-                    doShiftL(getKeyInput());
+                    doShiftL(s);
             }
+            else
+                framework.system_message_small(s);
         }
     };
 
     View.OnClickListener vigenereAdditiveListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
-                if (view.getId() == R.id.positive_button) //encrypt
-                    doVigenereAdditive(true, getKeyInput());
-                else
-                    doVigenereAdditive(false, getKeyInput());
-            }
-        }
-    };
+            String s = getKeyInput();
 
-    View.OnClickListener vigenereInverseListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
+            if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if (view.getId() == R.id.positive_button) //encrypt
-                    doVigenereInverse(true, getKeyInput());
+                    doVigenereAdditive(true, s);
                 else
-                    doVigenereInverse(false, getKeyInput());
+                    doVigenereAdditive(false, s);
             }
-        }
-    };
-
-    View.OnClickListener vigenereSubstractiveListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
-                if (view.getId() == R.id.positive_button) //encrypt
-                    doVigenereSubstractive(true, getKeyInput());
-                else
-                    doVigenereSubstractive(false, getKeyInput());
-            }
+            else
+                framework.system_message_small(s);
         }
     };
 
     View.OnClickListener transpositionListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
+            String s = getKeyInput();
+
+            if(inputTextContainsDuplicate())
+                framework.system_message_small("Transposition Key cannot contain any duplicate characters");
+            else if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if (view.getId() == R.id.positive_button) //encrypt
-                    doTranspo(true, getKeyInput());
+                    doTranspo(true, s);
                 else
-                    doTranspo(false, getKeyInput());
+                    doTranspo(false, s);
             }
+            else
+                framework.system_message_small(s);
         }
     };
 
     View.OnClickListener transpositionRectangularListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
+            String s = getKeyInput();
+
+            if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if(view.getId() == R.id.positive_button) //encrypt
-                    doRectangularTranspo(true, getKeyInput());
+                    doRectangularTranspo(true, s);
                 else
-                    doRectangularTranspo(false, getKeyInput());
+                    doRectangularTranspo(false, s);
             }
+            else
+                framework.system_message_small(s);
         }
     };
 
     View.OnClickListener transpositionPeriodicListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
+            String s = getKeyInput();
+
+            if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if(view.getId() == R.id.positive_button) // encrypt
-                    doPeriodicTranspo(true, getKeyInput());
+                    doPeriodicTranspo(true, s);
                 else
-                    doPeriodicTranspo(false, getKeyInput());
+                    doPeriodicTranspo(false, s);
             }
+            else
+                framework.system_message_small(s);
         }
     };
 
     View.OnClickListener beaufortListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
+            String s = getKeyInput();
+
+            if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if(view.getId() == R.id.positive_button) //encrypt
-                    doBeaufortCipher(true, getKeyInput());
+                    doBeaufortCipher(true, s);
                 else
-                    doBeaufortCipher(false, getKeyInput());
+                    doBeaufortCipher(false, s);
             }
+            else
+                framework.system_message_small(s);
         }
     };
 
     View.OnClickListener beaufortVariantListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
+            String s = getKeyInput();
+
+            if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if(view.getId() == R.id.positive_button) // encrypt
-                    doBeaufortVariant(true, getKeyInput());
+                    doBeaufortVariant(true, s);
                 else
-                    doBeaufortVariant(false, getKeyInput());
+                    doBeaufortVariant(false, s);
             }
+            else
+                framework.system_message_small(s);
         }
     };
 
     View.OnClickListener oneTimePadListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (inputTextEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-            else if (inputKeyEmpty())
-                framework.system_message_small(INPUT_KEY_EMPTY_MESSAGE);
-            else {
+            String s = getKeyInput();
+
+            if(!s.equals(INPUT_KEY_EMPTY_MESSAGE) && !s.equals(INPUT_TEXT_EMPTY_MESSAGE) && !s.equals(INPUT_KEY_HAS_WHITE_SPACE_MESSAGE)){
                 if(view.getId() == R.id.positive_button) // encrypt
-                    doOneTimePad(true, getKeyInput());
+                    doOneTimePad(true, s);
                 else
-                    doOneTimePad(false, getKeyInput());
+                    doOneTimePad(false, s);
             }
+            else
+                framework.system_message_small(s);
         }
     };
 
@@ -676,14 +633,12 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
         @Override
         public void onClick(View view) {
 
-            if(inputText.isEmpty())
-                framework.system_message_small(INPUT_TEXT_EMPTY_MESSAGE);
-
             String key = new String();
             for(Button b: dragableButtonList)
                 key += b.getText();
 
             doKamasutra(key);
+            framework.system_message_small("Applied");
         }
     };
 
@@ -721,46 +676,14 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
      */
     private void doVigenereAdditive(boolean encrypt, String key) {
         framework.format(inputText);
-        try {
-            if (encrypt)
-                framework.setMODIFIED_TEXT(new VigenereAdditive().encrypt(framework.getMODIFIED_TEXT(), key));
-            else
-                framework.setMODIFIED_TEXT(new VigenereAdditive().decrypt(framework.getMODIFIED_TEXT(), key));
-        } catch (InvalidKeyException e) {
-            framework.system_message_small(e.getMessage());
-        }
+
+        if (encrypt)
+            framework.setMODIFIED_TEXT(new VigenereCipher().encrypt(framework.getMODIFIED_TEXT(), key));
+        else
+            framework.setMODIFIED_TEXT(new VigenereCipher().decrypt(framework.getMODIFIED_TEXT(), key));
 
         refresh();
     }
-
-    private void doVigenereInverse(boolean encrypt, String key) {
-        framework.format(inputText);
-        try {
-            if (encrypt)
-                framework.setMODIFIED_TEXT(new VigenereInverse().encrypt(framework.getMODIFIED_TEXT(), key));
-            else
-                framework.setMODIFIED_TEXT(new VigenereInverse().decrypt(framework.getMODIFIED_TEXT(), key));
-        } catch (InvalidKeyException e) {
-            framework.system_message_small(e.getMessage());
-        }
-
-        refresh();
-    }
-
-    private void doVigenereSubstractive(boolean encrypt, String key) {
-        framework.format(inputText);
-        try {
-            if (encrypt)
-                framework.setMODIFIED_TEXT(new VigenereSubtractive().encrypt(framework.getMODIFIED_TEXT(), key));
-            else
-                framework.setMODIFIED_TEXT(new VigenereSubtractive().decrypt(framework.getMODIFIED_TEXT(), key));
-        } catch (InvalidKeyException e) {
-            framework.system_message_small(e.getMessage());
-        }
-
-        refresh();
-    }
-
     private void doTranspo(boolean encrypt, String key) {
         framework.format(inputText);
             if (encrypt)
@@ -784,9 +707,9 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
     private void doRectangularTranspo(boolean encrypt, String key) {
         framework.format(inputText);
             if(encrypt)
-                framework.setMODIFIED_TEXT(new RectangularKeyTransposition().encrypt(framework.getMODIFIED_TEXT(), key));
+                framework.setMODIFIED_TEXT(new RectangularKeySubstitution().encrypt(framework.getMODIFIED_TEXT(), key));
             else
-                framework.setMODIFIED_TEXT(new RectangularKeyTransposition().decrypt(framework.getMODIFIED_TEXT(), key));
+                framework.setMODIFIED_TEXT(new RectangularKeySubstitution().decrypt(framework.getMODIFIED_TEXT(), key));
 
         refresh();
     }
@@ -859,12 +782,33 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
                 ret = stringBuilder.toString();
             }
         }
-        catch (FileNotFoundException e)
-            {framework.system_message_small(e.getMessage());}
-        catch (IOException e)
-            {framework.system_message_small(e.getMessage());}
+        catch (FileNotFoundException e) {}
+        catch (IOException e) {}
 
         return ret;
+    }
+
+    private String getKeyInput() {
+        if(inputKeyEmpty())
+            return INPUT_KEY_EMPTY_MESSAGE;
+        if(inputTextEmpty())
+            return INPUT_TEXT_EMPTY_MESSAGE;
+        if(inputKeyHasWhiteSpace())
+            return INPUT_KEY_HAS_WHITE_SPACE_MESSAGE;
+
+        return keyInput.getText().toString();
+    }
+
+    private boolean inputTextContainsDuplicate(){
+        String str = getKeyInput();
+
+        HashSet hashSet = new HashSet(str.length());
+
+        for(char c : str.toCharArray()){ //iterate through character array
+            if(!hashSet.add(Character.toUpperCase(c)))//try to add each char to hashset
+                return true; //return false if could not add
+        }
+        return false;
     }
 
     private boolean inputTextEmpty()
@@ -874,6 +818,10 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
     private boolean inputKeyEmpty()
     {
         return keyInput.getText().toString().isEmpty();
+    }
+
+    private boolean inputKeyHasWhiteSpace(){
+        return keyInput.getText().toString().contains(" ");
     }
 
     private void openFileBrowser() {
@@ -903,7 +851,7 @@ public class Activity_Enc_Dec extends AppCompatActivity implements NavigationVie
     private void launchAboutUsActivity() {
         this.startActivity(new Intent(this, Activity_About_Us.class));
     }
-    private void launchSettingsActivity() {
-        this.startActivity(new Intent(this, Activity_Settings.class));
+    private void launchIntroActivity(){
+        this.startActivity(new Intent(this, Activity_Introduction.class));
     }
 }

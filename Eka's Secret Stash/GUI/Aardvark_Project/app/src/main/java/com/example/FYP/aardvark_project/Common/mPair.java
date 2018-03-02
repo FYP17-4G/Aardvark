@@ -4,7 +4,7 @@
  */
 package com.example.FYP.aardvark_project.Common;
 
-public class mPair<F, S> {
+public class mPair<F, S>{
     public F first;
     public S second;
 

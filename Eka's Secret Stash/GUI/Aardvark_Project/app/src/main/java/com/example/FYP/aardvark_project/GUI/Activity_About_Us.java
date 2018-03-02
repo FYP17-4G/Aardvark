@@ -6,8 +6,12 @@
 
 package com.example.FYP.aardvark_project.GUI;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.FYP.aardvark_project.Common.AppFramework;
@@ -15,24 +19,37 @@ import com.example.FYP.aardvark_project.R;
 
 public class Activity_About_Us extends AppCompatActivity {
 
+    private LinearLayout linearLayout;
+
+    private String HYPERLINK_GRAPH_VIEW = "<a href='https://www.android-graphview.org//'>Graph View</a>";
+    private String HYPERLINK_INTRO_ACTIVITY = "<a href='https://github.com/msayan/tutorial-view'>Tutorial View</a>";
+    private String HYPERLINK_SLIDING_UP_PANEL = "<a href='https://github.com/umano/AndroidSlidingUpPanel'>Sliding Up View Panel</a>";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overrideTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
-        setAboutUsPage();
+        getWindow().setNavigationBarColor(Color.WHITE);
+
+        linearLayout = findViewById(R.id.about_us_linear_layout);
+
+        /**Build external libraries text view*/
+
+        linearLayout.addView(addTextHyperlink(HYPERLINK_GRAPH_VIEW));
+        linearLayout.addView(addTextHyperlink(HYPERLINK_INTRO_ACTIVITY));
+        linearLayout.addView(addTextHyperlink(HYPERLINK_SLIDING_UP_PANEL));
     }
-    private void setAboutUsPage() {
-       String text = "We are a small team of University of Wollongong students, doing our Final Year Project on Krypto.exe. Our goal is to produce a new and improved Android app based on the original Krypto.exe created by Prof Willy Susilo.";
-       TextView aboutUsTextView = findViewById(R.id.about_us_text_view);
-       aboutUsTextView.setText(text);
-   }
-    private void overrideTheme() {
-        if(new AppFramework(this, false).isDarkTheme())
-            this.setTheme(R.style.DarkTheme_NoActionBar);
-        else
-            this.setTheme(R.style.AppTheme_NoActionBar);
+
+    private TextView addTextHyperlink(String s){
+        TextView textView = new TextView(this);
+        textView.setText(Html.fromHtml(s));
+        textView.setClickable(true);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        textView.setPadding(97, 0, 0, 25);
+
+        return textView;
     }
 }

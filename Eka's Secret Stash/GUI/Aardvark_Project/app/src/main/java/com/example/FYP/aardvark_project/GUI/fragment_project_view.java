@@ -12,13 +12,11 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -33,6 +31,7 @@ import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import com.example.FYP.aardvark_project.Common.AppFramework;
@@ -40,7 +39,7 @@ import com.example.FYP.aardvark_project.Common.Project;
 import com.example.FYP.aardvark_project.Database.DatabaseFramework;
 import com.example.FYP.aardvark_project.Ciphers.BeaufortCipher;
 import com.example.FYP.aardvark_project.Ciphers.BeaufortVariantCipher;
-import com.example.FYP.aardvark_project.Ciphers.RectangularKeyTransposition;
+import com.example.FYP.aardvark_project.Ciphers.RectangularKeySubstitution;
 import com.example.FYP.aardvark_project.Ciphers.Shift;
 import com.example.FYP.aardvark_project.Ciphers.SubstitutionCipher;
 import com.example.FYP.aardvark_project.Ciphers.TranspositionCipher;
@@ -58,7 +57,7 @@ public class Fragment_project_view extends Fragment {
     Shift shift = new Shift();
     TranspositionCipher transpositionCipher = new TranspositionCipher();
     TranspositionPeriodic transpositionPeriodic = new TranspositionPeriodic();
-    RectangularKeyTransposition rectangularKeyTransposition = new RectangularKeyTransposition();
+    RectangularKeySubstitution rectangularKeyTransposition = new RectangularKeySubstitution();
     BeaufortCipher beaufortCipher = new BeaufortCipher();
     BeaufortVariantCipher beaufortVariantCipher = new BeaufortVariantCipher();
     VigenereCipher vigenereCipher = new VigenereCipher();
@@ -500,21 +499,19 @@ public class Fragment_project_view extends Fragment {
     protected void updateCipherTextToDB() { //saves project' progress
         String data = new String(); //process the stuff from changeHistory
 
-        for(int i = 0; i < changeHistory.size(); i++) {
-            data += changeHistory.get(i);
-            if(i < changeHistory.size() - 1)
-                data += "|";
+        if(!data.isEmpty()){
+            for(int i = 0; i < changeHistory.size(); i++) {
+                data += changeHistory.get(i);
+                if(i < changeHistory.size() - 1)
+                    data += "|";
+            }
+            database.updateCipherText(projectID, projectTitle, data);
         }
-        database.updateCipherText(projectID, projectTitle, data);
     }
 
     private void setCipherTextView() {
         /**SET UP THE CIPHER TEXT VIEW AREA*/
         cipherTextView = view.findViewById(R.id.project_view_cipher_text);
-        if(framework.isDarkTheme())
-            cipherTextView.setTextColor(getResources().getColor(R.color.dark_primaryTextColor));
-        else
-            cipherTextView.setTextColor(getResources().getColor(R.color.primaryTextColor));
     }
 
     private void setUndoButton() {
@@ -525,7 +522,7 @@ public class Fragment_project_view extends Fragment {
     private void setAnalysisTool() {
         Button graphButtonPopup = view.findViewById(R.id.button_graphPopup);
         graphButtonPopup.setOnClickListener(view -> {
-            Intent intent = new Intent(fragmentActivity, Activity_graph_Analysis.class);
+            Intent intent = new Intent(fragmentActivity, Activity_calculate_IC.class);
             intent.putExtra("cipherText", cipherText);
 
             startActivity(intent);
@@ -535,7 +532,7 @@ public class Fragment_project_view extends Fragment {
     private void setLetterFrequencyGraph() {
         Button frequencyAnalysisButton = view.findViewById(R.id.frequency_graph_letter);
         frequencyAnalysisButton.setOnClickListener(view -> {
-            Intent intent = new Intent(fragmentActivity, Activity_graph_frequency_letter.class);
+            Intent intent = new Intent(fragmentActivity, Activity_graph_nGram.class);
             intent.putExtra("cipherText", cipherText);
             startActivity(intent);
         });
@@ -544,7 +541,7 @@ public class Fragment_project_view extends Fragment {
     private void setPeriodFrequencyGraph() {
         Button ICFrequencyButton = view.findViewById(R.id.frequency_graph_period);
         ICFrequencyButton.setOnClickListener(view -> {
-            Intent intent = new Intent(fragmentActivity, Activity_graph_frequency_period.class);
+            Intent intent = new Intent(fragmentActivity, Activity_graph_character_frequency.class);
             intent.putExtra("cipherText", cipherText);
             startActivity(intent);
         });
@@ -725,14 +722,30 @@ public class Fragment_project_view extends Fragment {
     private void doTranspoEncrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(transpositionCipher.encrypt(framework.getMODIFIED_TEXT(), key));
-        cipherText = framework.displayModifiedString();
+        String s = transpositionCipher.encrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(inputTextContainsDuplicate(s))
+            framework.system_message_small("Transposition key cannot contain duplicate characters");
+        else if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+        else{
+            framework.setMODIFIED_TEXT(s);
+            cipherText = framework.displayModifiedString();
+        }
     }
     private void doTranspoDecrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(transpositionCipher.decrypt(framework.getMODIFIED_TEXT(), key));
-        cipherText = framework.displayModifiedString();
+        String s = transpositionCipher.decrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(inputTextContainsDuplicate(s))
+            framework.system_message_small("Transposition key cannot contain duplicate characters");
+        else if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+        else{
+            framework.setMODIFIED_TEXT(s);
+            cipherText = framework.displayModifiedString();
+        }
     }
 
     private void doTranspoPeriodicEncrypt(String key) {
@@ -764,39 +777,73 @@ public class Fragment_project_view extends Fragment {
     private void doBeaufortEncrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(beaufortCipher.encrypt(framework.getMODIFIED_TEXT(), key));
-        cipherText = framework.displayModifiedString();
+        String s = beaufortCipher.encrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+        else{
+            framework.setMODIFIED_TEXT(s);
+            cipherText = framework.displayModifiedString();
+        }
     }
     private void doBeaufortDecrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(beaufortCipher.decrypt(framework.getMODIFIED_TEXT(), key));
-        cipherText = framework.displayModifiedString();
+        String s = beaufortCipher.decrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+        else{
+            framework.setMODIFIED_TEXT(s);
+            cipherText = framework.displayModifiedString();
+        }
     }
 
     private void doBeaufortVariantEncrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(beaufortVariantCipher.encrypt(framework.getMODIFIED_TEXT(), key));
-        cipherText = framework.displayModifiedString();
+        String s = beaufortVariantCipher.encrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+        else{
+            framework.setMODIFIED_TEXT(s);
+            cipherText = framework.displayModifiedString();
+        }
     }
     private void doBeaufortVariantDecrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(beaufortCipher.decrypt(framework.getMODIFIED_TEXT(), key));
-        cipherText = framework.displayModifiedString();
+        String s = beaufortVariantCipher.decrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+        else{
+            framework.setMODIFIED_TEXT(s);
+            cipherText = framework.displayModifiedString();
+        }
     }
 
     private void doVigenereEncrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(vigenereCipher.encrypt(framework.getMODIFIED_TEXT(), key));
+        String s = vigenereCipher.encrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+
+        framework.setMODIFIED_TEXT(s);
         cipherText = framework.displayModifiedString();
     }
     private void doVigenereDecrypt(String key) {
         framework.format(cipherText);
 
-        framework.setMODIFIED_TEXT(vigenereCipher.decrypt(framework.getMODIFIED_TEXT(), key));
+        String s = vigenereCipher.decrypt(framework.getMODIFIED_TEXT(), key);
+
+        if(s.equals("Failed."))
+            framework.system_message_small("Invalid key input");
+
+        framework.setMODIFIED_TEXT(s);
         cipherText = framework.displayModifiedString();
     }
 
@@ -810,10 +857,25 @@ public class Fragment_project_view extends Fragment {
     private void refresh(String val, int space, int line, boolean b) {
 
         Project project = new Project("", 0, originalCipherText);
+//        System.out.println("val = " + val);
         project.setModifiedText(val);
 
+        System.out.println("VAL: " + val);
+        System.out.println(" MT: " +  project.getModifiedText());
+
+//        System.out.println(cipherText);
         cipherText = project.print(space, line, b); //space == block size, line == blocks per line
         refresh();
+    }
+
+    private boolean inputTextContainsDuplicate(String str){
+        HashSet hashSet = new HashSet(str.length());
+
+        for(char c : str.toCharArray()){ //iterate through character array
+            if(!hashSet.add(Character.toUpperCase(c)))//try to add each char to hashset
+                return true; //return false if could not add
+        }
+        return false;
     }
 /**
  * THIS IS A CLASS FOR GENERAL TEXT INPUT IN THE PROJECT VIEW

@@ -25,11 +25,16 @@ import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
+import com.example.FYP.aardvark_project.Common.mPair;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 
-public class Activity_graph_frequency_letter extends AppCompatActivity {
-    private final int DATA_LIMIT = 26;
+public class Activity_graph_nGram extends AppCompatActivity {
+
+    private final int GRAPH_DATA_SERIES_LIMIT = 26;
+    private final int GRAPH_MAX_X = 26;
 
     private final int SINGULAR = 1;
     private final int BIGRAM = 2;
@@ -65,29 +70,57 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
 
         setGraph();
 
-        graph.setTitle("Frequency Graph (Letter)");
-        this.setTitle("Frequency Graph (Letter)");
+        this.setTitle("N-Gram Analysis");
     }
 
     private void setGraph() {
+
+        /**Set up the graph view*/
         graph = findViewById(R.id.graph_freq_lot);
         setTextFrequencyTool();
 
-        commonOccurenceSeries.setSpacing(50);
+        /**Set graph view parameters*/
+        commonOccurenceSeries.setSpacing(50); //spacing between the series entry, value is in percentage
+        commonOccurenceSeries.setDrawValuesOnTop(true);
 
         graph.addSeries(commonOccurenceSeries);
         commonOccurenceSeries.resetData(calculateLetterFrequency(SINGULAR));
         setGraphLabel(commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]));
 
+        graph.getGridLabelRenderer().setTextSize(25);
+
+        graph.getViewport().setXAxisBoundsManual(false);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(GRAPH_MAX_X);
+
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
+
+        graph.getViewport().setScrollable(true); //enables horizontal scrolling
+
+        graph.setTitle("Top 26 N-Gram frequency");
     }
 
     private void setGraphLabel(String[] label) {
-        /**set up x axis labels*/
-        StaticLabelsFormatter staticLabels = new StaticLabelsFormatter(graph);
-        staticLabels.setHorizontalLabels(label);
-        graph.getGridLabelRenderer().setLabelFormatter(staticLabels);
+
+        /*graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX)
+                    return label[(int)value];
+                else
+                    return super.formatLabel(value, isValueX);
+            }
+        });*/
+
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+        staticLabelsFormatter.setHorizontalLabels(label);
+
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(40);
+        graph.getGridLabelRenderer().setHorizontalLabelsVisible(true);
     }
 
     /**
@@ -97,6 +130,9 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
      * frequencyAnalysis(text, 3) >>> the:3, fox: 2, dog: 1, <etc>;
      * */
     private DataPoint[] calculateLetterFrequency(int SEQUENCE_LENGTH) {
+
+        ArrayList<mPair<String, String>> tempList = new ArrayList<>();
+
         Utility util = Utility.getInstance();
         String cipherText = util.processText(this.cipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
 
@@ -104,33 +140,45 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
         frequencyAnalysis.sortPairListAlphabet();
 
         int dataLen = frequencyAnalysis.dataLength();
-        if(dataLen > DATA_LIMIT)
-            dataLen = DATA_LIMIT;
+
+        if(dataLen > GRAPH_DATA_SERIES_LIMIT)
+            dataLen = GRAPH_DATA_SERIES_LIMIT;
 
         DataPoint[] dp = new DataPoint[dataLen];
 
         LinearLayout layout = findViewById(R.id.frequency_letter_linear_layout);
+
         layout.removeAllViews();
         commonOccurenceWords.clear();
+        tempList.clear();
+
         for(int i = 0; i < dataLen; i++) {
             String val = frequencyAnalysis.getFrequencyAt(i);
 
             String[] split = val.split("\\:");
-
-            /**Make the label text vertical*/
-            String temp = split[0];
-            String word = new String();
-            for(int x = 0 ; x < temp.length(); x++)
-                word += temp.charAt(x) + "\n";
-
-            dp[i] = new DataPoint(i, Integer.parseInt(split[1])); //add the FREQUENCY of a word
-            commonOccurenceWords.add(word); // add the word
-
-            addDetailList(layout, split[0], split[1]);
+            tempList.add(new mPair<>(split[0], split[1]));
 
             if(Integer.parseInt(split[1]) > LARGEST_FREQUENCY_VALUE)
                 LARGEST_FREQUENCY_VALUE = Integer.parseInt(split[1]);
         }
+
+        //sort the list
+        for(int i = 0; i < tempList.size(); i++)
+            for(int j = i; j < tempList.size(); j++)
+                if(Integer.parseInt(tempList.get(j).second) > Integer.parseInt(tempList.get(i).second))
+                    Collections.swap(tempList, i, j);
+
+        commonOccurenceWords.clear();
+        dp = new DataPoint[dataLen];
+        int count = 0;
+        for(mPair<String, String> pair: tempList){
+            addDetailList(layout, pair.first, pair.second); //add to details view layout
+            dp[count] = new DataPoint(count, Integer.parseInt(pair.second)); //add the FREQUENCY of a word
+            commonOccurenceWords.add(pair.first); //add the word
+            count ++;
+        }
+
+        graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
 
         return dp;
     }
@@ -163,38 +211,12 @@ public class Activity_graph_frequency_letter extends AppCompatActivity {
 
                 LARGEST_FREQUENCY_VALUE = 0;
 
-                if(value.equals(list[0])) { //SINGULAR
+                if(value.equals(list[0]))//SINGULAR
                     commonOccurenceSeries.resetData(calculateLetterFrequency(SINGULAR));
-
-                    graph.getGridLabelRenderer().resetStyles();
-                }
-
-                else if(value.equals(list[1])) { //BIGRAM
+                else if(value.equals(list[1])) //BIGRAM
                     commonOccurenceSeries.resetData(calculateLetterFrequency(BIGRAM));
-
-                    graph.getGridLabelRenderer().setTextSize(30);
-                    graph.getGridLabelRenderer().reloadStyles();
-                }
-                else if(value.equals(list[2])) { //TRIGRAM
+                else if(value.equals(list[2]))//TRIGRAM
                     commonOccurenceSeries.resetData(calculateLetterFrequency(TRIGRAM));
-
-                    graph.getGridLabelRenderer().setTextSize(20);
-                    graph.getGridLabelRenderer().reloadStyles();
-                }
-                /*else if(value.equals(list[3])) // CUSTOM
-                    framework.popup_getNumber_show("Custom Char length", "Char length", (dialogInterface, i) -> {
-                        if(framework.popup_getInput().isEmpty())
-                            framework.system_message_small("Input cannot be empty");
-                        else if(Integer.parseInt(framework.popup_getInput()) < 0)
-                            framework.system_message_small("Input value must be 1 or more");
-                        else
-                            commonOccurenceSeries.resetData(calculateLetterFrequency(Integer.parseInt(framework.popup_getInput())));
-                    }, 10);*/
-
-                /**Re adjust Graph' Y axis minimum and maximum value*/
-                graph.getViewport().setYAxisBoundsManual(true);
-                graph.getViewport().setMaxY(LARGEST_FREQUENCY_VALUE);
-                graph.getViewport().setMinY(0);
 
                 setGraphLabel(commonOccurenceWords.toArray(new String[commonOccurenceWords.size()]));
             }

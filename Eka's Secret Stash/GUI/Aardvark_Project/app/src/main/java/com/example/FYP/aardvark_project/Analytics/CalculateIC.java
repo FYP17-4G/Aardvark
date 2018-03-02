@@ -16,55 +16,61 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CalculateIC {
     //get IC for a bunch of data, reading from every nth letter.
     //data entered here is the whole set of data. the function will split the string accordingly.
-    public static ArrayList<Double> getIC(Integer n, String data) {
-        ArrayList<StringBuilder> splitStrings = getEveryNthLetter(n, data);
-        ArrayList<Double> IC = new ArrayList<>(n);
+    //returns an ArrayList <Double>: the IC for each subset of characters (n subsets) in data.
+    //the last value in the ArrayList should be the Average of all the ICs.
+    public static List<Double> getIC(String data, Integer p) {
+        ArrayList<StringBuilder> splitStrings = getEveryNthLetter(p, data);
+        ArrayList<Double> IC = new ArrayList<>(p);
+        Double sum = 0.0;
 
         for (StringBuilder sb : splitStrings) {
-            IC.add(getIC(sb.toString()));
+            Double ic = calculate(sb.toString());
+            IC.add(ic);
+            sum += ic;
         }
+
+        IC.add (sum / IC.size());
 
         return IC;
     }
 
+    public static List<Double> getIC(String data) {
+        return getIC(data, 1);
+    }
+
     //get IC for a particular string of data
-    public static double getIC(String data) {
-        int[] counts = new int[26];
-        Arrays.fill(counts, 0);
+    private static double calculate(String data) {
 
-        int index, totalChars = 0;
-        double numer = 0.0, denom;
-        data = data.toLowerCase();
+        try{
+            int[] counts = new int[26];
+            Arrays.fill(counts, 0);
 
-        for (Character c : data.toLowerCase().toCharArray()) {
-            if (Character.isAlphabetic(c)) {
-                index = c - 'a';
-                ++counts[index];
-                ++totalChars;
+            int index, totalChars = 0;
+            double numer = 0.0, denom;
+            data = data.toLowerCase();
+
+            for (Character c : data.toLowerCase().toCharArray()) {
+                if (Character.isAlphabetic(c)) {
+                    index = c - 'a';
+                    ++counts[index];
+                    ++totalChars;
+                }
             }
+
+            for (Integer n : counts) {
+                numer += (n * (n - 1));
+            }
+
+            denom = totalChars * (totalChars - 1);
+            return BigDecimal.valueOf((numer / denom)).setScale(15, RoundingMode.HALF_UP).doubleValue();
+        }catch(NumberFormatException e) {
+            return 0;
         }
-
-        for (Integer n : counts) {
-            numer += (n * (n - 1));
-        }
-
-        denom = totalChars * (totalChars - 1);
-
-        Double IC;
-
-        try
-        {
-            IC = BigDecimal.valueOf((numer / denom)).setScale(3, RoundingMode.HALF_UP).doubleValue();
-        }catch(NumberFormatException e)
-        {
-            IC = 0.00;
-        }
-
-        return IC;
     }
 
     //compiles every nth letter into an ArrayList of strings, according to n.

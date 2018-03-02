@@ -85,7 +85,7 @@
 
     <Button
         android:id="@+id/slidingUpPanelBackButton"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

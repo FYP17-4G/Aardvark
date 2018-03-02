@@ -62,11 +62,13 @@ public class AppFramework
      * This function reinstate the alert dialog builder and applies theme accordingly
      * */
     private void reinstateBuilder() {
-        if(isDarkTheme()) //is dark theme
+        popUpWindow = new AlertDialog.Builder(context, R.style.AppDialogTheme);
+
+        /*if(isDarkTheme()) //is dark theme
             popUpWindow = new AlertDialog.Builder(context, R.style.DarkDialogTheme);
 
         else //is light theme
-            popUpWindow = new AlertDialog.Builder(context, R.style.AppDialogTheme);
+            popUpWindow = new AlertDialog.Builder(context, R.style.AppDialogTheme);*/
     }
 
     /**

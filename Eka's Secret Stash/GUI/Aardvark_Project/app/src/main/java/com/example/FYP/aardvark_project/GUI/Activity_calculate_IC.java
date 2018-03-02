@@ -10,6 +10,8 @@ package com.example.FYP.aardvark_project.GUI;
 
 import android.animation.AnimatorInflater;
 import android.animation.StateListAnimator;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,11 +45,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Activity_graph_Analysis extends AppCompatActivity {
+public class Activity_calculate_IC extends AppCompatActivity {
     /**
      * Other variables
      */
     private int FREQUENCY_PERIOD_LIMIT = 5;
+    private int IC_LAYOUT_CHILD = 0;
 
     /**
      * Graph related variables
@@ -79,9 +82,8 @@ public class Activity_graph_Analysis extends AppCompatActivity {
      * IC related variables
      */
     protected CalculateIC ic;
-    private double cipherIC = 0;
 
-    private ArrayList<Double> cipherICofN;
+    private List<Double> cipherICofN;
 
     private AppFramework framework;
 
@@ -102,6 +104,9 @@ public class Activity_graph_Analysis extends AppCompatActivity {
 
         ic = new CalculateIC();
 
+        if(cipherText.length() < FREQUENCY_PERIOD_LIMIT)
+            FREQUENCY_PERIOD_LIMIT = cipherText.length();
+
         calculateCipherIC(FREQUENCY_PERIOD_LIMIT);
 
         getSupportActionBar().setElevation(0);
@@ -109,9 +114,29 @@ public class Activity_graph_Analysis extends AppCompatActivity {
         this.setTitle("Calculate IC");
 
         keyValueTextView = findViewById(R.id.analysis_key_value);
+        keyValueTextView.setOnLongClickListener(view -> {
+            String text = keyValueTextView.getText().toString();
+
+            if(!text.equals("[KEY]")){
+                copyToClip(text);
+                framework.system_message_small("Key copied to clipboard");
+                return true;
+            }
+            return false;
+        });
 
         setAnalysisShiftButtons();
         setInfoButton();
+
+    }
+
+    private void copyToClip(String text) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(this.CLIPBOARD_SERVICE);
+
+        ClipData clip = ClipData.newPlainText("label", text);
+        clipboard.setPrimaryClip(clip);
+
+        framework.system_message_small("Copied to clipboard");
     }
 
     private void setInfoButton()
@@ -150,7 +175,23 @@ public class Activity_graph_Analysis extends AppCompatActivity {
                         sb.setCharAt(charIdx, target);
 
                         keyValue = new String(sb);
-                        keyValueTextView.setText(keyValue);
+                        StringBuilder out = new StringBuilder();
+                        int kVal = 0;
+
+                        keyValue = keyValue.toUpperCase();
+                        for (char c: keyValue.toCharArray()) {
+                            kVal = (int) (c - 'A');
+                            kVal = 26 - kVal;
+                            char tmp = alphabet[kVal - 1].toUpperCase().charAt(0);
+                            if(tmp == 'Z')
+                                tmp = 'A';
+                            else
+                                tmp += 1;
+
+                            out.append(tmp);
+                        }
+
+                        keyValueTextView.setText(out.toString().toUpperCase());
                     }
                 } catch (InvalidKeyException e) {
                     framework.system_message_small(e.getMessage());
@@ -171,6 +212,7 @@ public class Activity_graph_Analysis extends AppCompatActivity {
                     if (graphSeekBar.getProgress() > 0) {
                         int charIdx = graphSeekBar.getProgress() - 1;
                         char target = keyValue.charAt(charIdx);
+
                         cipherTextPeriodList.set(charIdx, cipherTextWithCurrentPeriod);
 
                         int val = (int) target + 1;
@@ -182,7 +224,23 @@ public class Activity_graph_Analysis extends AppCompatActivity {
                         sb.setCharAt(charIdx, target);
 
                         keyValue = new String(sb);
-                        keyValueTextView.setText(keyValue);
+                        StringBuilder out = new StringBuilder();
+                        int kVal = 0;
+
+                        keyValue = keyValue.toUpperCase();
+                        for (char c: keyValue.toCharArray()) {
+                            kVal = (int) (c - 'A');
+                            kVal = 26 - kVal;
+                            char tmp = alphabet[kVal - 1].toUpperCase().charAt(0);
+                            if(tmp == 'Z')
+                                tmp = 'A';
+                            else
+                                tmp += 1;
+
+                            out.append(tmp);
+                        }
+
+                        keyValueTextView.setText(out.toString().toUpperCase());
                     }
                 } catch (InvalidKeyException e) {
                     framework.system_message_small(e.getMessage());
@@ -331,7 +389,9 @@ public class Activity_graph_Analysis extends AppCompatActivity {
         return dp;
     }
 
-    /**(n/length of text) * 100*/
+    /**(n/length of text) * 100
+     * Use this to convert the frequency of a character into percentage format. so it will be in the same format as English Average Distribution list
+     * */
     double frequencyFormula(double n, double divisor)
     {
         return (n/divisor) * 100;
@@ -342,23 +402,18 @@ public class Activity_graph_Analysis extends AppCompatActivity {
         Utility util = Utility.getInstance();
         String cipherText = util.processText(this.cipherText); //this erases spaces, non alphabetic symbols, and new lines from the cipher text
 
-        cipherICofN = new ArrayList<Double>();
-
-        cipherIC = getCipherIC(cipherText);
-
         ArrayList<mPair<Integer, Double>> averageICList = new ArrayList<>();
 
         /**calculate IC of period 2...n, and calculate its average*/
-        for(int i = 2; i < n; i++) {
-            double averageIC = 0;
 
+        cipherICofN = getCipherIC(cipherText, n);
+
+        for(int i = 1; i < n; i++) {
             cipherICofN = getCipherIC(cipherText, i);
-            for(int x = 0; x < cipherICofN.size(); x++)
-                averageIC += cipherICofN.get(x);
 
-            averageIC = averageIC/i;
+            double averageIC = cipherICofN.get(cipherICofN.size() - 1); //because the average of text value with period i is in the last index
 
-            if(averageIC != 0) //averageIC control: if its 0, dont display
+            if(averageIC > 0) //averageIC control: if its 0, dont display
                 averageICList.add(new mPair(i, averageIC));
         }
 
@@ -394,46 +449,50 @@ public class Activity_graph_Analysis extends AppCompatActivity {
             ICViewLinearLayout.addView(detailView);
         }
 
+        /**Check if the number of child element is equal to the previous number
+         * if it is equal, that means there is no changes in the layout.
+         * We can conclude that the maximum IC count is reached*/
+        if(ICViewLinearLayout.getChildCount() == IC_LAYOUT_CHILD)
+            framework.system_message_small("Maximum IC count reached");
+        else
+            IC_LAYOUT_CHILD = ICViewLinearLayout.getChildCount();
+
         /**This is the code to create buttons to add or remove IC period entries*/
-        Button add = new Button(new ContextThemeWrapper(this, R.style.Widget_AppCompat_Button_Borderless_Colored), null, R.style.Widget_AppCompat_Button_Borderless_Colored);
-        Button remove = new Button(new ContextThemeWrapper(this, R.style.Widget_AppCompat_Button_Borderless_Colored), null, R.style.Widget_AppCompat_Button_Borderless);
+        Button add = new Button(new ContextThemeWrapper(this, R.style.Widget_AppCompat_Button_Borderless), null, R.style.Widget_AppCompat_Button_Borderless_Colored);
+        Button remove = new Button(new ContextThemeWrapper(this, R.style.Widget_AppCompat_Button_Borderless), null, R.style.Widget_AppCompat_Button_Borderless);
 
         add.setText("See more");
         remove.setText("See less");
 
-        if(FREQUENCY_PERIOD_LIMIT < 0)
-            FREQUENCY_PERIOD_LIMIT = 0;
+            if(ICViewLinearLayout.getChildCount() <= 0)
+                remove.setVisibility(View.GONE);
+            else
+                remove.setVisibility(View.VISIBLE);
 
-        if(ICViewLinearLayout.getChildCount() <= 0)
-            remove.setVisibility(View.GONE);
-        else
-            remove.setVisibility(View.VISIBLE);
+            add.setOnClickListener(view -> {
+                FREQUENCY_PERIOD_LIMIT +=5;
+                calculateCipherIC(FREQUENCY_PERIOD_LIMIT);
+            });
 
-        add.setOnClickListener(view -> {
-            FREQUENCY_PERIOD_LIMIT +=5;
-            calculateCipherIC(FREQUENCY_PERIOD_LIMIT);
-        });
+            remove.setOnClickListener(view -> {
+                FREQUENCY_PERIOD_LIMIT -= 5;
 
-        remove.setOnClickListener(view -> {
-            FREQUENCY_PERIOD_LIMIT -= 5;
-            calculateCipherIC(FREQUENCY_PERIOD_LIMIT);
-        });
+                if(FREQUENCY_PERIOD_LIMIT <= 0)
+                    FREQUENCY_PERIOD_LIMIT = 1;
 
-        LinearLayout horizontalLayout = new LinearLayout(this);
-        horizontalLayout.setGravity(Gravity.CENTER);
-        horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
-        horizontalLayout.addView(add);
-        horizontalLayout.addView(remove);
+                calculateCipherIC(FREQUENCY_PERIOD_LIMIT);
+            });
 
-        ICViewLinearLayout.addView(horizontalLayout);
+            LinearLayout horizontalLayout = new LinearLayout(this);
+            horizontalLayout.setGravity(Gravity.CENTER);
+            horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+            horizontalLayout.addView(add);
+            horizontalLayout.addView(remove);
+
+            ICViewLinearLayout.addView(horizontalLayout);
     }
 
-    protected double getCipherIC(String cText)
-    {
-        return ic.getIC(cText);
-    }
-
-    protected ArrayList<Double> getCipherIC(String cText, int n) { //get cipher IC for period of 2 until N
-        return ic.getIC(n, cText);
+    protected List<Double> getCipherIC(String cText, int n) { //get cipher IC for period of 2 until N
+        return ic.getIC(cText, n);
     }
 }
